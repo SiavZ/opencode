@@ -1,0 +1,29 @@
+[package]
+name = "opencode-desktop"
+description = "Tauri 2 desktop shell hosting the ui-web bundle over opencode-desktop-host. Owner: Phase 11."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "opencode-desktop"
+path = "src/main.rs"
+
+[dependencies]
+opencode-desktop-host.workspace = true
+tauri.workspace = true
+serde_json.workspace = true
+tauri-plugin-deep-link.workspace = true
+tauri-plugin-single-instance.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "time", "macros"] }
+
+[build-dependencies]
+tauri-build.workspace = true
+
+[lints]
+workspace = true
