@@ -74,9 +74,13 @@ impl<K: Eq + Hash + Send + Sync + 'static> Drop for SubscriptionHandle<K> {
     }
 }
 
+type ChannelMap<K, V> = Arc<Mutex<HashMap<(SenderId, K), mpsc::Sender<V>>>>;
+
+type TopicMap<K> = Arc<Mutex<HashMap<SenderId, Vec<K>>>>;
+
 pub struct SubscriptionRegistry<K: Eq + Hash + Clone + Send + Sync + 'static, V: Send + 'static> {
-    channels: Arc<Mutex<HashMap<(SenderId, K), mpsc::Sender<V>>>>,
-    sender_topics: Arc<Mutex<HashMap<SenderId, Vec<K>>>>,
+    channels: ChannelMap<K, V>,
+    sender_topics: TopicMap<K>,
     config: SubscriptionConfig,
 }
 
