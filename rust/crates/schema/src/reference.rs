@@ -22,9 +22,17 @@ use serde::{Deserialize, Serialize};
 pub struct LocalSource {
     pub r#type: LocalType,
     pub path: AbsolutePath,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub description: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub hidden: Option<bool>,
 }
 
@@ -48,7 +56,10 @@ impl<'de> Deserialize<'de> for LocalType {
         if value == "local" {
             return Ok(LocalType);
         }
-        Err(serde::de::Error::custom(format!("Expected \"local\", got \"{}\"", value)))
+        Err(serde::de::Error::custom(format!(
+            "Expected \"local\", got \"{}\"",
+            value
+        )))
     }
 }
 
@@ -57,11 +68,23 @@ impl<'de> Deserialize<'de> for LocalType {
 pub struct GitSource {
     pub r#type: GitType,
     pub repository: String,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub branch: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub description: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub hidden: Option<bool>,
 }
 
@@ -85,7 +108,10 @@ impl<'de> Deserialize<'de> for GitType {
         if value == "git" {
             return Ok(GitType);
         }
-        Err(serde::de::Error::custom(format!("Expected \"git\", got \"{}\"", value)))
+        Err(serde::de::Error::custom(format!(
+            "Expected \"git\", got \"{}\"",
+            value
+        )))
     }
 }
 
@@ -109,11 +135,21 @@ impl<'de> Deserialize<'de> for Source {
     fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
         use serde::de::Error;
         let value = serde_json::Value::deserialize(deserializer)?;
-        let tag = value.get("type").and_then(serde_json::Value::as_str).map(str::to_owned);
+        let tag = value
+            .get("type")
+            .and_then(serde_json::Value::as_str)
+            .map(str::to_owned);
         match tag.as_deref() {
-            Some("local") => LocalSource::deserialize(value).map(Self::Local).map_err(D::Error::custom),
-            Some("git") => GitSource::deserialize(value).map(Self::Git).map_err(D::Error::custom),
-            _ => Err(D::Error::custom(format!("Expected Reference.Source, got {}", value))),
+            Some("local") => LocalSource::deserialize(value)
+                .map(Self::Local)
+                .map_err(D::Error::custom),
+            Some("git") => GitSource::deserialize(value)
+                .map(Self::Git)
+                .map_err(D::Error::custom),
+            _ => Err(D::Error::custom(format!(
+                "Expected Reference.Source, got {}",
+                value
+            ))),
         }
     }
 }
@@ -123,9 +159,17 @@ impl<'de> Deserialize<'de> for Source {
 pub struct Info {
     pub name: String,
     pub path: AbsolutePath,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub description: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub hidden: Option<bool>,
     pub source: Source,
 }
@@ -168,7 +212,10 @@ impl<'de> Deserialize<'de> for DirectoryType {
         if value == "directory" {
             return Ok(DirectoryType);
         }
-        Err(serde::de::Error::custom(format!("Expected \"directory\", got \"{}\"", value)))
+        Err(serde::de::Error::custom(format!(
+            "Expected \"directory\", got \"{}\"",
+            value
+        )))
     }
 }
 
@@ -199,7 +246,10 @@ impl<'de> Deserialize<'de> for UrlType {
         if value == "url" {
             return Ok(UrlType);
         }
-        Err(serde::de::Error::custom(format!("Expected \"url\", got \"{}\"", value)))
+        Err(serde::de::Error::custom(format!(
+            "Expected \"url\", got \"{}\"",
+            value
+        )))
     }
 }
 
@@ -207,9 +257,17 @@ impl<'de> Deserialize<'de> for UrlType {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SkillInfo {
     pub name: String,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub description: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none", deserialize_with = "optional::deserialize")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "optional::deserialize"
+    )]
     pub slash: Option<bool>,
     pub location: AbsolutePath,
     pub content: String,
@@ -242,7 +300,10 @@ impl<'de> Deserialize<'de> for EmbeddedType {
         if value == "embedded" {
             return Ok(EmbeddedType);
         }
-        Err(serde::de::Error::custom(format!("Expected \"embedded\", got \"{}\"", value)))
+        Err(serde::de::Error::custom(format!(
+            "Expected \"embedded\", got \"{}\"",
+            value
+        )))
     }
 }
 
@@ -268,12 +329,24 @@ impl<'de> Deserialize<'de> for SkillSource {
     fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
         use serde::de::Error;
         let value = serde_json::Value::deserialize(deserializer)?;
-        let tag = value.get("type").and_then(serde_json::Value::as_str).map(str::to_owned);
+        let tag = value
+            .get("type")
+            .and_then(serde_json::Value::as_str)
+            .map(str::to_owned);
         match tag.as_deref() {
-            Some("directory") => DirectorySource::deserialize(value).map(Self::Directory).map_err(D::Error::custom),
-            Some("url") => UrlSource::deserialize(value).map(Self::Url).map_err(D::Error::custom),
-            Some("embedded") => EmbeddedSource::deserialize(value).map(Self::Embedded).map_err(D::Error::custom),
-            _ => Err(D::Error::custom(format!("Expected SkillV2.Source, got {}", value))),
+            Some("directory") => DirectorySource::deserialize(value)
+                .map(Self::Directory)
+                .map_err(D::Error::custom),
+            Some("url") => UrlSource::deserialize(value)
+                .map(Self::Url)
+                .map_err(D::Error::custom),
+            Some("embedded") => EmbeddedSource::deserialize(value)
+                .map(Self::Embedded)
+                .map_err(D::Error::custom),
+            _ => Err(D::Error::custom(format!(
+                "Expected SkillV2.Source, got {}",
+                value
+            ))),
         }
     }
 }

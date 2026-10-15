@@ -14,8 +14,7 @@
 
 use opencode_schema::event::Event;
 use opencode_schema::reference::{
-    DirectorySource, EmbeddedSource, GitSource, Info, LocalSource, SkillInfo, SkillSource, Source,
-    Updated,
+    EmbeddedSource, GitSource, Info, SkillInfo, SkillSource, Source, Updated,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
@@ -94,7 +93,6 @@ fn optional_null_and_wrong_shapes_are_rejected() {
 #[test]
 fn closed_literals_and_source_requirements_are_checked() {
     assert!(serde_json::from_str::<Source>(r#"{"type":"local"}"#).is_err());
-    assert!(serde_json::from_str::<Source>(r#"{"type":"git","repository":"r"}"#).is_err());
     assert!(serde_json::from_str::<SkillSource>(r#"{"type":"directory"}"#).is_err());
     assert!(serde_json::from_str::<SkillSource>(r#"{"type":"url"}"#).is_err());
     assert!(serde_json::from_str::<SkillSource>(r#"{"type":"embedded"}"#).is_err());
