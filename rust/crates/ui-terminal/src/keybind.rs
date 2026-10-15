@@ -55,7 +55,8 @@ impl<'de> Deserialize<'de> for BindingValue {
             type Value = BindingValue;
 
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-                formatter.write_str("false, \"none\", a key string, a key object, or an array of keys")
+                formatter
+                    .write_str("false, \"none\", a key string, a key object, or an array of keys")
             }
 
             fn visit_bool<E>(self, v: bool) -> Result<Self::Value, E>
@@ -76,7 +77,8 @@ impl<'de> Deserialize<'de> for BindingValue {
                 if v == "none" {
                     Ok(BindingValue::None)
                 } else {
-                    let strokes: Result<Vec<KeyStroke>, _> = v.split(',').map(parse_key_stroke).collect();
+                    let strokes: Result<Vec<KeyStroke>, _> =
+                        v.split(',').map(parse_key_stroke).collect();
                     let strokes = strokes.map_err(de::Error::custom)?;
                     if strokes.len() == 1 {
                         Ok(BindingValue::Single(strokes.into_iter().next().unwrap()))
@@ -110,7 +112,8 @@ impl<'de> Deserialize<'de> for BindingValue {
                             if let Some(s) = key_val.as_str() {
                                 let stroke = parse_key_stroke(s).map_err(de::Error::custom)?;
                                 return Ok(BindingValue::Single(stroke));
-                            } else if let Ok(stroke) = serde_json::from_value::<KeyStroke>(key_val) {
+                            } else if let Ok(stroke) = serde_json::from_value::<KeyStroke>(key_val)
+                            {
                                 return Ok(BindingValue::Single(stroke));
                             } else {
                                 return Err(de::Error::custom("invalid key value"));
@@ -197,6 +200,12 @@ pub fn parse_key_stroke(s: &str) -> Result<KeyStroke, String> {
         return Err(format!("no key name found in '{}'", s));
     }
 
+    // If the name is a single uppercase letter, it implies shift modifier
+    if name.len() == 1 && name.chars().next().is_some_and(|c| c.is_ascii_uppercase()) {
+        shift = true;
+        name = name.to_lowercase();
+    }
+
     Ok(KeyStroke {
         name,
         ctrl,
@@ -205,6 +214,78 @@ pub fn parse_key_stroke(s: &str) -> Result<KeyStroke, String> {
         super_key,
         hyper,
     })
+}
+
+impl KeyStroke {
+    /// Check if this key stroke matches a UI key event.
+    /// Returns false for non-Press events.
+    pub fn matches(&self, event: &crate::input::UiKeyEvent) -> bool {
+        use crate::input::{UiKeyCode, UiKeyEventKind};
+
+        // Only match on Press events
+        if event.kind != UiKeyEventKind::Press {
+            return false;
+        }
+
+        // Check modifiers
+        if self.ctrl != event.modifiers.control {
+            return false;
+        }
+        if self.shift != event.modifiers.shift {
+            return false;
+        }
+        if self.meta != event.modifiers.alt {
+            return false;
+        }
+        if self.super_key != event.modifiers.super_key {
+            return false;
+        }
+        if self.hyper != event.modifiers.hyper {
+            return false;
+        }
+
+        // Check key code
+        let name_lower = self.name.to_lowercase();
+        match name_lower.as_str() {
+            "escape" | "esc" => matches!(event.code, UiKeyCode::Esc),
+            "return" | "enter" => matches!(event.code, UiKeyCode::Enter),
+            "tab" => matches!(event.code, UiKeyCode::Tab),
+            "backspace" => matches!(event.code, UiKeyCode::Backspace),
+            "delete" | "del" => matches!(event.code, UiKeyCode::Delete),
+            "insert" => matches!(event.code, UiKeyCode::Insert),
+            "home" => matches!(event.code, UiKeyCode::Home),
+            "end" => matches!(event.code, UiKeyCode::End),
+            "pageup" => matches!(event.code, UiKeyCode::PageUp),
+            "pagedown" => matches!(event.code, UiKeyCode::PageDown),
+            "left" => matches!(event.code, UiKeyCode::Left),
+            "right" => matches!(event.code, UiKeyCode::Right),
+            "up" => matches!(event.code, UiKeyCode::Up),
+            "down" => matches!(event.code, UiKeyCode::Down),
+            "space" => matches!(event.code, UiKeyCode::Char(' ')),
+            _ if name_lower.starts_with("f") && name_lower.len() > 1 => {
+                if let Ok(n) = name_lower[1..].parse::<u8>() {
+                    matches!(event.code, UiKeyCode::F(f_n) if f_n == n)
+                } else {
+                    false
+                }
+            }
+            _ => {
+                // Single character key
+                // Since modifiers (including shift) are already checked above,
+                // we can safely compare case-insensitively.
+                if self.name.len() == 1 {
+                    if let UiKeyCode::Char(c) = event.code {
+                        self.name.chars().next().map(|n| n.to_ascii_lowercase())
+                            == Some(c.to_ascii_lowercase())
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                }
+            }
+        }
+    }
 }
 
 pub fn parse_binding_value(s: &str) -> Result<BindingValue, String> {
@@ -223,206 +304,65 @@ pub fn parse_binding_value(s: &str) -> Result<BindingValue, String> {
     }
 }
 
-macro_rules! kb {
-    ($m:expr, $name:expr, $val:expr) => {
-        $m.insert($name, parse_binding_value($val).unwrap());
-    };
-}
+const DEFAULTS: &[(&str, &str)] = &[
+    ("leader", "ctrl+x"), ("app_exit", "ctrl+c,ctrl+d,<leader>q"), ("app_debug", "none"), ("app_console", "none"),
+    ("app_heap_snapshot", "none"), ("app_toggle_animations", "none"), ("app_toggle_file_context", "none"), ("app_toggle_diffwrap", "none"),
+    ("app_toggle_paste_summary", "none"), ("app_toggle_session_directory_filter", "none"), ("command_list", "ctrl+p"), ("help_show", "none"),
+    ("docs_open", "none"), ("diff_open", "none"), ("diff_close", "escape,q"), ("diff_toggle", "enter,space"),
+    ("diff_expand", "right"), ("diff_expand_all", "E"), ("diff_collapse", "left"), ("diff_switch_focus", "tab"),
+    ("diff_next_hunk", "]"), ("diff_previous_hunk", "["), ("diff_next_file", "n"), ("diff_previous_file", "p"),
+    ("diff_toggle_file_tree", "b"), ("diff_single_patch", "s"), ("diff_switch_source", "d"), ("diff_toggle_view", "v"),
+    ("diff_help", "?"), ("editor_open", "<leader>e"), ("theme_list", "<leader>t"), ("theme_switch_mode", "none"),
+    ("theme_mode_lock", "none"), ("sidebar_toggle", "<leader>b"), ("scrollbar_toggle", "none"), ("status_view", "<leader>s"),
+    ("debug_view", "none"), ("session_export", "<leader>x"), ("session_copy", "none"), ("session_move", "none"),
+    ("session_new", "<leader>n"), ("session_list", "<leader>l"), ("session_timeline", "<leader>g"), ("session_fork", "none"),
+    ("session_rename", "ctrl+r"), ("session_delete", "ctrl+d"), ("session_share", "none"), ("session_unshare", "none"),
+    ("session_interrupt", "escape"), ("session_background", "ctrl+b"), ("session_compact", "<leader>c"), ("session_toggle_timestamps", "none"),
+    ("session_toggle_generic_tool_output", "none"), ("session_queued_prompts", "<leader>q"), ("session_child_first", "<leader>down"), ("session_child_cycle", "right"),
+    ("session_child_cycle_reverse", "left"), ("session_parent", "up"), ("session_pin_toggle", "ctrl+f"), ("session_quick_switch_1", "<leader>1"),
+    ("session_quick_switch_2", "<leader>2"), ("session_quick_switch_3", "<leader>3"), ("session_quick_switch_4", "<leader>4"), ("session_quick_switch_5", "<leader>5"),
+    ("session_quick_switch_6", "<leader>6"), ("session_quick_switch_7", "<leader>7"), ("session_quick_switch_8", "<leader>8"), ("session_quick_switch_9", "<leader>9"),
+    ("stash_delete", "ctrl+d"), ("model_provider_list", "ctrl+a"), ("model_favorite_toggle", "ctrl+f"), ("model_list", "<leader>m"),
+    ("model_cycle_recent", "f2"), ("model_cycle_recent_reverse", "shift+f2"), ("model_cycle_favorite", "none"), ("model_cycle_favorite_reverse", "none"),
+    ("mcp_list", "none"), ("provider_connect", "none"), ("console_org_switch", "none"), ("agent_list", "<leader>a"),
+    ("agent_cycle", "tab"), ("agent_cycle_reverse", "shift+tab"), ("variant_cycle", "ctrl+t"), ("variant_list", "none"),
+    ("messages_page_up", "pageup,ctrl+alt+b"), ("messages_page_down", "pagedown,ctrl+alt+f"), ("messages_line_up", "ctrl+alt+y"), ("messages_line_down", "ctrl+alt+e"),
+    ("messages_half_page_up", "ctrl+alt+u"), ("messages_half_page_down", "ctrl+alt+d"), ("messages_first", "ctrl+g,home"), ("messages_last", "ctrl+alt+g,end"),
+    ("messages_next", "none"), ("messages_previous", "none"), ("messages_last_user", "none"), ("messages_copy", "<leader>y"),
+    ("messages_undo", "<leader>u"), ("messages_redo", "<leader>r"), ("messages_toggle_conceal", "<leader>h"), ("tool_details", "none"),
+    ("display_thinking", "none"), ("prompt_submit", "none"), ("prompt_editor_context_clear", "none"), ("prompt_skills", "none"),
+    ("prompt_stash", "none"), ("prompt_stash_pop", "none"), ("prompt_stash_list", "none"), ("workspace_set", "none"),
+    ("input_clear", "ctrl+c"), ("input_paste", "ctrl+v"), ("input_submit", "return"), ("input_move_left", "left,ctrl+b"),
+    ("input_move_right", "right,ctrl+f"), ("input_move_up", "up"), ("input_move_down", "down"), ("input_select_left", "shift+left"),
+    ("input_select_right", "shift+right"), ("input_select_up", "shift+up"), ("input_select_down", "shift+down"), ("input_line_home", "ctrl+a"),
+    ("input_line_end", "ctrl+e"), ("input_select_line_home", "ctrl+shift+a"), ("input_select_line_end", "ctrl+shift+e"), ("input_visual_line_home", "alt+a"),
+    ("input_visual_line_end", "alt+e"), ("input_select_visual_line_home", "alt+shift+a"), ("input_select_visual_line_end", "alt+shift+e"), ("input_buffer_home", "home"),
+    ("input_buffer_end", "end"), ("input_select_buffer_home", "shift+home"), ("input_select_buffer_end", "shift+end"), ("input_delete_line", "ctrl+shift+d"),
+    ("input_delete_to_line_end", "ctrl+k"), ("input_delete_to_line_start", "ctrl+u"), ("input_backspace", "backspace,shift+backspace"), ("input_delete", "ctrl+d,delete,shift+delete"),
+    ("input_undo", "ctrl+-,super+z"), ("input_redo", "ctrl+.,super+shift+z"), ("input_word_forward", "alt+f,alt+right,ctrl+right"), ("input_word_backward", "alt+b,alt+left,ctrl+left"),
+    ("input_select_all", "super+a"), ("history_previous", "up"), ("history_next", "down"), ("dialog.select.prev", "up,ctrl+p"),
+    ("dialog.select.next", "down,ctrl+n"), ("dialog.select.page_up", "pageup"), ("dialog.select.page_down", "pagedown"), ("dialog.select.home", "home"),
+    ("dialog.select.end", "end"), ("dialog.select.submit", "return"), ("dialog.prompt.submit", "return"), ("dialog.mcp.toggle", "space"),
+    ("dialog.move_session.new", "ctrl+m"), ("dialog.move_session.delete", "ctrl+d"), ("dialog.move_session.refresh", "ctrl+r"), ("prompt.autocomplete.prev", "up,ctrl+p"),
+    ("prompt.autocomplete.next", "down,ctrl+n"), ("prompt.autocomplete.hide", "escape"), ("prompt.autocomplete.select", "return"), ("prompt.autocomplete.complete", "tab"),
+    ("permission.prompt.fullscreen", "ctrl+f"), ("plugins.toggle", "space"), ("dialog.plugins.install", "shift+i"), ("terminal_suspend", "ctrl+z"),
+    ("terminal_title_toggle", "none"), ("tips_toggle", "<leader>h"), ("plugin_manager", "none"), ("plugin_install", "none"),
+    ("which_key_toggle", "ctrl+alt+k"), ("which_key_layout_toggle", "ctrl+alt+shift+k"), ("which_key_pending_toggle", "ctrl+alt+shift+p"), ("which_key_group_previous", "ctrl+alt+left,ctrl+alt+["),
+    ("which_key_group_next", "ctrl+alt+right,ctrl+alt+]"), ("which_key_scroll_up", "ctrl+alt+up,ctrl+alt+p"), ("which_key_scroll_down", "ctrl+alt+down,ctrl+alt+n"), ("which_key_page_up", "ctrl+alt+pageup"),
+    ("which_key_page_down", "ctrl+alt+pagedown"), ("which_key_home", "ctrl+alt+home"), ("which_key_end", "ctrl+alt+end"),
+];
 
 pub static DEFAULT_KEYBINDS: LazyLock<HashMap<&'static str, BindingValue>> = LazyLock::new(|| {
-    let mut m = HashMap::new();
-    kb!(m, "leader", "ctrl+x");
-    kb!(m, "app_exit", "ctrl+c,ctrl+d,<leader>q");
-    kb!(m, "app_debug", "none");
-    kb!(m, "app_console", "none");
-    kb!(m, "app_heap_snapshot", "none");
-    kb!(m, "app_toggle_animations", "none");
-    kb!(m, "app_toggle_file_context", "none");
-    kb!(m, "app_toggle_diffwrap", "none");
-    kb!(m, "app_toggle_paste_summary", "none");
-    kb!(m, "app_toggle_session_directory_filter", "none");
-    kb!(m, "command_list", "ctrl+p");
-    kb!(m, "help_show", "none");
-    kb!(m, "docs_open", "none");
-    kb!(m, "diff_open", "none");
-    kb!(m, "diff_close", "escape,q");
-    kb!(m, "diff_toggle", "enter,space");
-    kb!(m, "diff_expand", "right");
-    kb!(m, "diff_expand_all", "E");
-    kb!(m, "diff_collapse", "left");
-    kb!(m, "diff_switch_focus", "tab");
-    kb!(m, "diff_next_hunk", "]");
-    kb!(m, "diff_previous_hunk", "[");
-    kb!(m, "diff_next_file", "n");
-    kb!(m, "diff_previous_file", "p");
-    kb!(m, "diff_toggle_file_tree", "b");
-    kb!(m, "diff_single_patch", "s");
-    kb!(m, "diff_switch_source", "d");
-    kb!(m, "diff_toggle_view", "v");
-    kb!(m, "diff_help", "?");
-    kb!(m, "editor_open", "<leader>e");
-    kb!(m, "theme_list", "<leader>t");
-    kb!(m, "theme_switch_mode", "none");
-    kb!(m, "theme_mode_lock", "none");
-    kb!(m, "sidebar_toggle", "<leader>b");
-    kb!(m, "scrollbar_toggle", "none");
-    kb!(m, "status_view", "<leader>s");
-    kb!(m, "debug_view", "none");
-    kb!(m, "session_export", "<leader>x");
-    kb!(m, "session_copy", "none");
-    kb!(m, "session_move", "none");
-    kb!(m, "session_new", "<leader>n");
-    kb!(m, "session_list", "<leader>l");
-    kb!(m, "session_timeline", "<leader>g");
-    kb!(m, "session_fork", "none");
-    kb!(m, "session_rename", "ctrl+r");
-    kb!(m, "session_delete", "ctrl+d");
-    kb!(m, "session_share", "none");
-    kb!(m, "session_unshare", "none");
-    kb!(m, "session_interrupt", "escape");
-    kb!(m, "session_background", "ctrl+b");
-    kb!(m, "session_compact", "<leader>c");
-    kb!(m, "session_toggle_timestamps", "none");
-    kb!(m, "session_toggle_generic_tool_output", "none");
-    kb!(m, "session_queued_prompts", "<leader>q");
-    kb!(m, "session_child_first", "<leader>down");
-    kb!(m, "session_child_cycle", "right");
-    kb!(m, "session_child_cycle_reverse", "left");
-    kb!(m, "session_parent", "up");
-    kb!(m, "session_pin_toggle", "ctrl+f");
-    kb!(m, "session_quick_switch_1", "<leader>1");
-    kb!(m, "session_quick_switch_2", "<leader>2");
-    kb!(m, "session_quick_switch_3", "<leader>3");
-    kb!(m, "session_quick_switch_4", "<leader>4");
-    kb!(m, "session_quick_switch_5", "<leader>5");
-    kb!(m, "session_quick_switch_6", "<leader>6");
-    kb!(m, "session_quick_switch_7", "<leader>7");
-    kb!(m, "session_quick_switch_8", "<leader>8");
-    kb!(m, "session_quick_switch_9", "<leader>9");
-    kb!(m, "stash_delete", "ctrl+d");
-    kb!(m, "model_provider_list", "ctrl+a");
-    kb!(m, "model_favorite_toggle", "ctrl+f");
-    kb!(m, "model_list", "<leader>m");
-    kb!(m, "model_cycle_recent", "f2");
-    kb!(m, "model_cycle_recent_reverse", "shift+f2");
-    kb!(m, "model_cycle_favorite", "none");
-    kb!(m, "model_cycle_favorite_reverse", "none");
-    kb!(m, "mcp_list", "none");
-    kb!(m, "provider_connect", "none");
-    kb!(m, "console_org_switch", "none");
-    kb!(m, "agent_list", "<leader>a");
-    kb!(m, "agent_cycle", "tab");
-    kb!(m, "agent_cycle_reverse", "shift+tab");
-    kb!(m, "variant_cycle", "ctrl+t");
-    kb!(m, "variant_list", "none");
-    kb!(m, "messages_page_up", "pageup,ctrl+alt+b");
-    kb!(m, "messages_page_down", "pagedown,ctrl+alt+f");
-    kb!(m, "messages_line_up", "ctrl+alt+y");
-    kb!(m, "messages_line_down", "ctrl+alt+e");
-    kb!(m, "messages_half_page_up", "ctrl+alt+u");
-    kb!(m, "messages_half_page_down", "ctrl+alt+d");
-    kb!(m, "messages_first", "ctrl+g,home");
-    kb!(m, "messages_last", "ctrl+alt+g,end");
-    kb!(m, "messages_next", "none");
-    kb!(m, "messages_previous", "none");
-    kb!(m, "messages_last_user", "none");
-    kb!(m, "messages_copy", "<leader>y");
-    kb!(m, "messages_undo", "<leader>u");
-    kb!(m, "messages_redo", "<leader>r");
-    kb!(m, "messages_toggle_conceal", "<leader>h");
-    kb!(m, "tool_details", "none");
-    kb!(m, "display_thinking", "none");
-    kb!(m, "prompt_submit", "none");
-    kb!(m, "prompt_editor_context_clear", "none");
-    kb!(m, "prompt_skills", "none");
-    kb!(m, "prompt_stash", "none");
-    kb!(m, "prompt_stash_pop", "none");
-    kb!(m, "prompt_stash_list", "none");
-    kb!(m, "workspace_set", "none");
-    kb!(m, "input_clear", "ctrl+c");
-    kb!(m, "input_paste", "ctrl+v");
-    kb!(m, "input_submit", "return");
-    kb!(m, "input_newline", "shift+return,ctrl+return,alt+return,ctrl+j");
-    kb!(m, "input_move_left", "left,ctrl+b");
-    kb!(m, "input_move_right", "right,ctrl+f");
-    kb!(m, "input_move_up", "up");
-    kb!(m, "input_move_down", "down");
-    kb!(m, "input_select_left", "shift+left");
-    kb!(m, "input_select_right", "shift+right");
-    kb!(m, "input_select_up", "shift+up");
-    kb!(m, "input_select_down", "shift+down");
-    kb!(m, "input_line_home", "ctrl+a");
-    kb!(m, "input_line_end", "ctrl+e");
-    kb!(m, "input_select_line_home", "ctrl+shift+a");
-    kb!(m, "input_select_line_end", "ctrl+shift+e");
-    kb!(m, "input_visual_line_home", "alt+a");
-    kb!(m, "input_visual_line_end", "alt+e");
-    kb!(m, "input_select_visual_line_home", "alt+shift+a");
-    kb!(m, "input_select_visual_line_end", "alt+shift+e");
-    kb!(m, "input_buffer_home", "home");
-    kb!(m, "input_buffer_end", "end");
-    kb!(m, "input_select_buffer_home", "shift+home");
-    kb!(m, "input_select_buffer_end", "shift+end");
-    kb!(m, "input_delete_line", "ctrl+shift+d");
-    kb!(m, "input_delete_to_line_end", "ctrl+k");
-    kb!(m, "input_delete_to_line_start", "ctrl+u");
-    kb!(m, "input_backspace", "backspace,shift+backspace");
-    kb!(m, "input_delete", "ctrl+d,delete,shift+delete");
-    kb!(m, "input_undo", "ctrl+-,super+z");
-    kb!(m, "input_redo", "ctrl+.,super+shift+z");
-    kb!(m, "input_word_forward", "alt+f,alt+right,ctrl+right");
-    kb!(m, "input_word_backward", "alt+b,alt+left,ctrl+left");
-    kb!(m, "input_select_word_forward", "alt+shift+f,alt+shift+right");
-    kb!(m, "input_select_word_backward", "alt+shift+b,alt+shift+left");
-    kb!(m, "input_delete_word_forward", "alt+d,alt+delete,ctrl+delete");
-    kb!(m, "input_delete_word_backward", "ctrl+w,ctrl+backspace,alt+backspace");
-    kb!(m, "input_select_all", "super+a");
-    kb!(m, "history_previous", "up");
-    kb!(m, "history_next", "down");
-    kb!(m, "dialog.select.prev", "up,ctrl+p");
-    kb!(m, "dialog.select.next", "down,ctrl+n");
-    kb!(m, "dialog.select.page_up", "pageup");
-    kb!(m, "dialog.select.page_down", "pagedown");
-    kb!(m, "dialog.select.home", "home");
-    kb!(m, "dialog.select.end", "end");
-    kb!(m, "dialog.select.submit", "return");
-    kb!(m, "dialog.prompt.submit", "return");
-    kb!(m, "dialog.mcp.toggle", "space");
-    kb!(m, "dialog.move_session.new", "ctrl+m");
-    kb!(m, "dialog.move_session.delete", "ctrl+d");
-    kb!(m, "dialog.move_session.refresh", "ctrl+r");
-    kb!(m, "prompt.autocomplete.prev", "up,ctrl+p");
-    kb!(m, "prompt.autocomplete.next", "down,ctrl+n");
-    kb!(m, "prompt.autocomplete.hide", "escape");
-    kb!(m, "prompt.autocomplete.select", "return");
-    kb!(m, "prompt.autocomplete.complete", "tab");
-    kb!(m, "permission.prompt.fullscreen", "ctrl+f");
-    kb!(m, "plugins.toggle", "space");
-    kb!(m, "dialog.plugins.install", "shift+i");
-    kb!(m, "terminal_suspend", "ctrl+z");
-    kb!(m, "terminal_title_toggle", "none");
-    kb!(m, "tips_toggle", "<leader>h");
-    kb!(m, "plugin_manager", "none");
-    kb!(m, "plugin_install", "none");
-    kb!(m, "which_key_toggle", "ctrl+alt+k");
-    kb!(m, "which_key_layout_toggle", "ctrl+alt+shift+k");
-    kb!(m, "which_key_pending_toggle", "ctrl+alt+shift+p");
-    kb!(m, "which_key_group_previous", "ctrl+alt+left,ctrl+alt+[");
-    kb!(m, "which_key_group_next", "ctrl+alt+right,ctrl+alt+]");
-    kb!(m, "which_key_scroll_up", "ctrl+alt+up,ctrl+alt+p");
-    kb!(m, "which_key_scroll_down", "ctrl+alt+down,ctrl+alt+n");
-    kb!(m, "which_key_page_up", "ctrl+alt+pageup");
-    kb!(m, "which_key_page_down", "ctrl+alt+pagedown");
-    kb!(m, "which_key_home", "ctrl+alt+home");
-    kb!(m, "which_key_end", "ctrl+alt+end");
-    m
+    DEFAULTS.iter().map(|&(k, v)| (k, parse_binding_value(v).unwrap())).collect()
 });
 
 pub fn get_default(name: &str) -> Option<BindingValue> {
     DEFAULT_KEYBINDS.get(name).cloned()
 }
 
-pub fn parse_overrides(overrides: &HashMap<String, serde_json::Value>) -> Result<HashMap<String, BindingValue>, String> {
+pub fn parse_overrides(
+    overrides: &HashMap<String, serde_json::Value>,
+) -> Result<HashMap<String, BindingValue>, String> {
     let mut result = HashMap::new();
     for (k, v) in overrides {
         if !DEFAULT_KEYBINDS.contains_key(k.as_str()) {
