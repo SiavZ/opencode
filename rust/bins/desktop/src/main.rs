@@ -20,7 +20,8 @@ use std::time::Duration;
 use anyhow::Result;
 use tauri::Manager;
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
 
     let smoke_test = env::args().any(|arg| arg == "--smoke-test");
@@ -46,7 +47,7 @@ fn main() -> Result<()> {
 
             if smoke_test {
                 let handle = app.handle().clone();
-                tokio::spawn(async move {
+                tauri::async_runtime::spawn(async move {
                     tokio::time::sleep(Duration::from_millis(500)).await;
                     tracing::info!("smoke-test exiting gracefully");
                     handle.exit(0);
