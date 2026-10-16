@@ -54,7 +54,8 @@ fn fixture_captured_from_bun_at_baseline() {
 
 #[test]
 fn optional_fields_omit_missing_and_reject_null() {
-    for key in ["exitCode"] {
+    {
+        let key = "exitCode";
         let mut input: serde_json::Value = serde_json::from_str(INFO_NO_EXIT).unwrap();
         input[key] = serde_json::Value::Null;
         assert!(serde_json::from_value::<Info>(input).is_err(), "{key}");

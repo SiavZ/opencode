@@ -34,6 +34,7 @@ impl WindowPersistence for MockPersistence {
     }
 }
 
+#[allow(clippy::type_complexity)]
 fn setup(
     initial: Value,
 ) -> (

@@ -1063,8 +1063,8 @@ describe("EventV2", () => {
       const replayResult = yield* Fiber.join(replayFiber)
 
       const results = [publishResult, replayResult]
-      const successes = results.filter((r): r is typeof r & { _tag: "Success" } => Exit.isSuccess(r))
-      const failures = results.filter((r): r is typeof r & { _tag: "Failure" } => Exit.isFailure(r))
+      const successes = results.filter((r) => r._tag === "Success")
+      const failures = results.filter((r) => r._tag === "Failure")
 
       expect(successes).toHaveLength(1)
       expect(failures).toHaveLength(1)
@@ -1428,8 +1428,8 @@ describe("EventV2", () => {
 
       const results = yield* Effect.all([Effect.exit(publishOp), Effect.exit(replayOp)], { concurrency: "unbounded" })
 
-      const successes = results.filter(Exit.isSuccess)
-      const failures = results.filter(Exit.isFailure)
+      const successes = results.filter((r) => r._tag === "Success")
+      const failures = results.filter((r) => r._tag === "Failure")
 
       const rows = yield* db
         .select()

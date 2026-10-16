@@ -15,7 +15,7 @@ use opencode_desktop_host::deeplinks::{
 };
 use parking_lot::Mutex;
 use std::collections::HashMap;
-use std::sync::Arc;
+
 
 #[derive(Default)]
 struct FixtureSink {
@@ -29,16 +29,17 @@ impl FixtureSink {
         Self::default()
     }
 
-    fn with_focused(mut self, id: &str) -> Self {
+    fn with_focused(self, id: &str) -> Self {
         *self.focused.lock() = Some(id.to_string());
         self
     }
 
-    fn with_recent(mut self, id: &str) -> Self {
+    fn with_recent(self, id: &str) -> Self {
         *self.recent.lock() = Some(id.to_string());
         self
     }
 
+    #[allow(dead_code)]
     fn deliveries(&self, window_id: &str) -> Vec<Vec<String>> {
         self.delivered
             .lock()

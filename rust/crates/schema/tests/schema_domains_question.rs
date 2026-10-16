@@ -17,7 +17,7 @@ use opencode_schema::event::Event;
 use opencode_schema::question::{
     self, Answer, Info, Prompt, QuestionOption, Rejected, Replied, Reply, Request, Tool,
 };
-use serde::{de::DeserializeOwned, Serialize};
+use serde::{Serialize, de::DeserializeOwned};
 
 fn roundtrip<T: DeserializeOwned + Serialize>(fixture: &str) {
     let decoded: T = serde_json::from_str(fixture).unwrap();

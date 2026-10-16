@@ -57,7 +57,8 @@ const prepareOnce = Effect.fnUntraced(function* (
     Effect.mapError((error) => new ContextSnapshotDecodeError({ sessionID, details: String(error) })),
   )
   const replacementSeq = compaction !== undefined && compaction.seq > stored.baseline_seq ? compaction.seq : undefined
-  const result = replacementSeq
+  // Zero is a valid sequence. Presence, not numeric truthiness, selects replacement.
+  const result = replacementSeq !== undefined
     ? yield* SystemContext.replace(value, snapshot)
     : yield* SystemContext.reconcile(value, snapshot)
   if (result._tag === "Unchanged" || result._tag === "ReplacementBlocked") {
