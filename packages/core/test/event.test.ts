@@ -1030,6 +1030,53 @@ describe("EventV2", () => {
     }),
   )
 
+  it.effect("races concurrent publish and replay for same event ID with different payloads", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const aggregateID = Session.ID.create()
+      const eventID = EventV2.ID.create()
+      const received = new Array<EventV2.Payload>()
+
+      yield* events.listen((event) => Effect.sync(() => received.push(event)))
+
+      const publishEffect = events.publish(
+        DurableMessage,
+        durableData(aggregateID, "published"),
+        { id: eventID },
+      )
+
+      const replayEffect = events.replay(
+        {
+          id: eventID,
+          type: EventV2.versionedType(DurableMessage.type, 1),
+          seq: 0,
+          aggregateID,
+          data: durableData(aggregateID, "replayed"),
+        },
+        { publish: true },
+      )
+
+      const publishFiber = yield* Effect.forkScoped(Effect.exit(publishEffect))
+      const replayFiber = yield* Effect.forkScoped(Effect.exit(replayEffect))
+
+      const publishResult = yield* Fiber.join(publishFiber)
+      const replayResult = yield* Fiber.join(replayFiber)
+
+      const results = [publishResult, replayResult]
+      const successes = results.filter((r): r is typeof r & { _tag: "Success" } => Exit.isSuccess(r))
+      const failures = results.filter((r): r is typeof r & { _tag: "Failure" } => Exit.isFailure(r))
+
+      expect(successes).toHaveLength(1)
+      expect(failures).toHaveLength(1)
+
+      const failureString = String(failures[0])
+      expect(failureString).toMatch(/Replay diverged|already exists/)
+
+      expect(received).toHaveLength(1)
+      expect(received[0].durable?.seq).toBe(0)
+    }),
+  )
+
   it.effect("replay from a different owner leaves claimed sequence unchanged", () =>
     Effect.gen(function* () {
       const events = yield* EventV2.Service
@@ -1119,6 +1166,392 @@ describe("EventV2", () => {
       })
 
       expect(received[0]?.data).toEqual(durableData(aggregateID, "replayed"))
+    }),
+  )
+
+  it.effect("replayAll rejects sequence mismatch", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const aggregateID = Session.ID.create()
+
+      const exit = yield* events
+        .replayAll([
+          {
+            id: EventV2.ID.create(),
+            type: EventV2.versionedType(DurableMessage.type, 1),
+            seq: 0,
+            aggregateID,
+            data: durableData(aggregateID, "one"),
+          },
+          {
+            id: EventV2.ID.create(),
+            type: EventV2.versionedType(DurableMessage.type, 1),
+            seq: 2,
+            aggregateID,
+            data: durableData(aggregateID, "two"),
+          },
+        ])
+        .pipe(Effect.exit)
+
+      expect(String(exit)).toContain("Replay sequence mismatch")
+    }),
+  )
+
+  it.effect("replayAll rejects cross-aggregate replay", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const aggregateID1 = Session.ID.create()
+      const aggregateID2 = Session.ID.create()
+
+      const exit = yield* events
+        .replayAll([
+          {
+            id: EventV2.ID.create(),
+            type: EventV2.versionedType(DurableMessage.type, 1),
+            seq: 0,
+            aggregateID: aggregateID1,
+            data: durableData(aggregateID1, "one"),
+          },
+          {
+            id: EventV2.ID.create(),
+            type: EventV2.versionedType(DurableMessage.type, 1),
+            seq: 1,
+            aggregateID: aggregateID2,
+            data: durableData(aggregateID2, "two"),
+          },
+        ])
+        .pipe(Effect.exit)
+
+      expect(String(exit)).toContain("Replay events must belong to the same aggregate")
+    }),
+  )
+
+  it.effect("replayAll publishes accepted replay with its durable sequence", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const received = new Array<EventV2.Payload>()
+      const aggregateID = Session.ID.create()
+      yield* events.listen((event) => Effect.sync(() => received.push(event)))
+
+      const replayedEvents = [
+        {
+          id: EventV2.ID.create(),
+          type: EventV2.versionedType(DurableMessage.type, 1),
+          seq: 0,
+          aggregateID,
+          data: durableData(aggregateID, "one"),
+        },
+        {
+          id: EventV2.ID.create(),
+          type: EventV2.versionedType(DurableMessage.type, 1),
+          seq: 1,
+          aggregateID,
+          data: durableData(aggregateID, "two"),
+        },
+      ]
+
+      yield* events.replayAll(replayedEvents, { publish: true })
+
+      expect(received).toHaveLength(2)
+      expect(received[0]).toMatchObject({
+        id: replayedEvents[0].id,
+        durable: { seq: 0, version: 1 },
+        data: replayedEvents[0].data,
+      })
+      expect(received[1]).toMatchObject({
+        id: replayedEvents[1].id,
+        durable: { seq: 1, version: 1 },
+        data: replayedEvents[1].data,
+      })
+    }),
+  )
+
+  it.effect("idempotent replay of identical events succeeds without duplication", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const { db } = yield* Database.Service
+      const aggregateID = Session.ID.create()
+      const received = new Array<EventV2.Payload>()
+      yield* events.listen((event) => Effect.sync(() => received.push(event)))
+
+      const replayed = {
+        id: EventV2.ID.create(),
+        type: EventV2.versionedType(DurableMessage.type, 1),
+        seq: 0,
+        aggregateID,
+        data: durableData(aggregateID, "identical"),
+      }
+
+      yield* events.replay(replayed, { publish: true })
+      yield* events.replay(replayed, { publish: true })
+
+      const rows = yield* db
+        .select()
+        .from(EventTable)
+        .where(eq(EventTable.aggregate_id, aggregateID))
+        .all()
+        .pipe(Effect.orDie)
+
+      expect(rows).toHaveLength(1)
+      expect(received).toHaveLength(1)
+      expect(received[0]?.id).toBe(replayed.id)
+    }),
+  )
+
+  it.effect("concurrent publishing of the same event ID rejects the duplicate", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const { db } = yield* Database.Service
+      const aggregateID = Session.ID.create()
+      const sharedID = EventV2.ID.create()
+
+      const publish1 = events.publish(DurableMessage, durableData(aggregateID, "concurrent"), { id: sharedID })
+      const publish2 = events.publish(DurableMessage, durableData(aggregateID, "concurrent"), { id: sharedID })
+
+      const results = yield* Effect.all([Effect.exit(publish1), Effect.exit(publish2)], { concurrency: "unbounded" })
+
+      const successes = results.filter(Exit.isSuccess)
+      const failures = results.filter(Exit.isFailure)
+
+      expect(successes).toHaveLength(1)
+      expect(failures).toHaveLength(1)
+      expect(String(failures[0].cause)).toContain("already exists")
+
+      const rows = yield* db
+        .select()
+        .from(EventTable)
+        .where(eq(EventTable.aggregate_id, aggregateID))
+        .all()
+        .pipe(Effect.orDie)
+
+      expect(rows).toHaveLength(1)
+    }),
+  )
+
+  it.effect("concurrent replay of the exact same event ID deduplicates gracefully", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const { db } = yield* Database.Service
+      const aggregateID = Session.ID.create()
+      const sharedID = EventV2.ID.create()
+
+      yield* events.publish(DurableMessage, durableData(aggregateID, "seed"))
+
+      const replay1 = events.replay({
+        id: sharedID,
+        type: EventV2.versionedType(DurableMessage.type, 1),
+        seq: 1,
+        aggregateID,
+        data: durableData(aggregateID, "replayed"),
+      })
+
+      const replay2 = events.replay({
+        id: sharedID,
+        type: EventV2.versionedType(DurableMessage.type, 1),
+        seq: 1,
+        aggregateID,
+        data: durableData(aggregateID, "replayed"),
+      })
+
+      const results = yield* Effect.all([Effect.exit(replay1), Effect.exit(replay2)], { concurrency: "unbounded" })
+
+      const successes = results.filter(Exit.isSuccess)
+      const failures = results.filter(Exit.isFailure)
+
+      expect(successes).toHaveLength(2)
+      expect(failures).toHaveLength(0)
+
+      const rows = yield* db
+        .select()
+        .from(EventTable)
+        .where(eq(EventTable.aggregate_id, aggregateID))
+        .all()
+        .pipe(Effect.orDie)
+
+      expect(rows).toHaveLength(2)
+      expect(rows.map((row) => row.seq)).toEqual([0, 1])
+      expect(rows.find((row) => row.seq === 1)?.id).toBe(sharedID)
+    }),
+  )
+
+  it.effect("replaying an event with an existing ID across different aggregates fails", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const aggregateID1 = Session.ID.create()
+      const aggregateID2 = Session.ID.create()
+      const sharedID = EventV2.ID.create()
+
+      yield* events.replay({
+        id: sharedID,
+        type: EventV2.versionedType(DurableMessage.type, 1),
+        seq: 0,
+        aggregateID: aggregateID1,
+        data: durableData(aggregateID1, "first"),
+      })
+
+      const exit = yield* events
+        .replay({
+          id: sharedID,
+          type: EventV2.versionedType(DurableMessage.type, 1),
+          seq: 0,
+          aggregateID: aggregateID2,
+          data: durableData(aggregateID2, "second"),
+        })
+        .pipe(Effect.exit)
+
+      expect(String(exit)).toContain("already exists")
+    }),
+  )
+
+  it.effect("concurrent publish and replay racing for the same event ID resolves predictably without duplicate notifications", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const { db } = yield* Database.Service
+      const aggregateID = Session.ID.create()
+      const sharedID = EventV2.ID.create()
+      const data = durableData(aggregateID, "race")
+      const received = new Array<EventV2.Payload>()
+
+      yield* events.listen((event) => Effect.sync(() => received.push(event)))
+
+      const publishOp = events.publish(DurableMessage, data, { id: sharedID })
+      const replayOp = events.replay(
+        {
+          id: sharedID,
+          type: EventV2.versionedType(DurableMessage.type, 1),
+          seq: 0,
+          aggregateID,
+          data,
+        },
+        { publish: true },
+      )
+
+      const results = yield* Effect.all([Effect.exit(publishOp), Effect.exit(replayOp)], { concurrency: "unbounded" })
+
+      const successes = results.filter(Exit.isSuccess)
+      const failures = results.filter(Exit.isFailure)
+
+      const rows = yield* db
+        .select()
+        .from(EventTable)
+        .where(eq(EventTable.aggregate_id, aggregateID))
+        .all()
+        .pipe(Effect.orDie)
+
+      expect(rows).toHaveLength(1)
+      expect(rows[0]?.id).toBe(sharedID)
+      expect(rows[0]?.seq).toBe(0)
+
+      expect(received).toHaveLength(1)
+      expect(received[0]?.id).toBe(sharedID)
+
+      if (successes.length === 2) {
+        expect(successes.some((s) => s._tag === "Success" && s.value?.id === sharedID)).toBeTrue()
+      } else {
+        expect(successes).toHaveLength(1)
+        expect(failures).toHaveLength(1)
+        const failure = failures[0]
+        if (failure._tag === "Failure") {
+          expect(String(failure.cause)).toContain("already exists")
+        }
+      }
+    }),
+  )
+
+  it.effect("concurrent replays of different event IDs at the same sequence number fail predictably", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const { db } = yield* Database.Service
+      const aggregateID = Session.ID.create()
+      const id1 = EventV2.ID.create()
+      const id2 = EventV2.ID.create()
+
+      yield* events.publish(DurableMessage, durableData(aggregateID, "seed"))
+
+      const replay1 = events.replay({
+        id: id1,
+        type: EventV2.versionedType(DurableMessage.type, 1),
+        seq: 1,
+        aggregateID,
+        data: durableData(aggregateID, "first"),
+      })
+
+      const replay2 = events.replay({
+        id: id2,
+        type: EventV2.versionedType(DurableMessage.type, 1),
+        seq: 1,
+        aggregateID,
+        data: durableData(aggregateID, "second"),
+      })
+
+      const results = yield* Effect.all([Effect.exit(replay1), Effect.exit(replay2)], { concurrency: "unbounded" })
+
+      const successes = results.filter(Exit.isSuccess)
+      const failures = results.filter(Exit.isFailure)
+
+      expect(successes).toHaveLength(1)
+      expect(failures).toHaveLength(1)
+      const failureCause = String(failures[0].cause)
+      expect(failureCause).toMatch(/Replay diverged|UNIQUE constraint failed|already exists/)
+
+      const rows = yield* db
+        .select()
+        .from(EventTable)
+        .where(eq(EventTable.aggregate_id, aggregateID))
+        .all()
+        .pipe(Effect.orDie)
+
+      expect(rows).toHaveLength(2)
+      expect(rows.map((r) => r.seq).sort()).toEqual([0, 1])
+
+      const sequence = yield* db
+        .select({ seq: EventSequenceTable.seq })
+        .from(EventSequenceTable)
+        .where(eq(EventSequenceTable.aggregate_id, aggregateID))
+        .get()
+        .pipe(Effect.orDie)
+
+      expect(sequence?.seq).toBe(1)
+    }),
+  )
+
+  it.effect("replayAll currently partially commits when a mid-batch event fails schema validation", () =>
+    Effect.gen(function* () {
+      const events = yield* EventV2.Service
+      const { db } = yield* Database.Service
+      const aggregateID = Session.ID.create()
+
+      yield* events.publish(DurableMessage, durableData(aggregateID, "seed"))
+
+      const exit = yield* events
+        .replayAll([
+          {
+            id: EventV2.ID.create(),
+            type: EventV2.versionedType(DurableMessage.type, 1),
+            seq: 1,
+            aggregateID,
+            data: durableData(aggregateID, "valid"),
+          },
+          {
+            id: EventV2.ID.create(),
+            type: EventV2.versionedType(DurableMessage.type, 1),
+            seq: 2,
+            aggregateID,
+            data: { sessionID: aggregateID },
+          },
+        ])
+        .pipe(Effect.exit)
+
+      expect(Exit.isFailure(exit)).toBe(true)
+
+      const rows = yield* db
+        .select({ seq: EventTable.seq })
+        .from(EventTable)
+        .where(eq(EventTable.aggregate_id, aggregateID))
+        .all()
+        .pipe(Effect.orDie)
+
+      expect(rows.map((r) => r.seq).sort()).toEqual([0, 1])
     }),
   )
 })
