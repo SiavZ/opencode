@@ -10,24 +10,12 @@
 
 use opencode_llm_api::ids::{JsonObject, MessageRole, ProviderMetadata};
 use opencode_llm_api::message::{ContentPart, MediaData, Message, ToolContent, ToolResultValue};
-use serde_json::{json, Map, Value};
+use serde_json::{json, Value};
 
 use crate::providers::transform::{sdk_key, TransformModel};
 
 pub fn sanitize_surrogates(content: &str) -> String {
     content.to_string()
-}
-
-fn is_kimi_family(model: &TransformModel) -> bool {
-    let pid = model.provider_id.to_lowercase();
-    let aid = model.api_id.to_lowercase();
-    if pid.contains("kimi") || pid.contains("moonshot") || aid.contains("kimi") || aid.contains("moonshot") {
-        return true;
-    }
-    let url = model.url.to_lowercase();
-    ["api.kimi.com", "api.moonshot.ai", "api.moonshot.cn", "api.moonshotai.cn"]
-        .iter()
-        .any(|h| url.contains(h))
 }
 
 fn scrub_claude_tool_id(id: &str) -> String {
@@ -187,23 +175,22 @@ pub fn normalize_messages(mut msgs: Vec<Message>, model: &TransformModel, _optio
                 }
             }
             result.push(msg);
-            if msgs[i].role == MessageRole::Tool {
-                if let Some(next) = msgs.get(i + 1) {
-                    if next.role == MessageRole::User {
-                        result.push(Message {
-                            id: None,
-                            role: MessageRole::Assistant,
-                            content: vec![ContentPart::Text {
-                                text: "Done.".to_string(),
-                                cache: None,
-                                metadata: None,
-                                provider_metadata: None,
-                            }],
-                            metadata: None,
-                            native: None,
-                        });
-                    }
-                }
+            if msgs[i].role == MessageRole::Tool
+                && let Some(next) = msgs.get(i + 1)
+                && next.role == MessageRole::User
+            {
+                result.push(Message {
+                    id: None,
+                    role: MessageRole::Assistant,
+                    content: vec![ContentPart::Text {
+                        text: "Done.".to_string(),
+                        cache: None,
+                        metadata: None,
+                        provider_metadata: None,
+                    }],
+                    metadata: None,
+                    native: None,
+                });
             }
         }
         msgs = result;
@@ -287,21 +274,16 @@ pub fn apply_caching(mut msgs: Vec<Message>, model: &TransformModel) -> Vec<Mess
         let msg = &mut msgs[ptr];
         let should_use_content = !use_message_level && !msg.content.is_empty();
 
-        if should_use_content {
-            if let Some(last) = msg.content.last_mut() {
-                match last {
-                    ContentPart::Text { provider_metadata, .. }
-                    | ContentPart::Reasoning { provider_metadata, .. } => {
-                        let mut meta = provider_metadata.take().unwrap_or_else(ProviderMetadata::default);
-                        for (k, v) in &cache_opts {
-                            meta.insert(k.clone(), v.clone());
-                        }
-                        *provider_metadata = Some(meta);
-                    }
-                    _ => {}
-                }
+        if should_use_content
+            && let Some(last) = msg.content.last_mut()
+            && let ContentPart::Text { provider_metadata, .. } | ContentPart::Reasoning { provider_metadata, .. } = last
+        {
+            let mut meta = provider_metadata.take().unwrap_or_else(ProviderMetadata::default);
+            for (k, v) in &cache_opts {
+                meta.insert(k.clone(), v.clone());
             }
-        } else {
+            *provider_metadata = Some(meta);
+        } else if !should_use_content {
             let mut meta = msg.metadata.take().unwrap_or_default();
             for (k, v) in &cache_opts {
                 meta.insert(k.clone(), Value::Object(v.clone()));
@@ -334,27 +316,25 @@ pub fn unsupported_parts(mut msgs: Vec<Message>, model: &TransformModel) -> Vec<
             continue;
         }
         for part in &mut msg.content {
-            if let ContentPart::Media { media_type, data, filename, .. } = part {
-                if let MediaData::Text(data_str) = data {
-                    if data_str.starts_with("data:") {
-                        if let Some(idx) = data_str.find(',') {
-                            let base64_part = &data_str[idx + 1..];
-                            if base64_part.is_empty() {
-                                *part = ContentPart::Text {
-                                    text: "ERROR: Image file is empty or corrupted. Please provide a valid image."
-                                        .to_string(),
-                                    cache: None,
-                                    metadata: None,
-                                    provider_metadata: None,
-                                };
-                                continue;
-                            }
-                        }
-                    }
+            if let ContentPart::Media { media_type, data, filename, .. } = part
+                && let MediaData::Text(data_str) = data
+                && data_str.starts_with("data:")
+                && let Some(idx) = data_str.find(',')
+            {
+                let base64_part = &data_str[idx + 1..];
+                if base64_part.is_empty() {
+                    *part = ContentPart::Text {
+                        text: "ERROR: Image file is empty or corrupted. Please provide a valid image."
+                            .to_string(),
+                        cache: None,
+                        metadata: None,
+                        provider_metadata: None,
+                    };
+                    continue;
                 }
 
                 let mime = if media_type.starts_with("data:") {
-                    media_type.split(';').next().unwrap_or("").replace("data:", "")
+                    media_type.split(';').next().unwrap_or("").strip_prefix("data:").unwrap_or("").to_string()
                 } else {
                     media_type.clone()
                 };
@@ -409,17 +389,17 @@ where
                     }
                 }
                 ContentPart::ToolCall(tc) => {
-                    if let Some(meta) = tc.provider_metadata.take() {
-                        if let Some(new_meta) = transform(meta) {
-                            tc.provider_metadata = Some(new_meta);
-                        }
+                    if let Some(meta) = tc.provider_metadata.take()
+                        && let Some(new_meta) = transform(meta)
+                    {
+                        tc.provider_metadata = Some(new_meta);
                     }
                 }
                 ContentPart::ToolResult(tr) => {
-                    if let Some(meta) = tr.provider_metadata.take() {
-                        if let Some(new_meta) = transform(meta) {
-                            tr.provider_metadata = Some(new_meta);
-                        }
+                    if let Some(meta) = tr.provider_metadata.take()
+                        && let Some(new_meta) = transform(meta)
+                    {
+                        tr.provider_metadata = Some(new_meta);
                     }
                 }
                 _ => {}
@@ -447,21 +427,21 @@ pub fn message(mut msgs: Vec<Message>, model: &TransformModel, options: &JsonObj
         msgs = apply_caching(msgs, model);
     }
 
-    if let Some(key) = sdk_key(&model.npm) {
-        if key != model.provider_id {
-            let provider_id = model.provider_id.clone();
-            let key_str = key.to_string();
-            msgs = map_provider_options(msgs, |opts| {
-                let mut opts = opts;
-                if !opts.contains_key(&provider_id) {
-                    return Some(opts);
-                }
-                if let Some(val) = opts.swap_remove(&provider_id) {
-                    opts.insert(key_str.clone(), val);
-                }
-                Some(opts)
-            });
-        }
+    if let Some(key) = sdk_key(&model.npm)
+        && key != model.provider_id
+    {
+        let provider_id = model.provider_id.clone();
+        let key_str = key.to_string();
+        msgs = map_provider_options(msgs, |opts| {
+            let mut opts = opts;
+            if !opts.contains_key(&provider_id) {
+                return Some(opts);
+            }
+            if let Some(val) = opts.swap_remove(&provider_id) {
+                opts.insert(key_str.clone(), val);
+            }
+            Some(opts)
+        });
     }
 
     let openai_npm = ["@ai-sdk/openai", "@ai-sdk/azure", "@ai-sdk/amazon-bedrock/mantle", "@ai-sdk/github-copilot"];
