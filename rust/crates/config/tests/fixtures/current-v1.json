@@ -1,0 +1,38 @@
+{
+  "shell": "/bin/zsh",
+  "default_agent": "reviewer",
+  "snapshot": false,
+  "autoshare": true,
+  "permission": { "bash": "ask", "edit": { "*.md": "allow", "*": "deny" }, "question": "deny" },
+  "agent": { "reviewer": { "prompt": "Review changes.", "disable": true, "temperature": 0.2, "permission": { "read": "allow" } } },
+  "plugin": ["opencode-helicone-session", ["@my-org/audit-plugin", { "endpoint": "https://audit.example.com" }]],
+  "skills": { "paths": ["./skills"], "urls": ["https://example.com/.well-known/skills/"] },
+  "references": { "docs": { "path": "../docs", "description": "Use for product documentation", "hidden": true } },
+  "attachment": { "image": { "auto_resize": false, "max_width": 1200 } },
+  "provider": {
+    "custom": {
+      "options": { "apiKey": "secret" },
+      "models": { "model": { "options": { "reasoningEffort": "high" }, "variants": { "fast": { "temperature": 0.2 } } } }
+    },
+    "openai": {
+      "npm": "@ai-sdk/openai",
+      "options": { "apiKey": "secret", "organization": "org" },
+      "models": {
+        "model": {
+          "options": { "temperature": 0.3, "reasoningEffort": "high", "serviceTier": "priority" },
+          "variants": { "high": { "reasoningEffort": "high", "reasoningSummary": "auto" } }
+        }
+      }
+    },
+    "anthropic": {
+      "npm": "@ai-sdk/anthropic",
+      "models": { "model": { "options": { "effort": "high", "taskBudget": 4096, "metadata": { "userId": "user-1" } }, "limit": { "context": 200000.7, "output": 8192 }, "cost": { "input": 3, "output": 15, "cache_read": 0.3, "context_over_200k": { "input": 6, "output": 22.5 } }, "status": "deprecated", "tool_call": true, "provider": { "npm": "@ai-sdk/anthropic", "api": "https://proxy" }, "id": "claude-x" } }
+    }
+  },
+  "compaction": { "auto": true, "tail_turns": 3, "preserve_recent_tokens": 2000, "reserved": 10000 },
+  "experimental": { "mcp_timeout": 5000 },
+  "mcp": {
+    "local": { "type": "local", "command": ["node", "server.js"], "enabled": false, "timeout": 10000 },
+    "remote": { "type": "remote", "url": "https://mcp.example.com", "oauth": { "clientId": "client", "callbackPort": 19876 }, "timeout": 20000 }
+  }
+}

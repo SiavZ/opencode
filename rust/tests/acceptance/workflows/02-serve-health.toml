@@ -1,0 +1,25 @@
+# Purpose: `opencode serve` binds a free loopback port and answers GET /global/health.
+id = "serve-health"
+requirement = "PKG-04"
+baseline_source = "packages/opencode/src/cli/cmd/serve.ts, packages/opencode/src/server/routes/instance/httpapi/groups/global.ts, packages/protocol/src/groups/health.ts"
+owner = "phase-06 (protocol/server), phase-91 (composition)"
+producer = "opencode serve HTTP API"
+consumer = "TUI / app / SDK clients"
+classification = "live"
+
+[[step]]
+kind = "serve"
+
+[[step]]
+kind = "http"
+method = "GET"
+path = "/global/health"
+expect_status = 200
+expect_json = { "/healthy" = true }
+expect_types = { "/version" = "string" }
+
+[[step]]
+kind = "sse_connect"
+name = "global"
+path = "/global/event"
+first_type = "server.connected"

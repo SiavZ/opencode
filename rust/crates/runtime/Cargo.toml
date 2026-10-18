@@ -1,0 +1,37 @@
+[package]
+name = "opencode-runtime"
+description = "Process and Location composition root: wires domain crates into the server, CLI and embedded hosts. Owner: Phase 91 (coordinator)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_runtime"
+
+[dependencies]
+opencode-schema.workspace = true
+opencode-locations.workspace = true
+opencode-storage-api.workspace = true
+opencode-storage-sqlite.workspace = true
+opencode-event-api.workspace = true
+opencode-event-store.workspace = true
+opencode-session-api.workspace = true
+opencode-session-runtime.workspace = true
+opencode-platform-api.workspace = true
+opencode-server.workspace = true
+async-trait.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tokio = { workspace = true, features = ["rt", "net", "sync", "time", "macros"] }
+tokio-util = { workspace = true, features = ["rt"] }
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "test-util", "process"] }
+reqwest = { workspace = true, features = ["rustls", "json"] }
+serde_json.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,164 @@
+{
+  "family": "legacy-file",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 57,
+      "id": "file.list#ok",
+      "operationId": "file.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/file",
+        "auth": "valid",
+        "query": [
+          [
+            "path",
+            "."
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "name": ".git",
+            "path": ".git/",
+            "absolute": "{PROJ}/.git",
+            "type": "directory",
+            "ignored": false
+          },
+          {
+            "name": "src",
+            "path": "src/",
+            "absolute": "{PROJ}/src",
+            "type": "directory",
+            "ignored": false
+          },
+          {
+            "name": "config.json",
+            "path": "config.json",
+            "absolute": "{PROJ}/config.json",
+            "type": "file",
+            "ignored": false
+          },
+          {
+            "name": "README.md",
+            "path": "README.md",
+            "absolute": "{PROJ}/README.md",
+            "type": "file",
+            "ignored": false
+          }
+        ]
+      }
+    },
+    {
+      "seq": 58,
+      "id": "file.list#missing-query",
+      "operationId": "file.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/file",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Missing key\n  at [\"path\"]",
+            "kind": "Query"
+          }
+        }
+      },
+      "note": "required query omitted"
+    },
+    {
+      "seq": 59,
+      "id": "file.read#ok",
+      "operationId": "file.read",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/file/content",
+        "auth": "valid",
+        "query": [
+          [
+            "path",
+            "README.md"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "type": "text",
+          "content": "# fixture project\n\nhello fixture\nmodified"
+        }
+      }
+    },
+    {
+      "seq": 60,
+      "id": "file.read#missing-query",
+      "operationId": "file.read",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/file/content",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Missing key\n  at [\"path\"]",
+            "kind": "Query"
+          }
+        }
+      },
+      "note": "required query omitted"
+    },
+    {
+      "seq": 61,
+      "id": "file.status#ok",
+      "operationId": "file.status",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/file/status",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    }
+  ]
+}

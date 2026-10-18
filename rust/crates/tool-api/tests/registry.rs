@@ -1,0 +1,175 @@
+//! Purpose: registry contract tests ported from packages/core/test/session-runner-tool-registry.test.ts
+//! (scoped overlay, stale advertisement, in-flight survival, wholly disabled filtering, failures).
+//! Scope: fixture tools through the public registry API.
+//! Uses:
+//! rust/crates/
+//! `-- tool-api/src/registry.rs
+//! External:
+//! `-- tokio
+//! Used by:
+//! `-- none, entrypoint
+//! Invariants: none.
+//! Contract tests: tool-api/tests/registry.rs
+
+use async_trait::async_trait;
+use opencode_permissions::{AssertInput, Effect, PermissionError, Rule};
+use opencode_tool_api::*;
+use serde_json::{Value, json};
+use std::sync::Arc;
+use tokio_util::sync::CancellationToken;
+
+struct Echo(&'static str);
+
+#[async_trait]
+impl Tool for Echo {
+    fn description(&self) -> &str {
+        self.0
+    }
+    fn input_schema(&self) -> Value {
+        json!({"type":"object","properties":{"text":{"type":"string"}},"required":["text"]})
+    }
+    async fn execute(
+        &self,
+        input: Value,
+        _context: &ToolContext,
+    ) -> Result<ToolOutput, ToolFailure> {
+        let text = input
+            .get("text")
+            .and_then(Value::as_str)
+            .ok_or_else(|| ToolFailure::invalid_input("text is required"))?;
+        Ok(ToolOutput::new(
+            json!({}),
+            vec![ToolContent::text(format!("{}:{text}", self.0))],
+        ))
+    }
+}
+
+struct Allow;
+
+#[async_trait]
+impl Authorizer for Allow {
+    async fn assert(&self, _input: AssertInput) -> Result<(), PermissionError> {
+        Ok(())
+    }
+}
+
+fn context() -> ToolContext {
+    ToolContext {
+        session_id: "ses_1".into(),
+        agent: "build".into(),
+        assistant_message_id: "msg_1".into(),
+        tool_call_id: "call_1".into(),
+        cancel: CancellationToken::new(),
+        authorizer: Arc::new(Allow),
+        progress: Arc::new(NoProgress),
+    }
+}
+
+fn call(name: &str) -> ExecuteInput {
+    ExecuteInput {
+        name: name.into(),
+        input: json!({"text":"x"}),
+    }
+}
+
+#[tokio::test]
+async fn location_overrides_application_and_stale_calls_fail() {
+    let registry = ToolRegistry::new(Arc::new(PassthroughBounder));
+    let _app = registry
+        .register_application(vec![(
+            "echo".into(),
+            Arc::new(Echo("app")) as Arc<dyn Tool>,
+        )])
+        .unwrap();
+    let first = registry.materialize(&[]);
+    assert_eq!(
+        first.settle(call("echo"), &context()).await.unwrap().result,
+        ToolResultValue::Text {
+            value: json!("app:x")
+        }
+    );
+
+    let local = registry
+        .register(vec![(
+            "echo".into(),
+            Arc::new(Echo("local")) as Arc<dyn Tool>,
+        )])
+        .unwrap();
+    let second = registry.materialize(&[]);
+    assert_eq!(
+        first.settle(call("echo"), &context()).await.unwrap().result,
+        ToolResultValue::error("Stale tool call: echo")
+    );
+    assert_eq!(
+        second
+            .settle(call("echo"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::Text {
+            value: json!("local:x")
+        }
+    );
+    drop(local);
+    assert_eq!(
+        second
+            .settle(call("echo"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::error("Stale tool call: echo")
+    );
+    assert_eq!(
+        registry
+            .materialize(&[])
+            .settle(call("missing"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::error("Unknown tool: missing")
+    );
+}
+
+#[tokio::test]
+async fn wholly_disabled_tools_are_hidden_and_names_validated() {
+    let registry = ToolRegistry::new(Arc::new(PassthroughBounder));
+    let _r = registry
+        .register(vec![
+            ("a".into(), Arc::new(Echo("a")) as Arc<dyn Tool>),
+            ("b".into(), Arc::new(Echo("b")) as Arc<dyn Tool>),
+        ])
+        .unwrap();
+    let m = registry.materialize(&[Rule::new("b", "*", Effect::Deny)]);
+    assert_eq!(m.names(), vec!["a"]);
+    assert_eq!(m.definitions()[0].name, "a");
+    let error = registry
+        .register(vec![("9bad".into(), Arc::new(Echo("x")) as Arc<dyn Tool>)])
+        .unwrap_err();
+    assert_eq!(error.message, "Invalid tool name: 9bad");
+    assert!(validate_name("a_b-C9"));
+    assert!(!validate_name(&"a".repeat(65)));
+}
+
+#[tokio::test]
+async fn failures_become_error_results() {
+    let registry = ToolRegistry::new(Arc::new(PassthroughBounder));
+    let _r = registry
+        .register(vec![("echo".into(), Arc::new(Echo("e")) as Arc<dyn Tool>)])
+        .unwrap();
+    let settled = registry
+        .materialize(&[])
+        .settle(
+            ExecuteInput {
+                name: "echo".into(),
+                input: json!({}),
+            },
+            &context(),
+        )
+        .await
+        .unwrap();
+    assert_eq!(
+        settled.result,
+        ToolResultValue::error("Invalid tool input: text is required")
+    );
+    assert_eq!(settled.output, None);
+}

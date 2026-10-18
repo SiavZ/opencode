@@ -1,0 +1,415 @@
+{
+  "source": "packages/core/src/database/migration.gen.ts",
+  "schema": [
+    "\n        CREATE TABLE `workspace` (\n          `id` text PRIMARY KEY,\n          `type` text NOT NULL,\n          `name` text DEFAULT '' NOT NULL,\n          `branch` text,\n          `directory` text,\n          `extra` text,\n          `project_id` text NOT NULL,\n          `time_used` integer NOT NULL,\n          CONSTRAINT `fk_workspace_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `data_migration` (\n          `name` text PRIMARY KEY,\n          `time_completed` integer NOT NULL\n        );\n      ",
+    "\n        CREATE TABLE `account_state` (\n          `id` integer PRIMARY KEY,\n          `active_account_id` text,\n          `active_org_id` text,\n          CONSTRAINT `fk_account_state_active_account_id_account_id_fk` FOREIGN KEY (`active_account_id`) REFERENCES `account`(`id`) ON DELETE SET NULL\n        );\n      ",
+    "\n        CREATE TABLE `account` (\n          `id` text PRIMARY KEY,\n          `email` text NOT NULL,\n          `url` text NOT NULL,\n          `access_token` text NOT NULL,\n          `refresh_token` text NOT NULL,\n          `token_expiry` integer,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL\n        );\n      ",
+    "\n        CREATE TABLE `control_account` (\n          `email` text NOT NULL,\n          `url` text NOT NULL,\n          `access_token` text NOT NULL,\n          `refresh_token` text NOT NULL,\n          `token_expiry` integer,\n          `active` integer NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          CONSTRAINT `control_account_pk` PRIMARY KEY(`email`, `url`)\n        );\n      ",
+    "\n        CREATE TABLE `credential` (\n          `id` text PRIMARY KEY,\n          `integration_id` text,\n          `label` text NOT NULL,\n          `value` text NOT NULL,\n          `connector_id` text,\n          `method_id` text,\n          `active` integer,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL\n        );\n      ",
+    "\n        CREATE TABLE `event_sequence` (\n          `aggregate_id` text PRIMARY KEY,\n          `seq` integer NOT NULL,\n          `owner_id` text\n        );\n      ",
+    "\n        CREATE TABLE `event` (\n          `id` text PRIMARY KEY,\n          `aggregate_id` text NOT NULL,\n          `seq` integer NOT NULL,\n          `type` text NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_event_aggregate_id_event_sequence_aggregate_id_fk` FOREIGN KEY (`aggregate_id`) REFERENCES `event_sequence`(`aggregate_id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `permission` (\n          `id` text PRIMARY KEY,\n          `project_id` text NOT NULL,\n          `action` text NOT NULL,\n          `resource` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          CONSTRAINT `fk_permission_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `project_directory` (\n          `project_id` text NOT NULL,\n          `directory` text NOT NULL,\n          `type` text,\n          `strategy` text,\n          `time_created` integer NOT NULL,\n          CONSTRAINT `project_directory_pk` PRIMARY KEY(`project_id`, `directory`),\n          CONSTRAINT `fk_project_directory_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `project` (\n          `id` text PRIMARY KEY,\n          `worktree` text NOT NULL,\n          `vcs` text,\n          `name` text,\n          `icon_url` text,\n          `icon_url_override` text,\n          `icon_color` text,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `time_initialized` integer,\n          `sandboxes` text NOT NULL,\n          `commands` text\n        );\n      ",
+    "\n        CREATE TABLE `message` (\n          `id` text PRIMARY KEY,\n          `session_id` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_message_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `part` (\n          `id` text PRIMARY KEY,\n          `message_id` text NOT NULL,\n          `session_id` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_part_message_id_message_id_fk` FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `session_context_epoch` (\n          `session_id` text PRIMARY KEY,\n          `baseline` text NOT NULL,\n          `snapshot` text NOT NULL,\n          `baseline_seq` integer NOT NULL,\n          CONSTRAINT `fk_session_context_epoch_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `session_input` (\n          `id` text PRIMARY KEY,\n          `session_id` text NOT NULL,\n          `prompt` text NOT NULL,\n          `delivery` text NOT NULL,\n          `admitted_seq` integer NOT NULL,\n          `promoted_seq` integer,\n          `time_created` integer NOT NULL,\n          CONSTRAINT `fk_session_input_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `session_message` (\n          `id` text PRIMARY KEY,\n          `session_id` text NOT NULL,\n          `type` text NOT NULL,\n          `seq` integer NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_session_message_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `session` (\n          `id` text PRIMARY KEY,\n          `project_id` text NOT NULL,\n          `workspace_id` text,\n          `parent_id` text,\n          `slug` text NOT NULL,\n          `directory` text NOT NULL,\n          `path` text,\n          `title` text NOT NULL,\n          `version` text NOT NULL,\n          `share_url` text,\n          `summary_additions` integer,\n          `summary_deletions` integer,\n          `summary_files` integer,\n          `summary_diffs` text,\n          `metadata` text,\n          `cost` real DEFAULT 0 NOT NULL,\n          `tokens_input` integer DEFAULT 0 NOT NULL,\n          `tokens_output` integer DEFAULT 0 NOT NULL,\n          `tokens_reasoning` integer DEFAULT 0 NOT NULL,\n          `tokens_cache_read` integer DEFAULT 0 NOT NULL,\n          `tokens_cache_write` integer DEFAULT 0 NOT NULL,\n          `revert` text,\n          `permission` text,\n          `agent` text,\n          `model` text,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `time_compacting` integer,\n          `time_archived` integer,\n          CONSTRAINT `fk_session_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `todo` (\n          `session_id` text NOT NULL,\n          `content` text NOT NULL,\n          `status` text NOT NULL,\n          `priority` text NOT NULL,\n          `position` integer NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          CONSTRAINT `todo_pk` PRIMARY KEY(`session_id`, `position`),\n          CONSTRAINT `fk_todo_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "\n        CREATE TABLE `session_share` (\n          `session_id` text PRIMARY KEY,\n          `id` text NOT NULL,\n          `secret` text NOT NULL,\n          `url` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          CONSTRAINT `fk_session_share_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+    "CREATE UNIQUE INDEX `event_aggregate_seq_idx` ON `event` (`aggregate_id`,`seq`);",
+    "CREATE INDEX `event_aggregate_type_seq_idx` ON `event` (`aggregate_id`,`type`,`seq`);",
+    "CREATE UNIQUE INDEX `permission_project_action_resource_idx` ON `permission` (`project_id`,`action`,`resource`);",
+    "CREATE INDEX `message_session_time_created_id_idx` ON `message` (`session_id`,`time_created`,`id`);",
+    "CREATE INDEX `part_message_id_id_idx` ON `part` (`message_id`,`id`);",
+    "CREATE INDEX `part_session_idx` ON `part` (`session_id`);",
+    "CREATE INDEX `session_input_session_pending_delivery_seq_idx` ON `session_input` (`session_id`,`promoted_seq`,`delivery`,`admitted_seq`);",
+    "CREATE UNIQUE INDEX `session_input_session_admitted_seq_idx` ON `session_input` (`session_id`,`admitted_seq`);",
+    "CREATE UNIQUE INDEX `session_input_session_promoted_seq_idx` ON `session_input` (`session_id`,`promoted_seq`);",
+    "CREATE UNIQUE INDEX `session_message_session_seq_idx` ON `session_message` (`session_id`,`seq`);",
+    "CREATE INDEX `session_message_session_type_seq_idx` ON `session_message` (`session_id`,`type`,`seq`);",
+    "CREATE INDEX `session_message_session_time_created_id_idx` ON `session_message` (`session_id`,`time_created`,`id`);",
+    "CREATE INDEX `session_message_time_created_idx` ON `session_message` (`time_created`);",
+    "CREATE INDEX `session_project_idx` ON `session` (`project_id`);",
+    "CREATE INDEX `session_workspace_idx` ON `session` (`workspace_id`);",
+    "CREATE INDEX `session_parent_idx` ON `session` (`parent_id`);",
+    "CREATE INDEX `todo_session_idx` ON `todo` (`session_id`);"
+  ],
+  "migrations": [
+    {
+      "id": "20260127222353_familiar_lady_ursula",
+      "statements": [
+        "\n        CREATE TABLE `project` (\n          `id` text PRIMARY KEY,\n          `worktree` text NOT NULL,\n          `vcs` text,\n          `name` text,\n          `icon_url` text,\n          `icon_color` text,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `time_initialized` integer,\n          `sandboxes` text NOT NULL\n        );\n      ",
+        "\n        CREATE TABLE `message` (\n          `id` text PRIMARY KEY,\n          `session_id` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_message_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "\n        CREATE TABLE `part` (\n          `id` text PRIMARY KEY,\n          `message_id` text NOT NULL,\n          `session_id` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_part_message_id_message_id_fk` FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "\n        CREATE TABLE `permission` (\n          `project_id` text PRIMARY KEY,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_permission_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "\n        CREATE TABLE `session` (\n          `id` text PRIMARY KEY,\n          `project_id` text NOT NULL,\n          `parent_id` text,\n          `slug` text NOT NULL,\n          `directory` text NOT NULL,\n          `title` text NOT NULL,\n          `version` text NOT NULL,\n          `share_url` text,\n          `summary_additions` integer,\n          `summary_deletions` integer,\n          `summary_files` integer,\n          `summary_diffs` text,\n          `revert` text,\n          `permission` text,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `time_compacting` integer,\n          `time_archived` integer,\n          CONSTRAINT `fk_session_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "\n        CREATE TABLE `todo` (\n          `session_id` text NOT NULL,\n          `content` text NOT NULL,\n          `status` text NOT NULL,\n          `priority` text NOT NULL,\n          `position` integer NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          CONSTRAINT `todo_pk` PRIMARY KEY(`session_id`, `position`),\n          CONSTRAINT `fk_todo_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "\n        CREATE TABLE `session_share` (\n          `session_id` text PRIMARY KEY,\n          `id` text NOT NULL,\n          `secret` text NOT NULL,\n          `url` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          CONSTRAINT `fk_session_share_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "CREATE INDEX `message_session_idx` ON `message` (`session_id`);",
+        "CREATE INDEX `part_message_idx` ON `part` (`message_id`);",
+        "CREATE INDEX `part_session_idx` ON `part` (`session_id`);",
+        "CREATE INDEX `session_project_idx` ON `session` (`project_id`);",
+        "CREATE INDEX `session_parent_idx` ON `session` (`parent_id`);",
+        "CREATE INDEX `todo_session_idx` ON `todo` (`session_id`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260211171708_add_project_commands",
+      "statements": [
+        "ALTER TABLE `project` ADD `commands` text;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260213144116_wakeful_the_professor",
+      "statements": [
+        "\n        CREATE TABLE `control_account` (\n          `email` text NOT NULL,\n          `url` text NOT NULL,\n          `access_token` text NOT NULL,\n          `refresh_token` text NOT NULL,\n          `token_expiry` integer,\n          `active` integer NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          CONSTRAINT `control_account_pk` PRIMARY KEY(`email`, `url`)\n        );\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260225215848_workspace",
+      "statements": [
+        "\n        CREATE TABLE `workspace` (\n          `id` text PRIMARY KEY,\n          `branch` text,\n          `project_id` text NOT NULL,\n          `config` text NOT NULL,\n          CONSTRAINT `fk_workspace_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260227213759_add_session_workspace_id",
+      "statements": [
+        "ALTER TABLE `session` ADD `workspace_id` text;",
+        "CREATE INDEX `session_workspace_idx` ON `session` (`workspace_id`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260228203230_blue_harpoon",
+      "statements": [
+        "\n        CREATE TABLE `account` (\n          `id` text PRIMARY KEY,\n          `email` text NOT NULL,\n          `url` text NOT NULL,\n          `access_token` text NOT NULL,\n          `refresh_token` text NOT NULL,\n          `token_expiry` integer,\n          `selected_org_id` text,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL\n        );\n      ",
+        "\n        CREATE TABLE `account_state` (\n          `id` integer PRIMARY KEY NOT NULL,\n          `active_account_id` text,\n          FOREIGN KEY (`active_account_id`) REFERENCES `account`(`id`) ON UPDATE no action ON DELETE set null\n        );\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260303231226_add_workspace_fields",
+      "statements": [
+        "ALTER TABLE `workspace` ADD `type` text NOT NULL;",
+        "ALTER TABLE `workspace` ADD `name` text;",
+        "ALTER TABLE `workspace` ADD `directory` text;",
+        "ALTER TABLE `workspace` ADD `extra` text;",
+        "ALTER TABLE `workspace` DROP COLUMN `config`;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260309230000_move_org_to_state",
+      "statements": [
+        "ALTER TABLE `account_state` ADD `active_org_id` text;",
+        "UPDATE `account_state` SET `active_org_id` = (SELECT `selected_org_id` FROM `account` WHERE `account`.`id` = `account_state`.`active_account_id`);",
+        "ALTER TABLE `account` DROP COLUMN `selected_org_id`;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260312043431_session_message_cursor",
+      "statements": [
+        "DROP INDEX IF EXISTS `message_session_idx`;",
+        "DROP INDEX IF EXISTS `part_message_idx`;",
+        "CREATE INDEX `message_session_time_created_id_idx` ON `message` (`session_id`,`time_created`,`id`);",
+        "CREATE INDEX `part_message_id_id_idx` ON `part` (`message_id`,`id`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260323234822_events",
+      "statements": [
+        "\n        CREATE TABLE `event_sequence` (\n          `aggregate_id` text PRIMARY KEY,\n          `seq` integer NOT NULL\n        );\n      ",
+        "\n        CREATE TABLE `event` (\n          `id` text PRIMARY KEY,\n          `aggregate_id` text NOT NULL,\n          `seq` integer NOT NULL,\n          `type` text NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_event_aggregate_id_event_sequence_aggregate_id_fk` FOREIGN KEY (`aggregate_id`) REFERENCES `event_sequence`(`aggregate_id`) ON DELETE CASCADE\n        );\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260410174513_workspace-name",
+      "statements": [
+        "PRAGMA foreign_keys=OFF;",
+        "\n        CREATE TABLE `__new_workspace` (\n          `id` text PRIMARY KEY,\n          `type` text NOT NULL,\n          `name` text DEFAULT '' NOT NULL,\n          `branch` text,\n          `directory` text,\n          `extra` text,\n          `project_id` text NOT NULL,\n          CONSTRAINT `fk_workspace_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "INSERT INTO `__new_workspace`(`id`, `type`, `branch`, `name`, `directory`, `extra`, `project_id`) SELECT `id`, `type`, `branch`, '', `directory`, `extra`, `project_id` FROM `workspace`;",
+        "DROP TABLE `workspace`;",
+        "ALTER TABLE `__new_workspace` RENAME TO `workspace`;",
+        "PRAGMA foreign_keys=ON;"
+      ],
+      "probes": [
+        "PRAGMA table_info(`workspace`)"
+      ]
+    },
+    {
+      "id": "20260413175956_chief_energizer",
+      "statements": [
+        "\n        CREATE TABLE `session_entry` (\n          `id` text PRIMARY KEY,\n          `session_id` text NOT NULL,\n          `type` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_session_entry_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "CREATE INDEX `session_entry_session_idx` ON `session_entry` (`session_id`);",
+        "CREATE INDEX `session_entry_session_type_idx` ON `session_entry` (`session_id`,`type`);",
+        "CREATE INDEX `session_entry_time_created_idx` ON `session_entry` (`time_created`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260423070820_add_icon_url_override",
+      "statements": [
+        "\n        ALTER TABLE `project` ADD `icon_url_override` text;\n        UPDATE `project` SET `icon_url_override` = `icon_url` WHERE `icon_url` IS NOT NULL;\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260427172553_slow_nightmare",
+      "statements": [
+        "\n        CREATE TABLE `session_message` (\n          `id` text PRIMARY KEY,\n          `session_id` text NOT NULL,\n          `type` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          `data` text NOT NULL,\n          CONSTRAINT `fk_session_message_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "DROP INDEX IF EXISTS `session_entry_session_idx`;",
+        "DROP INDEX IF EXISTS `session_entry_session_type_idx`;",
+        "DROP INDEX IF EXISTS `session_entry_time_created_idx`;",
+        "CREATE INDEX `session_message_session_idx` ON `session_message` (`session_id`);",
+        "CREATE INDEX `session_message_session_type_idx` ON `session_message` (`session_id`,`type`);",
+        "CREATE INDEX `session_message_time_created_idx` ON `session_message` (`time_created`);",
+        "DROP TABLE `session_entry`;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260428004200_add_session_path",
+      "statements": [
+        "ALTER TABLE `session` ADD `path` text;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260501142318_next_venus",
+      "statements": [
+        "ALTER TABLE `session` ADD `agent` text;",
+        "ALTER TABLE `session` ADD `model` text;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260504145000_add_sync_owner",
+      "statements": [
+        "ALTER TABLE `event_sequence` ADD `owner_id` text;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260507164347_add_workspace_time",
+      "statements": [
+        "ALTER TABLE `workspace` ADD `time_used` integer NOT NULL DEFAULT 0;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260510033149_session_usage",
+      "statements": [
+        "ALTER TABLE `session` ADD `cost` real DEFAULT 0 NOT NULL;",
+        "ALTER TABLE `session` ADD `tokens_input` integer DEFAULT 0 NOT NULL;",
+        "ALTER TABLE `session` ADD `tokens_output` integer DEFAULT 0 NOT NULL;",
+        "ALTER TABLE `session` ADD `tokens_reasoning` integer DEFAULT 0 NOT NULL;",
+        "ALTER TABLE `session` ADD `tokens_cache_read` integer DEFAULT 0 NOT NULL;",
+        "ALTER TABLE `session` ADD `tokens_cache_write` integer DEFAULT 0 NOT NULL;",
+        "\n        UPDATE session\n        SET\n          cost = coalesce((\n            SELECT sum(coalesce(json_extract(message.data, '$.cost'), 0))\n            FROM message\n            WHERE message.session_id = session.id\n              AND json_extract(message.data, '$.role') = 'assistant'\n          ), 0),\n          tokens_input = coalesce((\n            SELECT sum(coalesce(json_extract(message.data, '$.tokens.input'), 0))\n            FROM message\n            WHERE message.session_id = session.id\n              AND json_extract(message.data, '$.role') = 'assistant'\n          ), 0),\n          tokens_output = coalesce((\n            SELECT sum(coalesce(json_extract(message.data, '$.tokens.output'), 0))\n            FROM message\n            WHERE message.session_id = session.id\n              AND json_extract(message.data, '$.role') = 'assistant'\n          ), 0),\n          tokens_reasoning = coalesce((\n            SELECT sum(coalesce(json_extract(message.data, '$.tokens.reasoning'), 0))\n            FROM message\n            WHERE message.session_id = session.id\n              AND json_extract(message.data, '$.role') = 'assistant'\n          ), 0),\n          tokens_cache_read = coalesce((\n            SELECT sum(coalesce(json_extract(message.data, '$.tokens.cache.read'), 0))\n            FROM message\n            WHERE message.session_id = session.id\n              AND json_extract(message.data, '$.role') = 'assistant'\n          ), 0),\n          tokens_cache_write = coalesce((\n            SELECT sum(coalesce(json_extract(message.data, '$.tokens.cache.write'), 0))\n            FROM message\n            WHERE message.session_id = session.id\n              AND json_extract(message.data, '$.role') = 'assistant'\n          ), 0)\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260511000411_data_migration_state",
+      "statements": [
+        "\n        CREATE TABLE `data_migration` (\n          `name` text PRIMARY KEY,\n          `time_completed` integer NOT NULL\n        );\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260511173437_session-metadata",
+      "statements": [
+        "ALTER TABLE `session` ADD `metadata` text;"
+      ],
+      "probes": [
+        "PRAGMA table_info(`session`)"
+      ]
+    },
+    {
+      "id": "20260601010001_normalize_storage_paths",
+      "statements": [
+        "UPDATE project SET worktree = REPLACE(worktree, char(92), '/') WHERE worktree GLOB '[A-Za-z]:' || char(92) || '*' OR worktree LIKE char(92) || char(92) || '%';",
+        "UPDATE project SET sandboxes = REPLACE(sandboxes, char(92) || char(92), '/') WHERE instr(sandboxes, char(92)) > 0 AND (worktree GLOB '[A-Za-z]:*' OR worktree LIKE '//%');",
+        "UPDATE session SET directory = REPLACE(directory, char(92), '/') WHERE directory GLOB '[A-Za-z]:' || char(92) || '*' OR directory LIKE char(92) || char(92) || '%';",
+        "UPDATE session SET path = REPLACE(path, char(92), '/') WHERE path IS NOT NULL AND instr(path, char(92)) > 0 AND (directory GLOB '[A-Za-z]:*' OR directory LIKE '//%');"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260601202201_amazing_prowler",
+      "statements": [
+        "DROP TABLE `permission`;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260602002951_lowly_union_jack",
+      "statements": [
+        "\n        CREATE TABLE `permission` (\n          `id` text PRIMARY KEY,\n          `project_id` text NOT NULL,\n          `action` text NOT NULL,\n          `resource` text NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL,\n          CONSTRAINT `fk_permission_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "CREATE UNIQUE INDEX `permission_project_action_resource_idx` ON `permission` (`project_id`,`action`,`resource`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260602182828_add_project_directories",
+      "statements": [
+        "\n        CREATE TABLE `project_directory` (\n          `project_id` text NOT NULL,\n          `directory` text NOT NULL,\n          `type` text NOT NULL,\n          `time_created` integer NOT NULL,\n          CONSTRAINT `project_directory_pk` PRIMARY KEY(`project_id`, `directory`),\n          CONSTRAINT `fk_project_directory_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260603001617_session_message_projection_indexes",
+      "statements": [
+        "DROP INDEX IF EXISTS `session_message_session_idx`;",
+        "DROP INDEX IF EXISTS `session_message_session_type_idx`;",
+        "CREATE INDEX `event_aggregate_seq_idx` ON `event` (`aggregate_id`,`seq`);",
+        "CREATE INDEX `session_message_session_time_created_id_idx` ON `session_message` (`session_id`,`time_created`,`id`);",
+        "CREATE INDEX `session_message_session_type_time_created_id_idx` ON `session_message` (`session_id`,`type`,`time_created`,`id`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260603040000_session_message_projection_order",
+      "statements": [
+        "DELETE FROM `session_message`;",
+        "ALTER TABLE `session_message` ADD COLUMN `seq` integer NOT NULL;",
+        "DROP INDEX IF EXISTS `session_message_session_type_time_created_id_idx`;",
+        "CREATE INDEX `session_message_session_seq_idx` ON `session_message` (`session_id`,`seq`);",
+        "CREATE INDEX `session_message_session_type_seq_idx` ON `session_message` (`session_id`,`type`,`seq`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260603141458_session_input_inbox",
+      "statements": [
+        "\n        CREATE TABLE `session_input` (\n          `seq` integer PRIMARY KEY AUTOINCREMENT,\n          `id` text NOT NULL UNIQUE,\n          `session_id` text NOT NULL,\n          `prompt` text NOT NULL,\n          `delivery` text NOT NULL,\n          `promoted_seq` integer,\n          `time_created` integer NOT NULL,\n          CONSTRAINT `fk_session_input_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "CREATE INDEX `session_input_session_pending_seq_idx` ON `session_input` (`session_id`,`promoted_seq`,`seq`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260603160727_jittery_ezekiel_stane",
+      "statements": [
+        "DROP INDEX IF EXISTS `session_input_session_pending_seq_idx`;",
+        "CREATE INDEX IF NOT EXISTS `event_aggregate_type_seq_idx` ON `event` (`aggregate_id`,`type`,`seq`);",
+        "CREATE INDEX IF NOT EXISTS `session_input_session_pending_delivery_seq_idx` ON `session_input` (`session_id`,`promoted_seq`,`delivery`,`seq`);",
+        "CREATE INDEX IF NOT EXISTS `session_message_session_time_created_id_idx` ON `session_message` (`session_id`,`time_created`,`id`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260604172448_event_sourced_session_input",
+      "statements": [
+        "DELETE FROM `session_input`;",
+        "DELETE FROM `session_message`;",
+        "DELETE FROM `event`;",
+        "DELETE FROM `event_sequence`;",
+        "UPDATE `session` SET `workspace_id` = NULL;",
+        "DELETE FROM `workspace`;",
+        "DROP INDEX IF EXISTS `event_aggregate_seq_idx`;",
+        "CREATE UNIQUE INDEX `event_aggregate_seq_idx` ON `event` (`aggregate_id`,`seq`);",
+        "DROP INDEX IF EXISTS `session_message_session_seq_idx`;",
+        "CREATE UNIQUE INDEX `session_message_session_seq_idx` ON `session_message` (`session_id`,`seq`);",
+        "PRAGMA foreign_keys=OFF;",
+        "\n        CREATE TABLE `__new_session_input` (\n          `id` text PRIMARY KEY,\n          `session_id` text NOT NULL,\n          `prompt` text NOT NULL,\n          `delivery` text NOT NULL,\n          `admitted_seq` integer NOT NULL,\n          `promoted_seq` integer,\n          `time_created` integer NOT NULL,\n          CONSTRAINT `fk_session_input_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "DROP TABLE `session_input`;",
+        "ALTER TABLE `__new_session_input` RENAME TO `session_input`;",
+        "PRAGMA foreign_keys=ON;",
+        "CREATE INDEX `session_input_session_pending_delivery_seq_idx` ON `session_input` (`session_id`,`promoted_seq`,`delivery`,`admitted_seq`);",
+        "CREATE UNIQUE INDEX `session_input_session_admitted_seq_idx` ON `session_input` (`session_id`,`admitted_seq`);",
+        "CREATE UNIQUE INDEX `session_input_session_promoted_seq_idx` ON `session_input` (`session_id`,`promoted_seq`);"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260605003541_add_session_context_snapshot",
+      "statements": [
+        "\n        CREATE TABLE `session_context_epoch` (\n          `session_id` text PRIMARY KEY,\n          `baseline` text NOT NULL,\n          `snapshot` text NOT NULL,\n          `baseline_seq` integer NOT NULL,\n          `replacement_seq` integer,\n          `revision` integer DEFAULT 0 NOT NULL,\n          CONSTRAINT `fk_session_context_epoch_session_id_session_id_fk` FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE\n        );\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260605042240_add_context_epoch_agent",
+      "statements": [
+        "ALTER TABLE `session_context_epoch` ADD `agent` text DEFAULT 'build' NOT NULL;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260611035744_credential",
+      "statements": [
+        "\n        CREATE TABLE `credential` (\n          `id` text PRIMARY KEY,\n          `connector_id` text NOT NULL,\n          `method_id` text NOT NULL,\n          `label` text NOT NULL,\n          `value` text NOT NULL,\n          `active` integer DEFAULT false NOT NULL,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL\n        );\n      ",
+        "CREATE UNIQUE INDEX `credential_connector_active_idx` ON `credential` (`connector_id`) WHERE \"credential\".\"active\" = 1;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260611192811_lush_chimera",
+      "statements": [
+        "DROP INDEX IF EXISTS `credential_connector_active_idx`;",
+        "DROP TABLE `credential`;",
+        "\n        CREATE TABLE `credential` (\n          `id` text PRIMARY KEY,\n          `integration_id` text,\n          `label` text NOT NULL,\n          `value` text NOT NULL,\n          `connector_id` text,\n          `method_id` text,\n          `active` integer,\n          `time_created` integer NOT NULL,\n          `time_updated` integer NOT NULL\n        );\n      "
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260612174303_project_dir_strategy",
+      "statements": [
+        "ALTER TABLE `project_directory` ADD `strategy` text;",
+        "PRAGMA foreign_keys=OFF;",
+        "\n        CREATE TABLE `__new_project_directory` (\n          `project_id` text NOT NULL,\n          `directory` text NOT NULL,\n          `type` text,\n          `strategy` text,\n          `time_created` integer NOT NULL,\n          CONSTRAINT `project_directory_pk` PRIMARY KEY(`project_id`, `directory`),\n          CONSTRAINT `fk_project_directory_project_id_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE\n        );\n      ",
+        "INSERT INTO `__new_project_directory`(`project_id`, `directory`, `type`, `time_created`) SELECT `project_id`, `directory`, `type`, `time_created` FROM `project_directory`;",
+        "DROP TABLE `project_directory`;",
+        "ALTER TABLE `__new_project_directory` RENAME TO `project_directory`;",
+        "PRAGMA foreign_keys=ON;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260622142730_simplify_session_context_epoch",
+      "statements": [
+        "ALTER TABLE `session_context_epoch` DROP COLUMN `agent`;",
+        "ALTER TABLE `session_context_epoch` DROP COLUMN `replacement_seq`;",
+        "ALTER TABLE `session_context_epoch` DROP COLUMN `revision`;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260622170816_reset_v2_session_state",
+      "statements": [
+        "DELETE FROM `session_context_epoch`;",
+        "DELETE FROM `session_input`;",
+        "DELETE FROM `session_message`;",
+        "DELETE FROM `event`;",
+        "DELETE FROM `event_sequence`;",
+        "UPDATE `session` SET `workspace_id` = NULL WHERE `workspace_id` IS NOT NULL;",
+        "DELETE FROM `workspace`;"
+      ],
+      "probes": []
+    },
+    {
+      "id": "20260622202450_simplify_session_input",
+      "statements": [
+        "DELETE FROM `session_context_epoch`;",
+        "DELETE FROM `session_input`;",
+        "DELETE FROM `session_message`;",
+        "DELETE FROM `event`;",
+        "DELETE FROM `event_sequence`;",
+        "UPDATE `session` SET `workspace_id` = NULL WHERE `workspace_id` IS NOT NULL;",
+        "DELETE FROM `workspace`;"
+      ],
+      "probes": []
+    }
+  ]
+}

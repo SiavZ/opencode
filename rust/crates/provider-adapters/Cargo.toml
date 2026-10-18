@@ -1,0 +1,46 @@
+[package]
+name = "opencode-provider-adapters"
+description = "Rust-owned provider protocol adapters, transports, auth, catalog and model resolution. Owner: Phase 03."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_provider_adapters"
+
+[dependencies]
+opencode-llm-api.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+indexmap.workspace = true
+futures.workspace = true
+async-stream.workspace = true
+bytes.workspace = true
+url.workspace = true
+regex.workspace = true
+base64.workspace = true
+sha2.workspace = true
+hmac.workspace = true
+hex.workspace = true
+rand.workspace = true
+time.workspace = true
+tracing.workspace = true
+tokio = { workspace = true, features = ["rt", "time", "sync", "macros", "net", "process"] }
+tokio-util.workspace = true
+reqwest = { workspace = true, features = ["rustls", "stream", "http2", "json"] }
+tokio-tungstenite = { workspace = true, features = ["rustls-tls-native-roots"] }
+http.workspace = true
+aws-sigv4.workspace = true
+aws-credential-types.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "time", "test-util"] }
+wiremock.workspace = true
+pretty_assertions.workspace = true
+tempfile.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,20 @@
+[package]
+name = "opencode-integration-api"
+description = "MCP, language-server and plugin hook contracts. No SDK, server or process code. Owner: Phase 07."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_integration_api"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+
+[lints]
+workspace = true

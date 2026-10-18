@@ -1,0 +1,50 @@
+[package]
+name = "opencode-server"
+description = "axum HTTP/SSE/WebSocket server translating protocol operations to injected services. Owner: Phase 06."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_server"
+
+[dependencies]
+opencode-schema.workspace = true
+opencode-protocol.workspace = true
+opencode-session-api.workspace = true
+opencode-event-api.workspace = true
+opencode-platform-api.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+async-trait.workspace = true
+base64.workspace = true
+bytes.workspace = true
+flate2.workspace = true
+form_urlencoded.workspace = true
+percent-encoding.workspace = true
+uuid.workspace = true
+futures-util.workspace = true
+http-body-util.workspace = true
+tokio = { workspace = true, features = ["rt", "net", "sync", "time", "macros"] }
+tokio-util = { workspace = true, features = ["rt"] }
+axum.workspace = true
+http.workspace = true
+tower.workspace = true
+hyper = { workspace = true, features = ["server", "http1"] }
+hyper-util = { workspace = true, features = ["server", "server-auto", "server-graceful", "service", "http1", "http2", "tokio"] }
+reqwest = { workspace = true, features = ["rustls", "stream", "json"] }
+
+[dev-dependencies]
+tokio-tungstenite.workspace = true
+regex.workspace = true
+sha2.workspace = true
+tempfile.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "test-util"] }
+reqwest = { workspace = true, features = ["rustls", "stream", "json"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,384 @@
+{
+  "parse": {
+    "invalid": {
+      "text": "{ invalid json }",
+      "value": {},
+      "errors": [
+        {
+          "error": 1,
+          "offset": 2,
+          "length": 7
+        },
+        {
+          "error": 1,
+          "offset": 10,
+          "length": 4
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ invalid json }\n--- Errors ---\nInvalidSymbol at line 1, column 3\n   Line 1: { invalid json }\n            ^\nInvalidSymbol at line 1, column 11\n   Line 1: { invalid json }\n                    ^\n--- End ---"
+    },
+    "invalid_brace": {
+      "text": "{ invalid",
+      "value": {},
+      "errors": [
+        {
+          "error": 1,
+          "offset": 2,
+          "length": 7
+        },
+        {
+          "error": 7,
+          "offset": 9,
+          "length": 0
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ invalid\n--- Errors ---\nInvalidSymbol at line 1, column 3\n   Line 1: { invalid\n            ^\nCloseBraceExpected at line 1, column 10\n   Line 1: { invalid\n                   ^\n--- End ---"
+    },
+    "trailing": {
+      "text": "{ \"a\": 1, }",
+      "value": {
+        "a": 1
+      },
+      "errors": [],
+      "message": null
+    },
+    "comments": {
+      "text": "{\n  // c\n  \"a\": /* x */ 1,\n  \"b\": [1, 2,],\n}",
+      "value": {
+        "a": 1,
+        "b": [
+          1,
+          2
+        ]
+      },
+      "errors": [],
+      "message": null
+    },
+    "unicode": {
+      "text": "{ \"é\": \"ü\", \"k\": 1 x }",
+      "value": {
+        "é": "ü",
+        "k": 1
+      },
+      "errors": [
+        {
+          "error": 1,
+          "offset": 19,
+          "length": 1
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ \"é\": \"ü\", \"k\": 1 x }\n--- Errors ---\nInvalidSymbol at line 1, column 20\n   Line 1: { \"é\": \"ü\", \"k\": 1 x }\n                             ^\n--- End ---"
+    },
+    "missing_colon": {
+      "text": "{ \"a\" 1, \"b\": 2 }",
+      "value": {
+        "b": 2
+      },
+      "errors": [
+        {
+          "error": 5,
+          "offset": 6,
+          "length": 1
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ \"a\" 1, \"b\": 2 }\n--- Errors ---\nColonExpected at line 1, column 7\n   Line 1: { \"a\" 1, \"b\": 2 }\n                ^\n--- End ---"
+    },
+    "unterminated": {
+      "text": "{ \"a\": \"abc\n}",
+      "value": {
+        "a": "abc"
+      },
+      "errors": [
+        {
+          "error": 12,
+          "offset": 7,
+          "length": 4
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ \"a\": \"abc\n}\n--- Errors ---\nUnexpectedEndOfString at line 1, column 8\n   Line 1: { \"a\": \"abc\n                 ^\n--- End ---"
+    },
+    "empty": {
+      "text": "",
+      "value": null,
+      "errors": [
+        {
+          "error": 4,
+          "offset": 0,
+          "length": 0
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n\n--- Errors ---\nValueExpected at line 1, column 1\n--- End ---"
+    },
+    "numbers": {
+      "text": "{ \"a\": 1.5e3, \"b\": -0, \"c\": 10000000000000000000, \"d\": 1., \"e\": 01 }",
+      "value": {
+        "a": 1500,
+        "b": 0,
+        "c": 10000000000000000000,
+        "d": 1,
+        "e": 0
+      },
+      "errors": [
+        {
+          "error": 13,
+          "offset": 55,
+          "length": 2
+        },
+        {
+          "error": 6,
+          "offset": 65,
+          "length": 1
+        },
+        {
+          "error": 3,
+          "offset": 65,
+          "length": 1
+        },
+        {
+          "error": 4,
+          "offset": 67,
+          "length": 1
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ \"a\": 1.5e3, \"b\": -0, \"c\": 10000000000000000000, \"d\": 1., \"e\": 01 }\n--- Errors ---\nUnexpectedEndOfNumber at line 1, column 56\n   Line 1: { \"a\": 1.5e3, \"b\": -0, \"c\": 10000000000000000000, \"d\": 1., \"e\": 01 }\n                                                                 ^\nCommaExpected at line 1, column 66\n   Line 1: { \"a\": 1.5e3, \"b\": -0, \"c\": 10000000000000000000, \"d\": 1., \"e\": 01 }\n                                                                           ^\nPropertyNameExpected at line 1, column 66\n   Line 1: { \"a\": 1.5e3, \"b\": -0, \"c\": 10000000000000000000, \"d\": 1., \"e\": 01 }\n                                                                           ^\nValueExpected at line 1, column 68\n   Line 1: { \"a\": 1.5e3, \"b\": -0, \"c\": 10000000000000000000, \"d\": 1., \"e\": 01 }\n                                                                             ^\n--- End ---"
+    },
+    "dup": {
+      "text": "{ \"a\": 1, \"b\": 2, \"a\": 3 }",
+      "value": {
+        "a": 3,
+        "b": 2
+      },
+      "errors": [],
+      "message": null
+    },
+    "escapes": {
+      "text": "{ \"a\": \"\\u00e9\\n\\t\\\"\", \"b\": \"\\x\" }",
+      "value": {
+        "a": "é\n\t\"",
+        "b": ""
+      },
+      "errors": [
+        {
+          "error": 15,
+          "offset": 28,
+          "length": 4
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ \"a\": \"\\u00e9\\n\\t\\\"\", \"b\": \"\\x\" }\n--- Errors ---\nInvalidEscapeCharacter at line 1, column 29\n   Line 1: { \"a\": \"\\u00e9\\n\\t\\\"\", \"b\": \"\\x\" }\n                                      ^\n--- End ---"
+    },
+    "block": {
+      "text": "{ /* never closed",
+      "value": {},
+      "errors": [
+        {
+          "error": 11,
+          "offset": 2,
+          "length": 15
+        },
+        {
+          "error": 7,
+          "offset": 17,
+          "length": 0
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ /* never closed\n--- Errors ---\nUnexpectedEndOfComment at line 1, column 3\n   Line 1: { /* never closed\n            ^\nCloseBraceExpected at line 1, column 18\n   Line 1: { /* never closed\n                           ^\n--- End ---"
+    },
+    "array_top": {
+      "text": "[1, {\"a\": [true, false, null]}]",
+      "value": [
+        1,
+        {
+          "a": [
+            true,
+            false,
+            null
+          ]
+        }
+      ],
+      "errors": [],
+      "message": null
+    },
+    "emoji_error": {
+      "text": "{ \"😀\": 1 ] }",
+      "value": {
+        "😀": 1
+      },
+      "errors": [
+        {
+          "error": 6,
+          "offset": 10,
+          "length": 1
+        },
+        {
+          "error": 3,
+          "offset": 10,
+          "length": 1
+        },
+        {
+          "error": 4,
+          "offset": 12,
+          "length": 1
+        }
+      ],
+      "message": "\n--- JSONC Input ---\n{ \"😀\": 1 ] }\n--- Errors ---\nCommaExpected at line 1, column 11\n   Line 1: { \"😀\": 1 ] }\n                    ^\nPropertyNameExpected at line 1, column 11\n   Line 1: { \"😀\": 1 ] }\n                    ^\nValueExpected at line 1, column 13\n   Line 1: { \"😀\": 1 ] }\n                      ^\n--- End ---"
+    }
+  },
+  "modify": [
+    {
+      "name": "replace",
+      "text": "{\n  // keep\n  \"shell\": \"bash\",\n  \"model\": \"x\",\n}",
+      "path": [
+        "shell"
+      ],
+      "value": "zsh",
+      "remove": false,
+      "out": "{\n  // keep\n  \"shell\": \"zsh\",\n  \"model\": \"x\",\n}",
+      "error": null
+    },
+    {
+      "name": "remove_first",
+      "text": "{\n  // keep\n  \"shell\": \"bash\",\n  \"model\": \"x\",\n}",
+      "path": [
+        "shell"
+      ],
+      "value": null,
+      "remove": true,
+      "out": "{\n  \"model\": \"x\",\n}",
+      "error": null
+    },
+    {
+      "name": "remove_last",
+      "text": "{\n  \"model\": \"x\",\n  // keep\n  \"shell\": \"bash\"\n}",
+      "path": [
+        "shell"
+      ],
+      "value": null,
+      "remove": true,
+      "out": "{\n  \"model\": \"x\"\n}",
+      "error": null
+    },
+    {
+      "name": "insert",
+      "text": "{\n  \"$schema\": \"s\",\n  // c\n  \"model\": \"x\"\n}",
+      "path": [
+        "username"
+      ],
+      "value": "u",
+      "remove": false,
+      "out": "{\n  \"$schema\": \"s\",\n  // c\n  \"model\": \"x\",\n  \"username\": \"u\"\n}",
+      "error": null
+    },
+    {
+      "name": "insert_nested_missing",
+      "text": "{\n  \"model\": \"x\"\n}",
+      "path": [
+        "agent",
+        "build",
+        "model"
+      ],
+      "value": "m",
+      "remove": false,
+      "out": "{\n  \"model\": \"x\",\n  \"agent\": {\n    \"build\": {\n      \"model\": \"m\"\n    }\n  }\n}",
+      "error": null
+    },
+    {
+      "name": "insert_nested_existing",
+      "text": "{\n  \"agent\": {\n    \"build\": { \"steps\": 3 }\n  }\n}",
+      "path": [
+        "agent",
+        "build",
+        "model"
+      ],
+      "value": "m",
+      "remove": false,
+      "out": "{\n  \"agent\": {\n    \"build\": {\n      \"steps\": 3,\n      \"model\": \"m\"\n    }\n  }\n}",
+      "error": null
+    },
+    {
+      "name": "insert_empty_obj",
+      "text": "{}",
+      "path": [
+        "a"
+      ],
+      "value": {
+        "b": [
+          1,
+          2
+        ]
+      },
+      "remove": false,
+      "out": "{\n  \"a\": {\n    \"b\": [\n      1,\n      2\n    ]\n  }\n}",
+      "error": null
+    },
+    {
+      "name": "empty_doc",
+      "text": "",
+      "path": [
+        "a"
+      ],
+      "value": 1,
+      "remove": false,
+      "out": "{\n  \"a\": 1\n}",
+      "error": null
+    },
+    {
+      "name": "remove_missing",
+      "text": "{ \"a\": 1 }",
+      "path": [
+        "b"
+      ],
+      "value": null,
+      "remove": true,
+      "out": "{ \"a\": 1 }",
+      "error": null
+    },
+    {
+      "name": "replace_object",
+      "text": "{\n  \"mcp\": {\n    \"x\": { \"enabled\": true }\n  }\n}",
+      "path": [
+        "mcp",
+        "x"
+      ],
+      "value": {
+        "enabled": false,
+        "type": "local"
+      },
+      "remove": false,
+      "out": "{\n  \"mcp\": {\n    \"x\": {\n      \"enabled\": false,\n      \"type\": \"local\"\n    }\n  }\n}",
+      "error": null
+    },
+    {
+      "name": "crlf",
+      "text": "{\r\n  \"a\": 1\r\n}",
+      "path": [
+        "b"
+      ],
+      "value": "c",
+      "remove": false,
+      "out": "{\r\n  \"a\": 1,\r\n  \"b\": \"c\"\r\n}",
+      "error": null
+    },
+    {
+      "name": "tabs",
+      "text": "{\n\t\"a\": 1\n}",
+      "path": [
+        "b"
+      ],
+      "value": true,
+      "remove": false,
+      "out": "{\n  \"a\": 1,\n  \"b\": true\n}",
+      "error": null
+    },
+    {
+      "name": "trailing_comment",
+      "text": "{\n  \"a\": 1 // tail\n}",
+      "path": [
+        "b"
+      ],
+      "value": 2,
+      "remove": false,
+      "out": "{\n  \"a\": 1,\n  \"b\": 2 // tail\n}",
+      "error": null
+    }
+  ]
+}

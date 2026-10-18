@@ -1,0 +1,481 @@
+{
+  "family": "legacy-provider",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 119,
+      "id": "provider.list#ok",
+      "operationId": "provider.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/provider",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "all": [
+            {
+              "id": "fixture",
+              "name": "Fixture",
+              "source": "config",
+              "env": [],
+              "options": {
+                "baseURL": "http://127.0.0.1:{DEAD_PORT}/v1",
+                "apiKey": "fixture-placeholder"
+              },
+              "models": {
+                "fixture-model": {
+                  "id": "fixture-model",
+                  "providerID": "fixture",
+                  "api": {
+                    "id": "fixture-model",
+                    "url": "",
+                    "npm": "@ai-sdk/openai-compatible"
+                  },
+                  "name": "Fixture Model",
+                  "family": "",
+                  "capabilities": {
+                    "temperature": false,
+                    "reasoning": false,
+                    "attachment": false,
+                    "toolcall": true,
+                    "input": {
+                      "text": true,
+                      "audio": false,
+                      "image": false,
+                      "video": false,
+                      "pdf": false
+                    },
+                    "output": {
+                      "text": true,
+                      "audio": false,
+                      "image": false,
+                      "video": false,
+                      "pdf": false
+                    },
+                    "interleaved": false
+                  },
+                  "cost": {
+                    "input": 0,
+                    "output": 0,
+                    "cache": {
+                      "read": 0,
+                      "write": 0
+                    }
+                  },
+                  "limit": {
+                    "context": 0,
+                    "output": 0
+                  },
+                  "status": "active",
+                  "options": {},
+                  "headers": {},
+                  "release_date": "",
+                  "variants": {}
+                }
+              }
+            }
+          ],
+          "default": {
+            "fixture": "fixture-model"
+          },
+          "connected": [
+            "fixture"
+          ]
+        }
+      }
+    },
+    {
+      "seq": 120,
+      "id": "provider.auth#ok",
+      "operationId": "provider.auth",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/provider/auth",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "openai": [
+            {
+              "type": "oauth",
+              "label": "ChatGPT Pro/Plus (browser)"
+            },
+            {
+              "type": "oauth",
+              "label": "ChatGPT Pro/Plus (headless)"
+            },
+            {
+              "type": "api",
+              "label": "Manually enter API Key"
+            }
+          ],
+          "github-copilot": [
+            {
+              "type": "oauth",
+              "label": "Login with GitHub Copilot",
+              "prompts": [
+                {
+                  "type": "select",
+                  "key": "deploymentType",
+                  "message": "Select GitHub deployment type",
+                  "options": [
+                    {
+                      "label": "GitHub.com",
+                      "value": "github.com",
+                      "hint": "Public"
+                    },
+                    {
+                      "label": "GitHub Enterprise",
+                      "value": "enterprise",
+                      "hint": "Data residency or self-hosted"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "key": "enterpriseUrl",
+                  "message": "Enter your GitHub Enterprise URL or domain",
+                  "placeholder": "company.ghe.com or https://company.ghe.com",
+                  "when": {
+                    "key": "deploymentType",
+                    "op": "eq",
+                    "value": "enterprise"
+                  }
+                }
+              ]
+            }
+          ],
+          "gitlab": [
+            {
+              "type": "oauth",
+              "label": "GitLab OAuth",
+              "prompts": [
+                {
+                  "type": "text",
+                  "key": "instanceUrl",
+                  "message": "GitLab instance URL",
+                  "placeholder": "https://gitlab.com"
+                }
+              ]
+            },
+            {
+              "type": "api",
+              "label": "GitLab Personal Access Token",
+              "prompts": [
+                {
+                  "type": "text",
+                  "key": "instanceUrl",
+                  "message": "GitLab instance URL",
+                  "placeholder": "https://gitlab.com"
+                }
+              ]
+            }
+          ],
+          "poe": [
+            {
+              "type": "oauth",
+              "label": "Login with Poe (browser)"
+            },
+            {
+              "type": "api",
+              "label": "Manually enter API Key"
+            }
+          ],
+          "cloudflare-workers-ai": [
+            {
+              "type": "api",
+              "label": "API key",
+              "prompts": [
+                {
+                  "type": "text",
+                  "key": "accountId",
+                  "message": "Enter your Cloudflare Account ID",
+                  "placeholder": "e.g. 1234567890abcdef1234567890abcdef"
+                }
+              ]
+            }
+          ],
+          "cloudflare-ai-gateway": [
+            {
+              "type": "api",
+              "label": "Gateway API token",
+              "prompts": [
+                {
+                  "type": "text",
+                  "key": "accountId",
+                  "message": "Enter your Cloudflare Account ID",
+                  "placeholder": "e.g. 1234567890abcdef1234567890abcdef"
+                },
+                {
+                  "type": "text",
+                  "key": "gatewayId",
+                  "message": "Enter your Cloudflare AI Gateway ID",
+                  "placeholder": "e.g. my-gateway"
+                }
+              ]
+            }
+          ],
+          "azure": [
+            {
+              "type": "api",
+              "label": "API key",
+              "prompts": [
+                {
+                  "type": "text",
+                  "key": "resourceName",
+                  "message": "Enter Azure Resource Name",
+                  "placeholder": "e.g. my-models"
+                }
+              ]
+            }
+          ],
+          "digitalocean": [
+            {
+              "type": "oauth",
+              "label": "Login with DigitalOcean"
+            },
+            {
+              "type": "api",
+              "label": "Paste Model Access Key"
+            }
+          ],
+          "snowflake-cortex": [
+            {
+              "type": "oauth",
+              "label": "Login with Snowflake (External Browser)",
+              "prompts": [
+                {
+                  "type": "text",
+                  "key": "account",
+                  "message": "Snowflake Account Identifier",
+                  "placeholder": "myorg-myaccount"
+                },
+                {
+                  "type": "text",
+                  "key": "role",
+                  "message": "Snowflake Role (optional)",
+                  "placeholder": "PUBLIC"
+                }
+              ]
+            },
+            {
+              "type": "api",
+              "label": "Paste PAT or bearer token manually",
+              "prompts": [
+                {
+                  "type": "text",
+                  "key": "account",
+                  "message": "Snowflake Account Identifier",
+                  "placeholder": "myorg-myaccount"
+                }
+              ]
+            }
+          ],
+          "xai": [
+            {
+              "type": "oauth",
+              "label": "SuperGrok Subscription"
+            },
+            {
+              "type": "api",
+              "label": "Manually enter API Key"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seq": 121,
+      "id": "provider.oauth.authorize#ok",
+      "operationId": "provider.oauth.authorize",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/provider/missing-provider/oauth/authorize",
+        "auth": "valid",
+        "body": {
+          "method": 0
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 122,
+      "id": "provider.oauth.authorize#bad-body",
+      "operationId": "provider.oauth.authorize",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/provider/missing-provider/oauth/authorize",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {}
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 123,
+      "id": "provider.oauth.authorize#wrong-type",
+      "operationId": "provider.oauth.authorize",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/provider/missing-provider/oauth/authorize",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {}
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 124,
+      "id": "provider.oauth.callback#ok",
+      "operationId": "provider.oauth.callback",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/provider/missing-provider/oauth/callback",
+        "auth": "valid",
+        "body": {
+          "method": 0,
+          "code": "fixture"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "ProviderAuthOauthMissing",
+          "data": {
+            "providerID": "missing-provider"
+          }
+        }
+      }
+    },
+    {
+      "seq": 125,
+      "id": "provider.oauth.callback#bad-body",
+      "operationId": "provider.oauth.callback",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/provider/missing-provider/oauth/callback",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 126,
+      "id": "provider.oauth.callback#wrong-type",
+      "operationId": "provider.oauth.callback",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/provider/missing-provider/oauth/callback",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    }
+  ]
+}

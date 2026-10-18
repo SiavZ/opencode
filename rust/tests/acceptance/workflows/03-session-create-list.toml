@@ -1,0 +1,48 @@
+# Purpose: create a session over HTTP for a directory, observe session.created on the
+# per-directory SSE stream, and find it in the session list.
+id = "session-create-list"
+requirement = "PKG-04"
+baseline_source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts, packages/opencode/src/session/index.ts"
+owner = "phase-04 (sessions), phase-06 (protocol/server)"
+producer = "opencode serve /session + /event"
+consumer = "TUI / app / SDK clients"
+classification = "live"
+
+[[step]]
+kind = "serve"
+
+[[step]]
+kind = "sse_connect"
+name = "dir"
+path = "/event?directory=${workdir}"
+first_type = "server.connected"
+
+[[step]]
+kind = "http"
+method = "POST"
+path = "/session?directory=${workdir}"
+body = {}
+expect_status = 200
+expect_json = { "/directory" = "${workdir_real}", "/cost" = 0, "/tokens/input" = 0 }
+expect_types = { "/id" = "string", "/slug" = "string", "/projectID" = "string", "/title" = "string", "/time/created" = "number", "/time/updated" = "number" }
+capture = { session_id = "/id" }
+
+[[step]]
+kind = "sse_expect"
+name = "dir"
+type = "session.created"
+expect_json = { "/properties/sessionID" = "${session_id}", "/properties/info/id" = "${session_id}" }
+
+[[step]]
+kind = "http"
+method = "GET"
+path = "/session?directory=${workdir}"
+expect_status = 200
+expect_array_item = { "/id" = "${session_id}", "/directory" = "${workdir_real}" }
+
+[[step]]
+kind = "http"
+method = "GET"
+path = "/session/${session_id}?directory=${workdir}"
+expect_status = 200
+expect_json = { "/id" = "${session_id}" }

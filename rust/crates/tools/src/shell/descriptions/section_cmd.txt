@@ -1,0 +1,46 @@
+# cmd.exe shell notes
+- Use double quotes for paths with spaces.
+- Use %VAR% for environment variables.
+- Use `if exist` for existence checks.
+- Use `call` when invoking batch files from another batch-style command.
+
+Before executing the command, please follow these steps:
+
+1. Directory Verification:
+   - If the command will create new directories or files, first use `if exist` to verify the parent directory exists and is the correct location
+   - For example, before creating `foo\bar`, first use `if exist "foo\" dir "foo"` to check that `foo` exists and is the intended parent directory
+
+2. Command Execution:
+   - Always quote file paths that contain spaces with double quotes (e.g., del "path with spaces\file.txt")
+   - Examples of proper quoting:
+     - mkdir "My Documents" (correct)
+     - mkdir My Documents (incorrect - path is split)
+     - call "path with spaces\script.bat" (correct)
+     - path with spaces\script.bat (incorrect - path is split and not invoked correctly)
+   - After ensuring proper quoting, execute the command.
+   - Capture the output of the command.
+
+Usage notes:
+  - The command argument is required.
+  - You can specify an optional timeout in milliseconds. If not specified, commands will time out after {default_timeout}ms.
+  - If the output exceeds {max_lines} lines or {max_bytes} bytes, it will be truncated and the full output will be written to a file. You can use Read with offset/limit to read specific sections or Grep to search the full content. Do NOT use `more` or other pagination commands to limit output; the full output will already be captured to a file for more precise searching.
+
+  - Avoid using Shell with cmd.exe file/content commands unless explicitly instructed or when these commands are truly necessary for the task. Instead, always prefer using the dedicated tools for these commands:
+    - File search: Use Glob (NOT dir /s)
+    - Content search: Use Grep (NOT findstr)
+    - Read files: Use Read (NOT type)
+    - Edit files: Use Edit (NOT copy)
+    - Write files: Use Write (NOT echo > file)
+    - Communication: Output text directly (NOT echo)
+  - When issuing multiple commands:
+    - If the commands are independent and can run in parallel, make multiple bash tool calls in a single message. For example, if you need to run "dir" and "where cmd", send a single message with two bash tool calls in parallel.
+    - {chain}
+    - Use `&` only when you need to run commands sequentially but don't care if earlier commands fail
+    - DO NOT use newlines to separate commands (newlines are ok in quoted strings)
+  - AVOID changing directories inside the command. Use the `workdir` parameter to change directories instead.
+    <good-example>
+    Use workdir="project\subdir" with command: dir
+    </good-example>
+    <bad-example>
+    cd /d "project\subdir" && dir
+    </bad-example>

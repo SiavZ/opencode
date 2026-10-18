@@ -1,0 +1,228 @@
+{
+  "shell": "/bin/zsh",
+  "default_agent": "reviewer",
+  "share": "auto",
+  "permissions": [
+    {
+      "action": "bash",
+      "resource": "*",
+      "effect": "ask"
+    },
+    {
+      "action": "edit",
+      "resource": "*.md",
+      "effect": "allow"
+    },
+    {
+      "action": "edit",
+      "resource": "*",
+      "effect": "deny"
+    },
+    {
+      "action": "question",
+      "resource": "*",
+      "effect": "deny"
+    }
+  ],
+  "agents": {
+    "reviewer": {
+      "request": {
+        "body": {
+          "temperature": 0.2
+        }
+      },
+      "system": "Review changes.",
+      "disabled": true,
+      "permissions": [
+        {
+          "action": "read",
+          "resource": "*",
+          "effect": "allow"
+        }
+      ]
+    }
+  },
+  "snapshots": false,
+  "attachments": {
+    "image": {
+      "auto_resize": false,
+      "max_width": 1200
+    }
+  },
+  "mcp": {
+    "timeout": {
+      "request": 5000
+    },
+    "servers": {
+      "local": {
+        "type": "local",
+        "command": [
+          "node",
+          "server.js"
+        ],
+        "disabled": true,
+        "timeout": {
+          "request": 10000
+        }
+      },
+      "remote": {
+        "type": "remote",
+        "url": "https://mcp.example.com",
+        "oauth": {
+          "client_id": "client",
+          "callback_port": 19876
+        },
+        "timeout": {
+          "request": 20000
+        }
+      }
+    }
+  },
+  "compaction": {
+    "auto": true,
+    "keep": {
+      "tokens": 2000
+    },
+    "buffer": 10000
+  },
+  "skills": [
+    "./skills",
+    "https://example.com/.well-known/skills/"
+  ],
+  "references": {
+    "docs": {
+      "path": "../docs",
+      "description": "Use for product documentation",
+      "hidden": true
+    }
+  },
+  "plugins": [
+    "opencode-helicone-session",
+    {
+      "package": "@my-org/audit-plugin",
+      "options": {
+        "endpoint": "https://audit.example.com"
+      }
+    }
+  ],
+  "providers": {
+    "custom": {
+      "request": {
+        "body": {
+          "apiKey": "secret"
+        }
+      },
+      "models": {
+        "model": {
+          "request": {
+            "body": {
+              "reasoningEffort": "high"
+            }
+          },
+          "variants": [
+            {
+              "id": "fast",
+              "body": {
+                "temperature": 0.2
+              }
+            }
+          ]
+        }
+      }
+    },
+    "openai": {
+      "api": {
+        "type": "aisdk",
+        "package": "@ai-sdk/openai",
+        "settings": {}
+      },
+      "request": {
+        "headers": {
+          "Authorization": "Bearer secret",
+          "OpenAI-Organization": "org"
+        }
+      },
+      "models": {
+        "model": {
+          "request": {
+            "body": {
+              "temperature": 0.3,
+              "service_tier": "priority",
+              "reasoning": {
+                "effort": "high"
+              }
+            }
+          },
+          "variants": [
+            {
+              "id": "high",
+              "body": {
+                "reasoning": {
+                  "effort": "high",
+                  "summary": "auto"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "anthropic": {
+      "api": {
+        "type": "aisdk",
+        "package": "@ai-sdk/anthropic",
+        "settings": {}
+      },
+      "models": {
+        "model": {
+          "api": {
+            "id": "claude-x",
+            "type": "aisdk",
+            "package": "@ai-sdk/anthropic",
+            "url": "https://proxy",
+            "settings": {}
+          },
+          "capabilities": {
+            "tools": true,
+            "input": [],
+            "output": []
+          },
+          "request": {
+            "body": {
+              "metadata": {
+                "user_id": "user-1"
+              },
+              "output_config": {
+                "effort": "high",
+                "task_budget": 4096
+              }
+            }
+          },
+          "cost": [
+            {
+              "input": 3,
+              "output": 15,
+              "cache": {
+                "read": 0.3
+              }
+            },
+            {
+              "tier": {
+                "type": "context",
+                "size": 200000
+              },
+              "input": 6,
+              "output": 22.5,
+              "cache": {}
+            }
+          ],
+          "disabled": true,
+          "limit": {
+            "context": 200000,
+            "output": 8192
+          }
+        }
+      }
+    }
+  }
+}

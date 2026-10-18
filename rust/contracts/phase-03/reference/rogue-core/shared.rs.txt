@@ -1,0 +1,376 @@
+//! Purpose: protocol-neutral helpers shared by every protocol leaf (`protocols/shared.ts`,
+//! `provider-error.ts`, `utils/cache.ts`, `utils/tool-schema.ts`, `utils/gemini-tool-schema.ts`):
+//! tool input parsing, text joining, system-update wrapping, media validation, tool result
+//! text, tool choice matching, unsupported-content errors, usage math, context overflow
+//! detection, cache breakpoints and tool-schema projections.
+//! Scope: pure functions.
+//! Uses:
+//! `-- none
+//! External:
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- opencode_llm_api::{ContentPart, LlmError, MediaData, Message, ToolChoice, ToolResultPart}
+//! |-- regex::Regex
+//! `-- serde_json::{Map, Value}
+//! Used by:
+//! rust/crates/
+//! |-- provider-adapters/src/core/mod.rs
+//! `-- provider-adapters/src/core/tool_stream.rs
+//! Invariants: error message strings are byte-identical to the baseline helpers because
+//! sessions persist and display them.
+//! Contract tests: provider-adapters/tests/core.rs
+
+use std::sync::LazyLock;
+
+use base64::Engine;
+use base64::engine::general_purpose::STANDARD;
+use opencode_llm_api::{
+    ContentPart, LlmError, MediaData, Message, MessageRole, ToolChoice, ToolChoiceType,
+    ToolResultPart, ToolResultValue,
+};
+use regex::Regex;
+use serde_json::{Map, Value};
+
+/// `parseToolInput`: empty input parses as `{}`.
+pub fn parse_tool_input(route: &str, name: &str, raw: &str) -> Result<Value, LlmError> {
+    let text = if raw.is_empty() { "{}" } else { raw };
+    serde_json::from_str(text).map_err(|_| {
+        LlmError::invalid_output(
+            route,
+            format!("Invalid JSON input for {route} tool call {name}"),
+            Some(text.to_owned()),
+        )
+    })
+}
+
+/// `parseJson` for stream frames.
+pub fn parse_json(route: &str, input: &str, message: &str) -> Result<Value, LlmError> {
+    serde_json::from_str(input)
+        .map_err(|_| LlmError::invalid_output(route, message, Some(input.to_owned())))
+}
+
+/// `joinText`.
+pub fn join_text<'a>(parts: impl IntoIterator<Item = &'a str>) -> String {
+    parts.into_iter().collect::<Vec<_>>().join("\n")
+}
+
+/// `wrapSystemUpdate`: visible lower-authority user text for chronological system updates.
+pub fn wrap_system_update<'a>(parts: impl IntoIterator<Item = &'a str>) -> String {
+    let text = join_text(parts)
+        .replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;");
+    format!("<system-update>\n{text}\n</system-update>")
+}
+
+/// `systemUpdateText`: text parts of a `system` role message, rejecting other content.
+pub fn system_update_text<'a>(
+    route: &str,
+    message: &'a Message,
+) -> Result<Vec<&'a ContentPart>, LlmError> {
+    message
+        .content
+        .iter()
+        .map(|part| match part {
+            ContentPart::Text { .. } => Ok(part),
+            _ => Err(unsupported_content(route, MessageRole::System, &["text"])),
+        })
+        .collect()
+}
+
+fn role_name(role: MessageRole) -> &'static str {
+    match role {
+        MessageRole::System => "system",
+        MessageRole::User => "user",
+        MessageRole::Assistant => "assistant",
+        MessageRole::Tool => "tool",
+    }
+}
+
+/// `unsupportedContent`: "<route> <role> messages only support a, b, and c content for now".
+pub fn unsupported_content(route: &str, role: MessageRole, types: &[&str]) -> LlmError {
+    let list = match types {
+        [] => String::new(),
+        [one] => (*one).to_owned(),
+        [a, b] => format!("{a} and {b}"),
+        [init @ .., last] => format!("{}, and {last}", init.join(", ")),
+    };
+    LlmError::invalid_request(format!(
+        "{route} {} messages only support {list} content for now",
+        role_name(role)
+    ))
+}
+
+/// Wire tag of a content part.
+pub fn content_type(part: &ContentPart) -> &'static str {
+    match part {
+        ContentPart::Text { .. } => "text",
+        ContentPart::Media { .. } => "media",
+        ContentPart::ToolCall(_) => "tool-call",
+        ContentPart::ToolResult(_) => "tool-result",
+        ContentPart::Reasoning { .. } => "reasoning",
+    }
+}
+
+/// `matchToolChoice` resolved to a closed enum.
+pub enum ToolChoiceCase<'a> {
+    Auto,
+    None,
+    Required,
+    Tool(&'a str),
+}
+
+pub fn match_tool_choice<'a>(
+    route: &str,
+    choice: &'a ToolChoice,
+) -> Result<ToolChoiceCase<'a>, LlmError> {
+    Ok(match choice.kind {
+        ToolChoiceType::Auto => ToolChoiceCase::Auto,
+        ToolChoiceType::None => ToolChoiceCase::None,
+        ToolChoiceType::Required => ToolChoiceCase::Required,
+        ToolChoiceType::Tool => match choice.name.as_deref() {
+            Some(name) if !name.is_empty() => ToolChoiceCase::Tool(name),
+            _ => {
+                return Err(LlmError::invalid_request(format!(
+                    "{route} tool choice requires a tool name"
+                )));
+            }
+        },
+    })
+}
+
+/// `toolResultText`.
+pub fn tool_result_text(part: &ToolResultPart) -> String {
+    match &part.result {
+        ToolResultValue::Text(value) => js_string(value),
+        ToolResultValue::Error(value) => match value {
+            Value::Object(_) | Value::Array(_) => value.to_string(),
+            other => js_string(other),
+        },
+        ToolResultValue::Json(value) => value.to_string(),
+        ToolResultValue::Content(content) => serde_json::to_string(content).unwrap_or_default(),
+    }
+}
+
+/// `String(value)` for JSON values.
+pub fn js_string(value: &Value) -> String {
+    match value {
+        Value::String(s) => s.clone(),
+        Value::Null => "null".into(),
+        Value::Array(items) => items
+            .iter()
+            .map(|v| {
+                if v.is_null() {
+                    String::new()
+                } else {
+                    js_string(v)
+                }
+            })
+            .collect::<Vec<_>>()
+            .join(","),
+        Value::Object(_) => "[object Object]".into(),
+        other => other.to_string(),
+    }
+}
+
+pub const IMAGE_MIMES: &[&str] = &["image/png", "image/jpeg", "image/gif", "image/webp"];
+pub const VIDEO_MIMES: &[&str] = &["video/mp4", "video/webm", "video/quicktime"];
+pub const AUDIO_MIMES: &[&str] = &[
+    "audio/wav",
+    "audio/mp3",
+    "audio/aiff",
+    "audio/aac",
+    "audio/ogg",
+    "audio/flac",
+];
+pub const MAX_MEDIA_ENCODED_BYTES: usize = 28 * 1024 * 1024;
+pub const MAX_MEDIA_DECODED_BYTES: usize = 20 * 1024 * 1024;
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ValidatedMedia {
+    pub mime: String,
+    pub base64: String,
+    pub data_url: String,
+    pub bytes: Vec<u8>,
+}
+
+static DATA_URL: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?s)^data:([^;,]+);base64,([A-Za-z0-9+/]*={0,2})$").expect("valid regex")
+});
+static BASE64: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+        .expect("valid regex")
+});
+
+/// `validateMedia`: mime allowlist, data URL/base64/bytes, size limits, canonical base64.
+pub fn validate_media(
+    route: &str,
+    media_type: &str,
+    data: &MediaData,
+    supported: &[&str],
+) -> Result<ValidatedMedia, LlmError> {
+    let invalid = |m: String| LlmError::invalid_request(m);
+    let mime = media_type.to_lowercase();
+    if !supported.contains(&mime.as_str()) {
+        return Err(invalid(format!(
+            "{route} does not support media type {media_type}"
+        )));
+    }
+    let base64 = match data {
+        MediaData::Bytes(bytes) => {
+            if bytes.len() > MAX_MEDIA_DECODED_BYTES {
+                return Err(invalid(format!(
+                    "{route} media exceeds the {MAX_MEDIA_DECODED_BYTES} byte decoded limit"
+                )));
+            }
+            STANDARD.encode(bytes)
+        }
+        MediaData::Text(text) if text.starts_with("data:") => {
+            let Some(caps) = DATA_URL.captures(text) else {
+                return Err(invalid(format!(
+                    "{route} media data URL must contain valid base64"
+                )));
+            };
+            if caps[1].to_lowercase() != mime {
+                return Err(invalid(format!(
+                    "{route} media type {media_type} does not match data URL type {}",
+                    &caps[1]
+                )));
+            }
+            caps[2].to_owned()
+        }
+        MediaData::Text(text) => text.clone(),
+    };
+    if base64.len() > MAX_MEDIA_ENCODED_BYTES {
+        return Err(invalid(format!(
+            "{route} media exceeds the {MAX_MEDIA_ENCODED_BYTES} byte encoded limit"
+        )));
+    }
+    if base64.is_empty() || !base64.len().is_multiple_of(4) || !BASE64.is_match(&base64) {
+        return Err(invalid(format!("{route} media must contain valid base64")));
+    }
+    let bytes = STANDARD
+        .decode(&base64)
+        .map_err(|_| invalid(format!("{route} media must contain valid base64")))?;
+    if bytes.len() > MAX_MEDIA_DECODED_BYTES {
+        return Err(invalid(format!(
+            "{route} media exceeds the {MAX_MEDIA_DECODED_BYTES} byte decoded limit"
+        )));
+    }
+    if STANDARD.encode(&bytes) != base64 {
+        return Err(invalid(format!(
+            "{route} media must contain canonical base64"
+        )));
+    }
+    Ok(ValidatedMedia {
+        data_url: format!("data:{mime};base64,{base64}"),
+        mime,
+        base64,
+        bytes,
+    })
+}
+
+/// `trimBaseUrl`.
+pub fn trim_base_url(value: &str) -> &str {
+    value.trim_end_matches('/')
+}
+
+/// `sumTokens`: `None` only when every value is `None`.
+pub fn sum_tokens(values: &[Option<f64>]) -> Option<f64> {
+    if values.iter().all(Option::is_none) {
+        return None;
+    }
+    Some(values.iter().map(|v| v.unwrap_or(0.0)).sum())
+}
+
+static OVERFLOW: LazyLock<Vec<Regex>> = LazyLock::new(|| {
+    [
+        r"(?i)prompt is too long",
+        r"(?i)request_too_large",
+        r"(?i)input is too long for requested model",
+        r"(?i)exceeds the context window",
+        r"(?i)exceeds (?:the )?(?:model'?s )?maximum context length(?: of [\d,]+ tokens?|\s*\([\d,]+\))",
+        r"(?i)input token count.*exceeds the maximum",
+        r"(?i)tokens in request more than max tokens allowed",
+        r"(?i)maximum prompt length is \d+",
+        r"(?i)reduce the length of the messages",
+        r"(?i)maximum context length is \d+ tokens",
+        r"(?i)exceeds (?:the )?maximum allowed input length of [\d,]+ tokens?",
+        r"(?i)input \(\d+ tokens\) is longer than the model'?s context length \(\d+ tokens\)",
+        r"(?i)exceeds the limit of \d+",
+        r"(?i)exceeds the available context size",
+        r"(?i)greater than the context length",
+        r"(?i)context window exceeds limit",
+        r"(?i)exceeded model token limit",
+        r"(?i)context[_ ]length[_ ]exceeded",
+        r"(?i)request entity too large",
+        r"(?i)context length is only \d+ tokens",
+        r"(?i)input length.*exceeds.*context length",
+        r"(?i)prompt too long; exceeded (?:max )?context length",
+        r"(?i)too large for model with \d+ maximum context length",
+        r"(?i)prompt has [\d,]+ tokens?, but the configured context size is [\d,]+ tokens?",
+        r"(?i)model_context_window_exceeded",
+        r"(?i)too many tokens",
+        r"(?i)token limit exceeded",
+        r"(?i)^4(00|13)\s*(status code)?\s*\(no body\)",
+    ]
+    .iter()
+    .map(|p| Regex::new(p).expect("valid regex"))
+    .collect()
+});
+static OVERFLOW_EXCLUSIONS: LazyLock<Vec<Regex>> = LazyLock::new(|| {
+    [
+        r"(?i)^(throttling error|service unavailable):",
+        r"(?i)rate limit",
+        r"(?i)too many requests",
+    ]
+    .iter()
+    .map(|p| Regex::new(p).expect("valid regex"))
+    .collect()
+});
+
+/// `isContextOverflow` (`provider-error.ts`).
+pub fn is_context_overflow(message: &str) -> bool {
+    !OVERFLOW_EXCLUSIONS.iter().any(|r| r.is_match(message))
+        && OVERFLOW.iter().any(|r| r.is_match(message))
+}
+
+/// Shared cache breakpoint budget (`utils/cache.ts`), cap 4 for Anthropic and Bedrock.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Breakpoints {
+    pub remaining: u32,
+    pub dropped: u32,
+}
+
+impl Breakpoints {
+    pub fn new(cap: u32) -> Self {
+        Self {
+            remaining: cap,
+            dropped: 0,
+        }
+    }
+
+    /// Consume one breakpoint, counting drops once the budget is spent.
+    pub fn take(&mut self) -> bool {
+        if self.remaining == 0 {
+            self.dropped += 1;
+            return false;
+        }
+        self.remaining -= 1;
+        true
+    }
+}
+
+/// `ttlBucket`: `"1h"` for ttl >= 3600 s, else provider default (5m).
+pub fn ttl_bucket(ttl_seconds: Option<f64>) -> Option<&'static str> {
+    ttl_seconds.filter(|t| *t >= 3600.0).map(|_| "1h")
+}
+
+/// Shorthand for building JSON objects in protocol body builders.
+pub fn object(entries: impl IntoIterator<Item = (&'static str, Value)>) -> Value {
+    Value::Object(
+        entries
+            .into_iter()
+            .map(|(k, v)| (k.to_owned(), v))
+            .collect::<Map<_, _>>(),
+    )
+}

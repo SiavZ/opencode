@@ -1,0 +1,413 @@
+{
+  "family": "api-integration",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 286,
+      "id": "v2.integration.list#ok",
+      "operationId": "v2.integration.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/integration",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": [
+            {
+              "id": "openai",
+              "name": "openai",
+              "methods": [
+                {
+                  "id": "chatgpt-browser",
+                  "type": "oauth",
+                  "label": "ChatGPT Pro/Plus (browser)"
+                },
+                {
+                  "id": "chatgpt-headless",
+                  "type": "oauth",
+                  "label": "ChatGPT Pro/Plus (headless)"
+                }
+              ],
+              "connections": []
+            },
+            {
+              "id": "opencode",
+              "name": "OpenCode",
+              "methods": [
+                {
+                  "id": "device",
+                  "type": "oauth",
+                  "label": "OpenCode Console account"
+                },
+                {
+                  "type": "key",
+                  "label": "API key (service account)"
+                }
+              ],
+              "connections": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seq": 287,
+      "id": "v2.integration.get#ok",
+      "operationId": "v2.integration.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/integration/missing-integration",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": null
+        }
+      }
+    },
+    {
+      "seq": 288,
+      "id": "v2.integration.connect.key#ok",
+      "operationId": "v2.integration.connect.key",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/missing-integration/connect/key",
+        "auth": "valid",
+        "body": {
+          "key": "fixture-not-a-key"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 289,
+      "id": "v2.integration.connect.key#bad-body",
+      "operationId": "v2.integration.connect.key",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/missing-integration/connect/key",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 290,
+      "id": "v2.integration.connect.key#wrong-type",
+      "operationId": "v2.integration.connect.key",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/missing-integration/connect/key",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "InvalidRequestError",
+          "message": "Expected object, got [1,2,3]",
+          "kind": "Payload"
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 291,
+      "id": "v2.integration.connect.oauth#ok",
+      "operationId": "v2.integration.connect.oauth",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/missing-integration/connect/oauth",
+        "auth": "valid",
+        "body": {
+          "methodID": "missing",
+          "inputs": {}
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 292,
+      "id": "v2.integration.connect.oauth#bad-body",
+      "operationId": "v2.integration.connect.oauth",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/missing-integration/connect/oauth",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 293,
+      "id": "v2.integration.connect.oauth#wrong-type",
+      "operationId": "v2.integration.connect.oauth",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/missing-integration/connect/oauth",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "InvalidRequestError",
+          "message": "Expected object, got [1,2,3]",
+          "kind": "Payload"
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 294,
+      "id": "v2.integration.attempt.status#ok",
+      "operationId": "v2.integration.attempt.status",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/integration/attempt/att_missing",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 295,
+      "id": "v2.integration.attempt.cancel#ok",
+      "operationId": "v2.integration.attempt.cancel",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/api/integration/attempt/att_missing",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 296,
+      "id": "v2.integration.attempt.complete#ok",
+      "operationId": "v2.integration.attempt.complete",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/attempt/att_missing/complete",
+        "auth": "valid",
+        "body": {
+          "code": "fixture"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 297,
+      "id": "v2.integration.attempt.complete#bad-body",
+      "operationId": "v2.integration.attempt.complete",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/attempt/att_missing/complete",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 298,
+      "id": "v2.integration.attempt.complete#wrong-type",
+      "operationId": "v2.integration.attempt.complete",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/integration/attempt/att_missing/complete",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "InvalidRequestError",
+          "message": "Expected object, got [1,2,3]",
+          "kind": "Payload"
+        }
+      },
+      "note": "schema rejection: array body"
+    }
+  ]
+}

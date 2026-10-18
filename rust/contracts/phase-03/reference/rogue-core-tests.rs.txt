@@ -1,0 +1,373 @@
+//! Purpose: contract tests for the provider-adapters shared core: SSE framing edge cases,
+//! lifecycle, tool-stream accumulation, body overlay denylist, cache policy, overflow
+//! detection, media validation and the route stream loop. Fixture-based, no network.
+//! Scope: integration tests through public module paths.
+//! Uses:
+//! rust/crates/
+//! `-- provider-adapters/src/core/mod.rs
+//! External:
+//! |-- futures::{executor, stream}
+//! `-- serde_json::json
+//! Used by:
+//! `-- none, entrypoint
+//! Invariants: expected strings come from packages/llm/src/protocols/shared.ts and
+//! effect/unstable/encoding/Sse.ts behavior.
+//! Contract tests: provider-adapters/tests/core.rs
+
+use std::sync::Arc;
+
+use futures::executor::block_on;
+use futures::{StreamExt, stream};
+use opencode_llm_api::*;
+use opencode_provider_adapters::core::cache_policy::apply_cache_policy;
+use opencode_provider_adapters::core::route::body_with_overlay;
+use opencode_provider_adapters::core::shared::*;
+use opencode_provider_adapters::core::sse::SseParser;
+use opencode_provider_adapters::core::*;
+use serde_json::{Value, json};
+
+#[test]
+fn sse_handles_split_crlf_bom_multiline_and_done() {
+    let mut parser = SseParser::default();
+    let mut out = Vec::new();
+    for chunk in [
+        "\u{feff}data: {\"a\":",
+        "1}\r",
+        "\n\r\n",
+        ": comment\n",
+        "data: x\ndata: y\n\n",
+        "data: [DONE]\n\n",
+        "event: e\n\n",
+        "data: tail",
+    ] {
+        out.extend(parser.feed(chunk.as_bytes()).unwrap());
+    }
+    assert_eq!(out, vec!["{\"a\":1}".to_owned(), "x\ny".to_owned()]);
+}
+
+#[test]
+fn sse_reassembles_split_utf8_and_bounds_size() {
+    let mut parser = SseParser::default();
+    let bytes = "data: héllo\n\n".as_bytes();
+    let split = bytes.iter().position(|b| *b == 0xc3).unwrap() + 1;
+    assert!(parser.feed(&bytes[..split]).unwrap().is_empty());
+    assert_eq!(
+        parser.feed(&bytes[split..]).unwrap(),
+        vec!["héllo".to_owned()]
+    );
+    let mut small = SseParser::new(8);
+    assert!(small.feed(b"data: 0123456789").is_err());
+}
+
+#[test]
+fn lifecycle_closes_blocks_before_finish() {
+    let mut life = Lifecycle::default();
+    let mut events = Vec::new();
+    life.reasoning_delta(&mut events, "r", "a", None);
+    life.text_delta(&mut events, "t", "b");
+    life.text_delta(&mut events, "t", "c");
+    life.finish(&mut events, FinishReason::Stop, None, None);
+    let kinds: Vec<_> = events.iter().map(LlmEvent::kind).collect();
+    assert_eq!(
+        kinds,
+        [
+            "step-start",
+            "reasoning-start",
+            "reasoning-delta",
+            "text-start",
+            "text-delta",
+            "text-delta",
+            "reasoning-end",
+            "text-end",
+            "step-finish",
+            "finish"
+        ]
+    );
+}
+
+#[test]
+fn tool_stream_accumulates_and_parses() {
+    let mut tools = ToolStream::<u32>::default();
+    let e = tools
+        .append_or_start("r", 0, Some("call_1"), Some("get"), "{\"a\"", "missing")
+        .unwrap();
+    assert_eq!(
+        e.iter().map(LlmEvent::kind).collect::<Vec<_>>(),
+        ["tool-input-start", "tool-input-delta"]
+    );
+    tools
+        .append_or_start("r", 0, None, None, ":1}", "missing")
+        .unwrap();
+    tools.start(
+        1,
+        PendingTool {
+            id: "call_2".into(),
+            name: "noargs".into(),
+            ..Default::default()
+        },
+    );
+    let done = tools.finish_all("r").unwrap();
+    assert_eq!(done.len(), 4);
+    assert!(matches!(&done[1], LlmEvent::ToolCall { input, .. } if *input == json!({"a":1})));
+    assert!(matches!(&done[3], LlmEvent::ToolCall { input, .. } if *input == json!({})));
+    let err = tools
+        .append_or_start("r", 9, None, None, "x", "Tool delta missing id")
+        .unwrap_err();
+    assert_eq!(
+        err.to_string(),
+        "ProviderShared.stream: Tool delta missing id"
+    );
+    let mut bad = ToolStream::<u32>::default();
+    bad.start(
+        0,
+        PendingTool {
+            id: "c".into(),
+            name: "n".into(),
+            input: "{".into(),
+            ..Default::default()
+        },
+    );
+    assert_eq!(
+        bad.finish("r", &0).unwrap_err().to_string(),
+        "ProviderShared.stream: Invalid JSON input for r tool call n"
+    );
+}
+
+#[derive(Debug)]
+struct EchoProtocol;
+
+struct EchoDecoder {
+    life: Lifecycle,
+}
+
+impl StreamDecoder for EchoDecoder {
+    fn step(&mut self, frame: Frame) -> Result<Vec<LlmEvent>, LlmError> {
+        let mut events = Vec::new();
+        let Frame::Text(text) = frame else {
+            return Ok(events);
+        };
+        self.life.text_delta(&mut events, "0", &text);
+        Ok(events)
+    }
+
+    fn on_halt(&mut self) -> Vec<LlmEvent> {
+        let mut events = Vec::new();
+        self.life
+            .finish(&mut events, FinishReason::Stop, None, None);
+        events
+    }
+}
+
+impl Protocol for EchoProtocol {
+    fn id(&self) -> &'static str {
+        "echo"
+    }
+    fn body(&self, request: &LlmRequest) -> Result<Value, LlmError> {
+        Ok(json!({"model": request.model.id, "n": request.messages.len()}))
+    }
+    fn decoder(&self, _request: &LlmRequest) -> Box<dyn StreamDecoder> {
+        Box::new(EchoDecoder {
+            life: Lifecycle::default(),
+        })
+    }
+}
+
+#[derive(Debug)]
+struct FixtureTransport {
+    seen: std::sync::Mutex<Vec<HttpRequest>>,
+}
+
+impl Transport for FixtureTransport {
+    fn id(&self) -> &'static str {
+        "fixture"
+    }
+    fn open(
+        &self,
+        _label: String,
+        request: HttpRequest,
+        _json: Value,
+    ) -> futures::future::BoxFuture<'static, Result<FrameStream, LlmError>> {
+        self.seen.lock().unwrap().push(request);
+        Box::pin(async {
+            Ok(stream::iter(vec![
+                Ok(Frame::Text("he".into())),
+                Ok(Frame::Text("y".into())),
+            ])
+            .boxed())
+        })
+    }
+}
+
+fn route(transport: Arc<FixtureTransport>, id: &str) -> Arc<HttpRoute> {
+    let mut endpoint = Endpoint::path("/v1/echo").with_base_url("https://example.test/");
+    endpoint.query.insert("api-version".into(), "1".into());
+    Arc::new(HttpRoute {
+        id: id.into(),
+        provider: None,
+        protocol: Arc::new(EchoProtocol),
+        endpoint,
+        auth: Arc::new(NoAuth),
+        transport,
+        headers: Some(Arc::new(|_| {
+            [("x-route".to_owned(), "r".to_owned())]
+                .into_iter()
+                .collect()
+        })),
+        defaults: RouteDefaults::default(),
+    })
+}
+
+#[test]
+fn route_stream_renders_request_and_runs_decoder() {
+    let transport = Arc::new(FixtureTransport {
+        seen: Default::default(),
+    });
+    let mut request = LlmRequest::new(Model::new("m1", "p", route(transport.clone(), "echo")));
+    request.messages.push(Message::user("hi"));
+    request.http = Some(HttpOptions {
+        body: Some(json!({"extra": true}).as_object().cloned().unwrap()),
+        headers: Some([("X-Req".to_owned(), "q".to_owned())].into_iter().collect()),
+        query: Some(
+            [("api-version".to_owned(), "2".to_owned())]
+                .into_iter()
+                .collect(),
+        ),
+    });
+    let response = block_on(generate(&RouteClient, request)).unwrap();
+    assert_eq!(response.text(), "hey");
+    let seen = transport.seen.lock().unwrap();
+    assert_eq!(seen[0].url, "https://example.test/v1/echo?api-version=2");
+    assert_eq!(
+        seen[0].headers.get("x-route").map(String::as_str),
+        Some("r")
+    );
+    assert_eq!(seen[0].headers.get("x-req").map(String::as_str), Some("q"));
+    assert_eq!(
+        serde_json::from_str::<Value>(&seen[0].body).unwrap(),
+        json!({"model":"m1","n":1,"extra":true})
+    );
+}
+
+#[test]
+fn body_overlay_rejects_protocol_owned_fields() {
+    let transport = Arc::new(FixtureTransport {
+        seen: Default::default(),
+    });
+    let mut request = LlmRequest::new(Model::new("m", "p", route(transport, "echo")));
+    request.http = Some(HttpOptions {
+        body: Some(
+            json!({"model": "x", "tools": []})
+                .as_object()
+                .cloned()
+                .unwrap(),
+        ),
+        ..Default::default()
+    });
+    let err = body_with_overlay(json!({}), &request).unwrap_err();
+    assert_eq!(
+        err.to_string(),
+        "ProviderShared.request: http.body cannot overlay protocol-owned field(s): model, tools"
+    );
+    request.http = Some(HttpOptions {
+        body: Some(json!({"a": 1}).as_object().cloned().unwrap()),
+        ..Default::default()
+    });
+    assert_eq!(
+        body_with_overlay(json!([1]), &request)
+            .unwrap_err()
+            .to_string(),
+        "ProviderShared.request: http.body can only overlay JSON object request bodies"
+    );
+}
+
+#[test]
+fn cache_policy_marks_only_inline_hint_routes() {
+    let transport = Arc::new(FixtureTransport {
+        seen: Default::default(),
+    });
+    let make = |id: &str| {
+        let mut r = LlmRequest::new(Model::new("m", "p", route(transport.clone(), id)));
+        r.system.push(SystemPart::text("s"));
+        r.messages.push(Message::user("u1"));
+        r.messages
+            .push(Message::assistant(vec![ContentPart::text("a")]));
+        r.messages.push(Message::user("u2"));
+        r
+    };
+    let untouched = apply_cache_policy(make("openai-chat"));
+    assert!(untouched.system[0].cache.is_none());
+    let marked = apply_cache_policy(make("anthropic-messages"));
+    assert!(marked.system[0].cache.is_some());
+    let hinted = |m: &Message| matches!(&m.content[0], ContentPart::Text { cache: Some(_), .. });
+    assert!(!hinted(&marked.messages[0]));
+    assert!(hinted(&marked.messages[2]));
+    let mut none = make("anthropic-messages");
+    none.cache = Some(CachePolicy::Named("none".into()));
+    assert!(apply_cache_policy(none).system[0].cache.is_none());
+}
+
+#[test]
+fn shared_helpers_match_baseline_strings() {
+    assert!(is_context_overflow(
+        "prompt is too long: 210000 tokens > 200000 maximum"
+    ));
+    assert!(is_context_overflow("400 (no body)"));
+    assert!(!is_context_overflow(
+        "Rate limit: too many tokens per minute"
+    ));
+    assert_eq!(
+        wrap_system_update(["a<b>&c"]),
+        "<system-update>\na&lt;b&gt;&amp;c\n</system-update>"
+    );
+    assert_eq!(
+        unsupported_content("r", MessageRole::User, &["text", "media", "tool-result"]).to_string(),
+        "ProviderShared.request: r user messages only support text, media, and tool-result content for now"
+    );
+    let png = MediaData::Text("data:image/png;base64,aGk=".into());
+    assert_eq!(
+        validate_media("r", "image/png", &png, IMAGE_MIMES)
+            .unwrap()
+            .bytes,
+        b"hi"
+    );
+    let mismatch = validate_media("r", "image/jpeg", &png, IMAGE_MIMES).unwrap_err();
+    assert_eq!(
+        mismatch.to_string(),
+        "ProviderShared.request: r media type image/jpeg does not match data URL type image/png"
+    );
+    assert!(
+        validate_media(
+            "r",
+            "image/png",
+            &MediaData::Text("aGk".into()),
+            IMAGE_MIMES
+        )
+        .is_err()
+    );
+    assert!(
+        validate_media(
+            "r",
+            "image/png",
+            &MediaData::Text("aGl=".into()),
+            IMAGE_MIMES
+        )
+        .is_err()
+    );
+    assert_eq!(sum_tokens(&[None, Some(2.0)]), Some(2.0));
+    assert_eq!(ttl_bucket(Some(3600.0)), Some("1h"));
+    let mut bp = Breakpoints::new(1);
+    assert!(bp.take());
+    assert!(!bp.take());
+    assert_eq!(bp.dropped, 1);
+}
+
+#[test]
+fn not_yet_ported_is_typed_and_non_retryable() {
+    let err = opencode_provider_adapters::unsupported::not_yet_ported(
+        &"gitlab".into(),
+        &"duo".into(),
+        "gitlab-workflow",
+    );
+    assert!(!err.retryable());
+    assert_eq!(err.reason.tag(), "NoRoute");
+}

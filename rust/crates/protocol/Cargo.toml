@@ -1,0 +1,23 @@
+[package]
+name = "opencode-protocol"
+description = "Wire DTOs, operation registry, error envelopes, event unions and SSE framing. Owner: Phase 06."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_protocol"
+
+[dependencies]
+opencode-schema.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+
+[lints]
+workspace = true

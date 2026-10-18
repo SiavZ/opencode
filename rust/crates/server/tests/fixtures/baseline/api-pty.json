@@ -1,0 +1,486 @@
+{
+  "family": "api-pty",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 5,
+      "id": "setup:v2.pty.create",
+      "operationId": "v2.pty.create",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/pty",
+        "auth": "valid",
+        "body": {
+          "command": "/bin/sh",
+          "args": [
+            "-c",
+            "sleep 30"
+          ],
+          "title": "fixture"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": {
+            "id": "{pty_1}",
+            "title": "fixture",
+            "command": "/bin/sh",
+            "args": [
+              "-c",
+              "sleep 30",
+              "-l"
+            ],
+            "cwd": "{PROJ}",
+            "status": "running",
+            "pid": "{PID}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 324,
+      "id": "v2.pty.list#ok",
+      "operationId": "v2.pty.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/pty",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": [
+            {
+              "id": "{pty_1}",
+              "title": "fixture",
+              "command": "/bin/sh",
+              "args": [
+                "-c",
+                "sleep 30",
+                "-l"
+              ],
+              "cwd": "{PROJ}",
+              "status": "running",
+              "pid": "{PID}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seq": 325,
+      "id": "v2.pty.create#bad-body",
+      "operationId": "v2.pty.create",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/pty",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 326,
+      "id": "v2.pty.create#wrong-type",
+      "operationId": "v2.pty.create",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/pty",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "InvalidRequestError",
+          "message": "Expected object, got [1,2,3]",
+          "kind": "Payload"
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 327,
+      "id": "v2.pty.get#ok",
+      "operationId": "v2.pty.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/pty/{pty_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": {
+            "id": "{pty_1}",
+            "title": "fixture",
+            "command": "/bin/sh",
+            "args": [
+              "-c",
+              "sleep 30",
+              "-l"
+            ],
+            "cwd": "{PROJ}",
+            "status": "running",
+            "pid": "{PID}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 328,
+      "id": "v2.pty.get#missing-pty",
+      "operationId": "v2.pty.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/pty/pty_missing000000000000000000",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "PtyNotFoundError",
+          "ptyID": "pty_missing000000000000000000",
+          "message": "PTY session not found: pty_missing000000000000000000"
+        }
+      }
+    },
+    {
+      "seq": 329,
+      "id": "v2.pty.update#ok",
+      "operationId": "v2.pty.update",
+      "server": "nopass",
+      "request": {
+        "method": "PUT",
+        "path": "/api/pty/{pty_1}",
+        "auth": "valid",
+        "body": {
+          "title": "renamed",
+          "size": {
+            "rows": 24,
+            "cols": 80
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": {
+            "id": "{pty_1}",
+            "title": "renamed",
+            "command": "/bin/sh",
+            "args": [
+              "-c",
+              "sleep 30",
+              "-l"
+            ],
+            "cwd": "{PROJ}",
+            "status": "running",
+            "pid": "{PID}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 330,
+      "id": "v2.pty.update#bad-body",
+      "operationId": "v2.pty.update",
+      "server": "nopass",
+      "request": {
+        "method": "PUT",
+        "path": "/api/pty/{pty_1}",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 331,
+      "id": "v2.pty.update#wrong-type",
+      "operationId": "v2.pty.update",
+      "server": "nopass",
+      "request": {
+        "method": "PUT",
+        "path": "/api/pty/{pty_1}",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "InvalidRequestError",
+          "message": "Expected object, got [1,2,3]",
+          "kind": "Payload"
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 332,
+      "id": "v2.pty.update#missing-pty",
+      "operationId": "v2.pty.update",
+      "server": "nopass",
+      "request": {
+        "method": "PUT",
+        "path": "/api/pty/pty_missing000000000000000000",
+        "auth": "valid",
+        "body": {
+          "title": "renamed",
+          "size": {
+            "rows": 24,
+            "cols": 80
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "PtyNotFoundError",
+          "ptyID": "pty_missing000000000000000000",
+          "message": "PTY session not found: pty_missing000000000000000000"
+        }
+      }
+    },
+    {
+      "seq": 333,
+      "id": "v2.pty.connectToken#ok",
+      "operationId": "v2.pty.connectToken",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/pty/{pty_1}/connect-token",
+        "auth": "valid",
+        "headers": {
+          "x-opencode-ticket": "1"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": {
+            "ticket": "{TICKET}",
+            "expires_in": 60
+          }
+        }
+      }
+    },
+    {
+      "seq": 334,
+      "id": "v2.pty.connectToken#missing-pty",
+      "operationId": "v2.pty.connectToken",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/api/pty/pty_missing000000000000000000/connect-token",
+        "auth": "valid",
+        "headers": {
+          "x-opencode-ticket": "1"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "PtyNotFoundError",
+          "ptyID": "pty_missing000000000000000000",
+          "message": "PTY session not found: pty_missing000000000000000000"
+        }
+      }
+    },
+    {
+      "seq": 359,
+      "id": "v2.pty.remove#ok",
+      "operationId": "v2.pty.remove",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/api/pty/{pty_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 360,
+      "id": "v2.pty.remove#missing-pty",
+      "operationId": "v2.pty.remove",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/api/pty/pty_missing000000000000000000",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "PtyNotFoundError",
+          "ptyID": "pty_missing000000000000000000",
+          "message": "PTY session not found: pty_missing000000000000000000"
+        }
+      }
+    },
+    {
+      "seq": 424,
+      "id": "v2.pty.connect#plain-get",
+      "operationId": "v2.pty.connect",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/pty/{pty_1}/connect",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    }
+  ]
+}

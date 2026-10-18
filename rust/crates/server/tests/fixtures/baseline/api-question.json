@@ -1,0 +1,35 @@
+{
+  "family": "api-question",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 335,
+      "id": "v2.question.request.list#ok",
+      "operationId": "v2.question.request.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/question/request",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": []
+        }
+      }
+    }
+  ]
+}

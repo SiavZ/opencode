@@ -1,0 +1,19 @@
+DESCRIPTION
+  Make a request to the running server
+
+USAGE
+  opencode api [flags] <operation | method path...>
+
+ARGUMENTS
+  operation | method path... stringOpenAPI operation ID, or an HTTP method followed by a path
+
+FLAGS
+  --data, -d string      Request body
+  --header, -H string    Request header in name:value form
+  --param key=value      OpenAPI path or query parameter
+
+GLOBAL FLAGS
+  --help, -h                                                          Show help information
+  --version, -v                                                       Show version information
+  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)
+  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)

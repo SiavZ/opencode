@@ -1,0 +1,226 @@
+{
+  "family": "legacy-config",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 24,
+      "id": "config.get#ok",
+      "operationId": "config.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/config",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "$schema": "https://opencode.ai/config.json",
+          "command": {},
+          "plugin": [],
+          "share": "disabled",
+          "autoupdate": false,
+          "model": "fixture/fixture-model",
+          "username": "unknown",
+          "mode": {},
+          "agent": {},
+          "provider": {
+            "fixture": {
+              "name": "Fixture",
+              "npm": "@ai-sdk/openai-compatible",
+              "options": {
+                "apiKey": "fixture-placeholder",
+                "baseURL": "http://127.0.0.1:{DEAD_PORT}/v1"
+              },
+              "models": {
+                "fixture-model": {
+                  "name": "Fixture Model"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "seq": 25,
+      "id": "config.update#ok",
+      "operationId": "config.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/config",
+        "auth": "valid",
+        "body": {
+          "share": "disabled"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "share": "disabled"
+        }
+      }
+    },
+    {
+      "seq": 26,
+      "id": "config.update#bad-body",
+      "operationId": "config.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/config",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 27,
+      "id": "config.update#wrong-type",
+      "operationId": "config.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/config",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected Config, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 28,
+      "id": "config.providers#ok",
+      "operationId": "config.providers",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/config/providers",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "providers": [
+            {
+              "id": "fixture",
+              "name": "Fixture",
+              "source": "config",
+              "env": [],
+              "options": {
+                "baseURL": "http://127.0.0.1:{DEAD_PORT}/v1",
+                "apiKey": "fixture-placeholder"
+              },
+              "models": {
+                "fixture-model": {
+                  "id": "fixture-model",
+                  "providerID": "fixture",
+                  "api": {
+                    "id": "fixture-model",
+                    "url": "",
+                    "npm": "@ai-sdk/openai-compatible"
+                  },
+                  "name": "Fixture Model",
+                  "family": "",
+                  "capabilities": {
+                    "temperature": false,
+                    "reasoning": false,
+                    "attachment": false,
+                    "toolcall": true,
+                    "input": {
+                      "text": true,
+                      "audio": false,
+                      "image": false,
+                      "video": false,
+                      "pdf": false
+                    },
+                    "output": {
+                      "text": true,
+                      "audio": false,
+                      "image": false,
+                      "video": false,
+                      "pdf": false
+                    },
+                    "interleaved": false
+                  },
+                  "cost": {
+                    "input": 0,
+                    "output": 0,
+                    "cache": {
+                      "read": 0,
+                      "write": 0
+                    }
+                  },
+                  "limit": {
+                    "context": 0,
+                    "output": 0
+                  },
+                  "status": "active",
+                  "options": {},
+                  "headers": {},
+                  "release_date": "",
+                  "variants": {}
+                }
+              }
+            }
+          ],
+          "default": {
+            "fixture": "fixture-model"
+          }
+        }
+      }
+    }
+  ]
+}

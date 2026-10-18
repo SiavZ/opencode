@@ -1,0 +1,244 @@
+{
+  "family": "legacy-project",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 1,
+      "id": "setup:project.current",
+      "operationId": "project.current",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/project/current",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{SHA}",
+          "worktree": "{PROJ}",
+          "vcs": "git",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          },
+          "sandboxes": []
+        }
+      }
+    },
+    {
+      "seq": 88,
+      "id": "project.list#ok",
+      "operationId": "project.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/project",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "id": "{SHA}",
+            "worktree": "{PROJ}",
+            "vcs": "git",
+            "time": {
+              "created": "{TS}",
+              "updated": "{TS}"
+            },
+            "sandboxes": []
+          }
+        ]
+      }
+    },
+    {
+      "seq": 89,
+      "id": "project.current#ok",
+      "operationId": "project.current",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/project/current",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{SHA}",
+          "worktree": "{PROJ}",
+          "vcs": "git",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          },
+          "sandboxes": []
+        }
+      }
+    },
+    {
+      "seq": 90,
+      "id": "project.initGit#ok",
+      "operationId": "project.initGit",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/project/git/init",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{SHA}",
+          "worktree": "{PROJ}",
+          "vcs": "git",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          },
+          "sandboxes": []
+        }
+      }
+    },
+    {
+      "seq": 91,
+      "id": "project.update#ok",
+      "operationId": "project.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/project/{SHA}",
+        "auth": "valid",
+        "body": {
+          "name": "fixture project"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{SHA}",
+          "worktree": "{PROJ}",
+          "vcs": "git",
+          "name": "fixture project",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          },
+          "sandboxes": []
+        }
+      }
+    },
+    {
+      "seq": 92,
+      "id": "project.update#bad-body",
+      "operationId": "project.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/project/{SHA}",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 93,
+      "id": "project.update#wrong-type",
+      "operationId": "project.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/project/{SHA}",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 94,
+      "id": "project.directories#ok",
+      "operationId": "project.directories",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/project/{SHA}/directories",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "directory": "{PROJ}"
+          }
+        ]
+      }
+    }
+  ]
+}

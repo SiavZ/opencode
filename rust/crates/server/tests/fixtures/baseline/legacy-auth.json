@@ -1,0 +1,113 @@
+{
+  "family": "legacy-auth",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 7,
+      "id": "auth.set#ok",
+      "operationId": "auth.set",
+      "server": "nopass",
+      "request": {
+        "method": "PUT",
+        "path": "/auth/missing-provider",
+        "auth": "valid",
+        "body": {
+          "type": "api",
+          "key": "fixture-not-a-key"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 8,
+      "id": "auth.set#bad-body",
+      "operationId": "auth.set",
+      "server": "nopass",
+      "request": {
+        "method": "PUT",
+        "path": "/auth/missing-provider",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 9,
+      "id": "auth.set#wrong-type",
+      "operationId": "auth.set",
+      "server": "nopass",
+      "request": {
+        "method": "PUT",
+        "path": "/auth/missing-provider",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected Auth, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 10,
+      "id": "auth.remove#ok",
+      "operationId": "auth.remove",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/auth/missing-provider",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    }
+  ]
+}

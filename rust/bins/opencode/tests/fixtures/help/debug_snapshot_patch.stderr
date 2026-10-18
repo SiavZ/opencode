@@ -1,0 +1,13 @@
+opencode debug snapshot patch <hash>
+
+show patch for a snapshot hash
+
+Positionals:
+  hash  hash                                                                     [string] [required]
+
+Options:
+  -h, --help        show help                                                              [boolean]
+  -v, --version     show version number                                                    [boolean]
+      --print-logs  print logs to stderr                                                   [boolean]
+      --log-level   log level                   [string] [choices: "DEBUG", "INFO", "WARN", "ERROR"]
+      --pure        run without external plugins                                           [boolean]

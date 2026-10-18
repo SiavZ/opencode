@@ -1,0 +1,21 @@
+[package]
+name = "opencode-view-model"
+description = "Portable session view-model: identity, cache, canonical reducer, projection, timeline. Owner: Phase 10."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_view_model"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+base64.workspace = true
+
+[dev-dependencies]
+
+[lints]
+workspace = true

@@ -1,0 +1,32 @@
+# Phase 15 black-box acceptance harness. Standalone project (own empty [workspace]) outside the
+# main workspace members. Drives BASELINE_CMD and CANDIDATE_CMD through workflows/*.toml.
+[package]
+name = "opencode-acceptance"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.99"
+license = "MIT"
+publish = false
+
+[workspace]
+
+[[bin]]
+name = "acceptance"
+path = "src/main.rs"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+opencode-benchmarks = { path = "../../benchmarks" }
+anyhow = "1.0.104"
+regex = "1"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.151", features = ["preserve_order"] }
+sha2 = "0.11.0"
+tempfile = "3.27.0"
+toml = "0.9.8"
+ureq = { version = "3.3.0", default-features = false, features = ["json"] }
+
+[lints.rust]
+unsafe_code = "deny"

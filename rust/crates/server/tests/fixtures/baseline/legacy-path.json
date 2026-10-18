@@ -1,0 +1,32 @@
+{
+  "family": "legacy-path",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 62,
+      "id": "path.get#ok",
+      "operationId": "path.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/path",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "home": "{TMP}/home",
+          "state": "{TMP}/state/opencode",
+          "config": "{TMP}/config/opencode",
+          "worktree": "{PROJ}",
+          "directory": "{PROJ}"
+        }
+      }
+    }
+  ]
+}

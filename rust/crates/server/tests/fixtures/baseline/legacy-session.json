@@ -1,0 +1,2437 @@
+{
+  "family": "legacy-session",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 2,
+      "id": "setup:session.create",
+      "operationId": "session.create",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session",
+        "auth": "valid",
+        "body": {
+          "title": "fixture"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{ses_1}",
+          "slug": "{SLUG}",
+          "projectID": "{SHA}",
+          "directory": "{PROJ}",
+          "path": "",
+          "cost": 0,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "title": "fixture",
+          "version": "local",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 3,
+      "id": "setup:session.prompt.noReply",
+      "operationId": "session.prompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/message",
+        "auth": "valid",
+        "body": {
+          "noReply": true,
+          "parts": [
+            {
+              "type": "text",
+              "text": "hello fixture"
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "info": {
+            "id": "{msg_1}",
+            "role": "user",
+            "sessionID": "{ses_1}",
+            "time": {
+              "created": "{TS}"
+            },
+            "agent": "build",
+            "model": {
+              "providerID": "fixture",
+              "modelID": "fixture-model"
+            }
+          },
+          "parts": [
+            {
+              "type": "text",
+              "text": "hello fixture",
+              "messageID": "{msg_1}",
+              "sessionID": "{ses_1}",
+              "id": "{prt_1}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seq": 127,
+      "id": "session.list#ok",
+      "operationId": "session.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session",
+        "auth": "valid",
+        "query": [
+          [
+            "limit",
+            "5"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "id": "{ses_2}",
+            "slug": "{SLUG}",
+            "projectID": "{SHA}",
+            "directory": "{PROJ}",
+            "path": "",
+            "cost": 0,
+            "tokens": {
+              "input": 0,
+              "output": 0,
+              "reasoning": 0,
+              "cache": {
+                "read": 0,
+                "write": 0
+              }
+            },
+            "title": "New session - {ISO}",
+            "version": "local",
+            "time": {
+              "created": "{TS}",
+              "updated": "{TS}"
+            }
+          },
+          {
+            "id": "{ses_1}",
+            "slug": "{SLUG}",
+            "projectID": "{SHA}",
+            "directory": "{PROJ}",
+            "path": "",
+            "cost": 0,
+            "tokens": {
+              "input": 0,
+              "output": 0,
+              "reasoning": 0,
+              "cache": {
+                "read": 0,
+                "write": 0
+              }
+            },
+            "title": "fixture",
+            "agent": "build",
+            "model": {
+              "id": "fixture-model",
+              "providerID": "fixture",
+              "variant": "default"
+            },
+            "version": "local",
+            "time": {
+              "created": "{TS}",
+              "updated": "{TS}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "seq": 128,
+      "id": "session.create#ok",
+      "operationId": "session.create",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session",
+        "auth": "valid",
+        "body": {
+          "title": "fixture 2"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{ses_3}",
+          "slug": "{SLUG}",
+          "projectID": "{SHA}",
+          "directory": "{PROJ}",
+          "path": "",
+          "cost": 0,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "title": "fixture 2",
+          "version": "local",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 129,
+      "id": "session.create#bad-body",
+      "operationId": "session.create",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "BadRequest"
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 130,
+      "id": "session.create#wrong-type",
+      "operationId": "session.create",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "BadRequest"
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 131,
+      "id": "session.status#ok",
+      "operationId": "session.status",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/status",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {}
+      }
+    },
+    {
+      "seq": 132,
+      "id": "session.get#ok",
+      "operationId": "session.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/{ses_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{ses_1}",
+          "slug": "{SLUG}",
+          "projectID": "{SHA}",
+          "directory": "{PROJ}",
+          "path": "",
+          "cost": 0,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "title": "fixture",
+          "agent": "build",
+          "model": {
+            "id": "fixture-model",
+            "providerID": "fixture",
+            "variant": "default"
+          },
+          "version": "local",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 133,
+      "id": "session.get#missing-session",
+      "operationId": "session.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/ses_missing000000000000000000",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 134,
+      "id": "session.update#ok",
+      "operationId": "session.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/session/{ses_1}",
+        "auth": "valid",
+        "body": {
+          "title": "renamed"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{ses_1}",
+          "slug": "{SLUG}",
+          "projectID": "{SHA}",
+          "directory": "{PROJ}",
+          "path": "",
+          "cost": 0,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "title": "renamed",
+          "agent": "build",
+          "model": {
+            "id": "fixture-model",
+            "providerID": "fixture",
+            "variant": "default"
+          },
+          "version": "local",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 135,
+      "id": "session.update#bad-body",
+      "operationId": "session.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/session/{ses_1}",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 136,
+      "id": "session.update#wrong-type",
+      "operationId": "session.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/session/{ses_1}",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 137,
+      "id": "session.update#missing-session",
+      "operationId": "session.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/session/ses_missing000000000000000000",
+        "auth": "valid",
+        "body": {
+          "title": "renamed"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 138,
+      "id": "session.children#ok",
+      "operationId": "session.children",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/{ses_1}/children",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    },
+    {
+      "seq": 139,
+      "id": "session.children#missing-session",
+      "operationId": "session.children",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/ses_missing000000000000000000/children",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 140,
+      "id": "session.todo#ok",
+      "operationId": "session.todo",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/{ses_1}/todo",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    },
+    {
+      "seq": 141,
+      "id": "session.todo#missing-session",
+      "operationId": "session.todo",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/ses_missing000000000000000000/todo",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 142,
+      "id": "session.diff#ok",
+      "operationId": "session.diff",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/{ses_1}/diff",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    },
+    {
+      "seq": 143,
+      "id": "session.diff#missing-session",
+      "operationId": "session.diff",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/ses_missing000000000000000000/diff",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    },
+    {
+      "seq": 144,
+      "id": "session.messages#ok",
+      "operationId": "session.messages",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/{ses_1}/message",
+        "auth": "valid",
+        "query": [
+          [
+            "limit",
+            "5"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "info": {
+              "id": "{msg_1}",
+              "sessionID": "{ses_1}",
+              "role": "user",
+              "time": {
+                "created": "{TS}"
+              },
+              "agent": "build",
+              "model": {
+                "providerID": "fixture",
+                "modelID": "fixture-model"
+              }
+            },
+            "parts": [
+              {
+                "id": "{prt_1}",
+                "sessionID": "{ses_1}",
+                "messageID": "{msg_1}",
+                "type": "text",
+                "text": "hello fixture"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "seq": 145,
+      "id": "session.messages#missing-session",
+      "operationId": "session.messages",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/ses_missing000000000000000000/message",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 146,
+      "id": "session.prompt#ok",
+      "operationId": "session.prompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/message",
+        "auth": "valid",
+        "body": {
+          "noReply": true,
+          "parts": [
+            {
+              "type": "text",
+              "text": "second"
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "info": {
+            "id": "{msg_2}",
+            "role": "user",
+            "sessionID": "{ses_1}",
+            "time": {
+              "created": "{TS}"
+            },
+            "agent": "build",
+            "model": {
+              "providerID": "fixture",
+              "modelID": "fixture-model"
+            }
+          },
+          "parts": [
+            {
+              "type": "text",
+              "text": "second",
+              "messageID": "{msg_2}",
+              "sessionID": "{ses_1}",
+              "id": "{prt_2}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seq": 147,
+      "id": "session.prompt#bad-body",
+      "operationId": "session.prompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/message",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 148,
+      "id": "session.prompt#wrong-type",
+      "operationId": "session.prompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/message",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 149,
+      "id": "session.prompt#missing-session",
+      "operationId": "session.prompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/message",
+        "auth": "valid",
+        "body": {
+          "noReply": true,
+          "parts": [
+            {
+              "type": "text",
+              "text": "second"
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 150,
+      "id": "session.message#ok",
+      "operationId": "session.message",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/{ses_1}/message/{msg_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "info": {
+            "id": "{msg_1}",
+            "sessionID": "{ses_1}",
+            "role": "user",
+            "time": {
+              "created": "{TS}"
+            },
+            "agent": "build",
+            "model": {
+              "providerID": "fixture",
+              "modelID": "fixture-model"
+            }
+          },
+          "parts": [
+            {
+              "id": "{prt_1}",
+              "sessionID": "{ses_1}",
+              "messageID": "{msg_1}",
+              "type": "text",
+              "text": "hello fixture"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seq": 151,
+      "id": "session.message#missing-session",
+      "operationId": "session.message",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/ses_missing000000000000000000/message/{msg_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Message not found: {msg_1}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 152,
+      "id": "session.fork#ok",
+      "operationId": "session.fork",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/fork",
+        "auth": "valid",
+        "body": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{ses_4}",
+          "slug": "{SLUG}",
+          "projectID": "{SHA}",
+          "directory": "{PROJ}",
+          "path": "",
+          "cost": 0,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "title": "renamed (fork #1)",
+          "version": "local",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 153,
+      "id": "session.fork#bad-body",
+      "operationId": "session.fork",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/fork",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "BadRequest"
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 154,
+      "id": "session.fork#wrong-type",
+      "operationId": "session.fork",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/fork",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "BadRequest"
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 155,
+      "id": "session.fork#missing-session",
+      "operationId": "session.fork",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/fork",
+        "auth": "valid",
+        "body": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 156,
+      "id": "session.abort#ok",
+      "operationId": "session.abort",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/abort",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 157,
+      "id": "session.abort#missing-session",
+      "operationId": "session.abort",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/abort",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 158,
+      "id": "session.init#ok",
+      "operationId": "session.init",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/init",
+        "auth": "valid",
+        "body": {
+          "modelID": "missing",
+          "providerID": "missing",
+          "messageID": "msg_missing000000000000000000"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 159,
+      "id": "session.init#bad-body",
+      "operationId": "session.init",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/init",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 160,
+      "id": "session.init#wrong-type",
+      "operationId": "session.init",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/init",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 161,
+      "id": "session.init#missing-session",
+      "operationId": "session.init",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/init",
+        "auth": "valid",
+        "body": {
+          "modelID": "missing",
+          "providerID": "missing",
+          "messageID": "msg_missing000000000000000000"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 162,
+      "id": "session.share#ok",
+      "operationId": "session.share",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/share",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 163,
+      "id": "session.share#missing-session",
+      "operationId": "session.share",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/share",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 164,
+      "id": "session.unshare#ok",
+      "operationId": "session.unshare",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/session/{ses_1}/share",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{ses_1}",
+          "slug": "{SLUG}",
+          "projectID": "{SHA}",
+          "directory": "{PROJ}",
+          "path": "",
+          "cost": 0,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "title": "renamed",
+          "agent": "build",
+          "model": {
+            "id": "fixture-model",
+            "providerID": "fixture",
+            "variant": "default"
+          },
+          "version": "local",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 165,
+      "id": "session.unshare#missing-session",
+      "operationId": "session.unshare",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/session/ses_missing000000000000000000/share",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 166,
+      "id": "session.summarize#ok",
+      "operationId": "session.summarize",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/summarize",
+        "auth": "valid",
+        "body": {
+          "providerID": "missing",
+          "modelID": "missing"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 167,
+      "id": "session.summarize#bad-body",
+      "operationId": "session.summarize",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/summarize",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 168,
+      "id": "session.summarize#wrong-type",
+      "operationId": "session.summarize",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/summarize",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 169,
+      "id": "session.summarize#missing-session",
+      "operationId": "session.summarize",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/summarize",
+        "auth": "valid",
+        "body": {
+          "providerID": "missing",
+          "modelID": "missing"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 170,
+      "id": "session.prompt_async#ok",
+      "operationId": "session.prompt_async",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/prompt_async",
+        "auth": "valid",
+        "body": {
+          "noReply": true,
+          "parts": [
+            {
+              "type": "text",
+              "text": "async"
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 171,
+      "id": "session.prompt_async#bad-body",
+      "operationId": "session.prompt_async",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/prompt_async",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 172,
+      "id": "session.prompt_async#wrong-type",
+      "operationId": "session.prompt_async",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/prompt_async",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 173,
+      "id": "session.prompt_async#missing-session",
+      "operationId": "session.prompt_async",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/prompt_async",
+        "auth": "valid",
+        "body": {
+          "noReply": true,
+          "parts": [
+            {
+              "type": "text",
+              "text": "async"
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 174,
+      "id": "session.command#ok",
+      "operationId": "session.command",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/command",
+        "auth": "valid",
+        "body": {
+          "command": "missing-command",
+          "arguments": ""
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 175,
+      "id": "session.command#bad-body",
+      "operationId": "session.command",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/command",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 176,
+      "id": "session.command#wrong-type",
+      "operationId": "session.command",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/command",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 177,
+      "id": "session.command#missing-session",
+      "operationId": "session.command",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/command",
+        "auth": "valid",
+        "body": {
+          "command": "missing-command",
+          "arguments": ""
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 178,
+      "id": "session.shell#bad-body",
+      "operationId": "session.shell",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/shell",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 179,
+      "id": "session.shell#wrong-type",
+      "operationId": "session.shell",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/shell",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 180,
+      "id": "session.shell#missing-session",
+      "operationId": "session.shell",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/shell",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got undefined",
+            "kind": "Payload"
+          }
+        }
+      }
+    },
+    {
+      "seq": 181,
+      "id": "session.revert#ok",
+      "operationId": "session.revert",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/revert",
+        "auth": "valid",
+        "body": {
+          "messageID": "msg_missing000000000000000000"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{ses_1}",
+          "slug": "{SLUG}",
+          "projectID": "{SHA}",
+          "directory": "{PROJ}",
+          "path": "",
+          "cost": 0,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "title": "renamed",
+          "agent": "build",
+          "model": {
+            "id": "fixture-model",
+            "providerID": "fixture",
+            "variant": "default"
+          },
+          "version": "local",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 182,
+      "id": "session.revert#bad-body",
+      "operationId": "session.revert",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/revert",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 183,
+      "id": "session.revert#wrong-type",
+      "operationId": "session.revert",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/revert",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 184,
+      "id": "session.revert#missing-session",
+      "operationId": "session.revert",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/revert",
+        "auth": "valid",
+        "body": {
+          "messageID": "msg_missing000000000000000000"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 185,
+      "id": "session.unrevert#ok",
+      "operationId": "session.unrevert",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/unrevert",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "id": "{ses_1}",
+          "slug": "{SLUG}",
+          "projectID": "{SHA}",
+          "directory": "{PROJ}",
+          "path": "",
+          "cost": 0,
+          "tokens": {
+            "input": 0,
+            "output": 0,
+            "reasoning": 0,
+            "cache": {
+              "read": 0,
+              "write": 0
+            }
+          },
+          "title": "renamed",
+          "agent": "build",
+          "model": {
+            "id": "fixture-model",
+            "providerID": "fixture",
+            "variant": "default"
+          },
+          "version": "local",
+          "time": {
+            "created": "{TS}",
+            "updated": "{TS}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 186,
+      "id": "session.unrevert#missing-session",
+      "operationId": "session.unrevert",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/unrevert",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 187,
+      "id": "permission.respond#ok",
+      "operationId": "permission.respond",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/permissions/per_missing000000000000000000",
+        "auth": "valid",
+        "body": {
+          "response": "once"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "PermissionNotFoundError",
+          "requestID": "per_missing000000000000000000",
+          "message": "Permission request not found: per_missing000000000000000000"
+        }
+      }
+    },
+    {
+      "seq": 188,
+      "id": "permission.respond#bad-body",
+      "operationId": "permission.respond",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/permissions/per_missing000000000000000000",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 189,
+      "id": "permission.respond#wrong-type",
+      "operationId": "permission.respond",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/{ses_1}/permissions/per_missing000000000000000000",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 190,
+      "id": "permission.respond#missing-session",
+      "operationId": "permission.respond",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/session/ses_missing000000000000000000/permissions/per_missing000000000000000000",
+        "auth": "valid",
+        "body": {
+          "response": "once"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 191,
+      "id": "part.update#ok",
+      "operationId": "part.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/session/{ses_1}/message/{msg_1}/part/{prt_1}",
+        "auth": "valid",
+        "body": {
+          "id": "prt_missing000000000000000000",
+          "sessionID": "ses_missing000000000000000000",
+          "messageID": "msg_missing000000000000000000",
+          "type": "text",
+          "text": "x"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "BadRequest"
+        }
+      }
+    },
+    {
+      "seq": 192,
+      "id": "part.update#bad-body",
+      "operationId": "part.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/session/{ses_1}/message/{msg_1}/part/{prt_1}",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 193,
+      "id": "part.update#wrong-type",
+      "operationId": "part.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/session/{ses_1}/message/{msg_1}/part/{prt_1}",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected Part, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 194,
+      "id": "part.update#missing-session",
+      "operationId": "part.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/session/ses_missing000000000000000000/message/{msg_1}/part/{prt_1}",
+        "auth": "valid",
+        "body": {
+          "id": "prt_missing000000000000000000",
+          "sessionID": "ses_missing000000000000000000",
+          "messageID": "msg_missing000000000000000000",
+          "type": "text",
+          "text": "x"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 353,
+      "id": "session.delete#ok",
+      "operationId": "session.delete",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/session/{ses_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 354,
+      "id": "session.delete#missing-session",
+      "operationId": "session.delete",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/session/ses_missing000000000000000000",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 355,
+      "id": "session.deleteMessage#ok",
+      "operationId": "session.deleteMessage",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/session/{ses_1}/message/{msg_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: {ses_1}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 356,
+      "id": "session.deleteMessage#missing-session",
+      "operationId": "session.deleteMessage",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/session/ses_missing000000000000000000/message/{msg_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 357,
+      "id": "part.delete#ok",
+      "operationId": "part.delete",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/session/{ses_1}/message/{msg_1}/part/{prt_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: {ses_1}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 358,
+      "id": "part.delete#missing-session",
+      "operationId": "part.delete",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/session/ses_missing000000000000000000/message/{msg_1}/part/{prt_1}",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 365,
+      "id": "session.get#bad-id",
+      "operationId": "session.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/session/not-an-id",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    }
+  ]
+}

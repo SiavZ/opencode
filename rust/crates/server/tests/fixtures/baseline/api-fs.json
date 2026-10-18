@@ -1,0 +1,151 @@
+{
+  "family": "api-fs",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 318,
+      "id": "v2.fs.read#ok",
+      "operationId": "v2.fs.read",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/fs/read/README.md",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/markdown",
+          "vary": "Origin"
+        },
+        "kind": "text",
+        "body": "# fixture project\n\nhello fixture\nmodified\n"
+      }
+    },
+    {
+      "seq": 319,
+      "id": "v2.fs.list#ok",
+      "operationId": "v2.fs.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/fs/list",
+        "auth": "valid",
+        "query": [
+          [
+            "path",
+            "."
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": [
+            {
+              "path": ".git/",
+              "type": "directory"
+            },
+            {
+              "path": "src/",
+              "type": "directory"
+            },
+            {
+              "path": "config.json",
+              "type": "file"
+            },
+            {
+              "path": "README.md",
+              "type": "file"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seq": 320,
+      "id": "v2.fs.find#ok",
+      "operationId": "v2.fs.find",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/fs/find",
+        "auth": "valid",
+        "query": [
+          [
+            "query",
+            "main"
+          ],
+          [
+            "limit",
+            "5"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": [
+            {
+              "path": "src/main.ts",
+              "type": "file"
+            },
+            {
+              "path": "config.json",
+              "type": "file"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seq": 321,
+      "id": "v2.fs.find#missing-query",
+      "operationId": "v2.fs.find",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/fs/find",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "InvalidRequestError",
+          "message": "Missing key\n  at [\"query\"]",
+          "kind": "Query"
+        }
+      },
+      "note": "required query omitted"
+    }
+  ]
+}

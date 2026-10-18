@@ -1,0 +1,32 @@
+[package]
+name = "opencode"
+description = "OpenCode CLI, server and terminal composition root. Owners: Phase 09 (CLI/TUI), Phase 91 (composition)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "opencode"
+path = "src/main.rs"
+
+[dependencies]
+opencode-ui-terminal.workspace = true
+opencode-runtime.workspace = true
+opencode-config.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "signal", "macros"] }
+clap.workspace = true
+clap_complete.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+reqwest = { workspace = true, features = ["rustls", "json"] }
+tokio = { workspace = true, features = ["rt", "macros"] }
+
+[lints]
+workspace = true

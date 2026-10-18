@@ -1,0 +1,277 @@
+{
+  "create": {
+    "id": "cdefGHIJ",
+    "sessionID": "ses_0123456789abcdefGHIJ",
+    "secretLength": 36
+  },
+  "syncTrace": [
+    "GET share/cdefGHIJ.json",
+    "GET share_snapshot/cdefGHIJ.json",
+    "PUT share_snapshot/cdefGHIJ.json",
+    "GET share/cdefGHIJ.json",
+    "GET share_snapshot/cdefGHIJ.json",
+    "PUT share_snapshot/cdefGHIJ.json"
+  ],
+  "syncInputs": [
+    [
+      {
+        "type": "part",
+        "data": {
+          "id": "prt_b",
+          "messageID": "msg_B",
+          "sessionID": "ses_0123456789abcdefGHIJ",
+          "type": "text",
+          "text": "1"
+        }
+      },
+      {
+        "type": "message",
+        "data": {
+          "id": "msg_a",
+          "sessionID": "ses_0123456789abcdefGHIJ",
+          "role": "user"
+        }
+      },
+      {
+        "type": "message",
+        "data": {
+          "id": "msg_A",
+          "sessionID": "ses_0123456789abcdefGHIJ",
+          "role": "user"
+        }
+      },
+      {
+        "type": "session",
+        "data": {
+          "id": "ses_0123456789abcdefGHIJ",
+          "title": "t"
+        }
+      },
+      {
+        "type": "part",
+        "data": {
+          "id": "prt_a",
+          "messageID": "msg_a_x",
+          "sessionID": "ses_0123456789abcdefGHIJ",
+          "type": "text",
+          "text": "2"
+        }
+      },
+      {
+        "type": "message",
+        "data": {
+          "id": "msg_a-",
+          "sessionID": "ses_0123456789abcdefGHIJ",
+          "role": "user"
+        }
+      },
+      {
+        "type": "message",
+        "data": {
+          "id": "msg_a_",
+          "sessionID": "ses_0123456789abcdefGHIJ",
+          "role": "user"
+        }
+      }
+    ],
+    [
+      {
+        "type": "model",
+        "data": [
+          {
+            "id": "m1"
+          }
+        ]
+      },
+      {
+        "type": "part",
+        "data": {
+          "id": "prt_b",
+          "messageID": "msg_B",
+          "sessionID": "ses_0123456789abcdefGHIJ",
+          "type": "text",
+          "text": "1-updated"
+        }
+      },
+      {
+        "type": "session_diff",
+        "data": []
+      },
+      {
+        "type": "message",
+        "data": {
+          "id": "msg_0",
+          "sessionID": "ses_0123456789abcdefGHIJ",
+          "role": "user"
+        }
+      }
+    ]
+  ],
+  "data": [
+    {
+      "type": "message",
+      "data": {
+        "id": "msg_0",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "role": "user"
+      }
+    },
+    {
+      "type": "message",
+      "data": {
+        "id": "msg_a",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "role": "user"
+      }
+    },
+    {
+      "type": "message",
+      "data": {
+        "id": "msg_A",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "role": "user"
+      }
+    },
+    {
+      "type": "message",
+      "data": {
+        "id": "msg_a_",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "role": "user"
+      }
+    },
+    {
+      "type": "message",
+      "data": {
+        "id": "msg_a-",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "role": "user"
+      }
+    },
+    {
+      "type": "model",
+      "data": [
+        {
+          "id": "m1"
+        }
+      ]
+    },
+    {
+      "type": "part",
+      "data": {
+        "id": "prt_a",
+        "messageID": "msg_a_x",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "type": "text",
+        "text": "2"
+      }
+    },
+    {
+      "type": "part",
+      "data": {
+        "id": "prt_b",
+        "messageID": "msg_B",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "type": "text",
+        "text": "1-updated"
+      }
+    },
+    {
+      "type": "session",
+      "data": {
+        "id": "ses_0123456789abcdefGHIJ",
+        "title": "t"
+      }
+    },
+    {
+      "type": "session_diff",
+      "data": []
+    }
+  ],
+  "legacyData": [
+    {
+      "type": "message",
+      "data": {
+        "id": "msg_0",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "role": "user"
+      }
+    },
+    {
+      "type": "message",
+      "data": {
+        "id": "msg_1",
+        "sessionID": "ses_0123456789abcdefGHIJ",
+        "role": "user"
+      }
+    }
+  ],
+  "legacyTrace": [
+    "GET share_snapshot/legacy01.json",
+    "GET share_compaction/legacy01.json",
+    "LIST list-type=2&prefix=share_event%2Flegacy01%2F",
+    "GET share_event/legacy01/evt_001.json",
+    "PUT share_compaction/legacy01.json",
+    "PUT share_snapshot/legacy01.json"
+  ],
+  "legacyObjects": {
+    "share/legacy01.json": "{\"id\":\"legacy01\",\"secret\":\"s\",\"sessionID\":\"ses_legacy01\"}",
+    "share_compaction/legacy01.json": "{\"event\":\"evt_001\",\"data\":[{\"type\":\"message\",\"data\":{\"id\":\"msg_0\",\"sessionID\":\"ses_0123456789abcdefGHIJ\",\"role\":\"user\"}},{\"type\":\"message\",\"data\":{\"id\":\"msg_1\",\"sessionID\":\"ses_0123456789abcdefGHIJ\",\"role\":\"user\"}}]}",
+    "share_event/legacy01/evt_001.json": "[{\"type\":\"message\",\"data\":{\"id\":\"msg_0\",\"sessionID\":\"ses_0123456789abcdefGHIJ\",\"role\":\"user\"}}]",
+    "share_event/legacy01/evt_003.json": "[{\"type\":\"part\",\"data\":{\"id\":\"prt_1\",\"messageID\":\"msg_1\",\"sessionID\":\"ses_0123456789abcdefGHIJ\",\"type\":\"text\",\"text\":\"x\"}}]",
+    "share_event/legacy01/evt_004.json": "[{\"type\":\"message\",\"data\":{\"id\":\"msg_2\",\"sessionID\":\"ses_0123456789abcdefGHIJ\",\"role\":\"user\"}}]",
+    "share_snapshot/legacy01.json": "{\"data\":[{\"type\":\"message\",\"data\":{\"id\":\"msg_0\",\"sessionID\":\"ses_0123456789abcdefGHIJ\",\"role\":\"user\"}},{\"type\":\"message\",\"data\":{\"id\":\"msg_1\",\"sessionID\":\"ses_0123456789abcdefGHIJ\",\"role\":\"user\"}}]}"
+  },
+  "errors": {
+    "duplicate": "Share already exists: cdefGHIJ",
+    "syncBadSecret": "Share secret invalid: cdefGHIJ",
+    "syncMissing": "Share not found: missing0",
+    "removeBadSecret": "Share secret invalid: cdefGHIJ"
+  },
+  "removeTrace": [
+    "GET share/cdefGHIJ.json",
+    "DELETE share/cdefGHIJ.json",
+    "LIST list-type=2&prefix=share_snapshot%2FcdefGHIJ%2F",
+    "LIST list-type=2&prefix=share_compaction%2FcdefGHIJ%2F",
+    "LIST list-type=2&prefix=share_event%2FcdefGHIJ%2F",
+    "LIST list-type=2&prefix=share_data%2FcdefGHIJ%2F",
+    "DELETE share_data/cdefGHIJ/session.json"
+  ],
+  "remainingAfterRemove": [
+    "share_snapshot/cdefGHIJ.json"
+  ],
+  "sigv4": [
+    {
+      "method": "GET",
+      "url": "https://acct.r2.cloudflarestorage.com/bucket/share/abc.json",
+      "body": null,
+      "signedUrl": "https://acct.r2.cloudflarestorage.com/bucket/share/abc.json",
+      "authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20261003/auto/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=6d5ecb278f4ef28f564d2b78f619dff7f17a81e8d272608ea84ad9dbfe96768e",
+      "contentSha256": "UNSIGNED-PAYLOAD"
+    },
+    {
+      "method": "PUT",
+      "url": "https://acct.r2.cloudflarestorage.com/bucket/share_snapshot/abc.json",
+      "body": "{\"data\":[]}",
+      "signedUrl": "https://acct.r2.cloudflarestorage.com/bucket/share_snapshot/abc.json",
+      "authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20261003/auto/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=05fd05fd28a5f1037a599de7fb24c6fe184dbe855381be1d6e4d844e46262a33",
+      "contentSha256": "UNSIGNED-PAYLOAD"
+    },
+    {
+      "method": "GET",
+      "url": "https://acct.r2.cloudflarestorage.com/bucket?list-type=2&prefix=share_event%2Fabc%2F&start-after=share_event%2Fabc%2Fevt_1.json",
+      "body": null,
+      "signedUrl": "https://acct.r2.cloudflarestorage.com/bucket?list-type=2&prefix=share_event%2Fabc%2F&start-after=share_event%2Fabc%2Fevt_1.json",
+      "authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20261003/auto/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=2d8168660196511bc73def0f7a82b17b5e5ef5605d88c85ed5a7daf70e18f24b",
+      "contentSha256": "UNSIGNED-PAYLOAD"
+    },
+    {
+      "method": "DELETE",
+      "url": "https://s3.us-east-1.amazonaws.com/bucket/a b/(x)!.json",
+      "body": null,
+      "signedUrl": "https://s3.us-east-1.amazonaws.com/bucket/a%20b/(x)!.json",
+      "authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20261003/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=7e85734b234a79d3cd25399616b102b10f8a4809d89fcb7d39f40a3e61e98190",
+      "contentSha256": "UNSIGNED-PAYLOAD"
+    }
+  ]
+}

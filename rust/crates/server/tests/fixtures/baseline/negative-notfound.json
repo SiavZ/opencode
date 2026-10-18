@@ -1,0 +1,78 @@
+{
+  "family": "negative-notfound",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 369,
+      "id": "notfound:GET /api/does-not-exist",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/does-not-exist",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 370,
+      "id": "notfound:GET /api/session/x/y/z",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/session/x/y/z",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 371,
+      "id": "notfound:GET /does-not-exist-route",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/does-not-exist-route",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 372,
+      "id": "notfound:DELETE /api/health",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/api/health",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    }
+  ]
+}

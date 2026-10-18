@@ -1,0 +1,40 @@
+[package]
+name = "opencode-hosted"
+description = "Hosted services composition root (axum). Owners: Phase 12 (root, console routes), Phase 13 (sharing, analytics, sites routes)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "opencode-hosted"
+path = "src/main.rs"
+
+[dependencies]
+opencode-hosted-domain.workspace = true
+opencode-hosted-adapters.workspace = true
+anyhow.workspace = true
+axum.workspace = true
+axum-extra = { workspace = true, features = ["cookie"] }
+tower.workspace = true
+tower-http = { workspace = true, features = ["trace"] }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "net", "signal"] }
+tokio-util.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+bytes.workspace = true
+futures.workspace = true
+http.workspace = true
+time.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+tower = { workspace = true, features = ["util"] }
+http-body-util.workspace = true
+# Phase 13 (sharing route tests).
+async-trait.workspace = true
+
+[lints]
+workspace = true

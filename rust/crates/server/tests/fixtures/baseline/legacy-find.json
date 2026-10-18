@@ -1,0 +1,230 @@
+{
+  "family": "legacy-find",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 51,
+      "id": "find.text#ok",
+      "operationId": "find.text",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/find",
+        "auth": "valid",
+        "query": [
+          [
+            "pattern",
+            "fixture"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "path": {
+              "text": "src/main.ts"
+            },
+            "lines": {
+              "text": "  return 'fixture'\n"
+            },
+            "line_number": 2,
+            "absolute_offset": 26,
+            "submatches": [
+              {
+                "match": {
+                  "text": "fixture"
+                },
+                "start": 10,
+                "end": 17
+              }
+            ]
+          },
+          {
+            "path": {
+              "text": "README.md"
+            },
+            "lines": {
+              "text": "# fixture project\n"
+            },
+            "line_number": 1,
+            "absolute_offset": 0,
+            "submatches": [
+              {
+                "match": {
+                  "text": "fixture"
+                },
+                "start": 2,
+                "end": 9
+              }
+            ]
+          },
+          {
+            "path": {
+              "text": "README.md"
+            },
+            "lines": {
+              "text": "hello fixture\n"
+            },
+            "line_number": 3,
+            "absolute_offset": 19,
+            "submatches": [
+              {
+                "match": {
+                  "text": "fixture"
+                },
+                "start": 6,
+                "end": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "seq": 52,
+      "id": "find.text#missing-query",
+      "operationId": "find.text",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/find",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Missing key\n  at [\"pattern\"]",
+            "kind": "Query"
+          }
+        }
+      },
+      "note": "required query omitted"
+    },
+    {
+      "seq": 53,
+      "id": "find.files#ok",
+      "operationId": "find.files",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/find/file",
+        "auth": "valid",
+        "query": [
+          [
+            "query",
+            "main"
+          ],
+          [
+            "limit",
+            "5"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          "src/main.ts",
+          "config.json"
+        ]
+      }
+    },
+    {
+      "seq": 54,
+      "id": "find.files#missing-query",
+      "operationId": "find.files",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/find/file",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Missing key\n  at [\"query\"]",
+            "kind": "Query"
+          }
+        }
+      },
+      "note": "required query omitted"
+    },
+    {
+      "seq": 55,
+      "id": "find.symbols#ok",
+      "operationId": "find.symbols",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/find/symbol",
+        "auth": "valid",
+        "query": [
+          [
+            "query",
+            "hello"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    },
+    {
+      "seq": 56,
+      "id": "find.symbols#missing-query",
+      "operationId": "find.symbols",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/find/symbol",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Missing key\n  at [\"query\"]",
+            "kind": "Query"
+          }
+        }
+      },
+      "note": "required query omitted"
+    }
+  ]
+}

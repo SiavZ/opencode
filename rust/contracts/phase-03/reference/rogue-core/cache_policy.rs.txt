@@ -1,0 +1,115 @@
+//! Purpose: apply `LlmRequest.cache` policy by injecting cache hints at configured boundaries
+//! before protocol body construction (`packages/llm/src/cache-policy.ts`).
+//! Scope: pure request transform.
+//! Uses:
+//! `-- none
+//! External:
+//! `-- opencode_llm_api::{CacheHint, CachePolicy, ContentPart, LlmRequest, MessageRole}
+//! Used by:
+//! rust/crates/
+//! |-- provider-adapters/src/core/mod.rs
+//! `-- provider-adapters/src/core/route.rs
+//! Invariants: only routes whose wire format honors inline hints (`anthropic-messages`,
+//! `bedrock-converse`) are touched. Policy `None`/`"auto"` marks last tool, last system part
+//! and the latest user message; `"none"` disables auto placement; manual hints are never
+//! overwritten. Message marking targets the last text part, else the last part.
+//! Contract tests: provider-adapters/tests/core.rs
+
+use opencode_llm_api::{
+    CacheHint, CacheHintType, CacheMessagesPolicy, CachePolicy, CachePolicyObject, ContentPart,
+    LlmRequest, Message, MessageRole,
+};
+
+const RESPECTS_INLINE_HINTS: &[&str] = &["anthropic-messages", "bedrock-converse"];
+
+fn resolve(policy: Option<&CachePolicy>) -> CachePolicyObject {
+    match policy {
+        None => auto(),
+        Some(CachePolicy::Named(name)) if name == "auto" => auto(),
+        Some(CachePolicy::Named(_)) => CachePolicyObject::default(),
+        Some(CachePolicy::Object(object)) => object.clone(),
+    }
+}
+
+fn auto() -> CachePolicyObject {
+    CachePolicyObject {
+        tools: Some(true),
+        system: Some(true),
+        messages: Some(CacheMessagesPolicy::Named("latest-user-message".into())),
+        ttl_seconds: None,
+    }
+}
+
+fn part_cache(part: &mut ContentPart) -> Option<&mut Option<CacheHint>> {
+    match part {
+        ContentPart::Text { cache, .. } => Some(cache),
+        ContentPart::ToolResult(result) => Some(&mut result.cache),
+        _ => None,
+    }
+}
+
+fn mark_message(messages: &mut [Message], index: Option<usize>, hint: &CacheHint) {
+    let Some(target) = index.and_then(|i| messages.get_mut(i)) else {
+        return;
+    };
+    if target.content.is_empty() {
+        return;
+    }
+    let at = target
+        .content
+        .iter()
+        .rposition(|p| matches!(p, ContentPart::Text { .. }))
+        .unwrap_or(target.content.len() - 1);
+    // Parts without a `cache` field (media, tool-call, reasoning) get no marker in the
+    // baseline either, because their schema drops the key on encode.
+    if let Some(slot) = part_cache(&mut target.content[at])
+        && slot.is_none()
+    {
+        *slot = Some(hint.clone());
+    }
+}
+
+pub fn apply_cache_policy(mut request: LlmRequest) -> LlmRequest {
+    if !RESPECTS_INLINE_HINTS.contains(&request.model.route.id()) {
+        return request;
+    }
+    let policy = resolve(request.cache.as_ref());
+    if policy.tools != Some(true) && policy.system != Some(true) && policy.messages.is_none() {
+        return request;
+    }
+    let hint = CacheHint {
+        kind: CacheHintType::Ephemeral,
+        ttl_seconds: policy.ttl_seconds,
+    };
+    if policy.tools == Some(true)
+        && let Some(last) = request.tools.last_mut()
+        && last.cache.is_none()
+    {
+        last.cache = Some(hint.clone());
+    }
+    if policy.system == Some(true)
+        && let Some(last) = request.system.last_mut()
+        && last.cache.is_none()
+    {
+        last.cache = Some(hint.clone());
+    }
+    let last_of = |messages: &[Message], role| messages.iter().rposition(|m| m.role == role);
+    match &policy.messages {
+        Some(CacheMessagesPolicy::Named(name)) if name == "latest-user-message" => {
+            let i = last_of(&request.messages, MessageRole::User);
+            mark_message(&mut request.messages, i, &hint);
+        }
+        Some(CacheMessagesPolicy::Named(name)) if name == "latest-assistant" => {
+            let i = last_of(&request.messages, MessageRole::Assistant);
+            mark_message(&mut request.messages, i, &hint);
+        }
+        Some(CacheMessagesPolicy::Tail { tail }) => {
+            let start = request.messages.len().saturating_sub(*tail as usize);
+            for i in start..request.messages.len() {
+                mark_message(&mut request.messages, Some(i), &hint);
+            }
+        }
+        _ => {}
+    }
+    request
+}

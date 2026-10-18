@@ -1,0 +1,220 @@
+{
+  "family": "legacy-global",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 17,
+      "id": "global.health#ok",
+      "operationId": "global.health",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/global/health",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true,
+          "version": "local"
+        }
+      }
+    },
+    {
+      "seq": 18,
+      "id": "global.config.get#ok",
+      "operationId": "global.config.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/global/config",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {}
+      }
+    },
+    {
+      "seq": 19,
+      "id": "global.config.update#ok",
+      "operationId": "global.config.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/global/config",
+        "auth": "valid",
+        "body": {
+          "share": "disabled"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "share": "disabled"
+        }
+      }
+    },
+    {
+      "seq": 20,
+      "id": "global.config.update#bad-body",
+      "operationId": "global.config.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/global/config",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 21,
+      "id": "global.config.update#wrong-type",
+      "operationId": "global.config.update",
+      "server": "nopass",
+      "request": {
+        "method": "PATCH",
+        "path": "/global/config",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected Config, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 22,
+      "id": "global.upgrade#bad-body",
+      "operationId": "global.upgrade",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/global/upgrade",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 23,
+      "id": "global.upgrade#wrong-type",
+      "operationId": "global.upgrade",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/global/upgrade",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 430,
+      "id": "global.dispose#ok",
+      "operationId": "global.dispose",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/global/dispose",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    }
+  ]
+}

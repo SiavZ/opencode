@@ -1,0 +1,38 @@
+[package]
+name = "opencode-tools"
+description = "Built-in leaf tools (files, search, shell, web, interaction) and tool output bounding. Owner: Phase 05."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_tools"
+
+[dependencies]
+opencode-schema.workspace = true
+opencode-tool-api.workspace = true
+opencode-permissions.workspace = true
+opencode-platform-api.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+futures.workspace = true
+tokio = { workspace = true, features = ["rt", "sync", "time", "fs", "io-util", "macros"] }
+tokio-util.workspace = true
+tracing.workspace = true
+regex.workspace = true
+tree-sitter.workspace = true
+tree-sitter-bash.workspace = true
+which.workspace = true
+base64.workspace = true
+
+[dev-dependencies]
+opencode-platform-native.workspace = true
+tempfile.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "test-util"] }
+
+[lints]
+workspace = true

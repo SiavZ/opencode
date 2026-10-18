@@ -1,0 +1,9 @@
+--help:show help
+--version:show version number
+--print-logs:print logs to stderr
+--log-level:log level
+--pure:run without external plugins
+--hostname:hostname to listen on
+--mdns:enable mDNS service discovery (defaults hostname to 0.0.0.0)
+--mdns-domain:custom domain name for mDNS service (default: opencode.local)
+--cors:additional domains to allow for CORS

@@ -1,0 +1,242 @@
+{
+  "family": "legacy-vcs",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 63,
+      "id": "vcs.get#ok",
+      "operationId": "vcs.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/vcs",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "branch": "main",
+          "default_branch": "main"
+        }
+      }
+    },
+    {
+      "seq": 64,
+      "id": "vcs.status#ok",
+      "operationId": "vcs.status",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/vcs/status",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "file": "config.json",
+            "additions": 3,
+            "deletions": 0,
+            "status": "added"
+          },
+          {
+            "file": "README.md",
+            "additions": 1,
+            "deletions": 0,
+            "status": "modified"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 65,
+      "id": "vcs.diff#ok",
+      "operationId": "vcs.diff",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/vcs/diff",
+        "auth": "valid",
+        "query": [
+          [
+            "mode",
+            "git"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "file": "config.json",
+            "patch": "diff --git a/config.json b/config.json\nnew file mode 100644\nindex 0000000..c4da59f\n--- /dev/null\n+++ b/config.json\n@@ -0,0 +1,3 @@\n+{\n+  \"share\": \"disabled\"\n+}\n\\ No newline at end of file\n",
+            "additions": 3,
+            "deletions": 0,
+            "status": "added"
+          },
+          {
+            "file": "README.md",
+            "patch": "diff --git a/README.md b/README.md\nindex 9f2ffb5..78afcfd 100644\n--- a/README.md\n+++ b/README.md\n@@ -1,3 +1,4 @@\n # fixture project\n \n hello fixture\n+modified\n",
+            "additions": 1,
+            "deletions": 0,
+            "status": "modified"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 66,
+      "id": "vcs.diff#missing-query",
+      "operationId": "vcs.diff",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/vcs/diff",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Missing key\n  at [\"mode\"]",
+            "kind": "Query"
+          }
+        }
+      },
+      "note": "required query omitted"
+    },
+    {
+      "seq": 67,
+      "id": "vcs.diff.raw#ok",
+      "operationId": "vcs.diff.raw",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/vcs/diff/raw",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/x-diff; charset=utf-8",
+          "vary": "Origin"
+        },
+        "kind": "text",
+        "body": "diff --git a/README.md b/README.md\nindex 9f2ffb5..78afcfd 100644\n--- a/README.md\n+++ b/README.md\n@@ -1,3 +1,4 @@\n # fixture project\n \n hello fixture\n+modified\n\ndiff --git a/config.json b/config.json\nnew file mode 100644\nindex 0000000..c4da59f\n--- /dev/null\n+++ b/config.json\n@@ -0,0 +1,3 @@\n+{\n+  \"share\": \"disabled\"\n+}\n\\ No newline at end of file\n"
+      }
+    },
+    {
+      "seq": 68,
+      "id": "vcs.apply#ok",
+      "operationId": "vcs.apply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/vcs/apply",
+        "auth": "valid",
+        "body": {
+          "patch": "not a patch"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "VcsApplyError",
+          "data": {
+            "message": "Patch can't be applied",
+            "reason": "not-clean"
+          }
+        }
+      }
+    },
+    {
+      "seq": 69,
+      "id": "vcs.apply#bad-body",
+      "operationId": "vcs.apply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/vcs/apply",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 70,
+      "id": "vcs.apply#wrong-type",
+      "operationId": "vcs.apply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/vcs/apply",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    }
+  ]
+}

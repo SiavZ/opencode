@@ -1,0 +1,661 @@
+{
+  "family": "legacy-tui",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 205,
+      "id": "tui.appendPrompt#ok",
+      "operationId": "tui.appendPrompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/append-prompt",
+        "auth": "valid",
+        "body": {
+          "text": "fixture"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 206,
+      "id": "tui.appendPrompt#bad-body",
+      "operationId": "tui.appendPrompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/append-prompt",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 207,
+      "id": "tui.appendPrompt#wrong-type",
+      "operationId": "tui.appendPrompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/append-prompt",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 208,
+      "id": "tui.openHelp#ok",
+      "operationId": "tui.openHelp",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/open-help",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 209,
+      "id": "tui.openSessions#ok",
+      "operationId": "tui.openSessions",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/open-sessions",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 210,
+      "id": "tui.openThemes#ok",
+      "operationId": "tui.openThemes",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/open-themes",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 211,
+      "id": "tui.openModels#ok",
+      "operationId": "tui.openModels",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/open-models",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 212,
+      "id": "tui.submitPrompt#ok",
+      "operationId": "tui.submitPrompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/submit-prompt",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 213,
+      "id": "tui.clearPrompt#ok",
+      "operationId": "tui.clearPrompt",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/clear-prompt",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 214,
+      "id": "tui.executeCommand#ok",
+      "operationId": "tui.executeCommand",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/execute-command",
+        "auth": "valid",
+        "body": {
+          "command": "fixture"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 215,
+      "id": "tui.executeCommand#bad-body",
+      "operationId": "tui.executeCommand",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/execute-command",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 216,
+      "id": "tui.executeCommand#wrong-type",
+      "operationId": "tui.executeCommand",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/execute-command",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 217,
+      "id": "tui.showToast#ok",
+      "operationId": "tui.showToast",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/show-toast",
+        "auth": "valid",
+        "body": {
+          "message": "fixture",
+          "variant": "info"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 218,
+      "id": "tui.showToast#bad-body",
+      "operationId": "tui.showToast",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/show-toast",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 219,
+      "id": "tui.showToast#wrong-type",
+      "operationId": "tui.showToast",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/show-toast",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 220,
+      "id": "tui.publish#ok",
+      "operationId": "tui.publish",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/publish",
+        "auth": "valid",
+        "body": {
+          "type": "tui.prompt.append",
+          "properties": {
+            "text": "fixture"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 221,
+      "id": "tui.publish#bad-body",
+      "operationId": "tui.publish",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/publish",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 222,
+      "id": "tui.publish#wrong-type",
+      "operationId": "tui.publish",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/publish",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected { readonly \"type\": \"tui.prompt.append\", ... } | { readonly \"type\": \"tui.command.execute\", ... } | { readonly \"type\": \"tui.toast.show\", ... } | { readonly \"type\": \"tui.session.select\", ... }, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 223,
+      "id": "tui.selectSession#ok",
+      "operationId": "tui.selectSession",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/select-session",
+        "auth": "valid",
+        "body": {
+          "sessionID": "ses_missing000000000000000000"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "NotFoundError",
+          "data": {
+            "message": "Session not found: ses_missing000000000000000000"
+          }
+        }
+      }
+    },
+    {
+      "seq": 224,
+      "id": "tui.selectSession#bad-body",
+      "operationId": "tui.selectSession",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/select-session",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 225,
+      "id": "tui.selectSession#wrong-type",
+      "operationId": "tui.selectSession",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/select-session",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 226,
+      "id": "tui.control.response#ok",
+      "operationId": "tui.control.response",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/control/response",
+        "auth": "valid",
+        "body": {
+          "ok": true
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 227,
+      "id": "tui.control.response#bad-body",
+      "operationId": "tui.control.response",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/control/response",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 228,
+      "id": "tui.control.response#wrong-type",
+      "operationId": "tui.control.response",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/tui/control/response",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 426,
+      "id": "tui.control.next#timeout",
+      "operationId": "tui.control.next",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/tui/control/next",
+        "auth": "valid"
+      },
+      "response": {
+        "status": null,
+        "headers": {},
+        "kind": "timeout"
+      }
+    }
+  ]
+}

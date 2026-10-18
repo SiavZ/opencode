@@ -1,0 +1,327 @@
+{
+  "family": "legacy-mcp",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 76,
+      "id": "mcp.status#ok",
+      "operationId": "mcp.status",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/mcp",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {}
+      }
+    },
+    {
+      "seq": 77,
+      "id": "mcp.add#ok",
+      "operationId": "mcp.add",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp",
+        "auth": "valid",
+        "body": {
+          "name": "fixture-mcp",
+          "config": {
+            "type": "remote",
+            "url": "http://127.0.0.1:9/mcp",
+            "enabled": false
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "fixture-mcp": {
+            "status": "disabled"
+          }
+        }
+      }
+    },
+    {
+      "seq": 78,
+      "id": "mcp.add#bad-body",
+      "operationId": "mcp.add",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 79,
+      "id": "mcp.add#wrong-type",
+      "operationId": "mcp.add",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 80,
+      "id": "mcp.auth.start#ok",
+      "operationId": "mcp.auth.start",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp/fixture-mcp/auth",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 81,
+      "id": "mcp.auth.remove#ok",
+      "operationId": "mcp.auth.remove",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/mcp/fixture-mcp/auth",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "success": true
+        }
+      }
+    },
+    {
+      "seq": 82,
+      "id": "mcp.auth.callback#ok",
+      "operationId": "mcp.auth.callback",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp/fixture-mcp/auth/callback",
+        "auth": "valid",
+        "body": {
+          "code": "fixture"
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 83,
+      "id": "mcp.auth.callback#bad-body",
+      "operationId": "mcp.auth.callback",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp/fixture-mcp/auth/callback",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 84,
+      "id": "mcp.auth.callback#wrong-type",
+      "operationId": "mcp.auth.callback",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp/fixture-mcp/auth/callback",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 85,
+      "id": "mcp.auth.authenticate#ok",
+      "operationId": "mcp.auth.authenticate",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp/fixture-mcp/auth/authenticate",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 86,
+      "id": "mcp.connect#ok",
+      "operationId": "mcp.connect",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp/fixture-mcp/connect",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 87,
+      "id": "mcp.disconnect#ok",
+      "operationId": "mcp.disconnect",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/mcp/fixture-mcp/disconnect",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    }
+  ]
+}

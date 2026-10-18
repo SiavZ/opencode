@@ -1,0 +1,26 @@
+{
+  "family": "legacy-instance",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 429,
+      "id": "instance.dispose#ok",
+      "operationId": "instance.dispose",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/instance/dispose",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    }
+  ]
+}

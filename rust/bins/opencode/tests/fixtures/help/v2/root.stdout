@@ -1,0 +1,18 @@
+DESCRIPTION
+  OpenCode 2.0 preview command line interface
+
+USAGE
+  opencode <subcommand> [flags]
+
+GLOBAL FLAGS
+  --help, -h                                                          Show help information
+  --version, -v                                                       Show version information
+  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)
+  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)
+
+SUBCOMMANDS
+  api        Make a request to the running server
+  debug      Debugging and troubleshooting tools
+  migrate    Migrate v1 data to v2
+  service    Manage the background server
+  serve      Start the v2 API server

@@ -1,0 +1,42 @@
+[package]
+name = "opencode-ui-web"
+description = "Leptos CSR browser application compiled to wasm32-unknown-unknown. Owner: Phase 10."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_ui_web"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+opencode-view-model.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+leptos = { workspace = true, features = ["csr"] }
+leptos_router.workspace = true
+wasm-bindgen.workspace = true
+js-sys.workspace = true
+console_error_panic_hook.workspace = true
+wasm-bindgen-futures.workspace = true
+gloo-net = { workspace = true, features = ["http", "eventsource"] }
+gloo-timers = { workspace = true, features = ["futures"] }
+pulldown-cmark = { workspace = true, default-features = false, features = ["html"] }
+ammonia.workspace = true
+syntect = { workspace = true, features = ["default-syntaxes", "default-themes", "regex-fancy", "html"] }
+
+[dependencies.web-sys]
+workspace = true
+features = [
+  "Window", "Document", "Element", "HtmlElement", "HtmlTextAreaElement", "HtmlInputElement",
+  "Node", "NodeList", "DomRect", "Event", "KeyboardEvent", "CompositionEvent", "InputEvent",
+  "ClipboardEvent", "DataTransfer", "FileList", "File", "Storage", "Location", "History",
+  "ResizeObserver", "ResizeObserverEntry", "ResizeObserverSize", "Performance", "PerformanceObserver",
+  "MediaQueryList", "CssStyleDeclaration", "ScrollToOptions", "ScrollBehavior", "Url",
+  "EventSource", "MessageEvent", "Navigator", "Clipboard", "console",
+]
+
+[lints]
+workspace = true

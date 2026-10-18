@@ -1,0 +1,1227 @@
+{
+  "//": {
+    "generator": "cargo xtask cloud plan",
+    "stage": "production",
+    "removal": "retain",
+    "protect": true,
+    "home": "cloudflare",
+    "dev_commands": [
+      "StatsStudio",
+      "Studio"
+    ]
+  },
+  "terraform": {
+    "required_providers": {
+      "aws": {
+        "source": "hashicorp/aws",
+        "version": "7.30.0"
+      },
+      "cloudflare": {
+        "source": "cloudflare/cloudflare"
+      },
+      "stripe": {
+        "source": "lukasaron/stripe",
+        "version": "0.0.28"
+      },
+      "random": {
+        "source": "hashicorp/random",
+        "version": "4.19.2"
+      },
+      "planetscale": {
+        "source": "planetscale/planetscale",
+        "version": "0.4.1"
+      },
+      "honeycombio": {
+        "source": "honeycombio/honeycombio",
+        "version": "0.49.0"
+      }
+    }
+  },
+  "provider": {
+    "aws": {
+      "region": "us-east-1",
+      "profile": "${var.aws_profile}"
+    },
+    "stripe": {
+      "api_key": "${var.STRIPE_SECRET_KEY}"
+    }
+  },
+  "variable": {
+    "cloudflare_account_id": {
+      "type": "string"
+    },
+    "GITHUB_APP_ID": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/app.ts:3"
+    },
+    "GITHUB_APP_PRIVATE_KEY": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/app.ts:4"
+    },
+    "EMAILOCTOPUS_API_KEY": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/app.ts:5"
+    },
+    "ADMIN_SECRET": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/app.ts:6"
+    },
+    "DISCORD_SUPPORT_BOT_TOKEN": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/app.ts:7"
+    },
+    "DISCORD_SUPPORT_CHANNEL_ID": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/app.ts:8"
+    },
+    "FEISHU_APP_ID": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/app.ts:9"
+    },
+    "FEISHU_APP_SECRET": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/app.ts:10"
+    },
+    "StatsHiddenModels": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/stats.ts:92"
+    },
+    "R2SqlAuthToken": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/stats.ts:94"
+    },
+    "R2AccessKey": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/secret.ts:8"
+    },
+    "R2SecretKey": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/secret.ts:9"
+    },
+    "HONEYCOMB_API_KEY": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/secret.ts:10"
+    },
+    "SUPPORT_API_KEY": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/secret.ts:12"
+    },
+    "UpstashRedisRestUrl": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/secret.ts:13"
+    },
+    "UpstashRedisRestToken": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/secret.ts:14"
+    },
+    "GITHUB_CLIENT_ID_CONSOLE": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:57"
+    },
+    "GITHUB_CLIENT_SECRET_CONSOLE": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:58"
+    },
+    "GOOGLE_CLIENT_ID": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:59"
+    },
+    "ZEN_MODELS1": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS2": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS3": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS4": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS5": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS6": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS7": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS8": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS9": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS10": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS11": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS12": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS13": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS14": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS15": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS16": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS17": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS18": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS19": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS20": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS21": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS22": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS23": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS24": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS25": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS26": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS27": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS28": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS29": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "ZEN_MODELS30": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:186-217"
+    },
+    "STRIPE_SECRET_KEY": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:218"
+    },
+    "STRIPE_PUBLISHABLE_KEY": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:219"
+    },
+    "DISCORD_INCIDENT_WEBHOOK_URL": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:243"
+    },
+    "AWS_SES_ACCESS_KEY_ID": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:244"
+    },
+    "AWS_SES_SECRET_ACCESS_KEY": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:245"
+    },
+    "ENTERPRISE_SALES_INBOX_EMAIL": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:246"
+    },
+    "SALESFORCE_CLIENT_ID": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:248"
+    },
+    "SALESFORCE_CLIENT_SECRET": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:249"
+    },
+    "SALESFORCE_INSTANCE_URL": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:250"
+    },
+    "ZEN_LIMITS": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:282"
+    },
+    "ZEN_SESSION_SECRET": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:283"
+    },
+    "CLOUDFLARE_ACCESS_CLIENT_ID": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret infra/console.ts:284"
+    },
+    "aws_profile": {
+      "type": "string",
+      "nullable": true,
+      "default": "opencode-production"
+    }
+  },
+  "locals": {
+    "StatsDatabase": {
+      "host": "${planetscale_password.StatsDatabasePassword.access_host_url}",
+      "database": "opencode-stats",
+      "username": "${planetscale_password.StatsDatabasePassword.username}",
+      "password": "${planetscale_password.StatsDatabasePassword.plaintext}",
+      "port": 3306,
+      "url": "mysql://${urlencode(planetscale_password.StatsDatabasePassword.username)}:${urlencode(planetscale_password.StatsDatabasePassword.plaintext)}@${planetscale_password.StatsDatabasePassword.access_host_url}/opencode-stats"
+    },
+    "StatsSyncConfig": {
+      "dataset": "zen"
+    },
+    "R2Sql": {
+      "accountId": "15d29c8639fd3733b1b5486a2acfd968",
+      "bucket": "platform-production-lake",
+      "namespace": "inference",
+      "table": "generation"
+    },
+    "Database": {
+      "host": "${planetscale_password.DatabasePassword.access_host_url}",
+      "database": "opencode",
+      "username": "${planetscale_password.DatabasePassword.username}",
+      "password": "${planetscale_password.DatabasePassword.plaintext}",
+      "port": 3306
+    },
+    "ZEN_LITE_PRICE": {
+      "product": "${stripe_product.ZenLite.id}",
+      "price": "${stripe_price.ZenLitePrice.id}",
+      "priceInr": 92900,
+      "firstMonth50Coupon": "${stripe_coupon.ZenLiteCouponFirstMonth50.id}",
+      "firstMonth100Coupon": "${stripe_coupon.ZenLiteCouponFirstMonth100.id}",
+      "threeMonths100Coupon": "${stripe_coupon.ZenLiteCoupon3Months100.id}",
+      "sixMonths100Coupon": "${stripe_coupon.ZenLiteCoupon6Months100.id}",
+      "twelveMonths100Coupon": "${stripe_coupon.ZenLiteCoupon12Months100.id}"
+    },
+    "ZEN_BLACK_PRICE": {
+      "product": "${stripe_product.ZenBlack.id}",
+      "plan200": "${stripe_price.ZenBlackPrice.id}",
+      "plan100": "${stripe_price.ZenBlack100Price.id}",
+      "plan20": "${stripe_price.ZenBlack20Price.id}"
+    },
+    "AUTH_API_URL": {
+      "value": "${module.AuthApi.url}"
+    },
+    "ConsoleMigration": {
+      "consoleUrl": "https://opencode.ai/console",
+      "inferenceUrl": "https://opencode.ai/inference"
+    },
+    "STRIPE_WEBHOOK_SECRET": {
+      "value": "${stripe_webhook_endpoint.StripeWebhookEndpoint.secret}"
+    }
+  },
+  "data": {
+    "planetscale_database": {
+      "StatsCluster": {
+        "name": "opencode-stats",
+        "organization": "anomalyco",
+        "//": "source: infra/stats.ts:13-16"
+      },
+      "Cluster": {
+        "name": "opencode",
+        "organization": "anomalyco",
+        "//": "source: infra/console.ts:9-12"
+      }
+    },
+    "planetscale_branch": {
+      "StatsDatabaseBranch": {
+        "name": "production",
+        "organization": "anomalyco",
+        "database": "opencode-stats",
+        "//": "source: infra/stats.ts:18-30"
+      },
+      "DatabaseBranch": {
+        "name": "production",
+        "organization": "anomalyco",
+        "database": "opencode",
+        "//": "source: infra/console.ts:14-26"
+      }
+    }
+  },
+  "resource": {
+    "cloudflare_dns_record": {
+      "TrustCenter": {
+        "zone_id": "430ba34c138cfb5360826c4909f99be8",
+        "name": "trust.opencode.ai",
+        "type": "CNAME",
+        "content": "3a69a5bb27875189.vercel-dns-016.com",
+        "proxied": false,
+        "ttl": 60,
+        "//": "source: infra/stage.ts:12-19",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "TrustCenterVerification": {
+        "zone_id": "430ba34c138cfb5360826c4909f99be8",
+        "name": "opencode.ai",
+        "type": "TXT",
+        "content": "compai-domain-verification=org_6993a99c6200a2d642bb115d",
+        "ttl": 60,
+        "//": "source: infra/stage.ts:21-27",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "cloudflare_regional_hostname": {
+      "RegionalHostname": {
+        "hostname": "opencode.ai",
+        "region_key": "us",
+        "zone_id": "430ba34c138cfb5360826c4909f99be8",
+        "//": "source: infra/stage.ts:30-34",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "cloudflare_r2_bucket": {
+      "Bucket": {
+        "account_id": "${var.cloudflare_account_id}",
+        "name": "opencode-production-bucket",
+        "//": "source: infra/app.ts:11",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenData": {
+        "account_id": "${var.cloudflare_account_id}",
+        "name": "opencode-production-zendata",
+        "//": "source: infra/console.ts:240",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenDataNew": {
+        "account_id": "${var.cloudflare_account_id}",
+        "name": "opencode-production-zendatanew",
+        "//": "source: infra/console.ts:241",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "EnterpriseStorage": {
+        "account_id": "${var.cloudflare_account_id}",
+        "name": "opencode-production-enterprisestorage",
+        "//": "source: infra/enterprise.ts:4",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "planetscale_password": {
+      "StatsDatabasePassword": {
+        "name": "production",
+        "database": "opencode-stats",
+        "organization": "anomalyco",
+        "branch": "${data.planetscale_branch.StatsDatabaseBranch.name}",
+        "//": "source: infra/stats.ts:32-37",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "DatabasePassword": {
+        "name": "production",
+        "database": "opencode",
+        "organization": "anomalyco",
+        "branch": "${data.planetscale_branch.DatabaseBranch.name}",
+        "//": "source: infra/console.ts:27-32",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "random_password": {
+      "HoneycombWebhookSecret": {
+        "length": 24,
+        "linkable": {
+          "value": "${random_password.HoneycombWebhookSecret.result}"
+        },
+        "//": "source: infra/secret.ts:1-5,11",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "cloudflare_workers_kv_namespace": {
+      "AuthStorage": {
+        "account_id": "${var.cloudflare_account_id}",
+        "name": "opencode-production-authstorage",
+        "//": "source: infra/console.ts:60",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "stripe_webhook_endpoint": {
+      "StripeWebhookEndpoint": {
+        "url": "https://opencode.ai/stripe/webhook",
+        "enabled_events": [
+          "checkout.session.async_payment_failed",
+          "checkout.session.async_payment_succeeded",
+          "checkout.session.completed",
+          "checkout.session.expired",
+          "charge.refunded",
+          "invoice.payment_succeeded",
+          "invoice.payment_failed",
+          "invoice.payment_action_required",
+          "customer.created",
+          "customer.deleted",
+          "customer.updated",
+          "customer.discount.created",
+          "customer.discount.deleted",
+          "customer.discount.updated",
+          "customer.source.created",
+          "customer.source.deleted",
+          "customer.source.expiring",
+          "customer.source.updated",
+          "customer.subscription.created",
+          "customer.subscription.deleted",
+          "customer.subscription.paused",
+          "customer.subscription.pending_update_applied",
+          "customer.subscription.pending_update_expired",
+          "customer.subscription.resumed",
+          "customer.subscription.trial_will_end",
+          "customer.subscription.updated"
+        ],
+        "//": "source: infra/console.ts:72-102",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "stripe_product": {
+      "ZenLite": {
+        "name": "OpenCode Go",
+        "//": "source: infra/console.ts:104-106",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenBlack": {
+        "name": "OpenCode Black",
+        "//": "source: infra/console.ts:163-165",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "stripe_coupon": {
+      "ZenLiteCouponFirstMonth50": {
+        "name": "First month 50% off",
+        "percent_off": 50,
+        "applies_to_products": [
+          "${stripe_product.ZenLite.id}"
+        ],
+        "duration": "once",
+        "//": "source: infra/console.ts:107-112",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenLiteCouponFirstMonth100": {
+        "name": "First month 100% off",
+        "percent_off": 100,
+        "applies_to_products": [
+          "${stripe_product.ZenLite.id}"
+        ],
+        "duration": "once",
+        "//": "source: infra/console.ts:113-118",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenLiteCoupon3Months100": {
+        "name": "3 months 100% off",
+        "percent_off": 100,
+        "applies_to_products": [
+          "${stripe_product.ZenLite.id}"
+        ],
+        "duration": "repeating",
+        "duration_in_months": 3,
+        "//": "source: infra/console.ts:119-125",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenLiteCoupon6Months100": {
+        "name": "6 months 100% off",
+        "percent_off": 100,
+        "applies_to_products": [
+          "${stripe_product.ZenLite.id}"
+        ],
+        "duration": "repeating",
+        "duration_in_months": 6,
+        "//": "source: infra/console.ts:126-132",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenLiteCoupon12Months100": {
+        "name": "12 months 100% off",
+        "percent_off": 100,
+        "applies_to_products": [
+          "${stripe_product.ZenLite.id}"
+        ],
+        "duration": "repeating",
+        "duration_in_months": 12,
+        "//": "source: infra/console.ts:133-139",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "stripe_price": {
+      "ZenLitePrice": {
+        "product": "${stripe_product.ZenLite.id}",
+        "currency": "usd",
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1
+        },
+        "unit_amount": 1000,
+        "//": "source: infra/console.ts:140-148",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenBlackPrice": {
+        "product": "${stripe_product.ZenBlack.id}",
+        "currency": "usd",
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1
+        },
+        "unit_amount": 20000,
+        "//": "source: infra/console.ts:166-174",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenBlack100Price": {
+        "product": "${stripe_product.ZenBlack.id}",
+        "currency": "usd",
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1
+        },
+        "unit_amount": 10000,
+        "//": "source: infra/console.ts:166-175",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "ZenBlack20Price": {
+        "product": "${stripe_product.ZenBlack.id}",
+        "currency": "usd",
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1
+        },
+        "unit_amount": 2000,
+        "//": "source: infra/console.ts:166-176",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "honeycombio_webhook_recipient": {
+      "DiscordAlerts": {
+        "name": "Discord Alerts",
+        "url": "https://opencode.ai/honeycomb/webhook",
+        "secret": "${random_password.HoneycombWebhookSecret.result}",
+        "templates": [
+          {
+            "type": "trigger",
+            "body": "{\n        \"url\": {{ .Result.URL | quote }},\n        \"type\": {{ .Vars.type | quote }},\n        \"name\": {{ .Name | quote }},\n        \"status\": {{ .Alert.Status | quote }},\n        \"isTest\": {{ .Alert.IsTest }},\n        \"groups\": {{ .Result.GroupsTriggered | toJson }}\n      }"
+          }
+        ],
+        "variables": [
+          {
+            "name": "type"
+          }
+        ],
+        "//": "source: infra/monitoring.ts:7-29",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    },
+    "honeycombio_trigger": {
+      "IncreasedModelHttpErrorsGo": {
+        "name": "Increased Model HTTP Errors [Go]",
+        "description": "Managed by SST (Don't edit in Honeycomb UI)",
+        "disabled": false,
+        "recipients": [
+          {
+            "id": "${honeycombio_webhook_recipient.DiscordAlerts.id}",
+            "notification_details": [
+              {
+                "variables": [
+                  {
+                    "name": "type",
+                    "value": "model_http_errors"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alert_type": "on_change",
+        "frequency": 300,
+        "thresholds": [
+          {
+            "op": ">=",
+            "value": 0.7,
+            "exceeded_limit": 1
+          }
+        ],
+        "query_json": "{\"breakdowns\":[\"model\"],\"calculated_fields\":[{\"name\":\"is_failed_http_status_q3j3ra\",\"expression\":\"\\nIF(\\n  AND(\\n    GTE($status, \\\"400\\\"),\\n    NOT(EQUALS($status, \\\"401\\\")),\\n    NOT(\\n      AND(\\n        EQUALS($status, \\\"429\\\"),\\n        OR(\\n          EQUALS($error.type, \\\"GoUsageLimitError\\\"),\\n          EQUALS($error.type, \\\"FreeUsageLimitError\\\")\\n        )\\n      )\\n    )\\n  ),\\n  1,\\n  0\\n)\"}],\"calculations\":[{\"op\":\"COUNT\",\"name\":\"TOTAL\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"model\",\"op\":\"exists\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isGoTier\",\"op\":\"=\",\"value\":\"true\"}]},{\"op\":\"SUM\",\"name\":\"FAILED\",\"column\":\"is_failed_http_status_q3j3ra\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"model\",\"op\":\"exists\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isGoTier\",\"op\":\"=\",\"value\":\"true\"}]}],\"formulas\":[{\"name\":\"ERROR\",\"expression\":\"IF(GTE($TOTAL, 150), DIV($FAILED, $TOTAL), 0)\"}],\"time_range\":900}",
+        "//": "source: infra/monitoring.ts:160-178",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "IncreasedModelHttpErrorsZen": {
+        "name": "Increased Model HTTP Errors [Zen]",
+        "description": "Managed by SST (Don't edit in Honeycomb UI)",
+        "disabled": false,
+        "recipients": [
+          {
+            "id": "${honeycombio_webhook_recipient.DiscordAlerts.id}",
+            "notification_details": [
+              {
+                "variables": [
+                  {
+                    "name": "type",
+                    "value": "model_http_errors"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alert_type": "on_change",
+        "frequency": 300,
+        "thresholds": [
+          {
+            "op": ">=",
+            "value": 0.7,
+            "exceeded_limit": 1
+          }
+        ],
+        "query_json": "{\"breakdowns\":[\"model\"],\"calculated_fields\":[{\"name\":\"is_failed_http_status_q3j3ra\",\"expression\":\"\\nIF(\\n  AND(\\n    GTE($status, \\\"400\\\"),\\n    NOT(EQUALS($status, \\\"401\\\")),\\n    NOT(\\n      AND(\\n        EQUALS($status, \\\"429\\\"),\\n        OR(\\n          EQUALS($error.type, \\\"GoUsageLimitError\\\"),\\n          EQUALS($error.type, \\\"FreeUsageLimitError\\\")\\n        )\\n      )\\n    )\\n  ),\\n  1,\\n  0\\n)\"}],\"calculations\":[{\"op\":\"COUNT\",\"name\":\"TOTAL\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"model\",\"op\":\"exists\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isGoTier\",\"op\":\"=\",\"value\":\"false\"}]},{\"op\":\"SUM\",\"name\":\"FAILED\",\"column\":\"is_failed_http_status_q3j3ra\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"model\",\"op\":\"exists\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isGoTier\",\"op\":\"=\",\"value\":\"false\"}]}],\"formulas\":[{\"name\":\"ERROR\",\"expression\":\"IF(GTE($TOTAL, 150), DIV($FAILED, $TOTAL), 0)\"}],\"time_range\":900}",
+        "//": "source: infra/monitoring.ts:180-198",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "LowModelTpsGo": {
+        "name": "Low Model TPS [Go]",
+        "description": "Managed by SST (Don't edit in Honeycomb UI)",
+        "disabled": false,
+        "recipients": [
+          {
+            "id": "${honeycombio_webhook_recipient.DiscordAlerts.id}",
+            "notification_details": [
+              {
+                "variables": [
+                  {
+                    "name": "type",
+                    "value": "model_low_tps"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alert_type": "on_change",
+        "frequency": 600,
+        "thresholds": [
+          {
+            "op": "<=",
+            "value": 10.0,
+            "exceeded_limit": 1
+          }
+        ],
+        "query_json": "{\"breakdowns\":[\"model\"],\"calculations\":[{\"op\":\"COUNT\",\"name\":\"TOTAL\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"model\",\"op\":\"exists\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isGoTier\",\"op\":\"=\",\"value\":\"true\"},{\"column\":\"status\",\"op\":\">=\",\"value\":\"200\"},{\"column\":\"status\",\"op\":\"<\",\"value\":\"400\"},{\"column\":\"tps.output\",\"op\":\"exists\"}]},{\"op\":\"P50\",\"name\":\"TPS\",\"column\":\"tps.output\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"model\",\"op\":\"exists\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isGoTier\",\"op\":\"=\",\"value\":\"true\"},{\"column\":\"status\",\"op\":\">=\",\"value\":\"200\"},{\"column\":\"status\",\"op\":\"<\",\"value\":\"400\"},{\"column\":\"tps.output\",\"op\":\"exists\"}]}],\"formulas\":[{\"name\":\"LOW_TPS\",\"expression\":\"IF(GTE($TOTAL, 100), $TPS, 999)\"}],\"time_range\":1800}",
+        "//": "source: infra/monitoring.ts:200-218",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "LowModelTpsZen": {
+        "name": "Low Model TPS [Zen]",
+        "description": "Managed by SST (Don't edit in Honeycomb UI)",
+        "disabled": false,
+        "recipients": [
+          {
+            "id": "${honeycombio_webhook_recipient.DiscordAlerts.id}",
+            "notification_details": [
+              {
+                "variables": [
+                  {
+                    "name": "type",
+                    "value": "model_low_tps"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alert_type": "on_change",
+        "frequency": 600,
+        "thresholds": [
+          {
+            "op": "<=",
+            "value": 10.0,
+            "exceeded_limit": 1
+          }
+        ],
+        "query_json": "{\"breakdowns\":[\"model\"],\"calculations\":[{\"op\":\"COUNT\",\"name\":\"TOTAL\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"model\",\"op\":\"exists\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isGoTier\",\"op\":\"=\",\"value\":\"false\"},{\"column\":\"status\",\"op\":\">=\",\"value\":\"200\"},{\"column\":\"status\",\"op\":\"<\",\"value\":\"400\"},{\"column\":\"tps.output\",\"op\":\"exists\"}]},{\"op\":\"P50\",\"name\":\"TPS\",\"column\":\"tps.output\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"model\",\"op\":\"exists\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isGoTier\",\"op\":\"=\",\"value\":\"false\"},{\"column\":\"status\",\"op\":\">=\",\"value\":\"200\"},{\"column\":\"status\",\"op\":\"<\",\"value\":\"400\"},{\"column\":\"tps.output\",\"op\":\"exists\"}]}],\"formulas\":[{\"name\":\"LOW_TPS\",\"expression\":\"IF(GTE($TOTAL, 100), $TPS, 999)\"}],\"time_range\":1800}",
+        "//": "source: infra/monitoring.ts:220-238",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "IncreasedProviderHttpErrors": {
+        "name": "Increased Provider HTTP Errors",
+        "description": "Managed by SST (Don't edit in Honeycomb UI)",
+        "disabled": false,
+        "recipients": [
+          {
+            "id": "${honeycombio_webhook_recipient.DiscordAlerts.id}",
+            "notification_details": [
+              {
+                "variables": [
+                  {
+                    "name": "type",
+                    "value": "provider_http_errors"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alert_type": "on_change",
+        "frequency": 300,
+        "thresholds": [
+          {
+            "op": ">=",
+            "value": 0.7,
+            "exceeded_limit": 1
+          }
+        ],
+        "query_json": "{\"breakdowns\":[\"provider\"],\"calculated_fields\":[{\"name\":\"is_success_http_status_j7un9p\",\"expression\":\"IF(AND(GTE($status, \\\"200\\\"), LT($status, \\\"400\\\")), 1, 0)\"},{\"name\":\"is_failed_provider_http_status_43kpv9\",\"expression\":\"IF(GT($llm.error.code, \\\"400\\\"), 1, 0)\"}],\"calculations\":[{\"op\":\"SUM\",\"name\":\"SUCCESS\",\"column\":\"is_success_http_status_j7un9p\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"provider\",\"op\":\"exists\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"}]},{\"op\":\"SUM\",\"name\":\"FAILED\",\"column\":\"is_failed_provider_http_status_43kpv9\",\"filter_combination\":\"AND\",\"filters\":[{\"column\":\"provider\",\"op\":\"exists\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"llm.error\"},{\"column\":\"llm.error.code\",\"op\":\"!=\",\"value\":\"404\"}]}],\"formulas\":[{\"name\":\"ERROR\",\"expression\":\"IF(GTE(SUM($SUCCESS, $FAILED), 150), DIV($FAILED, SUM($SUCCESS, $FAILED)), 0)\"}],\"time_range\":900}",
+        "//": "source: infra/monitoring.ts:240-258",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      },
+      "IncreasedFreeTierRequests": {
+        "name": "Increased Free Tier Requests",
+        "description": "Managed by SST (Don't edit in Honeycomb UI)",
+        "disabled": false,
+        "baseline_details": [
+          {
+            "type": "percentage",
+            "offset_minutes": 1440
+          }
+        ],
+        "alert_type": "on_change",
+        "frequency": 900,
+        "thresholds": [
+          {
+            "op": ">=",
+            "value": 50.0,
+            "exceeded_limit": 1
+          }
+        ],
+        "recipients": [
+          {
+            "id": "${honeycombio_webhook_recipient.DiscordAlerts.id}",
+            "notification_details": [
+              {
+                "variables": [
+                  {
+                    "name": "type",
+                    "value": "custom"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "query_json": "{\"calculations\":[{\"op\":\"COUNT\"}],\"filters\":[{\"column\":\"event_type\",\"op\":\"=\",\"value\":\"completions\"},{\"column\":\"user_agent\",\"op\":\"contains\",\"value\":\"opencode\"},{\"column\":\"isFreeTier\",\"op\":\"=\",\"value\":\"true\"}],\"time_range\":3600}",
+        "//": "source: infra/monitoring.ts:260-287",
+        "lifecycle": {
+          "prevent_destroy": true
+        }
+      }
+    }
+  },
+  "module": {
+    "Api": {
+      "domain": "api.opencode.ai",
+      "handler": "packages/function/src/api.ts",
+      "environment": {
+        "WEB_DOMAIN": "opencode.ai"
+      },
+      "url": true,
+      "worker": {
+        "logpush": true,
+        "extra_bindings": [
+          {
+            "name": "SYNC_SERVER",
+            "type": "durable_object_namespace",
+            "class_name": "SyncServer"
+          }
+        ],
+        "migrations": {
+          "old_tag": "",
+          "new_tag": ""
+        }
+      },
+      "links": {
+        "Bucket": "${cloudflare_r2_bucket.Bucket}",
+        "GITHUB_APP_ID": "${var.GITHUB_APP_ID}",
+        "GITHUB_APP_PRIVATE_KEY": "${var.GITHUB_APP_PRIVATE_KEY}",
+        "ADMIN_SECRET": "${var.ADMIN_SECRET}",
+        "DISCORD_SUPPORT_BOT_TOKEN": "${var.DISCORD_SUPPORT_BOT_TOKEN}",
+        "DISCORD_SUPPORT_CHANNEL_ID": "${var.DISCORD_SUPPORT_CHANNEL_ID}",
+        "FEISHU_APP_ID": "${var.FEISHU_APP_ID}",
+        "FEISHU_APP_SECRET": "${var.FEISHU_APP_SECRET}"
+      },
+      "//": "source: infra/app.ts:13-50",
+      "source": "./modules/cloudflare-worker",
+      "protect": true
+    },
+    "Web": {
+      "domain": "docs.opencode.ai",
+      "path": "packages/web",
+      "environment": {
+        "SST_STAGE": "production",
+        "VITE_API_URL": "${module.Api.url}"
+      },
+      "//": "source: infra/app.ts:52-60",
+      "source": "./modules/cloudflare-astro",
+      "protect": true
+    },
+    "WebApp": {
+      "domain": "app.opencode.ai",
+      "path": "packages/app",
+      "build": {
+        "command": "bun turbo build",
+        "output": "./dist"
+      },
+      "//": "source: infra/app.ts:62-69",
+      "source": "./modules/cloudflare-static-site",
+      "protect": true
+    },
+    "LakeVpc": {
+      "//": "source: infra/stats.ts:6",
+      "source": "./modules/aws-vpc",
+      "protect": true
+    },
+    "LakeCluster": {
+      "vpc": "${module.LakeVpc.id}",
+      "//": "source: infra/stats.ts:7",
+      "source": "./modules/aws-ecs-cluster",
+      "protect": true
+    },
+    "Stats": {
+      "path": "packages/stats/app",
+      "build_command": "bun run build",
+      "domain": "stats.opencode.ai",
+      "environment": {
+        "PUBLIC_URL": "https://opencode.ai/data"
+      },
+      "links": {
+        "StatsDatabase": "${local.StatsDatabase}",
+        "EMAILOCTOPUS_API_KEY": "${var.EMAILOCTOPUS_API_KEY}"
+      },
+      "//": "source: infra/stats.ts:70-78",
+      "source": "./modules/cloudflare-solidstart",
+      "protect": true
+    },
+    "StatsSyncService": {
+      "cluster": "${module.LakeCluster.id}",
+      "architecture": "arm64",
+      "cpu": "0.25 vCPU",
+      "memory": "2 GB",
+      "image": {
+        "context": ".",
+        "dockerfile": "packages/stats/server/Dockerfile"
+      },
+      "command": [
+        "bun",
+        "src/stat-sync.ts"
+      ],
+      "scaling": {
+        "min": 1,
+        "max": 1
+      },
+      "dev": {
+        "command": "bun src/stat-sync.ts",
+        "directory": "packages/stats/server",
+        "autostart": false
+      },
+      "links": {
+        "StatsDatabase": "${local.StatsDatabase}",
+        "R2Sql": "${local.R2Sql}",
+        "R2SqlAuthToken": "${var.R2SqlAuthToken}",
+        "StatsHiddenModels": "${var.StatsHiddenModels}",
+        "StatsSyncConfig": "${local.StatsSyncConfig}"
+      },
+      "//": "source: infra/stats.ts:104-126",
+      "source": "./modules/aws-ecs-service",
+      "protect": true
+    },
+    "AuthApi": {
+      "domain": "auth.opencode.ai",
+      "handler": "packages/console/function/src/auth.ts",
+      "url": true,
+      "links": {
+        "Database": "${local.Database}",
+        "AuthStorage": "${cloudflare_workers_kv_namespace.AuthStorage}",
+        "GITHUB_CLIENT_ID_CONSOLE": "${var.GITHUB_CLIENT_ID_CONSOLE}",
+        "GITHUB_CLIENT_SECRET_CONSOLE": "${var.GITHUB_CLIENT_SECRET_CONSOLE}",
+        "GOOGLE_CLIENT_ID": "${var.GOOGLE_CLIENT_ID}"
+      },
+      "//": "source: infra/console.ts:61-66",
+      "source": "./modules/cloudflare-worker",
+      "protect": true
+    },
+    "LogProcessor": {
+      "handler": "packages/console/function/src/log-processor.ts",
+      "links": {
+        "HONEYCOMB_API_KEY": "${var.HONEYCOMB_API_KEY}"
+      },
+      "//": "source: infra/console.ts:252-255",
+      "source": "./modules/cloudflare-worker",
+      "protect": true
+    },
+    "Console": {
+      "domain": "opencode.ai",
+      "path": "packages/console/app",
+      "environment": {
+        "VITE_AUTH_URL": "${module.AuthApi.url}",
+        "VITE_STRIPE_PUBLISHABLE_KEY": "${var.STRIPE_PUBLISHABLE_KEY}"
+      },
+      "server": {
+        "placement": {
+          "region": "aws:us-east-2"
+        },
+        "extra_compatibility_flags": [
+          "global_fetch_strictly_public"
+        ],
+        "tail_consumers": [
+          {
+            "service": "${module.LogProcessor.script_name}"
+          }
+        ]
+      },
+      "links": {
+        "ZenData": "${cloudflare_r2_bucket.ZenData}",
+        "ZenDataNew": "${cloudflare_r2_bucket.ZenDataNew}",
+        "Database": "${local.Database}",
+        "UpstashRedisRestUrl": "${var.UpstashRedisRestUrl}",
+        "UpstashRedisRestToken": "${var.UpstashRedisRestToken}",
+        "AUTH_API_URL": "${local.AUTH_API_URL}",
+        "ConsoleMigration": "${local.ConsoleMigration}",
+        "STRIPE_WEBHOOK_SECRET": "${local.STRIPE_WEBHOOK_SECRET}",
+        "SUPPORT_API_KEY": "${var.SUPPORT_API_KEY}",
+        "DISCORD_INCIDENT_WEBHOOK_URL": "${var.DISCORD_INCIDENT_WEBHOOK_URL}",
+        "HoneycombWebhookSecret": "${random_password.HoneycombWebhookSecret}",
+        "STRIPE_SECRET_KEY": "${var.STRIPE_SECRET_KEY}",
+        "EMAILOCTOPUS_API_KEY": "${var.EMAILOCTOPUS_API_KEY}",
+        "AWS_SES_ACCESS_KEY_ID": "${var.AWS_SES_ACCESS_KEY_ID}",
+        "AWS_SES_SECRET_ACCESS_KEY": "${var.AWS_SES_SECRET_ACCESS_KEY}",
+        "ENTERPRISE_SALES_INBOX_EMAIL": "${var.ENTERPRISE_SALES_INBOX_EMAIL}",
+        "SALESFORCE_CLIENT_ID": "${var.SALESFORCE_CLIENT_ID}",
+        "SALESFORCE_CLIENT_SECRET": "${var.SALESFORCE_CLIENT_SECRET}",
+        "SALESFORCE_INSTANCE_URL": "${var.SALESFORCE_INSTANCE_URL}",
+        "ZEN_BLACK_PRICE": "${local.ZEN_BLACK_PRICE}",
+        "ZEN_LITE_PRICE": "${local.ZEN_LITE_PRICE}",
+        "ZEN_LIMITS": "${var.ZEN_LIMITS}",
+        "ZEN_SESSION_SECRET": "${var.ZEN_SESSION_SECRET}",
+        "CLOUDFLARE_ACCESS_CLIENT_ID": "${var.CLOUDFLARE_ACCESS_CLIENT_ID}",
+        "ZEN_MODELS1": "${var.ZEN_MODELS1}",
+        "ZEN_MODELS2": "${var.ZEN_MODELS2}",
+        "ZEN_MODELS3": "${var.ZEN_MODELS3}",
+        "ZEN_MODELS4": "${var.ZEN_MODELS4}",
+        "ZEN_MODELS5": "${var.ZEN_MODELS5}",
+        "ZEN_MODELS6": "${var.ZEN_MODELS6}",
+        "ZEN_MODELS7": "${var.ZEN_MODELS7}",
+        "ZEN_MODELS8": "${var.ZEN_MODELS8}",
+        "ZEN_MODELS9": "${var.ZEN_MODELS9}",
+        "ZEN_MODELS10": "${var.ZEN_MODELS10}",
+        "ZEN_MODELS11": "${var.ZEN_MODELS11}",
+        "ZEN_MODELS12": "${var.ZEN_MODELS12}",
+        "ZEN_MODELS13": "${var.ZEN_MODELS13}",
+        "ZEN_MODELS14": "${var.ZEN_MODELS14}",
+        "ZEN_MODELS15": "${var.ZEN_MODELS15}",
+        "ZEN_MODELS16": "${var.ZEN_MODELS16}",
+        "ZEN_MODELS17": "${var.ZEN_MODELS17}",
+        "ZEN_MODELS18": "${var.ZEN_MODELS18}",
+        "ZEN_MODELS19": "${var.ZEN_MODELS19}",
+        "ZEN_MODELS20": "${var.ZEN_MODELS20}",
+        "ZEN_MODELS21": "${var.ZEN_MODELS21}",
+        "ZEN_MODELS22": "${var.ZEN_MODELS22}",
+        "ZEN_MODELS23": "${var.ZEN_MODELS23}",
+        "ZEN_MODELS24": "${var.ZEN_MODELS24}",
+        "ZEN_MODELS25": "${var.ZEN_MODELS25}",
+        "ZEN_MODELS26": "${var.ZEN_MODELS26}",
+        "ZEN_MODELS27": "${var.ZEN_MODELS27}",
+        "ZEN_MODELS28": "${var.ZEN_MODELS28}",
+        "ZEN_MODELS29": "${var.ZEN_MODELS29}",
+        "ZEN_MODELS30": "${var.ZEN_MODELS30}"
+      },
+      "//": "source: infra/console.ts:257-313",
+      "source": "./modules/cloudflare-solidstart",
+      "protect": true
+    },
+    "Stat": {
+      "handler": "packages/console/function/src/stat.ts",
+      "url": true,
+      "links": {
+        "Database": "${local.Database}"
+      },
+      "//": "source: infra/console.ts:319-323",
+      "source": "./modules/cloudflare-worker",
+      "protect": true
+    },
+    "Teams": {
+      "domain": "opncd.ai",
+      "path": "packages/enterprise",
+      "build_command": "bun run build:cloudflare",
+      "environment": {
+        "OPENCODE_STORAGE_ADAPTER": "r2",
+        "OPENCODE_STORAGE_ACCOUNT_ID": "${var.cloudflare_account_id}",
+        "OPENCODE_STORAGE_ACCESS_KEY_ID": "${var.R2AccessKey}",
+        "OPENCODE_STORAGE_SECRET_ACCESS_KEY": "${var.R2SecretKey}",
+        "OPENCODE_STORAGE_BUCKET": "${cloudflare_r2_bucket.EnterpriseStorage.name}"
+      },
+      "links": {
+        "SUPPORT_API_KEY": "${var.SUPPORT_API_KEY}"
+      },
+      "//": "source: infra/enterprise.ts:6-18",
+      "source": "./modules/cloudflare-solidstart",
+      "protect": true
+    }
+  },
+  "output": {
+    "StatWorkerUrl": {
+      "value": "${module.Stat.url}"
+    },
+    "StatsUrl": {
+      "value": "${module.Stats.url}"
+    },
+    "AwsStage": {
+      "value": "production"
+    }
+  }
+}

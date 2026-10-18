@@ -1,0 +1,155 @@
+//! Purpose: shared step/text/reasoning block lifecycle bookkeeping for protocol decoders
+//! (`protocols/utils/lifecycle.ts`): opens a step lazily, emits start events once per block
+//! id, closes open blocks before `step-finish` + `finish`.
+//! Scope: pure state machine.
+//! Uses:
+//! `-- none
+//! External:
+//! `-- opencode_llm_api::{FinishReason, LlmEvent, ProviderMetadata, Usage}
+//! Used by:
+//! rust/crates/
+//! `-- provider-adapters/src/core/mod.rs
+//! Invariants: open reasoning blocks close before open text blocks at finish; after finish
+//! the next delta opens a new step (index 0, as in the baseline).
+//! Contract tests: provider-adapters/tests/core.rs
+
+use indexmap::IndexSet;
+use opencode_llm_api::{FinishReason, LlmEvent, ProviderMetadata, Usage};
+
+#[derive(Clone, Debug, Default)]
+pub struct Lifecycle {
+    step_started: bool,
+    text: IndexSet<String>,
+    reasoning: IndexSet<String>,
+}
+
+impl Lifecycle {
+    pub fn step_start(&mut self, events: &mut Vec<LlmEvent>) {
+        if !self.step_started {
+            events.push(LlmEvent::StepStart { index: 0 });
+            self.step_started = true;
+        }
+    }
+
+    pub fn text_delta(&mut self, events: &mut Vec<LlmEvent>, id: &str, text: &str) {
+        self.step_start(events);
+        if self.text.insert(id.to_owned()) {
+            events.push(LlmEvent::TextStart {
+                id: id.to_owned(),
+                provider_metadata: None,
+            });
+        }
+        events.push(LlmEvent::TextDelta {
+            id: id.to_owned(),
+            text: text.to_owned(),
+            provider_metadata: None,
+        });
+    }
+
+    pub fn text_end(
+        &mut self,
+        events: &mut Vec<LlmEvent>,
+        id: &str,
+        provider_metadata: Option<ProviderMetadata>,
+    ) {
+        if !self.text.shift_remove(id) {
+            return;
+        }
+        self.step_start(events);
+        events.push(LlmEvent::TextEnd {
+            id: id.to_owned(),
+            provider_metadata,
+        });
+    }
+
+    pub fn reasoning_start(
+        &mut self,
+        events: &mut Vec<LlmEvent>,
+        id: &str,
+        provider_metadata: Option<ProviderMetadata>,
+    ) {
+        if self.reasoning.contains(id) {
+            return;
+        }
+        self.step_start(events);
+        events.push(LlmEvent::ReasoningStart {
+            id: id.to_owned(),
+            provider_metadata,
+        });
+        self.reasoning.insert(id.to_owned());
+    }
+
+    pub fn reasoning_delta(
+        &mut self,
+        events: &mut Vec<LlmEvent>,
+        id: &str,
+        text: &str,
+        provider_metadata: Option<ProviderMetadata>,
+    ) {
+        self.reasoning_start(events, id, provider_metadata);
+        events.push(LlmEvent::ReasoningDelta {
+            id: id.to_owned(),
+            text: text.to_owned(),
+            provider_metadata: None,
+        });
+    }
+
+    pub fn reasoning_end(
+        &mut self,
+        events: &mut Vec<LlmEvent>,
+        id: &str,
+        provider_metadata: Option<ProviderMetadata>,
+    ) {
+        if !self.reasoning.shift_remove(id) {
+            return;
+        }
+        self.step_start(events);
+        events.push(LlmEvent::ReasoningEnd {
+            id: id.to_owned(),
+            provider_metadata,
+        });
+    }
+
+    pub fn has_open_text(&self, id: &str) -> bool {
+        self.text.contains(id)
+    }
+
+    pub fn has_open_reasoning(&self, id: &str) -> bool {
+        self.reasoning.contains(id)
+    }
+
+    /// Close open blocks then emit `step-finish` (index 0) and `finish`.
+    pub fn finish(
+        &mut self,
+        events: &mut Vec<LlmEvent>,
+        reason: FinishReason,
+        usage: Option<Usage>,
+        provider_metadata: Option<ProviderMetadata>,
+    ) {
+        self.step_start(events);
+        for id in self.reasoning.drain(..) {
+            events.push(LlmEvent::ReasoningEnd {
+                id,
+                provider_metadata: None,
+            });
+        }
+        for id in self.text.drain(..) {
+            events.push(LlmEvent::TextEnd {
+                id,
+                provider_metadata: None,
+            });
+        }
+        events.push(LlmEvent::StepFinish {
+            index: 0,
+            reason,
+            usage: usage.clone(),
+            provider_metadata: provider_metadata.clone(),
+        });
+        events.push(LlmEvent::Finish {
+            reason,
+            usage,
+            provider_metadata,
+        });
+        self.step_started = false;
+    }
+}

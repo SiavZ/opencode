@@ -1,0 +1,32 @@
+{
+  "family": "api-location",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 240,
+      "id": "v2.location.get#ok",
+      "operationId": "v2.location.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/location",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "directory": "{PROJ}",
+          "project": {
+            "id": "{SHA}",
+            "directory": "{PROJ}"
+          }
+        }
+      }
+    }
+  ]
+}

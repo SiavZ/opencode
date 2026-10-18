@@ -1,0 +1,24 @@
+[package]
+name = "opencode-platform-api"
+description = "Portable filesystem, process, PTY, watcher, git and snapshot contracts. Owner: Phase 05 (shared with 02)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_platform_api"
+
+[dependencies]
+opencode-schema.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+tokio-util.workspace = true
+tokio = { workspace = true, features = ["sync"] }
+futures.workspace = true
+
+[lints]
+workspace = true

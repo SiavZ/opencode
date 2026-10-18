@@ -1,0 +1,8 @@
+--help:show help
+--version:show version number
+--print-logs:print logs to stderr
+--log-level:log level
+--pure:run without external plugins
+--max-count:limit to N most recent sessions
+--n:limit to N most recent sessions
+--format:output format

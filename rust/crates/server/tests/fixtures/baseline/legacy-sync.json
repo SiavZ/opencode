@@ -1,0 +1,882 @@
+{
+  "family": "legacy-sync",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 195,
+      "id": "sync.start#ok",
+      "operationId": "sync.start",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/start",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 196,
+      "id": "sync.replay#ok",
+      "operationId": "sync.replay",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/replay",
+        "auth": "valid",
+        "body": {
+          "directory": "{PROJ}",
+          "events": []
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Missing key\n  at [\"events\"][0]",
+            "kind": "Payload"
+          }
+        }
+      }
+    },
+    {
+      "seq": 197,
+      "id": "sync.replay#bad-body",
+      "operationId": "sync.replay",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/replay",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 198,
+      "id": "sync.replay#wrong-type",
+      "operationId": "sync.replay",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/replay",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 199,
+      "id": "sync.steal#ok",
+      "operationId": "sync.steal",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/steal",
+        "auth": "valid",
+        "body": {
+          "sessionID": "ses_missing000000000000000000"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "BadRequest"
+        }
+      }
+    },
+    {
+      "seq": 200,
+      "id": "sync.steal#bad-body",
+      "operationId": "sync.steal",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/steal",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 201,
+      "id": "sync.steal#wrong-type",
+      "operationId": "sync.steal",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/steal",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 202,
+      "id": "sync.history.list#ok",
+      "operationId": "sync.history.list",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/history",
+        "auth": "valid",
+        "body": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "id": "{evt_1}",
+            "aggregate_id": "{ses_1}",
+            "seq": 0,
+            "type": "session.created.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{ses_1}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "fixture",
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_2}",
+            "aggregate_id": "{ses_2}",
+            "seq": 0,
+            "type": "session.created.1",
+            "data": {
+              "sessionID": "{ses_2}",
+              "info": {
+                "id": "{ses_2}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "New session - {ISO}",
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_3}",
+            "aggregate_id": "{ses_3}",
+            "seq": 0,
+            "type": "session.created.1",
+            "data": {
+              "sessionID": "{ses_3}",
+              "info": {
+                "id": "{ses_3}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "fixture 2",
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_4}",
+            "aggregate_id": "{ses_4}",
+            "seq": 0,
+            "type": "session.created.1",
+            "data": {
+              "sessionID": "{ses_4}",
+              "info": {
+                "id": "{ses_4}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "renamed (fork #1)",
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_5}",
+            "aggregate_id": "{ses_1}",
+            "seq": 1,
+            "type": "session.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{ses_1}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "fixture",
+                "agent": "build",
+                "model": {
+                  "id": "fixture-model",
+                  "providerID": "fixture",
+                  "variant": "default"
+                },
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_6}",
+            "aggregate_id": "{ses_4}",
+            "seq": 1,
+            "type": "message.updated.1",
+            "data": {
+              "sessionID": "{ses_4}",
+              "info": {
+                "id": "{msg_3}",
+                "sessionID": "{ses_4}",
+                "role": "user",
+                "time": {
+                  "created": "{TS}"
+                },
+                "agent": "build",
+                "model": {
+                  "providerID": "fixture",
+                  "modelID": "fixture-model"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_7}",
+            "aggregate_id": "{ses_1}",
+            "seq": 2,
+            "type": "message.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{msg_1}",
+                "sessionID": "{ses_1}",
+                "role": "user",
+                "time": {
+                  "created": "{TS}"
+                },
+                "agent": "build",
+                "model": {
+                  "providerID": "fixture",
+                  "modelID": "fixture-model"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_8}",
+            "aggregate_id": "{ses_4}",
+            "seq": 2,
+            "type": "message.part.updated.1",
+            "data": {
+              "sessionID": "{ses_4}",
+              "part": {
+                "id": "{prt_3}",
+                "sessionID": "{ses_4}",
+                "messageID": "{msg_3}",
+                "type": "text",
+                "text": "hello fixture"
+              },
+              "time": "{TS}"
+            }
+          },
+          {
+            "id": "{evt_9}",
+            "aggregate_id": "{ses_1}",
+            "seq": 3,
+            "type": "message.part.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "part": {
+                "id": "{prt_1}",
+                "sessionID": "{ses_1}",
+                "messageID": "{msg_1}",
+                "type": "text",
+                "text": "hello fixture"
+              },
+              "time": "{TS}"
+            }
+          },
+          {
+            "id": "{evt_10}",
+            "aggregate_id": "{ses_4}",
+            "seq": 3,
+            "type": "message.updated.1",
+            "data": {
+              "sessionID": "{ses_4}",
+              "info": {
+                "id": "{msg_4}",
+                "sessionID": "{ses_4}",
+                "role": "user",
+                "time": {
+                  "created": "{TS}"
+                },
+                "agent": "build",
+                "model": {
+                  "providerID": "fixture",
+                  "modelID": "fixture-model"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_11}",
+            "aggregate_id": "{ses_1}",
+            "seq": 4,
+            "type": "session.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{ses_1}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "fixture",
+                "agent": "build",
+                "model": {
+                  "id": "fixture-model",
+                  "providerID": "fixture",
+                  "variant": "default"
+                },
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_12}",
+            "aggregate_id": "{ses_4}",
+            "seq": 4,
+            "type": "message.part.updated.1",
+            "data": {
+              "sessionID": "{ses_4}",
+              "part": {
+                "id": "{prt_4}",
+                "sessionID": "{ses_4}",
+                "messageID": "{msg_4}",
+                "type": "text",
+                "text": "second"
+              },
+              "time": "{TS}"
+            }
+          },
+          {
+            "id": "{evt_13}",
+            "aggregate_id": "{ses_1}",
+            "seq": 5,
+            "type": "session.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{ses_1}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "renamed",
+                "agent": "build",
+                "model": {
+                  "id": "fixture-model",
+                  "providerID": "fixture",
+                  "variant": "default"
+                },
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_14}",
+            "aggregate_id": "{ses_1}",
+            "seq": 6,
+            "type": "message.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{msg_2}",
+                "sessionID": "{ses_1}",
+                "role": "user",
+                "time": {
+                  "created": "{TS}"
+                },
+                "agent": "build",
+                "model": {
+                  "providerID": "fixture",
+                  "modelID": "fixture-model"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_15}",
+            "aggregate_id": "{ses_1}",
+            "seq": 7,
+            "type": "message.part.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "part": {
+                "id": "{prt_2}",
+                "sessionID": "{ses_1}",
+                "messageID": "{msg_2}",
+                "type": "text",
+                "text": "second"
+              },
+              "time": "{TS}"
+            }
+          },
+          {
+            "id": "{evt_16}",
+            "aggregate_id": "{ses_1}",
+            "seq": 8,
+            "type": "session.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{ses_1}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "renamed",
+                "agent": "build",
+                "model": {
+                  "id": "fixture-model",
+                  "providerID": "fixture",
+                  "variant": "default"
+                },
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_17}",
+            "aggregate_id": "{ses_1}",
+            "seq": 9,
+            "type": "session.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{ses_1}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "renamed",
+                "agent": "build",
+                "model": {
+                  "id": "fixture-model",
+                  "providerID": "fixture",
+                  "variant": "default"
+                },
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_18}",
+            "aggregate_id": "{ses_1}",
+            "seq": 10,
+            "type": "message.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{msg_5}",
+                "sessionID": "{ses_1}",
+                "role": "user",
+                "time": {
+                  "created": "{TS}"
+                },
+                "agent": "build",
+                "model": {
+                  "providerID": "missing",
+                  "modelID": "missing"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_19}",
+            "aggregate_id": "{ses_1}",
+            "seq": 11,
+            "type": "message.part.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "part": {
+                "id": "{prt_5}",
+                "sessionID": "{ses_1}",
+                "messageID": "{msg_5}",
+                "type": "compaction",
+                "auto": false
+              },
+              "time": "{TS}"
+            }
+          },
+          {
+            "id": "{evt_20}",
+            "aggregate_id": "{ses_1}",
+            "seq": 12,
+            "type": "message.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{msg_6}",
+                "sessionID": "{ses_1}",
+                "role": "user",
+                "time": {
+                  "created": "{TS}"
+                },
+                "agent": "build",
+                "model": {
+                  "providerID": "fixture",
+                  "modelID": "fixture-model"
+                }
+              }
+            }
+          },
+          {
+            "id": "{evt_21}",
+            "aggregate_id": "{ses_1}",
+            "seq": 13,
+            "type": "message.part.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "part": {
+                "id": "{prt_6}",
+                "sessionID": "{ses_1}",
+                "messageID": "{msg_6}",
+                "type": "text",
+                "text": "async"
+              },
+              "time": "{TS}"
+            }
+          },
+          {
+            "id": "{evt_22}",
+            "aggregate_id": "{ses_1}",
+            "seq": 14,
+            "type": "session.updated.1",
+            "data": {
+              "sessionID": "{ses_1}",
+              "info": {
+                "id": "{ses_1}",
+                "slug": "{SLUG}",
+                "projectID": "{SHA}",
+                "directory": "{PROJ}",
+                "path": "",
+                "cost": 0,
+                "tokens": {
+                  "input": 0,
+                  "output": 0,
+                  "reasoning": 0,
+                  "cache": {
+                    "read": 0,
+                    "write": 0
+                  }
+                },
+                "title": "renamed",
+                "agent": "build",
+                "model": {
+                  "id": "fixture-model",
+                  "providerID": "fixture",
+                  "variant": "default"
+                },
+                "version": "local",
+                "time": {
+                  "created": "{TS}",
+                  "updated": "{TS}"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "seq": 203,
+      "id": "sync.history.list#bad-body",
+      "operationId": "sync.history.list",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/history",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 204,
+      "id": "sync.history.list#wrong-type",
+      "operationId": "sync.history.list",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/sync/history",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    }
+  ]
+}

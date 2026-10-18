@@ -1,0 +1,24 @@
+# Phase 15 platform matrix runner. Standalone project (own empty [workspace]) outside the main
+# workspace members. Reads matrix.toml (decision D13) and runs or blocks each target row.
+[package]
+name = "opencode-platform-runner"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.99"
+license = "MIT"
+publish = false
+
+[workspace]
+
+[[bin]]
+name = "platform"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.104"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.151", features = ["preserve_order"] }
+toml = "0.9.8"
+
+[lints.rust]
+unsafe_code = "deny"

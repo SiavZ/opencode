@@ -1,0 +1,5 @@
+add:add an MCP server
+list:list MCP servers and their status
+auth:authenticate with an OAuth-enabled MCP server
+logout:remove OAuth credentials for an MCP server
+debug:debug OAuth connection for an MCP server

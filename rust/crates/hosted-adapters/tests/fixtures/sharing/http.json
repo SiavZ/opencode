@@ -1,0 +1,389 @@
+[
+  {
+    "method": "POST",
+    "path": "/api/share",
+    "request": {
+      "sessionID": "ses_0123456789abcdefGHIJ"
+    },
+    "requestHeaders": {
+      "x-forwarded-host": "opncd.ai"
+    },
+    "status": 200,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"id\":\"cdefGHIJ\",\"secret\":\"<secret>\",\"url\":\"https://opncd.ai/share/cdefGHIJ\"}"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share",
+    "request": {
+      "sessionID": "ses_0123456789abcdefGHIJ"
+    },
+    "requestHeaders": {},
+    "status": 500,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "text/plain; charset=UTF-8"
+    },
+    "body": "Internal Server Error"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share",
+    "request": {
+      "nope": 1
+    },
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"data\":{\"nope\":1},\"error\":[{\"expected\":\"string\",\"code\":\"invalid_type\",\"path\":[\"sessionID\"],\"message\":\"Invalid input: expected string, received undefined\"}],\"success\":false}"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share",
+    "request": "not json",
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*"
+    },
+    "body": "Malformed JSON in request body"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share/cdefGHIJ/sync",
+    "request": {
+      "secret": "<secret>",
+      "data": [
+        {
+          "type": "session",
+          "data": {
+            "id": "ses_x"
+          }
+        }
+      ]
+    },
+    "requestHeaders": {},
+    "status": 200,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{}"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share/cdefGHIJ/sync",
+    "request": {
+      "secret": "wrong",
+      "data": []
+    },
+    "requestHeaders": {},
+    "status": 500,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "text/plain; charset=UTF-8"
+    },
+    "body": "Internal Server Error"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share/cdefGHIJ/sync",
+    "request": {
+      "secret": "<secret>",
+      "data": [
+        {
+          "type": "bogus",
+          "data": 1
+        }
+      ]
+    },
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"data\":{\"secret\":\"<secret>\",\"data\":[{\"type\":\"bogus\",\"data\":1}]},\"error\":[{\"code\":\"invalid_union\",\"errors\":[],\"note\":\"No matching discriminator\",\"discriminator\":\"type\",\"path\":[\"data\",0,\"type\"],\"message\":\"Invalid input\"}],\"success\":false}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/share/cdefGHIJ/data",
+    "request": null,
+    "requestHeaders": {},
+    "status": 200,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "cache-control": "public, max-age=30, s-maxage=300, stale-while-revalidate=86400",
+      "content-type": "application/json"
+    },
+    "body": "[{\"type\":\"session\",\"data\":{\"id\":\"ses_x\"}}]"
+  },
+  {
+    "method": "GET",
+    "path": "/api/share/missing0/data",
+    "request": null,
+    "requestHeaders": {},
+    "status": 200,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "cache-control": "public, max-age=30, s-maxage=300, stale-while-revalidate=86400",
+      "content-type": "application/json"
+    },
+    "body": "[]"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/share/cdefGHIJ",
+    "request": {
+      "secret": "wrong"
+    },
+    "requestHeaders": {},
+    "status": 500,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "text/plain; charset=UTF-8"
+    },
+    "body": "Internal Server Error"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/support/actions/remove-share",
+    "request": {
+      "shareID": "cdefGHIJ"
+    },
+    "requestHeaders": {
+      "authorization": "Bearer bad"
+    },
+    "status": 401,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"error\":\"Unauthorized\"}"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/support/actions/remove-share",
+    "request": {
+      "shareID": ""
+    },
+    "requestHeaders": {
+      "authorization": "Bearer support-key"
+    },
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"error\":\"Invalid request\",\"issues\":[{\"origin\":\"string\",\"code\":\"too_small\",\"minimum\":1,\"inclusive\":true,\"path\":[\"shareID\"],\"message\":\"Too small: expected string to have >=1 characters\"}]}"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/support/actions/remove-share",
+    "request": {
+      "shareID": "missing0"
+    },
+    "requestHeaders": {
+      "authorization": "Bearer support-key"
+    },
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"error\":\"Share not found: missing0\"}"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/support/actions/remove-share",
+    "request": {
+      "shareID": "cdefGHIJ"
+    },
+    "requestHeaders": {
+      "authorization": "Bearer support-key"
+    },
+    "status": 200,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"success\":true,\"message\":\"Share removed\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/share/cdefGHIJ/data",
+    "request": null,
+    "requestHeaders": {},
+    "status": 200,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "cache-control": "public, max-age=30, s-maxage=300, stale-while-revalidate=86400",
+      "content-type": "application/json"
+    },
+    "body": "[{\"type\":\"session\",\"data\":{\"id\":\"ses_x\"}}]"
+  },
+  {
+    "method": "GET",
+    "path": "/api/nothing",
+    "request": null,
+    "requestHeaders": {},
+    "status": 404,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "text/plain; charset=UTF-8"
+    },
+    "body": "404 Not Found"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share",
+    "request": [
+      1
+    ],
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"data\":[1],\"error\":[{\"expected\":\"object\",\"code\":\"invalid_type\",\"path\":[],\"message\":\"Invalid input: expected object, received array\"}],\"success\":false}"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share",
+    "request": {
+      "sessionID": 5
+    },
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"data\":{\"sessionID\":5},\"error\":[{\"expected\":\"string\",\"code\":\"invalid_type\",\"path\":[\"sessionID\"],\"message\":\"Invalid input: expected string, received number\"}],\"success\":false}"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share/x/sync",
+    "request": {
+      "data": "no"
+    },
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"data\":{\"data\":\"no\"},\"error\":[{\"expected\":\"string\",\"code\":\"invalid_type\",\"path\":[\"secret\"],\"message\":\"Invalid input: expected string, received undefined\"},{\"expected\":\"array\",\"code\":\"invalid_type\",\"path\":[\"data\"],\"message\":\"Invalid input: expected array, received string\"}],\"success\":false}"
+  },
+  {
+    "method": "POST",
+    "path": "/api/share/x/sync",
+    "request": {
+      "secret": 1,
+      "data": [
+        1,
+        {
+          "type": "message"
+        },
+        null,
+        {
+          "type": 2
+        }
+      ]
+    },
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"data\":{\"secret\":1,\"data\":[1,{\"type\":\"message\"},null,{\"type\":2}]},\"error\":[{\"expected\":\"string\",\"code\":\"invalid_type\",\"path\":[\"secret\"],\"message\":\"Invalid input: expected string, received number\"},{\"code\":\"invalid_type\",\"expected\":\"object\",\"path\":[\"data\",0],\"message\":\"Invalid input: expected object, received number\"},{\"code\":\"invalid_type\",\"expected\":\"object\",\"path\":[\"data\",2],\"message\":\"Invalid input: expected object, received null\"},{\"code\":\"invalid_union\",\"errors\":[],\"note\":\"No matching discriminator\",\"discriminator\":\"type\",\"path\":[\"data\",3,\"type\"],\"message\":\"Invalid input\"}],\"success\":false}"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/support/actions/remove-share",
+    "request": "garbage",
+    "requestHeaders": {
+      "authorization": "Bearer support-key"
+    },
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"error\":\"Invalid request\",\"issues\":[{\"expected\":\"object\",\"code\":\"invalid_type\",\"path\":[],\"message\":\"Invalid input: expected object, received undefined\"}]}"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/support/actions/remove-share",
+    "request": {
+      "shareID": 3
+    },
+    "requestHeaders": {
+      "authorization": "Bearer support-key"
+    },
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"error\":\"Invalid request\",\"issues\":[{\"expected\":\"string\",\"code\":\"invalid_type\",\"path\":[\"shareID\"],\"message\":\"Invalid input: expected string, received number\"}]}"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/share/x",
+    "request": {},
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"data\":{},\"error\":[{\"expected\":\"string\",\"code\":\"invalid_type\",\"path\":[\"secret\"],\"message\":\"Invalid input: expected string, received undefined\"}],\"success\":false}"
+  },
+  {
+    "method": "OPTIONS",
+    "path": "/api/share",
+    "request": null,
+    "requestHeaders": {},
+    "status": 204,
+    "headers": {
+      "access-control-allow-headers": "content-type,x-custom",
+      "access-control-allow-methods": "GET,HEAD,PUT,POST,DELETE,PATCH",
+      "access-control-allow-origin": "*",
+      "vary": "Access-Control-Request-Headers"
+    },
+    "body": ""
+  },
+  {
+    "method": "POST",
+    "path": "/api/share",
+    "request": "no content-type",
+    "requestHeaders": {},
+    "status": 400,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "application/json"
+    },
+    "body": "{\"data\":{},\"error\":[{\"expected\":\"string\",\"code\":\"invalid_type\",\"path\":[\"sessionID\"],\"message\":\"Invalid input: expected string, received undefined\"}],\"success\":false}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/doc",
+    "request": null,
+    "requestHeaders": {},
+    "status": 500,
+    "headers": {
+      "access-control-allow-origin": "*",
+      "content-type": "text/plain; charset=UTF-8"
+    },
+    "body": "Internal Server Error"
+  }
+]

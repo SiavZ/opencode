@@ -1,0 +1,500 @@
+{
+  "family": "negative-cors",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 398,
+      "id": "cors:preflight:http://localhost:3000",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "http://localhost:3000",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-origin": "http://localhost:3000",
+          "vary": "Access-Control-Request-Headers, Origin",
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 399,
+      "id": "cors:simple:http://localhost:3000",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "http://localhost:3000"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "access-control-allow-origin": "http://localhost:3000",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 400,
+      "id": "cors:preflight:http://127.0.0.1:5173",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "http://127.0.0.1:5173",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-origin": "http://127.0.0.1:5173",
+          "vary": "Access-Control-Request-Headers, Origin",
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 401,
+      "id": "cors:simple:http://127.0.0.1:5173",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "http://127.0.0.1:5173"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "access-control-allow-origin": "http://127.0.0.1:5173",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 402,
+      "id": "cors:preflight:https://opencode.ai",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "https://opencode.ai",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-origin": "https://opencode.ai",
+          "vary": "Access-Control-Request-Headers, Origin",
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 403,
+      "id": "cors:simple:https://opencode.ai",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "https://opencode.ai"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "access-control-allow-origin": "https://opencode.ai",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 404,
+      "id": "cors:preflight:https://app.opencode.ai",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "https://app.opencode.ai",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-origin": "https://app.opencode.ai",
+          "vary": "Access-Control-Request-Headers, Origin",
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 405,
+      "id": "cors:simple:https://app.opencode.ai",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "https://app.opencode.ai"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "access-control-allow-origin": "https://app.opencode.ai",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 406,
+      "id": "cors:preflight:tauri://localhost",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "tauri://localhost",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-origin": "tauri://localhost",
+          "vary": "Access-Control-Request-Headers, Origin",
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 407,
+      "id": "cors:simple:tauri://localhost",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "tauri://localhost"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "access-control-allow-origin": "tauri://localhost",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 408,
+      "id": "cors:preflight:oc://renderer",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "oc://renderer",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-origin": "oc://renderer",
+          "vary": "Access-Control-Request-Headers, Origin",
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 409,
+      "id": "cors:simple:oc://renderer",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "oc://renderer"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "access-control-allow-origin": "oc://renderer",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 410,
+      "id": "cors:preflight:https://evil.example.com",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "https://evil.example.com",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "vary": "Access-Control-Request-Headers",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 411,
+      "id": "cors:simple:https://evil.example.com",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "https://evil.example.com"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 412,
+      "id": "cors:preflight:https://opencode.ai.evil.com",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "https://opencode.ai.evil.com",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "vary": "Access-Control-Request-Headers",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 413,
+      "id": "cors:simple:https://opencode.ai.evil.com",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "https://opencode.ai.evil.com"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 414,
+      "id": "cors:preflight:http://localhost",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "http://localhost",
+          "access-control-request-method": "POST",
+          "access-control-request-headers": "content-type,x-opencode-directory"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "vary": "Access-Control-Request-Headers",
+          "access-control-allow-headers": "content-type,x-opencode-directory",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 415,
+      "id": "cors:simple:http://localhost",
+      "operationId": "v2.health.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid",
+        "headers": {
+          "origin": "http://localhost"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 416,
+      "id": "cors:preflight:legacy",
+      "operationId": null,
+      "server": "nopass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/session",
+        "auth": "valid",
+        "headers": {
+          "origin": "http://localhost:3000",
+          "access-control-request-method": "GET"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-origin": "http://localhost:3000",
+          "vary": "Origin",
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "access-control-allow-headers": "",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    }
+  ]
+}

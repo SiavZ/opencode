@@ -1,0 +1,26 @@
+{
+  "family": "legacy-lsp",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 74,
+      "id": "lsp.status#ok",
+      "operationId": "lsp.status",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/lsp",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    }
+  ]
+}

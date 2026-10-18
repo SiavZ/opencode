@@ -1,0 +1,1562 @@
+{
+  "app.agents#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "app.log#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "app.log#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "app.log#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "app.skills#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth.remove#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth.set#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth.set#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth.set#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth:none:GET /api/pty/x/connect?ticket": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "auth:query-valid:GET /api/session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.list is not available in this host yet\",\"service\":\"session.list\"}"
+  },
+  "auth:query-valid:GET /global/health": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth:query-valid:GET /session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth:query-valid:POST /api/session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.create is not available in this host yet\",\"service\":\"session.create\"}"
+  },
+  "auth:valid:GET /api/session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.list is not available in this host yet\",\"service\":\"session.list\"}"
+  },
+  "auth:valid:GET /global/health": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth:valid:GET /session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "auth:valid:POST /api/session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.create is not available in this host yet\",\"service\":\"session.create\"}"
+  },
+  "command.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "config.get#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "config.providers#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "config.update#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "config.update#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "config.update#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "doc:/doc": {
+    "category": "body",
+    "detail": "digest differs (19 bytes vs baseline 478968); 162 of 162 baseline paths missing, first Some(\"/agent\")"
+  },
+  "doc:/openapi.json": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.capabilities.get#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.console.get#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.console.listOrgs#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.console.switchOrg#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.console.switchOrg#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.console.switchOrg#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.controlPlane.moveSession#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.controlPlane.moveSession#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.controlPlane.moveSession#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.projectCopy.generateName#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.projectCopy.generateName#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.projectCopy.generateName#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.resource.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.session.background#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.session.background#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.session.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.adapter.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.create#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.create#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.remove#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.status#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.syncList#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.warp#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.warp#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "experimental.workspace.warp#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "file.list#missing-query": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "file.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "file.read#missing-query": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "file.read#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "file.status#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "find.files#missing-query": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "find.files#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "find.symbols#missing-query": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "find.symbols#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "find.text#missing-query": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "find.text#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "formatter.status#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "global.config.get#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "global.config.update#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "global.config.update#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "global.config.update#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "global.dispose#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "global.health#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "global.upgrade#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "global.upgrade#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "instance.dispose#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "lsp.status#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.add#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.add#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.add#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.auth.authenticate#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.auth.callback#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.auth.callback#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.auth.callback#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.auth.remove#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.auth.start#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.connect#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.disconnect#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "mcp.status#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "notfound:DELETE /api/health": {
+    "category": "status",
+    "detail": "status 405 != baseline 500; body "
+  },
+  "notfound:GET /api/does-not-exist": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "notfound:GET /api/session/x/y/z": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "notfound:GET /does-not-exist-route": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "part.delete#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "part.delete#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "part.update#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "part.update#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "part.update#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "part.update#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "path.get#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "permission.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "permission.reply#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "permission.reply#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "permission.reply#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "permission.respond#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "permission.respond#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "permission.respond#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "permission.respond#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "project.current#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "project.directories#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "project.initGit#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "project.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "project.update#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "project.update#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "project.update#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "provider.auth#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "provider.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "provider.oauth.authorize#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "provider.oauth.authorize#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "provider.oauth.authorize#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "provider.oauth.callback#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "provider.oauth.callback#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "provider.oauth.callback#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.connect#plain-get": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation pty.connect is not available in this host yet\",\"service\":\"pty.connect\"}"
+  },
+  "pty.connectToken#missing-pty": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.connectToken#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.create#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.create#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.get#missing-pty": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.get#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.remove#missing-pty": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.remove#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.shells#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.update#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.update#missing-pty": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.update#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "pty.update#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "question.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "question.reject#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "question.reply#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "question.reply#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "question.reply#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.abort#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.abort#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.children#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.children#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.command#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.command#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.command#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.command#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.create#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.create#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.create#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.delete#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.delete#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.deleteMessage#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.deleteMessage#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.diff#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.diff#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.fork#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.fork#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.fork#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.fork#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.get#bad-id": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.get#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.get#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.init#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.init#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.init#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.init#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.message#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.message#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.messages#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.messages#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.prompt#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.prompt#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.prompt#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.prompt#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.prompt_async#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.prompt_async#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.prompt_async#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.prompt_async#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.revert#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.revert#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.revert#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.revert#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.share#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.share#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.shell#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.shell#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.shell#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.status#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.summarize#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.summarize#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.summarize#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.summarize#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.todo#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.todo#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.unrevert#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.unrevert#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.unshare#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.unshare#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.update#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.update#missing-session": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.update#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "session.update#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "setup:project.current": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "setup:pty.create": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "setup:session.create": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "setup:session.prompt.noReply": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "setup:v2.pty.create": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "setup:v2.session.create": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.create is not available in this host yet\",\"service\":\"session.create\"}"
+  },
+  "sse:/api/event": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation event.subscribe is not available in this host yet\",\"service\":\"event.subscribe\"}"
+  },
+  "sse:/api/session/:id/event": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "sse:/api/session/:id/event#bad-after": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "sse:/api/session/:id/event#missing": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "sse:/event": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation event.subscribe is not available in this host yet\",\"service\":\"event.subscribe\"}"
+  },
+  "sse:/global/event": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation global.event is not available in this host yet\",\"service\":\"global.event\"}"
+  },
+  "sync.history.list#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.history.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.history.list#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.replay#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.replay#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.replay#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.start#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.steal#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.steal#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "sync.steal#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tool.ids#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tool.list#missing-query": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tool.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.appendPrompt#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.appendPrompt#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.appendPrompt#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.clearPrompt#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.control.next#timeout": {
+    "category": "status",
+    "detail": "baseline long-polls (no response in 3s), Rust answered 503"
+  },
+  "tui.control.response#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.control.response#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.control.response#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.executeCommand#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.executeCommand#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.executeCommand#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.openHelp#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.openModels#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.openSessions#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.openThemes#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.publish#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.publish#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.publish#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.selectSession#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.selectSession#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.selectSession#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.showToast#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.showToast#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.showToast#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "tui.submitPrompt#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "v2.agent.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.command.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.credential.remove#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.credential.update#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.credential.update#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.credential.update#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.fs.find#missing-query": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.fs.find#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.fs.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.fs.read#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.attempt.cancel#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.attempt.complete#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.attempt.complete#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.attempt.complete#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.attempt.status#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.connect.key#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.connect.key#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.connect.key#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.connect.oauth#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.connect.oauth#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.connect.oauth#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.get#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.integration.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.location.get#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.model.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.permission.request.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.permission.saved.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.permission.saved.remove#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.projectCopy.create#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.projectCopy.create#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.projectCopy.refresh#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.projectCopy.remove#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.projectCopy.remove#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.projectCopy.remove#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.provider.get#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.provider.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.connect#plain-get": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.connectToken#missing-pty": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.connectToken#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.create#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.create#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.get#missing-pty": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.get#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.remove#missing-pty": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.remove#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.update#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.update#missing-pty": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.update#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.pty.update#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.question.request.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.reference.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "v2.session.active#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.active is not available in this host yet\",\"service\":\"session.active\"}"
+  },
+  "v2.session.compact#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.compact#ok": {
+    "category": "body",
+    "detail": "$.message: \"Operation session.location is not available in this host yet\" != \"Session compact is not available yet\""
+  },
+  "v2.session.compact#ok-running": {
+    "category": "body",
+    "detail": "$.message: \"Operation session.location is not available in this host yet\" != \"Session compact is not available yet\""
+  },
+  "v2.session.context#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.context#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.create#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.create is not available in this host yet\",\"service\":\"session.create\"}"
+  },
+  "v2.session.get#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.get#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.history#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.history#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.interrupt#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.interrupt#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.list#bad-cursor": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.list is not available in this host yet\",\"service\":\"session.list\"}"
+  },
+  "v2.session.list#bad-limit": {
+    "category": "body",
+    "detail": "$.message: \"Expected a string representing a finite number, got \\\"abc\\\"\\n  at [\\\"limit\\\"]\" != \"Expected an integer, got NaN\\n  at [\\\"limit\\\"]\""
+  },
+  "v2.session.list#bad-order": {
+    "category": "body",
+    "detail": "$.message: \"Expected \\\"desc\\\", got \\\"sideways\\\"\\n  at [\\\"order\\\"]\" != \"Expected \\\"asc\\\" | \\\"desc\\\", got \\\"sideways\\\"\\n  at [\\\"order\\\"]\""
+  },
+  "v2.session.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.list is not available in this host yet\",\"service\":\"session.list\"}"
+  },
+  "v2.session.message#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.message#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.messages#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.messages#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.create#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.create#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.create#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.create#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.get#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.get#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.list#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.reply#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.reply#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.reply#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.permission.reply#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.prompt#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.prompt#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.prompt#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.prompt#text-plain": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 415; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.prompt#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.question.list#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.question.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.question.reject#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.question.reject#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.question.reply#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.question.reply#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.question.reply#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.question.reply#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.revert.clear#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.revert.clear#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.revert.commit#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.revert.commit#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.revert.stage#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.revert.stage#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.revert.stage#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.revert.stage#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.switchAgent#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.switchAgent#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.switchAgent#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.switchAgent#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.switchModel#bad-body": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.switchModel#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.switchModel#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 204; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.switchModel#wrong-type": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.wait#missing-session": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 404; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation session.location is not available in this host yet\",\"service\":\"session.location\"}"
+  },
+  "v2.session.wait#ok": {
+    "category": "body",
+    "detail": "$.message: \"Operation session.location is not available in this host yet\" != \"Session wait is not available yet\""
+  },
+  "v2.session.wait#ok-running": {
+    "category": "body",
+    "detail": "$.message: \"Operation session.location is not available in this host yet\" != \"Session wait is not available yet\""
+  },
+  "v2.skill.list#ok": {
+    "category": "not-ported",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation location is not available in this host yet\",\"service\":\"location\"}"
+  },
+  "vcs.apply#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "vcs.apply#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "vcs.apply#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "vcs.diff#missing-query": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "vcs.diff#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "vcs.diff.raw#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "vcs.get#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "vcs.status#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.create#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.create#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.list#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.remove#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.remove#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 200; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.remove#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.reset#bad-body": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 500; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.reset#ok": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  },
+  "worktree.reset#wrong-type": {
+    "category": "not-mounted",
+    "detail": "status 503 != baseline 400; body {\"_tag\":\"ServiceUnavailableError\",\"message\":\"Operation ui is not available in this host yet\",\"service\":\"ui\"}"
+  }
+}

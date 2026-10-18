@@ -1,0 +1,57 @@
+# Purpose: shipping target matrix for platform qualification (decision D13,
+# rust/contracts/phase-90/decisions.md). Only rows with a runner reachable from this machine are
+# executable. Every other row stays here, ready to run, and reports
+# "blocked: runner unavailable". Cross-compilation alone never qualifies a row.
+#
+# runner kinds:
+#   host   - run on this machine; `host_triple` must equal the harness host
+#   docker - run inside `docker run --platform <docker_platform> <image>`
+#   none   - no runner reachable (D13); always blocked
+#
+# Per-row workflow: the acceptance harness (rust/tests/acceptance) against the release artifact
+# for the row, given by env OPENCODE_ARTIFACT_<ROW_ID uppercased, '-' -> '_'>.
+
+[[target]]
+id = "aarch64-apple-darwin"
+triple = "aarch64-apple-darwin"
+runner = "host"
+host_triple = "aarch64-apple-darwin"
+
+[[target]]
+id = "aarch64-unknown-linux-gnu"
+triple = "aarch64-unknown-linux-gnu"
+runner = "docker"
+docker_platform = "linux/arm64"
+image = "debian:trixie"
+
+[[target]]
+id = "aarch64-unknown-linux-musl"
+triple = "aarch64-unknown-linux-musl"
+runner = "docker"
+docker_platform = "linux/arm64"
+image = "alpine:3"
+
+[[target]]
+id = "x86_64-unknown-linux-gnu"
+triple = "x86_64-unknown-linux-gnu"
+runner = "none"
+
+[[target]]
+id = "x86_64-unknown-linux-musl"
+triple = "x86_64-unknown-linux-musl"
+runner = "none"
+
+[[target]]
+id = "x86_64-apple-darwin"
+triple = "x86_64-apple-darwin"
+runner = "none"
+
+[[target]]
+id = "x86_64-pc-windows-msvc"
+triple = "x86_64-pc-windows-msvc"
+runner = "none"
+
+[[target]]
+id = "aarch64-pc-windows-msvc"
+triple = "aarch64-pc-windows-msvc"
+runner = "none"

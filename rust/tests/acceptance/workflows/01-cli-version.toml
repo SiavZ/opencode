@@ -1,0 +1,15 @@
+# Purpose: `opencode --version` prints a single version token and exits 0.
+# Baseline: dev entrypoint prints `local` (no build-time version); a release prints semver.
+id = "cli-version"
+requirement = "PKG-09"
+baseline_source = "packages/opencode/src/index.ts:51 (yargs .version), packages/core/src/installation/version.ts:6"
+owner = "phase-09 (bins/opencode CLI)"
+producer = "opencode CLI"
+consumer = "user shell / install scripts"
+classification = "live"
+
+[[step]]
+kind = "cli"
+args = ["--version"]
+expect_exit = 0
+expect_stdout_regex = '^(local|\d+\.\d+\.\d+\S*)$'

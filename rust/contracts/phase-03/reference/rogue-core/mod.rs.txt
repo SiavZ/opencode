@@ -1,0 +1,36 @@
+//! Purpose: shared adapter core: protocol/decoder traits, route composition, SSE framing,
+//! block lifecycle, tool-call accumulation, cache policy and protocol-neutral helpers. Every
+//! protocol and provider leaf builds on this module; leaves never edit it.
+//! Scope: module root.
+//! Uses:
+//! rust/crates/
+//! |-- provider-adapters/src/core/cache_policy.rs
+//! |-- provider-adapters/src/core/lifecycle.rs
+//! |-- provider-adapters/src/core/protocol.rs
+//! |-- provider-adapters/src/core/route.rs
+//! |-- provider-adapters/src/core/shared.rs
+//! |-- provider-adapters/src/core/sse.rs
+//! `-- provider-adapters/src/core/tool_stream.rs
+//! External:
+//! `-- none
+//! Used by:
+//! rust/crates/
+//! `-- provider-adapters/src/lib.rs
+//! Invariants: owned by the phase-03 parent; leaf changes go through the parent.
+//! Contract tests: provider-adapters/tests/core.rs
+
+pub mod cache_policy;
+pub mod lifecycle;
+pub mod protocol;
+pub mod route;
+pub mod shared;
+pub mod sse;
+pub mod tool_stream;
+
+pub use lifecycle::Lifecycle;
+pub use protocol::{Frame, Protocol, StreamDecoder};
+pub use route::{
+    Auth, AuthInput, ByteStream, Endpoint, FrameStream, Framing, Headers, HttpExecutor,
+    HttpJsonTransport, HttpRequest, HttpRoute, NoAuth, Transport,
+};
+pub use tool_stream::{PendingTool, ToolStream};

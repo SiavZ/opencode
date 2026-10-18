@@ -1,0 +1,59 @@
+{
+  "family": "api-provider",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 284,
+      "id": "v2.provider.list#ok",
+      "operationId": "v2.provider.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/provider",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": []
+        }
+      }
+    },
+    {
+      "seq": 285,
+      "id": "v2.provider.get#ok",
+      "operationId": "v2.provider.get",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/provider/missing-provider",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "ProviderNotFoundError",
+          "providerID": "missing-provider",
+          "message": "Provider not found: missing-provider"
+        }
+      }
+    }
+  ]
+}

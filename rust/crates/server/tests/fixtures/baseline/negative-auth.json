@@ -1,0 +1,668 @@
+{
+  "family": "negative-auth",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 373,
+      "id": "auth:none:GET /api/health",
+      "operationId": "v2.health.get",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "none"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "UnauthorizedError",
+          "message": "Authentication required"
+        }
+      }
+    },
+    {
+      "seq": 374,
+      "id": "auth:none:GET /api/session",
+      "operationId": "v2.session.list",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/session",
+        "auth": "none"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "UnauthorizedError",
+          "message": "Authentication required"
+        }
+      }
+    },
+    {
+      "seq": 375,
+      "id": "auth:none:GET /global/health",
+      "operationId": "global.health",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/global/health",
+        "auth": "none"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 376,
+      "id": "auth:none:GET /session",
+      "operationId": "session.list",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/session",
+        "auth": "none"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 377,
+      "id": "auth:none:GET /doc",
+      "operationId": null,
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/doc",
+        "auth": "none"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 378,
+      "id": "auth:none:POST /api/session",
+      "operationId": "v2.session.create",
+      "server": "pass",
+      "request": {
+        "method": "POST",
+        "path": "/api/session",
+        "auth": "none",
+        "body": {
+          "location": {
+            "directory": "{PROJ}"
+          }
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "UnauthorizedError",
+          "message": "Authentication required"
+        }
+      }
+    },
+    {
+      "seq": 379,
+      "id": "auth:invalid:GET /api/health",
+      "operationId": "v2.health.get",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "invalid"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "UnauthorizedError",
+          "message": "Authentication required"
+        }
+      }
+    },
+    {
+      "seq": 380,
+      "id": "auth:invalid:GET /api/session",
+      "operationId": "v2.session.list",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/session",
+        "auth": "invalid"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "UnauthorizedError",
+          "message": "Authentication required"
+        }
+      }
+    },
+    {
+      "seq": 381,
+      "id": "auth:invalid:GET /global/health",
+      "operationId": "global.health",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/global/health",
+        "auth": "invalid"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 382,
+      "id": "auth:invalid:GET /session",
+      "operationId": "session.list",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/session",
+        "auth": "invalid"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 383,
+      "id": "auth:invalid:GET /doc",
+      "operationId": null,
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/doc",
+        "auth": "invalid"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 384,
+      "id": "auth:invalid:POST /api/session",
+      "operationId": "v2.session.create",
+      "server": "pass",
+      "request": {
+        "method": "POST",
+        "path": "/api/session",
+        "auth": "invalid",
+        "body": {
+          "location": {
+            "directory": "{PROJ}"
+          }
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "UnauthorizedError",
+          "message": "Authentication required"
+        }
+      }
+    },
+    {
+      "seq": 385,
+      "id": "auth:valid:GET /api/health",
+      "operationId": "v2.health.get",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 386,
+      "id": "auth:valid:GET /api/session",
+      "operationId": "v2.session.list",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/session",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "data": [],
+          "cursor": {
+            "previous": null,
+            "next": null
+          }
+        }
+      }
+    },
+    {
+      "seq": 387,
+      "id": "auth:valid:GET /global/health",
+      "operationId": "global.health",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/global/health",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true,
+          "version": "local"
+        }
+      }
+    },
+    {
+      "seq": 388,
+      "id": "auth:valid:GET /session",
+      "operationId": "session.list",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/session",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    },
+    {
+      "seq": 389,
+      "id": "auth:valid:POST /api/session",
+      "operationId": "v2.session.create",
+      "server": "pass",
+      "request": {
+        "method": "POST",
+        "path": "/api/session",
+        "auth": "valid",
+        "body": {
+          "location": {
+            "directory": "{PROJ}"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "data": {
+            "id": "{ses_6}",
+            "projectID": "{SHA}",
+            "cost": 0,
+            "tokens": {
+              "input": 0,
+              "output": 0,
+              "reasoning": 0,
+              "cache": {
+                "read": 0,
+                "write": 0
+              }
+            },
+            "time": {
+              "created": "{TS}",
+              "updated": "{TS}"
+            },
+            "title": "New session - {ISO}",
+            "location": {
+              "directory": "{PROJ}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "seq": 390,
+      "id": "auth:query-valid:GET /api/health",
+      "operationId": "v2.health.get",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/health",
+        "auth": "query-valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true
+        }
+      }
+    },
+    {
+      "seq": 391,
+      "id": "auth:query-valid:GET /api/session",
+      "operationId": "v2.session.list",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/session",
+        "auth": "query-valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "data": [
+            {
+              "id": "{ses_6}",
+              "projectID": "{SHA}",
+              "cost": 0,
+              "tokens": {
+                "input": 0,
+                "output": 0,
+                "reasoning": 0,
+                "cache": {
+                  "read": 0,
+                  "write": 0
+                }
+              },
+              "time": {
+                "created": "{TS}",
+                "updated": "{TS}"
+              },
+              "title": "New session - {ISO}",
+              "location": {
+                "directory": "{PROJ}"
+              }
+            }
+          ],
+          "cursor": {
+            "previous": "{CURSOR:{\"anchor\":{\"id\":\"{ses_6}\",\"time\":\"{TS}\",\"direction\":\"previous\"}}}",
+            "next": "{CURSOR:{\"anchor\":{\"id\":\"{ses_6}\",\"time\":\"{TS}\",\"direction\":\"next\"}}}"
+          }
+        }
+      }
+    },
+    {
+      "seq": 392,
+      "id": "auth:query-valid:GET /global/health",
+      "operationId": "global.health",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/global/health",
+        "auth": "query-valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "healthy": true,
+          "version": "local"
+        }
+      }
+    },
+    {
+      "seq": 393,
+      "id": "auth:query-valid:GET /session",
+      "operationId": "session.list",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/session",
+        "auth": "query-valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": [
+          {
+            "id": "{ses_6}",
+            "slug": "{SLUG}",
+            "projectID": "{SHA}",
+            "directory": "{PROJ}",
+            "path": "",
+            "cost": 0,
+            "tokens": {
+              "input": 0,
+              "output": 0,
+              "reasoning": 0,
+              "cache": {
+                "read": 0,
+                "write": 0
+              }
+            },
+            "title": "New session - {ISO}",
+            "version": "local",
+            "time": {
+              "created": "{TS}",
+              "updated": "{TS}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "seq": 394,
+      "id": "auth:query-valid:POST /api/session",
+      "operationId": "v2.session.create",
+      "server": "pass",
+      "request": {
+        "method": "POST",
+        "path": "/api/session",
+        "auth": "query-valid",
+        "body": {
+          "location": {
+            "directory": "{PROJ}"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "data": {
+            "id": "{ses_7}",
+            "projectID": "{SHA}",
+            "cost": 0,
+            "tokens": {
+              "input": 0,
+              "output": 0,
+              "reasoning": 0,
+              "cache": {
+                "read": 0,
+                "write": 0
+              }
+            },
+            "time": {
+              "created": "{TS}",
+              "updated": "{TS}"
+            },
+            "title": "New session - {ISO}",
+            "location": {
+              "directory": "{PROJ}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "seq": 395,
+      "id": "auth:none:GET /",
+      "operationId": null,
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/",
+        "auth": "none"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 396,
+      "id": "auth:none:GET /api/pty/x/connect?ticket",
+      "operationId": "v2.pty.connect",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/pty/pty_missing000000000000000000/connect",
+        "auth": "none",
+        "query": [
+          [
+            "ticket",
+            "bogus"
+          ]
+        ]
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    },
+    {
+      "seq": 397,
+      "id": "auth:none:OPTIONS preflight",
+      "operationId": null,
+      "server": "pass",
+      "request": {
+        "method": "OPTIONS",
+        "path": "/api/session",
+        "auth": "none",
+        "headers": {
+          "origin": "http://localhost:3000",
+          "access-control-request-method": "GET"
+        }
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "access-control-allow-origin": "http://localhost:3000",
+          "vary": "Origin",
+          "access-control-allow-methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
+          "access-control-allow-headers": "",
+          "access-control-max-age": "86400"
+        },
+        "kind": "empty"
+      }
+    }
+  ]
+}

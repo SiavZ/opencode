@@ -1,0 +1,81 @@
+{
+  "family": "api-permission",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 303,
+      "id": "v2.permission.request.list#ok",
+      "operationId": "v2.permission.request.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/permission/request",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": []
+        }
+      }
+    },
+    {
+      "seq": 304,
+      "id": "v2.permission.saved.list#ok",
+      "operationId": "v2.permission.saved.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/permission/saved",
+        "auth": "valid",
+        "query": [
+          [
+            "projectID",
+            "{SHA}"
+          ]
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "data": []
+        }
+      }
+    },
+    {
+      "seq": 305,
+      "id": "v2.permission.saved.remove#ok",
+      "operationId": "v2.permission.saved.remove",
+      "server": "nopass",
+      "request": {
+        "method": "DELETE",
+        "path": "/api/permission/saved/wrk_missing000000000000000000",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "vary": "Origin"
+        },
+        "kind": "empty"
+      }
+    }
+  ]
+}

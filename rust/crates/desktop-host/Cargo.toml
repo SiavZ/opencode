@@ -1,0 +1,46 @@
+[package]
+name = "opencode-desktop-host"
+description = "Native desktop host: capability bridge, windows, lifecycle, connections, drafts, updater. Owner: Phase 11. Never compiled to wasm, never depends on tauri."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_desktop_host"
+
+# Dependency set is pre-declared by the phase 11 root so child nodes do not
+# edit this manifest concurrently. Ask the p11 owner to add more.
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "process", "sync", "time", "fs", "io-util", "net"] }
+tokio-util.workspace = true
+futures.workspace = true
+parking_lot.workspace = true
+rusqlite.workspace = true
+reqwest = { workspace = true, features = ["json", "rustls"] }
+url.workspace = true
+uuid.workspace = true
+semver.workspace = true
+sha2.workspace = true
+base64.workspace = true
+hex.workspace = true
+time.workspace = true
+dirs.workspace = true
+which.workspace = true
+mime_guess.workspace = true
+zip = { workspace = true, features = ["deflate-flate2-zlib-rs"] }
+minisign-verify.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["test-util"] }
+minisign.workspace = true
+axum.workspace = true
+
+[lints]
+workspace = true

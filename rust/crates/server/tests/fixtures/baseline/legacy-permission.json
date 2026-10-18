@@ -1,0 +1,116 @@
+{
+  "family": "legacy-permission",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 115,
+      "id": "permission.list#ok",
+      "operationId": "permission.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/permission",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    },
+    {
+      "seq": 116,
+      "id": "permission.reply#ok",
+      "operationId": "permission.reply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/permission/per_missing000000000000000000/reply",
+        "auth": "valid",
+        "body": {
+          "reply": "once"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "PermissionNotFoundError",
+          "requestID": "per_missing000000000000000000",
+          "message": "Permission request not found: per_missing000000000000000000"
+        }
+      }
+    },
+    {
+      "seq": 117,
+      "id": "permission.reply#bad-body",
+      "operationId": "permission.reply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/permission/per_missing000000000000000000/reply",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 118,
+      "id": "permission.reply#wrong-type",
+      "operationId": "permission.reply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/permission/per_missing000000000000000000/reply",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    }
+  ]
+}

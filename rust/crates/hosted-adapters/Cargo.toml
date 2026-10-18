@@ -1,0 +1,55 @@
+[package]
+name = "opencode-hosted-adapters"
+description = "Native hosted adapters: MySQL repositories, OAuth issuer, Stripe, rate limits, gateway, mail and support (Phase 12), sharing, analytics and sites stores (Phase 13)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_hosted_adapters"
+
+[dependencies]
+opencode-hosted-domain.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+time.workspace = true
+rust_decimal.workspace = true
+bytes.workspace = true
+futures.workspace = true
+http.workspace = true
+url.workspace = true
+form_urlencoded.workspace = true
+hex.workspace = true
+base64.workspace = true
+hmac.workspace = true
+sha2.workspace = true
+sha1.workspace = true
+aes.workspace = true
+cbc.workspace = true
+pbkdf2.workspace = true
+rand.workspace = true
+getrandom.workspace = true
+uuid.workspace = true
+jsonwebtoken.workspace = true
+html-escape.workspace = true
+async-trait.workspace = true
+tracing.workspace = true
+tokio = { workspace = true, features = ["rt", "macros", "sync", "time"] }
+tokio-util.workspace = true
+reqwest = { workspace = true, features = ["rustls", "json", "stream"] }
+mysql_async = { workspace = true, features = ["minimal-rust", "time", "rust_decimal"] }
+redis = { workspace = true, features = ["tokio-comp", "aio"] }
+# Phase 13 (sharing, analytics, sites).
+percent-encoding.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "net"] }
+axum.workspace = true
+tempfile.workspace = true
+pretty_assertions.workspace = true
+
+[lints]
+workspace = true

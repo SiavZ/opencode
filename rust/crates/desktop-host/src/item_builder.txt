@@ -1,0 +1,71 @@
+/// Builder for creating MenuEntry::Item.
+#[derive(Default)]
+pub struct MenuItemBuilder {
+    label_key: Option<String>,
+    command: Option<String>,
+    action: Option<MenuAction>,
+    role: Option<MenuRole>,
+    href: Option<String>,
+    accelerator: Option<Accelerators>,
+    enabled: Option<EnabledCondition>,
+    platforms: Option<Vec<Platform>>,
+}
+
+impl MenuItemBuilder {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn label_key(mut self, key: &str) -> Self {
+        self.label_key = Some(key.to_string());
+        self
+    }
+
+    pub fn command(mut self, cmd: &str) -> Self {
+        self.command = Some(cmd.to_string());
+        self
+    }
+
+    pub fn action(mut self, action: MenuAction) -> Self {
+        self.action = Some(action);
+        self
+    }
+
+    pub fn role(mut self, role: MenuRole) -> Self {
+        self.role = Some(role);
+        self
+    }
+
+    pub fn href(mut self, url: &str) -> Self {
+        self.href = Some(url.to_string());
+        self
+    }
+
+    pub fn accelerator(mut self, acc: Accelerators) -> Self {
+        self.accelerator = Some(acc);
+        self
+    }
+
+    pub fn enabled(mut self, cond: EnabledCondition) -> Self {
+        self.enabled = Some(cond);
+        self
+    }
+
+    pub fn platforms(mut self, platforms: Vec<Platform>) -> Self {
+        self.platforms = Some(platforms);
+        self
+    }
+
+    pub fn build(self) -> MenuEntry {
+        MenuEntry::Item {
+            label_key: self.label_key,
+            command: self.command,
+            action: self.action,
+            role: self.role,
+            href: self.href,
+            accelerator: self.accelerator,
+            enabled: self.enabled,
+            platforms: self.platforms,
+        }
+    }
+}

@@ -1,0 +1,33 @@
+[package]
+name = "opencode-sdk-embedded"
+description = "Native embedded SDK: opt-in in-process composition and subprocess server/TUI launcher. Owner: Phase 08."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_sdk_embedded"
+
+[features]
+default = []
+# Opt-in in-process composition of Server + Runtime. Off by default so launcher-only
+# consumers never pull native services.
+embedded = []
+
+[dependencies]
+serde_json.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["rt", "macros", "process", "io-util", "time", "sync"] }
+tokio-util.workspace = true
+
+[target.'cfg(unix)'.dependencies]
+nix = { workspace = true, features = ["signal"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
+tempfile.workspace = true
+
+[lints]
+workspace = true

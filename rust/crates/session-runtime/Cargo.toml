@@ -1,0 +1,49 @@
+[package]
+name = "opencode-session-runtime"
+description = "Session admission, execution, runner, agents, lifecycle and legacy operations. Owner: Phase 04."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_session_runtime"
+
+[dependencies]
+opencode-schema.workspace = true
+opencode-session-api.workspace = true
+opencode-llm-api.workspace = true
+opencode-tool-api.workspace = true
+opencode-storage-api.workspace = true
+opencode-event-api.workspace = true
+opencode-platform-api.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+indexmap.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+tokio = { workspace = true, features = ["sync", "rt", "macros", "time"] }
+tokio-util = { workspace = true, features = ["rt"] }
+futures.workspace = true
+tracing.workspace = true
+opencode-context.workspace = true
+url.workspace = true
+mime_guess.workspace = true
+rand.workspace = true
+jiff.workspace = true
+base64.workspace = true
+opencode-permissions.workspace = true
+regex.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["sync", "rt", "rt-multi-thread", "macros", "time", "test-util"] }
+pretty_assertions.workspace = true
+tempfile.workspace = true
+rusqlite.workspace = true
+opencode-storage-sqlite.workspace = true
+opencode-event-store.workspace = true
+opencode-platform-native.workspace = true
+
+[lints]
+workspace = true

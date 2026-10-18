@@ -1,0 +1,8 @@
+# Runtime, macro, FFI and dynamic-registration edges that static analysis cannot see.
+# Owner: Phase 01. The header generator appends these to Uses/Used by trees.
+#
+# [[edge]]
+# from = "rust/crates/runtime/src/compose.rs"
+# to = "rust/crates/tools/src/registry.rs"
+# kind = "runtime-registration" | "proc-macro" | "ffi" | "generated" | "dynamic-dispatch"
+# reason = "..."

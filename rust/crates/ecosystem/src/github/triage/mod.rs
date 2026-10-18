@@ -1,0 +1,11 @@
+//! Purpose: GitHub triage module root. Implemented by the phase-14 leaf that owns github/triage/.
+//! Scope: module namespace.
+//! Uses:
+//! `-- none
+//! External:
+//! `-- none
+//! Used by:
+//! rust/crates/
+//! `-- ecosystem/src/github/mod.rs
+//! Invariants: none yet.
+//! Contract tests: ecosystem/tests/

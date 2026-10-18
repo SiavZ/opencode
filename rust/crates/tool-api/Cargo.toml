@@ -1,0 +1,26 @@
+[package]
+name = "opencode-tool-api"
+description = "Tool definitions, invocation context, typed outcomes and the scoped tool registry. Owner: Phase 05."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "opencode_tool_api"
+
+[dependencies]
+opencode-schema.workspace = true
+opencode-permissions.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+tokio-util.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["rt", "macros"] }
+
+[lints]
+workspace = true

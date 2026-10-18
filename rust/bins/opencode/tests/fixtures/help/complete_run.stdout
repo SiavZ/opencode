@@ -1,0 +1,31 @@
+--help:show help
+--version:show version number
+--print-logs:print logs to stderr
+--log-level:log level
+--pure:run without external plugins
+--command:the command to run, use message for args
+--continue:continue the last session
+--c:continue the last session
+--session:session id to continue
+--s:session id to continue
+--fork:fork the session before continuing (requires --continue or --session)
+--share:share the session
+--model:model to use in the format of provider/model
+--m:model to use in the format of provider/model
+--agent:agent to use
+--format:format: default (formatted) or json (raw JSON events)
+--file:file(s) to attach to message
+--f:file(s) to attach to message
+--title:title for the session (uses truncated prompt if no value provided)
+--attach:attach to a running opencode server (e.g., http://localhost:4096)
+--password:basic auth password (defaults to OPENCODE_SERVER_PASSWORD)
+--p:basic auth password (defaults to OPENCODE_SERVER_PASSWORD)
+--username:basic auth username (defaults to OPENCODE_SERVER_USERNAME or 'opencode')
+--u:basic auth username (defaults to OPENCODE_SERVER_USERNAME or 'opencode')
+--dir:directory to run in, path on remote server if attaching
+--port:port for the local server (defaults to random port if no value provided)
+--variant:model variant (provider-specific reasoning effort, e.g., high, max, minimal)
+--thinking:show thinking blocks
+--interactive:run in direct interactive split-footer mode
+--i:run in direct interactive split-footer mode
+--auto:auto-approve permissions that are not explicitly denied (dangerous!)

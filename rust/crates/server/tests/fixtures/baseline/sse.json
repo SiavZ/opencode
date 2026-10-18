@@ -1,0 +1,282 @@
+{
+  "family": "sse",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 417,
+      "id": "sse:/api/event",
+      "operationId": "v2.event.subscribe",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/event",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "cache-control": "no-cache, no-transform",
+          "content-type": "text/event-stream",
+          "vary": "Origin"
+        },
+        "kind": "sse",
+        "frames": [
+          {
+            "shape": "data: {DATA}",
+            "fields": [
+              "data"
+            ],
+            "data": {
+              "id": "{evt_26}",
+              "type": "server.connected",
+              "data": {}
+            }
+          },
+          {
+            "shape": ": heartbeat",
+            "fields": [
+              ""
+            ],
+            "data": ""
+          }
+        ]
+      }
+    },
+    {
+      "seq": 418,
+      "id": "sse:/event",
+      "operationId": "event.subscribe",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/event",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "cache-control": "no-cache, no-transform",
+          "content-type": "text/event-stream",
+          "vary": "Origin"
+        },
+        "kind": "sse",
+        "frames": [
+          {
+            "shape": "data: {DATA}",
+            "fields": [
+              "data"
+            ],
+            "data": {
+              "id": "{evt_27}",
+              "type": "server.connected",
+              "properties": {}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "seq": 419,
+      "id": "sse:/global/event",
+      "operationId": "global.event",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/global/event",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "cache-control": "no-cache, no-transform",
+          "content-type": "text/event-stream",
+          "vary": "Origin"
+        },
+        "kind": "sse",
+        "frames": [
+          {
+            "shape": "data: {DATA}",
+            "fields": [
+              "data"
+            ],
+            "data": {
+              "payload": {
+                "id": "{evt_28}",
+                "type": "server.connected",
+                "properties": {}
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "seq": 420,
+      "id": "sse:/api/session/:id/event",
+      "operationId": "v2.session.events",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/session/{ses_2}/event",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/event-stream",
+          "vary": "Origin"
+        },
+        "kind": "sse",
+        "frames": [
+          {
+            "shape": "data: {DATA}",
+            "fields": [
+              "data"
+            ],
+            "data": {
+              "id": "{evt_23}",
+              "type": "session.next.agent.switched",
+              "durable": {
+                "aggregateID": "{ses_2}",
+                "seq": 1,
+                "version": 1
+              },
+              "data": {
+                "timestamp": "{TS}",
+                "sessionID": "{ses_2}",
+                "messageID": "{msg_8}",
+                "agent": "build"
+              }
+            }
+          },
+          {
+            "shape": "data: {DATA}",
+            "fields": [
+              "data"
+            ],
+            "data": {
+              "id": "{evt_24}",
+              "type": "session.next.model.switched",
+              "durable": {
+                "aggregateID": "{ses_2}",
+                "seq": 2,
+                "version": 1
+              },
+              "data": {
+                "timestamp": "{TS}",
+                "sessionID": "{ses_2}",
+                "messageID": "{msg_9}",
+                "model": {
+                  "id": "missing",
+                  "providerID": "missing"
+                }
+              }
+            }
+          },
+          {
+            "shape": "data: {DATA}",
+            "fields": [
+              "data"
+            ],
+            "data": {
+              "id": "{evt_25}",
+              "type": "session.next.prompt.admitted",
+              "durable": {
+                "aggregateID": "{ses_2}",
+                "seq": 3,
+                "version": 1
+              },
+              "data": {
+                "timestamp": "{TS}",
+                "sessionID": "{ses_2}",
+                "messageID": "{msg_7}",
+                "prompt": {
+                  "text": "hello"
+                },
+                "delivery": "steer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "seq": 421,
+      "id": "sse:/api/session/:id/event#missing",
+      "operationId": "v2.session.events",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/session/ses_missing000000000000000000/event",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "SessionNotFoundError",
+          "sessionID": "ses_missing000000000000000000",
+          "message": "Session not found: ses_missing000000000000000000"
+        }
+      }
+    },
+    {
+      "seq": 422,
+      "id": "sse:/api/session/:id/event#bad-after",
+      "operationId": "v2.session.events",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/session/{ses_2}/event",
+        "auth": "valid",
+        "query": [
+          [
+            "after",
+            "x"
+          ]
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "InvalidRequestError",
+          "message": "Expected an integer, got NaN\n  at [\"after\"]",
+          "kind": "Query"
+        }
+      }
+    },
+    {
+      "seq": 423,
+      "id": "sse:/api/event#unauthorized",
+      "operationId": "v2.event.subscribe",
+      "server": "pass",
+      "request": {
+        "method": "GET",
+        "path": "/api/event",
+        "auth": "none"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin",
+          "www-authenticate": "Basic realm=\"Secure Area\""
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "UnauthorizedError",
+          "message": "Authentication required"
+        }
+      }
+    }
+  ]
+}

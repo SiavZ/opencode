@@ -1,0 +1,35 @@
+{
+  "family": "api-model",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 283,
+      "id": "v2.model.list#ok",
+      "operationId": "v2.model.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/api/model",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "location": {
+            "directory": "{PROJ}",
+            "project": {
+              "id": "{SHA}",
+              "directory": "{PROJ}"
+            }
+          },
+          "data": []
+        }
+      }
+    }
+  ]
+}

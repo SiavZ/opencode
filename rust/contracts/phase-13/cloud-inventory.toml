@@ -1,0 +1,988 @@
+# Phase 13 cloud inventory. Hand-written from the baseline (sst.config.ts, infra/*.ts at
+# 907b3bc5), independent of the generator. `cargo xtask cloud diff` fails when the generated
+# plan for any checked stage is missing a row or emits an unlisted resource.
+#
+# mode: managed (provisioned), data (lookup), secret (sst.Secret input), linkable (sst.Linkable
+# property bag), dev_command (sst dev only).
+# when: always | production | non_production | deploy_aws (production, dev) |
+#       monitoring (production, vimtor) | sst_dev (`sst dev` mode)
+# Stage-dependent props (not presence) are covered by unit tests in xtask/src/cloud/tests.rs:
+# SYNC_SERVER binding skipped for vimtor/adam, DO migration tag "" for production/thdxr,
+# dev Go product/price IDs, preview empty migration URLs, alerts disabled outside production.
+
+[[resource]]
+name = "TrustCenter"
+kind = "cloudflare.DnsRecord"
+mode = "managed"
+provider = "cloudflare"
+when = "production"
+source = "infra/stage.ts:11-19"
+
+[[resource]]
+name = "TrustCenterVerification"
+kind = "cloudflare.DnsRecord"
+mode = "managed"
+provider = "cloudflare"
+when = "production"
+source = "infra/stage.ts:21-27"
+
+[[resource]]
+name = "RegionalHostname"
+kind = "cloudflare.RegionalHostname"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/stage.ts:30-34"
+
+[[resource]]
+name = "GITHUB_APP_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/app.ts:3"
+
+[[resource]]
+name = "GITHUB_APP_PRIVATE_KEY"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/app.ts:4"
+
+[[resource]]
+name = "EMAILOCTOPUS_API_KEY"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/app.ts:5"
+
+[[resource]]
+name = "ADMIN_SECRET"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/app.ts:6"
+
+[[resource]]
+name = "DISCORD_SUPPORT_BOT_TOKEN"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/app.ts:7"
+
+[[resource]]
+name = "DISCORD_SUPPORT_CHANNEL_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/app.ts:8"
+
+[[resource]]
+name = "FEISHU_APP_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/app.ts:9"
+
+[[resource]]
+name = "FEISHU_APP_SECRET"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/app.ts:10"
+
+[[resource]]
+name = "Bucket"
+kind = "sst.cloudflare.Bucket"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/app.ts:11"
+
+[[resource]]
+name = "Api"
+kind = "sst.cloudflare.Worker"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/app.ts:13-50"
+
+[[resource]]
+name = "Web"
+kind = "sst.cloudflare.x.Astro"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/app.ts:52-60"
+
+[[resource]]
+name = "WebApp"
+kind = "sst.cloudflare.StaticSite"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/app.ts:62-69"
+
+[[resource]]
+name = "LakeVpc"
+kind = "sst.aws.Vpc"
+mode = "managed"
+provider = "aws"
+when = "deploy_aws"
+source = "infra/stats.ts:6"
+
+[[resource]]
+name = "LakeCluster"
+kind = "sst.aws.Cluster"
+mode = "managed"
+provider = "aws"
+when = "deploy_aws"
+source = "infra/stats.ts:7"
+
+[[resource]]
+name = "StatsCluster"
+kind = "planetscale.getDatabase"
+mode = "data"
+provider = "planetscale"
+when = "deploy_aws"
+source = "infra/stats.ts:13-16"
+
+[[resource]]
+name = "StatsDatabaseBranch"
+kind = "planetscale.getBranch"
+mode = "data"
+provider = "planetscale"
+when = "production"
+source = "infra/stats.ts:18-24"
+
+[[resource]]
+name = "StatsDatabaseBranch"
+kind = "planetscale.Branch"
+mode = "managed"
+provider = "planetscale"
+when = "dev_stage"
+source = "infra/stats.ts:25-30"
+
+[[resource]]
+name = "StatsDatabasePassword"
+kind = "planetscale.Password"
+mode = "managed"
+provider = "planetscale"
+when = "deploy_aws"
+source = "infra/stats.ts:32-37"
+
+[[resource]]
+name = "StatsDatabase"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "deploy_aws"
+source = "infra/stats.ts:39-52"
+
+[[resource]]
+name = "StatsStudio"
+kind = "sst.x.DevCommand"
+mode = "dev_command"
+provider = "sst"
+when = "deploy_aws"
+source = "infra/stats.ts:54-64"
+
+[[resource]]
+name = "Stats"
+kind = "sst.cloudflare.x.SolidStart"
+mode = "managed"
+provider = "cloudflare"
+when = "deploy_aws"
+source = "infra/stats.ts:70-78"
+
+[[resource]]
+name = "StatsSyncConfig"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "deploy_aws"
+source = "infra/stats.ts:84-88"
+
+[[resource]]
+name = "StatsHiddenModels"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "deploy_aws"
+source = "infra/stats.ts:90-92"
+
+[[resource]]
+name = "R2SqlAuthToken"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "deploy_aws"
+source = "infra/stats.ts:94"
+
+[[resource]]
+name = "R2Sql"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "deploy_aws"
+source = "infra/stats.ts:95-102"
+
+[[resource]]
+name = "StatsSyncService"
+kind = "sst.aws.Service"
+mode = "managed"
+provider = "aws"
+when = "deploy_aws"
+source = "infra/stats.ts:104-126"
+
+[[resource]]
+name = "R2AccessKey"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/secret.ts:8"
+
+[[resource]]
+name = "R2SecretKey"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/secret.ts:9"
+
+[[resource]]
+name = "HONEYCOMB_API_KEY"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/secret.ts:10"
+
+[[resource]]
+name = "HoneycombWebhookSecret"
+kind = "random.RandomPassword"
+mode = "managed"
+provider = "random"
+when = "always"
+source = "infra/secret.ts:1-5,11"
+
+[[resource]]
+name = "SUPPORT_API_KEY"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/secret.ts:12"
+
+[[resource]]
+name = "UpstashRedisRestUrl"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/secret.ts:13"
+
+[[resource]]
+name = "UpstashRedisRestToken"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/secret.ts:14"
+
+[[resource]]
+name = "Cluster"
+kind = "planetscale.getDatabase"
+mode = "data"
+provider = "planetscale"
+when = "always"
+source = "infra/console.ts:9-12"
+
+[[resource]]
+name = "DatabaseBranch"
+kind = "planetscale.getBranch"
+mode = "data"
+provider = "planetscale"
+when = "production"
+source = "infra/console.ts:14-20"
+
+[[resource]]
+name = "DatabaseBranch"
+kind = "planetscale.Branch"
+mode = "managed"
+provider = "planetscale"
+when = "non_production"
+source = "infra/console.ts:21-26"
+
+[[resource]]
+name = "DatabasePassword"
+kind = "planetscale.Password"
+mode = "managed"
+provider = "planetscale"
+when = "always"
+source = "infra/console.ts:27-32"
+
+[[resource]]
+name = "Database"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:34-42"
+
+[[resource]]
+name = "Studio"
+kind = "sst.x.DevCommand"
+mode = "dev_command"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:44-51"
+
+[[resource]]
+name = "GITHUB_CLIENT_ID_CONSOLE"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:57"
+
+[[resource]]
+name = "GITHUB_CLIENT_SECRET_CONSOLE"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:58"
+
+[[resource]]
+name = "GOOGLE_CLIENT_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:59"
+
+[[resource]]
+name = "AuthStorage"
+kind = "sst.cloudflare.Kv"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/console.ts:60"
+
+[[resource]]
+name = "AuthApi"
+kind = "sst.cloudflare.Worker"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/console.ts:61-66"
+
+[[resource]]
+name = "StripeWebhookEndpoint"
+kind = "stripe.WebhookEndpoint"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:72-102"
+
+[[resource]]
+name = "ZenLite"
+kind = "stripe.Product"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:104-106"
+
+[[resource]]
+name = "ZenLiteCouponFirstMonth50"
+kind = "stripe.Coupon"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:107-112"
+
+[[resource]]
+name = "ZenLiteCouponFirstMonth100"
+kind = "stripe.Coupon"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:113-118"
+
+[[resource]]
+name = "ZenLiteCoupon3Months100"
+kind = "stripe.Coupon"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:119-125"
+
+[[resource]]
+name = "ZenLiteCoupon6Months100"
+kind = "stripe.Coupon"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:126-132"
+
+[[resource]]
+name = "ZenLiteCoupon12Months100"
+kind = "stripe.Coupon"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:133-139"
+
+[[resource]]
+name = "ZenLitePrice"
+kind = "stripe.Price"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:140-148"
+
+[[resource]]
+name = "ZEN_LITE_PRICE"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:149-161"
+
+[[resource]]
+name = "ZenBlack"
+kind = "stripe.Product"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:163-165"
+
+[[resource]]
+name = "ZenBlackPrice"
+kind = "stripe.Price"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:174"
+
+[[resource]]
+name = "ZenBlack100Price"
+kind = "stripe.Price"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:175"
+
+[[resource]]
+name = "ZenBlack20Price"
+kind = "stripe.Price"
+mode = "managed"
+provider = "stripe"
+when = "always"
+source = "infra/console.ts:176"
+
+[[resource]]
+name = "ZEN_BLACK_PRICE"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:177-184"
+
+[[resource]]
+name = "ZEN_MODELS1"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:187"
+
+[[resource]]
+name = "ZEN_MODELS2"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:188"
+
+[[resource]]
+name = "ZEN_MODELS3"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:189"
+
+[[resource]]
+name = "ZEN_MODELS4"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:190"
+
+[[resource]]
+name = "ZEN_MODELS5"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:191"
+
+[[resource]]
+name = "ZEN_MODELS6"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:192"
+
+[[resource]]
+name = "ZEN_MODELS7"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:193"
+
+[[resource]]
+name = "ZEN_MODELS8"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:194"
+
+[[resource]]
+name = "ZEN_MODELS9"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:195"
+
+[[resource]]
+name = "ZEN_MODELS10"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:196"
+
+[[resource]]
+name = "ZEN_MODELS11"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:197"
+
+[[resource]]
+name = "ZEN_MODELS12"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:198"
+
+[[resource]]
+name = "ZEN_MODELS13"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:199"
+
+[[resource]]
+name = "ZEN_MODELS14"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:200"
+
+[[resource]]
+name = "ZEN_MODELS15"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:201"
+
+[[resource]]
+name = "ZEN_MODELS16"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:202"
+
+[[resource]]
+name = "ZEN_MODELS17"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:203"
+
+[[resource]]
+name = "ZEN_MODELS18"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:204"
+
+[[resource]]
+name = "ZEN_MODELS19"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:205"
+
+[[resource]]
+name = "ZEN_MODELS20"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:206"
+
+[[resource]]
+name = "ZEN_MODELS21"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:207"
+
+[[resource]]
+name = "ZEN_MODELS22"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:208"
+
+[[resource]]
+name = "ZEN_MODELS23"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:209"
+
+[[resource]]
+name = "ZEN_MODELS24"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:210"
+
+[[resource]]
+name = "ZEN_MODELS25"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:211"
+
+[[resource]]
+name = "ZEN_MODELS26"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:212"
+
+[[resource]]
+name = "ZEN_MODELS27"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:213"
+
+[[resource]]
+name = "ZEN_MODELS28"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:214"
+
+[[resource]]
+name = "ZEN_MODELS29"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:215"
+
+[[resource]]
+name = "ZEN_MODELS30"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:216"
+
+[[resource]]
+name = "STRIPE_SECRET_KEY"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:218"
+
+[[resource]]
+name = "STRIPE_PUBLISHABLE_KEY"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:219"
+
+[[resource]]
+name = "AUTH_API_URL"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:220-222"
+
+[[resource]]
+name = "ConsoleMigration"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:223-231"
+
+[[resource]]
+name = "STRIPE_WEBHOOK_SECRET"
+kind = "sst.Linkable"
+mode = "linkable"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:232-234"
+
+[[resource]]
+name = "ZenData"
+kind = "sst.cloudflare.Bucket"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/console.ts:240"
+
+[[resource]]
+name = "ZenDataNew"
+kind = "sst.cloudflare.Bucket"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/console.ts:241"
+
+[[resource]]
+name = "DISCORD_INCIDENT_WEBHOOK_URL"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:243"
+
+[[resource]]
+name = "AWS_SES_ACCESS_KEY_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:244"
+
+[[resource]]
+name = "AWS_SES_SECRET_ACCESS_KEY"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:245"
+
+[[resource]]
+name = "ENTERPRISE_SALES_INBOX_EMAIL"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:246"
+
+[[resource]]
+name = "SALESFORCE_CLIENT_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:248"
+
+[[resource]]
+name = "SALESFORCE_CLIENT_SECRET"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:249"
+
+[[resource]]
+name = "SALESFORCE_INSTANCE_URL"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:250"
+
+[[resource]]
+name = "LogProcessor"
+kind = "sst.cloudflare.Worker"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/console.ts:252-255"
+
+[[resource]]
+name = "ZEN_LIMITS"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:282"
+
+[[resource]]
+name = "ZEN_SESSION_SECRET"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:283"
+
+[[resource]]
+name = "CLOUDFLARE_ACCESS_CLIENT_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "always"
+source = "infra/console.ts:284"
+
+[[resource]]
+name = "CLOUDFLARE_DEFAULT_ACCOUNT_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "sst_dev"
+source = "infra/console.ts:286-288"
+
+[[resource]]
+name = "CLOUDFLARE_API_TOKEN"
+kind = "sst.Secret"
+mode = "secret"
+provider = "sst"
+when = "sst_dev"
+source = "infra/console.ts:286-289"
+
+[[resource]]
+name = "Console"
+kind = "sst.cloudflare.x.SolidStart"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/console.ts:257-313"
+
+[[resource]]
+name = "Stat"
+kind = "sst.cloudflare.Worker"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/console.ts:319-323"
+
+[[resource]]
+name = "EnterpriseStorage"
+kind = "sst.cloudflare.Bucket"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/enterprise.ts:4"
+
+[[resource]]
+name = "Teams"
+kind = "sst.cloudflare.x.SolidStart"
+mode = "managed"
+provider = "cloudflare"
+when = "always"
+source = "infra/enterprise.ts:6-18"
+
+[[resource]]
+name = "DiscordAlerts"
+kind = "honeycombio.WebhookRecipient"
+mode = "managed"
+provider = "honeycomb"
+when = "monitoring"
+source = "infra/monitoring.ts:7-29"
+
+[[resource]]
+name = "IncreasedModelHttpErrorsGo"
+kind = "honeycombio.Trigger"
+mode = "managed"
+provider = "honeycomb"
+when = "monitoring"
+source = "infra/monitoring.ts:160-178"
+
+[[resource]]
+name = "IncreasedModelHttpErrorsZen"
+kind = "honeycombio.Trigger"
+mode = "managed"
+provider = "honeycomb"
+when = "monitoring"
+source = "infra/monitoring.ts:180-198"
+
+[[resource]]
+name = "LowModelTpsGo"
+kind = "honeycombio.Trigger"
+mode = "managed"
+provider = "honeycomb"
+when = "monitoring"
+source = "infra/monitoring.ts:200-218"
+
+[[resource]]
+name = "LowModelTpsZen"
+kind = "honeycombio.Trigger"
+mode = "managed"
+provider = "honeycomb"
+when = "monitoring"
+source = "infra/monitoring.ts:220-238"
+
+[[resource]]
+name = "IncreasedProviderHttpErrors"
+kind = "honeycombio.Trigger"
+mode = "managed"
+provider = "honeycomb"
+when = "monitoring"
+source = "infra/monitoring.ts:240-258"
+
+[[resource]]
+name = "IncreasedFreeTierRequests"
+kind = "honeycombio.Trigger"
+mode = "managed"
+provider = "honeycomb"
+when = "monitoring"
+source = "infra/monitoring.ts:260-287"
+

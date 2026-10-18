@@ -1,0 +1,200 @@
+//! Purpose: streamed tool-call accumulator shared by protocol decoders
+//! (`protocols/utils/tool-stream.ts`): keyed pending calls, input start/delta/end events,
+//! JSON parse of accumulated arguments on finish.
+//! Scope: pure state machine.
+//! Uses:
+//! rust/crates/
+//! `-- provider-adapters/src/core/shared.rs
+//! External:
+//! `-- opencode_llm_api::{LlmError, LlmEvent, ProviderMetadata}
+//! Used by:
+//! rust/crates/
+//! `-- provider-adapters/src/core/mod.rs
+//! Invariants: keys are the provider's stream-local ids (content index or item id), not the
+//! final call id. Empty accumulated input parses as `{}`. `finish_all` preserves insertion
+//! order. Missing keys on finish are a no-op.
+//! Contract tests: provider-adapters/tests/core.rs
+
+use std::hash::Hash;
+
+use indexmap::IndexMap;
+use opencode_llm_api::{LlmError, LlmEvent, ProviderMetadata};
+
+use super::shared::parse_tool_input;
+
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct PendingTool {
+    pub id: String,
+    pub name: String,
+    pub input: String,
+    pub provider_executed: bool,
+    pub provider_metadata: Option<ProviderMetadata>,
+}
+
+#[derive(Clone, Debug)]
+pub struct ToolStream<K: Hash + Eq> {
+    tools: IndexMap<K, PendingTool>,
+}
+
+impl<K: Hash + Eq> Default for ToolStream<K> {
+    fn default() -> Self {
+        Self {
+            tools: IndexMap::new(),
+        }
+    }
+}
+
+fn input_start(tool: &PendingTool) -> LlmEvent {
+    LlmEvent::ToolInputStart {
+        id: tool.id.clone(),
+        name: tool.name.clone(),
+        provider_metadata: tool.provider_metadata.clone(),
+    }
+}
+
+fn input_end(tool: &PendingTool) -> LlmEvent {
+    LlmEvent::ToolInputEnd {
+        id: tool.id.clone(),
+        name: tool.name.clone(),
+        provider_metadata: tool.provider_metadata.clone(),
+    }
+}
+
+fn tool_call(route: &str, tool: &PendingTool, input: Option<&str>) -> Result<LlmEvent, LlmError> {
+    Ok(LlmEvent::ToolCall {
+        id: tool.id.clone(),
+        name: tool.name.clone(),
+        input: parse_tool_input(route, &tool.name, input.unwrap_or(&tool.input))?,
+        provider_executed: tool.provider_executed.then_some(true),
+        provider_metadata: tool.provider_metadata.clone(),
+    })
+}
+
+impl<K: Hash + Eq> ToolStream<K> {
+    pub fn get(&self, key: &K) -> Option<&PendingTool> {
+        self.tools.get(key)
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.tools.is_empty()
+    }
+
+    /// Register a tool whose start arrived before argument deltas (no event emitted).
+    pub fn start(&mut self, key: K, tool: PendingTool) {
+        self.tools.insert(key, tool);
+    }
+
+    fn append(&mut self, key: K, tool: PendingTool, text: &str) -> Vec<LlmEvent> {
+        let mut events = Vec::new();
+        if !self.tools.contains_key(&key) {
+            events.push(input_start(&tool));
+        }
+        if !text.is_empty() {
+            events.push(LlmEvent::ToolInputDelta {
+                id: tool.id.clone(),
+                name: tool.name.clone(),
+                text: text.to_owned(),
+            });
+        }
+        self.tools.insert(key, tool);
+        events
+    }
+
+    /// Append a delta, starting the tool if identity arrives on the first delta (OpenAI Chat).
+    pub fn append_or_start(
+        &mut self,
+        route: &str,
+        key: K,
+        id: Option<&str>,
+        name: Option<&str>,
+        text: &str,
+        missing_tool_message: &str,
+    ) -> Result<Vec<LlmEvent>, LlmError> {
+        let current = self.tools.get(&key);
+        let id = id
+            .map(str::to_owned)
+            .or_else(|| current.map(|t| t.id.clone()));
+        let name = name
+            .map(str::to_owned)
+            .or_else(|| current.map(|t| t.name.clone()));
+        let (Some(id), Some(name)) = (id, name) else {
+            return Err(LlmError::invalid_output(route, missing_tool_message, None));
+        };
+        if let Some(current) = current
+            && text.is_empty()
+            && current.id == id
+            && current.name == name
+        {
+            return Ok(vec![]);
+        }
+        let tool = PendingTool {
+            input: format!(
+                "{}{}",
+                current.map(|t| t.input.as_str()).unwrap_or(""),
+                text
+            ),
+            provider_executed: current.is_some_and(|t| t.provider_executed),
+            provider_metadata: current.and_then(|t| t.provider_metadata.clone()),
+            id,
+            name,
+        };
+        Ok(self.append(key, tool, text))
+    }
+
+    /// Append to a tool that must already be started.
+    pub fn append_existing(
+        &mut self,
+        route: &str,
+        key: K,
+        text: &str,
+        missing_tool_message: &str,
+    ) -> Result<Vec<LlmEvent>, LlmError> {
+        let Some(current) = self.tools.get(&key) else {
+            return Err(LlmError::invalid_output(route, missing_tool_message, None));
+        };
+        if text.is_empty() {
+            return Ok(vec![]);
+        }
+        let mut tool = current.clone();
+        tool.input.push_str(text);
+        Ok(self.append(key, tool, text))
+    }
+
+    /// Finalize one tool: `tool-input-end` + `tool-call`.
+    pub fn finish(&mut self, route: &str, key: &K) -> Result<Vec<LlmEvent>, LlmError> {
+        self.finish_with(route, key, None)
+    }
+
+    /// Finalize with an authoritative final input (OpenAI Responses `output_item.done`).
+    pub fn finish_with_input(
+        &mut self,
+        route: &str,
+        key: &K,
+        input: &str,
+    ) -> Result<Vec<LlmEvent>, LlmError> {
+        self.finish_with(route, key, Some(input))
+    }
+
+    fn finish_with(
+        &mut self,
+        route: &str,
+        key: &K,
+        input: Option<&str>,
+    ) -> Result<Vec<LlmEvent>, LlmError> {
+        let Some(tool) = self.tools.shift_remove(key) else {
+            return Ok(vec![]);
+        };
+        Ok(vec![input_end(&tool), tool_call(route, &tool, input)?])
+    }
+
+    /// Finalize every pending tool in insertion order (OpenAI Chat finish_reason).
+    pub fn finish_all(&mut self, route: &str) -> Result<Vec<LlmEvent>, LlmError> {
+        let mut events = Vec::new();
+        for (_, tool) in self.tools.drain(..) {
+            let call = tool_call(route, &tool, None)?;
+            events.push(input_end(&tool));
+            events.push(call);
+        }
+        Ok(events)
+    }
+}

@@ -1,0 +1,94 @@
+{
+  "family": "legacy-log",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 11,
+      "id": "app.log#ok",
+      "operationId": "app.log",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/log",
+        "auth": "valid",
+        "body": {
+          "service": "fixture",
+          "level": "info",
+          "message": "fixture log"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": true
+      }
+    },
+    {
+      "seq": 12,
+      "id": "app.log#bad-body",
+      "operationId": "app.log",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/log",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 13,
+      "id": "app.log#wrong-type",
+      "operationId": "app.log",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/log",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Modularity review records for files above 500 physical lines.
+# Owner: Phase 01. Each entry needs an independent reviewer and an expiry.
+#
+# [[review]]
+# path = "rust/crates/<crate>/src/<file>.rs"
+# lines = 612
+# decision = "exception" | "extract"
+# reason = "why each candidate extraction is wrong, or what was extracted"
+# author = "phase-XX"
+# reviewer = "phase-YY"
+# expires = "YYYY-MM-DD"

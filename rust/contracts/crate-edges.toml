@@ -1,0 +1,213 @@
+# Phase 90 provisional crate graph. Owner: Phase 90 (coordinator). Changes require a
+# contract change request to the coordinator with an impact list.
+#
+# Each [crates.<dir>] entry declares the owning phase(s), the target class and the
+# exact first-party normal/build dependencies it may use. Dev-dependencies may use
+# any first-party crate as long as the combined normal+dev graph stays acyclic.
+# "wasm" crates must compile for wasm32-unknown-unknown with their default features
+# and must never resolve a native-only crate (platform-native, storage-sqlite,
+# session-runtime, server, runtime, tools, integration-adapters).
+#
+# target = "portable" (native + wasm), "native", "wasm", "worker" (cloud wasm).
+
+[crates.schema]
+owner = ["01"]
+target = "portable"
+allow = []
+
+[crates.protocol]
+owner = ["06"]
+target = "portable"
+allow = ["schema"]
+
+[crates.platform-api]
+owner = ["05", "02"]
+target = "portable"
+allow = ["schema"]
+
+[crates.platform-native]
+owner = ["05"]
+target = "native"
+allow = ["schema", "platform-api"]
+
+[crates.storage-api]
+owner = ["02"]
+target = "portable"
+allow = ["schema"]
+
+[crates.event-api]
+owner = ["02"]
+target = "portable"
+allow = ["schema", "storage-api"]
+
+[crates.storage-sqlite]
+owner = ["02"]
+target = "native"
+allow = ["schema", "storage-api", "platform-api"]
+
+[crates.event-store]
+owner = ["02"]
+target = "native"
+allow = ["schema", "event-api", "storage-api", "storage-sqlite"]
+
+[crates.config]
+owner = ["02"]
+target = "native"
+allow = ["schema", "platform-api"]
+
+[crates.locations]
+owner = ["02"]
+target = "native"
+allow = ["schema", "platform-api", "config", "storage-api", "event-api"]
+
+[crates.observability]
+owner = ["15", "02"]
+target = "native"
+allow = ["schema"]
+
+[crates.http-recorder]
+owner = ["03", "15"]
+target = "native"
+allow = ["schema"]
+
+[crates.llm-api]
+owner = ["03"]
+target = "portable"
+allow = ["schema"]
+
+[crates.provider-adapters]
+owner = ["03"]
+target = "native"
+allow = ["schema", "llm-api", "config", "platform-api", "observability", "http-recorder"]
+
+[crates.permissions]
+owner = ["05"]
+target = "portable"
+allow = ["schema", "platform-api"]
+
+[crates.tool-api]
+owner = ["05"]
+target = "portable"
+allow = ["schema", "permissions"]
+
+[crates.session-api]
+owner = ["04"]
+target = "portable"
+allow = ["schema", "llm-api"]
+
+[crates.tools]
+owner = ["05"]
+target = "native"
+allow = ["schema", "tool-api", "permissions", "platform-api", "config", "session-api", "event-api", "storage-api", "llm-api"]
+
+[crates.codemode]
+owner = ["07"]
+target = "portable"
+allow = ["schema", "tool-api"]
+
+[crates.integration-api]
+owner = ["07"]
+target = "portable"
+allow = ["schema", "tool-api", "permissions", "llm-api"]
+
+[crates.integration-adapters]
+owner = ["07"]
+target = "native"
+allow = ["schema", "integration-api", "tool-api", "permissions", "platform-api", "config", "codemode", "session-api", "llm-api", "event-api", "observability"]
+
+[crates.context]
+owner = ["04"]
+target = "native"
+allow = ["schema", "storage-api", "event-api", "config", "platform-api"]
+
+[crates.session-runtime]
+owner = ["04"]
+target = "native"
+allow = ["schema", "session-api", "storage-api", "event-api", "llm-api", "tool-api", "integration-api", "context", "permissions", "config", "platform-api", "locations", "observability"]
+
+[crates.server]
+owner = ["06"]
+target = "native"
+allow = ["schema", "protocol", "session-api", "event-api", "storage-api", "permissions", "config", "locations", "platform-api", "integration-api", "llm-api", "tool-api", "observability"]
+
+[crates.client]
+owner = ["08"]
+target = "portable"
+allow = ["schema", "protocol"]
+
+[crates.runtime]
+owner = ["91", "01"]
+target = "native"
+allow = ["schema", "protocol", "platform-api", "platform-native", "config", "locations", "storage-api", "storage-sqlite", "event-api", "event-store", "observability", "http-recorder", "llm-api", "provider-adapters", "session-api", "session-runtime", "context", "permissions", "tool-api", "tools", "integration-api", "integration-adapters", "codemode", "server"]
+
+[crates.sdk-embedded]
+owner = ["08"]
+target = "native"
+allow = ["schema", "protocol", "client", "server", "runtime"]
+
+[crates.view-model]
+owner = ["10"]
+target = "portable"
+allow = ["schema", "protocol", "client"]
+
+[crates.ui-web]
+owner = ["10"]
+target = "wasm"
+allow = ["schema", "protocol", "client", "view-model"]
+
+[crates.ui-terminal]
+owner = ["09"]
+target = "native"
+allow = ["schema", "protocol", "client", "view-model", "platform-api"]
+
+[crates.desktop-host]
+owner = ["11"]
+target = "native"
+allow = ["schema", "protocol", "client", "platform-api", "platform-native", "config"]
+
+[crates.hosted-domain]
+owner = ["12", "13"]
+target = "portable"
+allow = ["schema"]
+
+[crates.hosted-adapters]
+owner = ["12", "13"]
+target = "native"
+allow = ["schema", "protocol", "hosted-domain", "llm-api", "provider-adapters", "observability"]
+
+[crates.ecosystem]
+owner = ["14"]
+target = "native"
+allow = ["schema", "protocol", "client", "platform-api"]
+
+[crates.test-support]
+owner = ["01", "15"]
+target = "native"
+allow = ["schema", "storage-api", "event-api", "llm-api", "tool-api", "session-api", "platform-api"]
+
+# Binaries and tooling.
+
+[bins.opencode]
+owner = ["09", "91"]
+target = "native"
+allow = ["schema", "protocol", "client", "runtime", "ui-terminal", "view-model", "config", "platform-api", "platform-native", "ecosystem", "observability"]
+
+[bins.desktop]
+owner = ["11"]
+target = "native"
+allow = ["schema", "protocol", "client", "desktop-host", "platform-native", "config"]
+
+[bins.hosted]
+owner = ["12", "13"]
+target = "native"
+allow = ["schema", "protocol", "hosted-domain", "hosted-adapters", "observability"]
+
+[bins.compatibility-host]
+owner = ["07", "14"]
+target = "native"
+allow = ["schema", "integration-api"]
+
+[xtask]
+owner = ["01", "15"]
+target = "native"
+allow = ["schema", "protocol"]

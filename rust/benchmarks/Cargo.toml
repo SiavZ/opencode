@@ -1,0 +1,31 @@
+# Phase 15 process-level benchmarks. Standalone project (own empty [workspace]) so it never
+# joins the main workspace members. Target binary is chosen at run time via OPENCODE_BENCH_BIN.
+[package]
+name = "opencode-benchmarks"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.99"
+license = "MIT"
+publish = false
+
+[workspace]
+
+[lib]
+path = "src/lib.rs"
+
+[[bench]]
+name = "process"
+harness = false
+
+[dependencies]
+anyhow = "1.0.104"
+serde_json = { version = "1.0.151", features = ["preserve_order"] }
+shlex = "2.0.1"
+tempfile = "3.27.0"
+ureq = { version = "3.3.0", default-features = false, features = ["json"] }
+
+[dev-dependencies]
+criterion = "0.8.2"
+
+[lints.rust]
+unsafe_code = "deny"

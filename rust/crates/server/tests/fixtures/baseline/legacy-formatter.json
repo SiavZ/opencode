@@ -1,0 +1,26 @@
+{
+  "family": "legacy-formatter",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 75,
+      "id": "formatter.status#ok",
+      "operationId": "formatter.status",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/formatter",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "family": "legacy-question",
+  "baseline": "packages/opencode serve (TypeScript)",
+  "cases": [
+    {
+      "seq": 110,
+      "id": "question.list#ok",
+      "operationId": "question.list",
+      "server": "nopass",
+      "request": {
+        "method": "GET",
+        "path": "/question",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": []
+      }
+    },
+    {
+      "seq": 111,
+      "id": "question.reply#ok",
+      "operationId": "question.reply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/question/que_missing000000000000000000/reply",
+        "auth": "valid",
+        "body": {
+          "answers": [
+            [
+              "a"
+            ]
+          ]
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "QuestionNotFoundError",
+          "requestID": "que_missing000000000000000000",
+          "message": "Question request not found: que_missing000000000000000000"
+        }
+      }
+    },
+    {
+      "seq": 112,
+      "id": "question.reply#bad-body",
+      "operationId": "question.reply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/question/que_missing000000000000000000/reply",
+        "auth": "valid",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "raw_body": "{\"__invalid\":"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "UnknownError",
+          "data": {
+            "message": "Unexpected server error. Check server logs for details.",
+            "ref": "{ERR_REF}"
+          }
+        }
+      },
+      "note": "malformed JSON body"
+    },
+    {
+      "seq": 113,
+      "id": "question.reply#wrong-type",
+      "operationId": "question.reply",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/question/que_missing000000000000000000/reply",
+        "auth": "valid",
+        "body": [
+          1,
+          2,
+          3
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "name": "BadRequest",
+          "data": {
+            "message": "Expected object, got [1,2,3]",
+            "kind": "Payload"
+          }
+        }
+      },
+      "note": "schema rejection: array body"
+    },
+    {
+      "seq": 114,
+      "id": "question.reject#ok",
+      "operationId": "question.reject",
+      "server": "nopass",
+      "request": {
+        "method": "POST",
+        "path": "/question/que_missing000000000000000000/reject",
+        "auth": "valid"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "kind": "json",
+        "body": {
+          "_tag": "QuestionNotFoundError",
+          "requestID": "que_missing000000000000000000",
+          "message": "Question request not found: que_missing000000000000000000"
+        }
+      }
+    }
+  ]
+}

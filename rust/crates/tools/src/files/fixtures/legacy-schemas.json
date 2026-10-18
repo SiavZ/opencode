@@ -1,0 +1,85 @@
+{
+  "edit": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "filePath": {
+        "type": "string",
+        "description": "The absolute path to the file to modify"
+      },
+      "oldString": {
+        "type": "string",
+        "description": "The text to replace"
+      },
+      "newString": {
+        "type": "string",
+        "description": "The text to replace it with (must be different from oldString)"
+      },
+      "replaceAll": {
+        "type": "boolean",
+        "description": "Replace all occurrences of oldString (default false)"
+      }
+    },
+    "required": [
+      "filePath",
+      "oldString",
+      "newString"
+    ]
+  },
+  "write": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "content": {
+        "type": "string",
+        "description": "The content to write to the file"
+      },
+      "filePath": {
+        "type": "string",
+        "description": "The absolute path to the file to write (must be absolute, not relative)"
+      }
+    },
+    "required": [
+      "content",
+      "filePath"
+    ]
+  },
+  "read": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "filePath": {
+        "type": "string",
+        "description": "The absolute path to the file or directory to read"
+      },
+      "offset": {
+        "minimum": 0,
+        "type": "integer",
+        "maximum": 9007199254740991,
+        "description": "The line number to start reading from (1-indexed)"
+      },
+      "limit": {
+        "minimum": 0,
+        "type": "integer",
+        "maximum": 9007199254740991,
+        "description": "The maximum number of lines to read (defaults to 2000)"
+      }
+    },
+    "required": [
+      "filePath"
+    ]
+  },
+  "apply_patch": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "patchText": {
+        "type": "string",
+        "description": "The full patch text that describes all changes to be made"
+      }
+    },
+    "required": [
+      "patchText"
+    ]
+  }
+}

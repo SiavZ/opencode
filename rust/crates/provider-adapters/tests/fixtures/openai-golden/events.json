@@ -1,0 +1,3063 @@
+{
+ "openai-chat/continues-after-tool-result": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "The"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " weather"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " in"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " Paris"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " is"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " sunny"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " with"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " a"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " temperature"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " of"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " "
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "22"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "°C"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 59,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 59,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 73,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 59,
+        "completion_tokens": 14,
+        "total_tokens": 73,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 59,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 59,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 73,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 59,
+        "completion_tokens": 14,
+        "total_tokens": 73,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-chat/drives-a-tool-loop-end-to-end": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "call_tyZNHs2AudCbG4XJUEmX5Waw",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_tyZNHs2AudCbG4XJUEmX5Waw",
+     "name": "get_weather",
+     "text": "{\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_tyZNHs2AudCbG4XJUEmX5Waw",
+     "name": "get_weather",
+     "text": "city"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_tyZNHs2AudCbG4XJUEmX5Waw",
+     "name": "get_weather",
+     "text": "\":\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_tyZNHs2AudCbG4XJUEmX5Waw",
+     "name": "get_weather",
+     "text": "Paris"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_tyZNHs2AudCbG4XJUEmX5Waw",
+     "name": "get_weather",
+     "text": "\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "call_tyZNHs2AudCbG4XJUEmX5Waw",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "call_tyZNHs2AudCbG4XJUEmX5Waw",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 64,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 64,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 78,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 64,
+        "completion_tokens": 14,
+        "total_tokens": 78,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 64,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 64,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 78,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 64,
+        "completion_tokens": 14,
+        "total_tokens": 78,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "The"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " weather"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " in"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " Paris"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " is"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " sunny"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " with"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " a"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " temperature"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " of"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " "
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "22"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "°C"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 96,
+      "outputTokens": 15,
+      "nonCachedInputTokens": 96,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 111,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 96,
+        "completion_tokens": 15,
+        "total_tokens": 111,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 96,
+      "outputTokens": 15,
+      "nonCachedInputTokens": 96,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 111,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 96,
+        "completion_tokens": 15,
+        "total_tokens": 111,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-chat/streams-text": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "Hello"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "!"
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 22,
+      "outputTokens": 2,
+      "nonCachedInputTokens": 22,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 24,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 22,
+        "completion_tokens": 2,
+        "total_tokens": 24,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 22,
+      "outputTokens": 2,
+      "nonCachedInputTokens": 22,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 24,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 22,
+        "completion_tokens": 2,
+        "total_tokens": 24,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-chat/streams-tool-call": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "call_5wBV98AvGPwOyC6a2HtKh85w",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_5wBV98AvGPwOyC6a2HtKh85w",
+     "name": "get_weather",
+     "text": "{\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_5wBV98AvGPwOyC6a2HtKh85w",
+     "name": "get_weather",
+     "text": "city"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_5wBV98AvGPwOyC6a2HtKh85w",
+     "name": "get_weather",
+     "text": "\":\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_5wBV98AvGPwOyC6a2HtKh85w",
+     "name": "get_weather",
+     "text": "Paris"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_5wBV98AvGPwOyC6a2HtKh85w",
+     "name": "get_weather",
+     "text": "\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "call_5wBV98AvGPwOyC6a2HtKh85w",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "call_5wBV98AvGPwOyC6a2HtKh85w",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 67,
+      "outputTokens": 5,
+      "nonCachedInputTokens": 67,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 72,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 67,
+        "completion_tokens": 5,
+        "total_tokens": 72,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 67,
+      "outputTokens": 5,
+      "nonCachedInputTokens": 67,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 72,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 67,
+        "completion_tokens": 5,
+        "total_tokens": 72,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/deepseek-streams-text": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "Hello"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "!"
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 14,
+      "outputTokens": 2,
+      "nonCachedInputTokens": 14,
+      "cacheReadInputTokens": 0,
+      "totalTokens": 16,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 14,
+        "completion_tokens": 2,
+        "total_tokens": 16,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 14,
+      "outputTokens": 2,
+      "nonCachedInputTokens": 14,
+      "cacheReadInputTokens": 0,
+      "totalTokens": 16,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 14,
+        "completion_tokens": 2,
+        "total_tokens": 16,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/groq-llama-3-3-70b-drives-a-tool-loop": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "4vgxtgdfg",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "4vgxtgdfg",
+     "name": "get_weather",
+     "text": "{\"city\":\"Paris\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "4vgxtgdfg",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "4vgxtgdfg",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 237,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 237,
+      "totalTokens": 251,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 237,
+        "completion_tokens": 14,
+        "total_tokens": 251
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 237,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 237,
+      "totalTokens": 251,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 237,
+        "completion_tokens": 14,
+        "total_tokens": 251
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "The"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " weather"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " in"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " Paris"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " is"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " sunny"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " with"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " a"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " temperature"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " of"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " "
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "22"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " degrees"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 270,
+      "outputTokens": 15,
+      "nonCachedInputTokens": 270,
+      "totalTokens": 285,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 270,
+        "completion_tokens": 15,
+        "total_tokens": 285
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 270,
+      "outputTokens": 15,
+      "nonCachedInputTokens": 270,
+      "totalTokens": 285,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 270,
+        "completion_tokens": 15,
+        "total_tokens": 285
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/groq-streams-text": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "Hello"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "!"
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 45,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 45,
+      "totalTokens": 48,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 45,
+        "completion_tokens": 3,
+        "total_tokens": 48
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 45,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 45,
+      "totalTokens": 48,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 45,
+        "completion_tokens": 3,
+        "total_tokens": 48
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/groq-streams-tool-call": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "mcf2d8nn1",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "mcf2d8nn1",
+     "name": "get_weather",
+     "text": "{\"city\":\"Paris\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "mcf2d8nn1",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "mcf2d8nn1",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 249,
+      "outputTokens": 10,
+      "nonCachedInputTokens": 249,
+      "totalTokens": 259,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 249,
+        "completion_tokens": 10,
+        "total_tokens": 259
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 249,
+      "outputTokens": 10,
+      "nonCachedInputTokens": 249,
+      "totalTokens": 259,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 249,
+        "completion_tokens": 10,
+        "total_tokens": 259
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/openrouter-claude-opus-4-7-drives-a-tool-loop": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "toolu_bdrk_01AVRkzbigpMbNJ3zjnuQ6ZE",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "toolu_bdrk_01AVRkzbigpMbNJ3zjnuQ6ZE",
+     "name": "get_weather",
+     "text": "{\"city\": \"P"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "toolu_bdrk_01AVRkzbigpMbNJ3zjnuQ6ZE",
+     "name": "get_weather",
+     "text": "ari"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "toolu_bdrk_01AVRkzbigpMbNJ3zjnuQ6ZE",
+     "name": "get_weather",
+     "text": "s\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "toolu_bdrk_01AVRkzbigpMbNJ3zjnuQ6ZE",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "toolu_bdrk_01AVRkzbigpMbNJ3zjnuQ6ZE",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 802,
+      "outputTokens": 66,
+      "nonCachedInputTokens": 802,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 868,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 802,
+        "completion_tokens": 66,
+        "total_tokens": 868,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 802,
+      "outputTokens": 66,
+      "nonCachedInputTokens": 802,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 868,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 802,
+        "completion_tokens": 66,
+        "total_tokens": 868,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "It"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "'s sunny and"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " 22°C in"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " Paris."
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 899,
+      "outputTokens": 19,
+      "nonCachedInputTokens": 899,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 918,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 899,
+        "completion_tokens": 19,
+        "total_tokens": 918,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 899,
+      "outputTokens": 19,
+      "nonCachedInputTokens": 899,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 918,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 899,
+        "completion_tokens": 19,
+        "total_tokens": 918,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/openrouter-gpt-4o-mini-drives-a-tool-loop": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "call_S63bjYITINemSHZ4Uqns7PIu",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_S63bjYITINemSHZ4Uqns7PIu",
+     "name": "get_weather",
+     "text": "{\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_S63bjYITINemSHZ4Uqns7PIu",
+     "name": "get_weather",
+     "text": "city"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_S63bjYITINemSHZ4Uqns7PIu",
+     "name": "get_weather",
+     "text": "\":\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_S63bjYITINemSHZ4Uqns7PIu",
+     "name": "get_weather",
+     "text": "Paris"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_S63bjYITINemSHZ4Uqns7PIu",
+     "name": "get_weather",
+     "text": "\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "call_S63bjYITINemSHZ4Uqns7PIu",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "call_S63bjYITINemSHZ4Uqns7PIu",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 66,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 66,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 80,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 66,
+        "completion_tokens": 14,
+        "total_tokens": 80,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 66,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 66,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 80,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 66,
+        "completion_tokens": 14,
+        "total_tokens": 80,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "The"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " weather"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " in"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " Paris"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " is"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " sunny"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " with"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " a"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " temperature"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " of"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " "
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "22"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "°C"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 98,
+      "outputTokens": 15,
+      "nonCachedInputTokens": 98,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 113,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 98,
+        "completion_tokens": 15,
+        "total_tokens": 113,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 98,
+      "outputTokens": 15,
+      "nonCachedInputTokens": 98,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 113,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 98,
+        "completion_tokens": 15,
+        "total_tokens": 113,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/openrouter-gpt-5-5-drives-a-tool-loop": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "call_4A7V7UN36HXCUUn8qAOQaKGw",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_4A7V7UN36HXCUUn8qAOQaKGw",
+     "name": "get_weather",
+     "text": "{\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_4A7V7UN36HXCUUn8qAOQaKGw",
+     "name": "get_weather",
+     "text": "city"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_4A7V7UN36HXCUUn8qAOQaKGw",
+     "name": "get_weather",
+     "text": "\":\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_4A7V7UN36HXCUUn8qAOQaKGw",
+     "name": "get_weather",
+     "text": "Paris"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_4A7V7UN36HXCUUn8qAOQaKGw",
+     "name": "get_weather",
+     "text": "\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "call_4A7V7UN36HXCUUn8qAOQaKGw",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "call_4A7V7UN36HXCUUn8qAOQaKGw",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 69,
+      "outputTokens": 18,
+      "nonCachedInputTokens": 69,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 87,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 69,
+        "completion_tokens": 18,
+        "total_tokens": 87,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 69,
+      "outputTokens": 18,
+      "nonCachedInputTokens": 69,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 87,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 69,
+        "completion_tokens": 18,
+        "total_tokens": 87,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "Paris"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " is"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " sunny"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " and"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": " "
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "22"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "°C"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 108,
+      "outputTokens": 12,
+      "nonCachedInputTokens": 108,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 120,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 108,
+        "completion_tokens": 12,
+        "total_tokens": 120,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 108,
+      "outputTokens": 12,
+      "nonCachedInputTokens": 108,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 120,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 108,
+        "completion_tokens": 12,
+        "total_tokens": 120,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/openrouter-streams-text": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "Hello"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "!"
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 21,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 21,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 24,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 21,
+        "completion_tokens": 3,
+        "total_tokens": 24,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 21,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 21,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 24,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 21,
+        "completion_tokens": 3,
+        "total_tokens": 24,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/openrouter-streams-tool-call": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "call_L7mHMq49ZSUTBHjLJfBIP2eT",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_L7mHMq49ZSUTBHjLJfBIP2eT",
+     "name": "get_weather",
+     "text": "{\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_L7mHMq49ZSUTBHjLJfBIP2eT",
+     "name": "get_weather",
+     "text": "city"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_L7mHMq49ZSUTBHjLJfBIP2eT",
+     "name": "get_weather",
+     "text": "\":\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_L7mHMq49ZSUTBHjLJfBIP2eT",
+     "name": "get_weather",
+     "text": "Paris"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_L7mHMq49ZSUTBHjLJfBIP2eT",
+     "name": "get_weather",
+     "text": "\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "call_L7mHMq49ZSUTBHjLJfBIP2eT",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "call_L7mHMq49ZSUTBHjLJfBIP2eT",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 67,
+      "outputTokens": 5,
+      "nonCachedInputTokens": 67,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 72,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 67,
+        "completion_tokens": 5,
+        "total_tokens": 72,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 67,
+      "outputTokens": 5,
+      "nonCachedInputTokens": 67,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 72,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 67,
+        "completion_tokens": 5,
+        "total_tokens": 72,
+        "prompt_tokens_details": {
+         "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+         "reasoning_tokens": 0
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/togetherai-streams-text": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "text-0"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "Hello"
+    },
+    {
+     "type": "text-delta",
+     "id": "text-0",
+     "text": "!"
+    },
+    {
+     "type": "text-end",
+     "id": "text-0"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 45,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 45,
+      "totalTokens": 48,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 45,
+        "completion_tokens": 3,
+        "total_tokens": 48
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 45,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 45,
+      "totalTokens": 48,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 45,
+        "completion_tokens": 3,
+        "total_tokens": 48
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-compatible-chat/togetherai-streams-tool-call": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "call_yu1mxtmex7x48nximi9c8jpo",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_yu1mxtmex7x48nximi9c8jpo",
+     "name": "get_weather",
+     "text": "{\"city\":\"Paris\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "call_yu1mxtmex7x48nximi9c8jpo",
+     "name": "get_weather"
+    },
+    {
+     "type": "tool-call",
+     "id": "call_yu1mxtmex7x48nximi9c8jpo",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 194,
+      "outputTokens": 19,
+      "nonCachedInputTokens": 194,
+      "totalTokens": 213,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 194,
+        "completion_tokens": 19,
+        "total_tokens": 213
+       }
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 194,
+      "outputTokens": 19,
+      "nonCachedInputTokens": 194,
+      "totalTokens": 213,
+      "providerMetadata": {
+       "openai": {
+        "prompt_tokens": 194,
+        "completion_tokens": 19,
+        "total_tokens": 213
+       }
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-responses/gpt-5-5-drives-a-tool-loop": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "call_JCuVTkQxVB3cCmFWx52adJKZ",
+     "name": "get_weather",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "fc_01394305fdec6fdd0069fa8aa51a3881a1a2e74c58f5c368d4"
+      }
+     }
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_JCuVTkQxVB3cCmFWx52adJKZ",
+     "name": "get_weather",
+     "text": "{\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_JCuVTkQxVB3cCmFWx52adJKZ",
+     "name": "get_weather",
+     "text": "city"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_JCuVTkQxVB3cCmFWx52adJKZ",
+     "name": "get_weather",
+     "text": "\":\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_JCuVTkQxVB3cCmFWx52adJKZ",
+     "name": "get_weather",
+     "text": "Paris"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_JCuVTkQxVB3cCmFWx52adJKZ",
+     "name": "get_weather",
+     "text": "\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "call_JCuVTkQxVB3cCmFWx52adJKZ",
+     "name": "get_weather",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "fc_01394305fdec6fdd0069fa8aa51a3881a1a2e74c58f5c368d4"
+      }
+     }
+    },
+    {
+     "type": "tool-call",
+     "id": "call_JCuVTkQxVB3cCmFWx52adJKZ",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     },
+     "providerMetadata": {
+      "openai": {
+       "itemId": "fc_01394305fdec6fdd0069fa8aa51a3881a1a2e74c58f5c368d4"
+      }
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 67,
+      "outputTokens": 18,
+      "nonCachedInputTokens": 67,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 85,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 67,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 18,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 85
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_01394305fdec6fdd0069fa8aa414cc81a1908662495e7c9bd9",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 67,
+      "outputTokens": 18,
+      "nonCachedInputTokens": 67,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 85,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 67,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 18,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 85
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_01394305fdec6fdd0069fa8aa414cc81a1908662495e7c9bd9",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": "It"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": "’s"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": " sunny"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": " and"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": " "
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": "22"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": "°C"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": " in"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": " Paris"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "msg_00daac70c40e5f4c0069fa8aa697a8819daf6660168cb19951"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 106,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 106,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 120,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 106,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 14,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 120
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_00daac70c40e5f4c0069fa8aa5a58c819db01baef7149e9043",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 106,
+      "outputTokens": 14,
+      "nonCachedInputTokens": 106,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 120,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 106,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 14,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 120
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_00daac70c40e5f4c0069fa8aa5a58c819db01baef7149e9043",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-responses/gpt-5-5-streams-text": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "reasoning-start",
+     "id": "rs_0ea948e2f42449980069fa8aa1d588819cbbcb9b056624d27c:0",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "rs_0ea948e2f42449980069fa8aa1d588819cbbcb9b056624d27c",
+       "reasoningEncryptedContent": null
+      }
+     }
+    },
+    {
+     "type": "reasoning-end",
+     "id": "rs_0ea948e2f42449980069fa8aa1d588819cbbcb9b056624d27c:0",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "rs_0ea948e2f42449980069fa8aa1d588819cbbcb9b056624d27c",
+       "reasoningEncryptedContent": null
+      }
+     }
+    },
+    {
+     "type": "text-start",
+     "id": "msg_0ea948e2f42449980069fa8aa20e38819cbf5be70e4d02a1c7"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_0ea948e2f42449980069fa8aa20e38819cbf5be70e4d02a1c7",
+     "text": "Hello"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_0ea948e2f42449980069fa8aa20e38819cbf5be70e4d02a1c7",
+     "text": "!"
+    },
+    {
+     "type": "text-end",
+     "id": "msg_0ea948e2f42449980069fa8aa20e38819cbf5be70e4d02a1c7"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 20,
+      "outputTokens": 18,
+      "nonCachedInputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 10,
+      "totalTokens": 38,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 20,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 18,
+        "output_tokens_details": {
+         "reasoning_tokens": 10
+        },
+        "total_tokens": 38
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_0ea948e2f42449980069fa8aa0e4b4819ca3395b74c53c13fa",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 20,
+      "outputTokens": 18,
+      "nonCachedInputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 10,
+      "totalTokens": 38,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 20,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 18,
+        "output_tokens_details": {
+         "reasoning_tokens": 10
+        },
+        "total_tokens": 38
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_0ea948e2f42449980069fa8aa0e4b4819ca3395b74c53c13fa",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-responses/gpt-5-5-streams-tool-call": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "tool-input-start",
+     "id": "call_ZAbAwsIFeJSyPqz3HaHRXBSn",
+     "name": "get_weather",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "fc_05200a06f78f5b310069fa8aa37ca8819e9f131e85e47bcff9"
+      }
+     }
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_ZAbAwsIFeJSyPqz3HaHRXBSn",
+     "name": "get_weather",
+     "text": "{\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_ZAbAwsIFeJSyPqz3HaHRXBSn",
+     "name": "get_weather",
+     "text": "city"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_ZAbAwsIFeJSyPqz3HaHRXBSn",
+     "name": "get_weather",
+     "text": "\":\""
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_ZAbAwsIFeJSyPqz3HaHRXBSn",
+     "name": "get_weather",
+     "text": "Paris"
+    },
+    {
+     "type": "tool-input-delta",
+     "id": "call_ZAbAwsIFeJSyPqz3HaHRXBSn",
+     "name": "get_weather",
+     "text": "\"}"
+    },
+    {
+     "type": "tool-input-end",
+     "id": "call_ZAbAwsIFeJSyPqz3HaHRXBSn",
+     "name": "get_weather",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "fc_05200a06f78f5b310069fa8aa37ca8819e9f131e85e47bcff9"
+      }
+     }
+    },
+    {
+     "type": "tool-call",
+     "id": "call_ZAbAwsIFeJSyPqz3HaHRXBSn",
+     "name": "get_weather",
+     "input": {
+      "city": "Paris"
+     },
+     "providerMetadata": {
+      "openai": {
+       "itemId": "fc_05200a06f78f5b310069fa8aa37ca8819e9f131e85e47bcff9"
+      }
+     }
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 61,
+      "outputTokens": 18,
+      "nonCachedInputTokens": 61,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 79,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 61,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 18,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 79
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_05200a06f78f5b310069fa8aa28134819eba958e34eb1db6ae",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "tool-calls",
+     "usage": {
+      "inputTokens": 61,
+      "outputTokens": 18,
+      "nonCachedInputTokens": 61,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 79,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 61,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 18,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 79
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_05200a06f78f5b310069fa8aa28134819eba958e34eb1db6ae",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-responses/openai-responses-gpt-5-5-image-tool-result": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "msg_06646cef0abb6407016a1235f703708197bd125c4f32fb7b69"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_06646cef0abb6407016a1235f703708197bd125c4f32fb7b69",
+     "text": "j"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_06646cef0abb6407016a1235f703708197bd125c4f32fb7b69",
+     "text": "igg"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_06646cef0abb6407016a1235f703708197bd125c4f32fb7b69",
+     "text": "ling"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_06646cef0abb6407016a1235f703708197bd125c4f32fb7b69",
+     "text": " restroom"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_06646cef0abb6407016a1235f703708197bd125c4f32fb7b69",
+     "text": " prison"
+    },
+    {
+     "type": "text-end",
+     "id": "msg_06646cef0abb6407016a1235f703708197bd125c4f32fb7b69"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 227,
+      "outputTokens": 9,
+      "nonCachedInputTokens": 227,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 236,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 227,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 9,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 236
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_06646cef0abb6407016a1235f665a88197a401db20cfc8c787",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 227,
+      "outputTokens": 9,
+      "nonCachedInputTokens": 227,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 236,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 227,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 9,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 236
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_06646cef0abb6407016a1235f665a88197a401db20cfc8c787",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-responses/openai-responses-gpt-5-5-reasoning-continuation": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "reasoning-start",
+     "id": "rs_0a0794dab3b8ec7d016a1235e7ce3881958a5eca32a36a14c5:0",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "rs_0a0794dab3b8ec7d016a1235e7ce3881958a5eca32a36a14c5",
+       "reasoningEncryptedContent": "gAAAAABqEjXnglldg7hhpTBATVqj7sThK5ATieOVR8sZGYPDW2zYopwpKxA3RyRccK_FPjRvvlzrvL-FitOxmdMGBaKa5jncrT9hHo5IMhsFsCEHkQ1x5tlrKPqtfwJ_LFexR0h_IpPogu8wlVAkHRoWQoq61o9vBxjMOEsq6dtXu09959gXnAvJA3jN_mqNkRZ7Yp6LaJJtLDAAtt_dhX8veoEFXZ412lCY4zcaMvC5o0yq6MPvLIN4NhHmfPKkVAy-j8wGlgA42KR4wd5-VeFXUdeSn32dlNLZZxBFa9w6iTgCQ9aF-3C7RB4OXeSY782QUD1dRyFybd7vJtjlptwXBntSHZ9wugoKSDEj0KnvQKG_WiCWuJvkGiOVno4MAs5QnCmKBnpak5OV1wOhPwX2ez6OmAYT4mMKIogdfivVvUxMrmdVJzgE85WoZEAU2ZporxVXkI7_8p0L6dxxwk_IKiKSCz-bZgsCtOP5Jsr5GeI831nVv272kZ3DugV-hcjGHAE5T9KhebzpFjsdxnJcfxuGY8SyRaLlUAHM_37H4veHsOzyhCoaG8mMaT3gIb4tAvM7ezd1xzLsFae89P5xCv_fNeoV7qmf2IWDWUi1vitIib5w9jsclWRqYaLVZR0GK6dYyNJ1DXDOOcWRdH7UJakv1m2koUbcYWBuxao7sc-af_9ySKAloWhb6QjiVElJHYtwraJBtX-CLBVHEYqAXmZgMUWVbz8NNRA6JS1TrOys7_LiQtXXubLWas_66LyaqmB-628LCUitUISYYc2wmq1uUm7gjPA53Wm4F7VU6g-PO7bt1O0Nd-jasisPXINTX3Z4hgC1APPEq29iEHwmEPnicO_Nu6U3JLfq4DD6r1oLK-RnIp3Ratw0P-Gwog86RBLGUWIEIKdFu6m9d1TI8rIBbAVaBA=="
+      }
+     }
+    },
+    {
+     "type": "reasoning-end",
+     "id": "rs_0a0794dab3b8ec7d016a1235e7ce3881958a5eca32a36a14c5:0",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "rs_0a0794dab3b8ec7d016a1235e7ce3881958a5eca32a36a14c5",
+       "reasoningEncryptedContent": "gAAAAABqEjXoGMCw3WDXpoD9151PEr2Lt8raW7KBKefQhZJGWx5f8jy152bApO6oE-Mr1BhUtfZNq3OPBVfSL4ioQ9bHREfujIBXgk9LUDBAz2Sle7KjOr9HaUV16A4HBiaFIRFjsHPS9G8yEySp1m6F1CD_WR6apyUGgugRh_y39EcOJmxPOzmiac5DVM6fraA1VpcGbqrZ1x2ANHFDOfnYTycPtPNTgzE7LjkYjDDWbT03uN1YxfP4pqjDVRzY14pA8bSZ8ys-pDv5kUFCAsw-OlU4jYKUXp-M8_6KTaRQP71LPwppt__zG_NJPfy-qUil4pOU8_NoxtxerHgLLXbfExZdzfpoGinoEjn7nj7BJDEtl-LNeNEb5c-1ZymNfVMp-Cs3fLEPkAV8rtHFtZ0MhE_07GKbGo7hTrOmkM4DydxmHsdWGNbXAG35cprslEA5P7p3GHFKnRs5hGs2eq-XcZ3yki64ZBOU_Tv6UR7nUH09gF1rdrJo3dpre6M00COwwdZ02zUP5KxCuI8FKu2jsZu9zgMVXDALsdtM5orTCVLXsn4rddWd111zE-vMjNmMMmktW2cHMjH7j1ooA-9P083koNVYiLi4UhMA64gTqgyl8MxkZekl7eFSMa7qk295NaHOKtFxzYYcZ9jdioCwSPSZ0ZZWLoNgrK7SWfRh0uaTHNcMZ3wq8ae6CguktIeVTCPTQAqJLQqd7AU0oOCKCJ7BWnC-L8UC6m7Pm9ZS958uUVeWBhgKHzMAGq9UeQB7IEeAcbMn3EDgOSfd8qCb8iwU9iG9dcu9axQwWU7pd7kd-T-He61W7z5wWgpx1KehWCxrN6kuKSo6p-uUfwVnJukreOn8BJNAzADQgz68bhmN9VGih7YcKVnLgwDwKditrjSd6-tfE0Baarj3jWENvT6ohY17R9FDrKS-2v8IIX6tGjoKJw8SRhaWLNv4vWlmxRgR0gdac3qumd0GKqsWSveNz01naA=="
+      }
+     }
+    },
+    {
+     "type": "text-start",
+     "id": "msg_0a0794dab3b8ec7d016a1235e8d64c81959a41f8db3ea7b66c"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_0a0794dab3b8ec7d016a1235e8d64c81959a41f8db3ea7b66c",
+     "text": "Hello"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_0a0794dab3b8ec7d016a1235e8d64c81959a41f8db3ea7b66c",
+     "text": "!"
+    },
+    {
+     "type": "text-end",
+     "id": "msg_0a0794dab3b8ec7d016a1235e8d64c81959a41f8db3ea7b66c"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 31,
+      "outputTokens": 20,
+      "nonCachedInputTokens": 31,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 12,
+      "totalTokens": 51,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 31,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 20,
+        "output_tokens_details": {
+         "reasoning_tokens": 12
+        },
+        "total_tokens": 51
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_0a0794dab3b8ec7d016a1235e74e148195beb46e1925d20292",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 31,
+      "outputTokens": 20,
+      "nonCachedInputTokens": 31,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 12,
+      "totalTokens": 51,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 31,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 20,
+        "output_tokens_details": {
+         "reasoning_tokens": 12
+        },
+        "total_tokens": 51
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_0a0794dab3b8ec7d016a1235e74e148195beb46e1925d20292",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "reasoning-start",
+     "id": "rs_0a0794dab3b8ec7d016a1235ea4dd88195a32179255ed6c532:0",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "rs_0a0794dab3b8ec7d016a1235ea4dd88195a32179255ed6c532",
+       "reasoningEncryptedContent": "gAAAAABqEjXqB-kOX_0QAeoEksgNjwSbtGmVEQuMj5ODcFV6b7Kp3E8RoHRRmSXtRH0rtNbZRbhKz5jM48DUpDI1WTeO2HqCd_A3fsSgFxp5ACGVFjPWjfvP2JMdDkpoOo5gu2zy7WsWY0fseocQQ5q_jfG6SWw0fyaeeqfdQ9HkcHyg6gVEl5skb4L8_2lD5nClmLlNVVh5JCuXRH9eYysrfO19NOZ29A2MVUX-XgB6mmK5uSb1jE43GhrEPPYrMbB5JyzM6B-yeB8rE4H2wx530hQqtxwSZREa8G03rzTJ49_KAPWl0djGDDtufUX-t4EpBHo6loA3PMuiZ3VsJTkkPpEqkm6QQyAVkQ_8AdRu12CqHbFdu73I-BnArzr33yW6reNUjnZjFV5bWDyxIMh6ljy3O_2nGk-qdTLt6bGJbEjTdPj1hi7icYZTVPqofPU4pjlo9BnIBheo-4u9pA26V9G9vDAtM4myDdMEe4pnieUztBUYPUOVMaG2U9gqtNs6iPehKo3BeKy4lhYPorL2OPmf1lVUQOCW1MBbwT5xt1kjOVw7LggnyjrBsXVvDBWg0AFcvm14r3ZQezPgLetQfSx56mVEJpui9BuVSUg2Xvqb5tCCip6TipUVvzZJKKkxN43o8N6UVXLIn6wgstAn9727JgBEsjMxzvuOWaaI-qM3dWMcFzFSGvKb6gTiF37AhSOzosf31hnsGx8AnGmLmbuW3IMhZXZZMHgVUHx4p8pNRPeoCE-Bv833KZbRfVxe6tbmkLadBjXYaCQqPXDHBR7qbpfu4_M9UAy0kpic-joepxQKsCT2t6vsNaThRYaN3PtIgjs5xxAfa9yKeIYak8yiP96CUlME9Y7zaOIydPWYBhWLf3phQsWMax9eKdLDh19f0Y0iAJPpk--1xd2OVTuDxKIMpA=="
+      }
+     }
+    },
+    {
+     "type": "reasoning-end",
+     "id": "rs_0a0794dab3b8ec7d016a1235ea4dd88195a32179255ed6c532:0",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "rs_0a0794dab3b8ec7d016a1235ea4dd88195a32179255ed6c532",
+       "reasoningEncryptedContent": "gAAAAABqEjXqW5MInCBPKulZ1lizyFtOaKUpKgHldAXVjTTs4XFE45gtxC1NbJoOi2tHoQhpfq-JGxtjSQEDTHnMCiLLhyqvQ4GlWVF4n51xcFVC_WgymkZqDxG6xPw8ITAsRI5vb8HiPO6EmmKt6xGIVXOjrrxRNAY3xtrByeYSvnCa6FDUHEkMeXmwllBalCeQPNDPl0Ub2ehuchNG0loMVLJoOjT-2KgDrXlOa6rCn3nUf4U1W5JA_kHytlgrD0IPbs7nY8wemdynJRXBoNSOT_U3nQSB6j-i4KIJAdLiUs9LVWMYleqmFQNs8S4dC3i5DfpHXWUMZ5Ai1d3gbvMP8bH7fsUyfIhyiDUvlgr6PZ9rfh8JqkjOpiQ7NFtSDuHQGdx__W3qi23WPDp3iQjKxVl1oUXfbMzsPE4bmNN9dnJ9qTQ43kvw8GyrGrSqRS8jCKuk9bxqeR_ibj4KoDdxvVbUeGMg3WKANfCRsNXlxwYtMpu3I4HxKm5EuMNKDg_e9RFH2wFEDm9wCKMZrC_5LShgKhSfhsk3yJ47Mit0zYdX27kyHGlZvpzLPYKdtHW1O15KNT4gFKBrIguCtjXz2Lb42ENM6Jo8BTY7BZbf0hXZ4A5mFNl_gyLVHWEHpR1GcYiJbs9RtQ-7qX_PTeZ11iFY3a7_jM7TK3WEN2IuG0OKbZVHvOkVcvyBEgIbzSzCzhtC-j584knI4WmYiqnltuwRcR2N3sxYY3vMcYGA2_AU5kYlZcJcztapTTW-aKbyGxPcw5D_dqb5mGpDqJgquye-qOufDt4Fd7cSc-g8awqR8QPsLz-ZDPLMB9JKQ3VqLQlNCKDUoDodGOAL3h-7EQG66osALfhpdsWcNmuVqlb0lNAXklrsZJtRKBU4pJ1UGCyVDwde7nv6I9PW19VumaRrJhc2cC52qUoyihvUo8xJsElaFp7-EHn5ymS4znZhRfyA_4UDL4rwj-3DqbMwNeDJrgBc3w=="
+      }
+     }
+    },
+    {
+     "type": "text-start",
+     "id": "msg_0a0794dab3b8ec7d016a1235eaae648195ab7ad5385b641107"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_0a0794dab3b8ec7d016a1235eaae648195ab7ad5385b641107",
+     "text": "Done"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_0a0794dab3b8ec7d016a1235eaae648195ab7ad5385b641107",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "msg_0a0794dab3b8ec7d016a1235eaae648195ab7ad5385b641107"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 35,
+      "outputTokens": 20,
+      "nonCachedInputTokens": 35,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 12,
+      "totalTokens": 55,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 35,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 20,
+        "output_tokens_details": {
+         "reasoning_tokens": 12
+        },
+        "total_tokens": 55
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_0a0794dab3b8ec7d016a1235e991c88195a4d2f9766babd985",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 35,
+      "outputTokens": 20,
+      "nonCachedInputTokens": 35,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 12,
+      "totalTokens": 55,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 35,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 20,
+        "output_tokens_details": {
+         "reasoning_tokens": 12
+        },
+        "total_tokens": 55
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_0a0794dab3b8ec7d016a1235e991c88195a4d2f9766babd985",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-responses/openai-responses-gpt-5-5-reasoning": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "reasoning-start",
+     "id": "rs_05f7e55dc1d2d743016a1235e65eac8193ba914b956e3a49e1:0",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "rs_05f7e55dc1d2d743016a1235e65eac8193ba914b956e3a49e1",
+       "reasoningEncryptedContent": "gAAAAABqEjXmpkIEr1Ox1CgTHFUzuGnLwOE9YZFf7lBDRcOgQiNuTk-CopgZ20-kaosULz5cy40Ga0zkuwMFxLHSH4Cyebm9mQCMMZmzZQybp-s-yfNGm9zz7kAh_y6NbaAQZiI2iaTY5_sQwIrMsdQ56-T3_--unhlXVjEqMwdbsQOLpTg0KpAigUOJkuAl4PgCHsr6p_oTIZ5ycChpihxh6Oyuyf_YzLz-bL63kWZeu2bZFYE3WftnJNzcY5VjaNEVDlYY5IBbgCqOCc8OhLrYarwaPdhiizu1FIuhreEDiYurEQOa5jSW3wN2KGUhfDPurzguIbZ-ZhSRW58w9UgrhYOS30bQkm3EYd7w9nI5MteZruw3hIVKR__tU_2T2o7GsTxYNYLgn7Q8WoBASZrBtDpXuBM5jO2JQzDEFPG9_S8f44_LDgKInHgh-t32eV1ZNW08Pg9l0tUutiqdEVbDFKFB68Eu5PCKRKqZ18VzXI2X_YeU0DW9ld_GoSesI88rmWCmOta2AQOrVNa2uehlMRXb0wGXKzS6t31di0_PQwPj9rBdVk-N3S-FOlF5fFEGDqWBR3E0lrEOtNMeIuR8u3gGDbEacqL-Sz22Mi7AJou7trOnVH5qFqbKpfOJnxpzjOeWUYVDpmVFD81Om7Fc6zlZsv0KIEt-w5IE_dXi2_guUpu0JhowDWFI9aFcRVZ6A9z7Mrwqtkrs9QqRJws2BRUde-6MOryUcKWGfwdkNMRkAVHSlC6T3Yq44UtLqb1gJ-vasc2K9BZwRtYBVy0jif1tjrMviiNy9ltdxPVlIJ-R_4JcYtcbRQc1ovd-aQ9MprDatYE3Vnmk_O_WSnzHRxzPbftBHb_IWwir4G3lTOTi7xopkmVFidgl03h72BfbmwkzKXlMmvClRYP5u-mYyZoG50h9ag=="
+      }
+     }
+    },
+    {
+     "type": "reasoning-end",
+     "id": "rs_05f7e55dc1d2d743016a1235e65eac8193ba914b956e3a49e1:0",
+     "providerMetadata": {
+      "openai": {
+       "itemId": "rs_05f7e55dc1d2d743016a1235e65eac8193ba914b956e3a49e1",
+       "reasoningEncryptedContent": "gAAAAABqEjXn9Xij0jt39Rh_0pwIWNN4jY3e6aD8Z0BBuhH_kgkhr6VNIvsDQdD8q9ju8vkF4JnhDqcfSIbdtX_8r4HHiV7O6kFEHRSiW23Z775HdB6fggaELggnLAcBN4MxzN618I2CV-pnNStMVMeUZtbV22l6o0F6n00-_5vm7KkP44JQRFrYj_iypI9AY0S0OqItcAiB6ERLLdKTJELOAzGxyeHKpQeWH3kQY9ZbSFLfUVooZjZEEBBB3sLMkvkDq6J9iIyQFKXZeo_oFvayxWFD8BwW3fVuUFcg0waG5TJwHA90iPFjOCddkk4Kn07cIwoyuM8xYquLPQ2x3jBLninoP8UyRXrQaDFR3maPtQ4HbNBf9cz5nZmXmjmZnO9Ee78ELcU_LkvmTgtozd094XVxLHg9DN-Y_s-1GMD9SgiqBNePe-1f_Sf2FD-CQsE-vDIcpmlLwxrhkXkwZ8Ws4k8NhA1Kq8DA5KYmz7S2akl2Vg2wr5ZrdH1XQBarWUIwlhTFALhTipDPinqhytnxm5MEmu09MBGXYOP5qNQ2hT2F_ibH7kM4kBQV5zVLDl6U2ZsKDt_r7F9in8YU5ffLYAd_4M9FgsJQUvC1CxLRSSQyyPKbdy0mYCrBLTo68FGV36JIj_SQBYHp9I5IIXfMfw1d78SNN_jtgs8JweLVNhOzoOFqMEYgO4zO6xa6r7E1F6YtuQ3oQ8OIEjXIeWeLsRGn51hNYA9s2hfm8Qh14rq5TMV9QhDXj0a-7FO6PIqTUr2ZqfB6Oqeb_Ut708MWtIjZ0oRSYkDddS8QzcwGbg1AFwF9okVtZZqXyItZseC9hKQ7vjh9pWaMrsKT8pYxjbB1fwKPgwTZHGzQzhkLXsp7btR5DpRP4h1-YHTsiMDlEdjtZVF0Zn7OuKTQlanB14FsmaaJq-Ty0pktr9ejKji3VmmDeIWTWKmIMvnp9nc3_Wl_Cbvschquknk7Hd12KZkyRaWq-Q=="
+      }
+     }
+    },
+    {
+     "type": "text-start",
+     "id": "msg_05f7e55dc1d2d743016a1235e7171481938e1402264186381c"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_05f7e55dc1d2d743016a1235e7171481938e1402264186381c",
+     "text": "Hello"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_05f7e55dc1d2d743016a1235e7171481938e1402264186381c",
+     "text": "!"
+    },
+    {
+     "type": "text-end",
+     "id": "msg_05f7e55dc1d2d743016a1235e7171481938e1402264186381c"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 31,
+      "outputTokens": 21,
+      "nonCachedInputTokens": 31,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 13,
+      "totalTokens": 52,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 31,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 21,
+        "output_tokens_details": {
+         "reasoning_tokens": 13
+        },
+        "total_tokens": 52
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_05f7e55dc1d2d743016a1235e5bb3c8193b4c0e30fa316700c",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 31,
+      "outputTokens": 21,
+      "nonCachedInputTokens": 31,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 13,
+      "totalTokens": 52,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 31,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 21,
+        "output_tokens_details": {
+         "reasoning_tokens": 13
+        },
+        "total_tokens": 52
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_05f7e55dc1d2d743016a1235e5bb3c8193b4c0e30fa316700c",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "openai-responses-cache/reports-cached-tokens-on-identical-second-call": [
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "msg_00b4acfe385b75d6006a0133e42ad8819f83824a88e1160e09"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00b4acfe385b75d6006a0133e42ad8819f83824a88e1160e09",
+     "text": "Hi"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_00b4acfe385b75d6006a0133e42ad8819f83824a88e1160e09",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "msg_00b4acfe385b75d6006a0133e42ad8819f83824a88e1160e09"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 4765,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 4765,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 4768,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 4765,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 3,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 4768
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_00b4acfe385b75d6006a0133e252e4819faecb37d96affd4bf",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 4765,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 4765,
+      "cacheReadInputTokens": 0,
+      "reasoningTokens": 0,
+      "totalTokens": 4768,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 4765,
+        "input_tokens_details": {
+         "cached_tokens": 0
+        },
+        "output_tokens": 3,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 4768
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_00b4acfe385b75d6006a0133e252e4819faecb37d96affd4bf",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "events": [
+    {
+     "type": "step-start",
+     "index": 0
+    },
+    {
+     "type": "text-start",
+     "id": "msg_06a66d5dbf005c28006a0133e6a2b0819d90b31eabe0bb0568"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_06a66d5dbf005c28006a0133e6a2b0819d90b31eabe0bb0568",
+     "text": "Hi"
+    },
+    {
+     "type": "text-delta",
+     "id": "msg_06a66d5dbf005c28006a0133e6a2b0819d90b31eabe0bb0568",
+     "text": "."
+    },
+    {
+     "type": "text-end",
+     "id": "msg_06a66d5dbf005c28006a0133e6a2b0819d90b31eabe0bb0568"
+    },
+    {
+     "type": "step-finish",
+     "index": 0,
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 4765,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 157,
+      "cacheReadInputTokens": 4608,
+      "reasoningTokens": 0,
+      "totalTokens": 4768,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 4765,
+        "input_tokens_details": {
+         "cached_tokens": 4608
+        },
+        "output_tokens": 3,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 4768
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_06a66d5dbf005c28006a0133e48a28819d957163a92a5a56cc",
+       "serviceTier": "default"
+      }
+     }
+    },
+    {
+     "type": "finish",
+     "reason": "stop",
+     "usage": {
+      "inputTokens": 4765,
+      "outputTokens": 3,
+      "nonCachedInputTokens": 157,
+      "cacheReadInputTokens": 4608,
+      "reasoningTokens": 0,
+      "totalTokens": 4768,
+      "providerMetadata": {
+       "openai": {
+        "input_tokens": 4765,
+        "input_tokens_details": {
+         "cached_tokens": 4608
+        },
+        "output_tokens": 3,
+        "output_tokens_details": {
+         "reasoning_tokens": 0
+        },
+        "total_tokens": 4768
+       }
+      }
+     },
+     "providerMetadata": {
+      "openai": {
+       "responseId": "resp_06a66d5dbf005c28006a0133e48a28819d957163a92a5a56cc",
+       "serviceTier": "default"
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

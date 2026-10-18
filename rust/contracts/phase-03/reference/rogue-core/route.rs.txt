@@ -1,0 +1,412 @@
+//! Purpose: compose a runnable `opencode_llm_api::Route` from Protocol + Endpoint + Auth +
+//! Framing + executor (`packages/llm/src/route/client.ts` `Route.make`, `transport/http.ts`).
+//! Owns URL rendering, header layering, `http.body` overlay with the protocol-owned denylist,
+//! cache-policy lowering hook and frame decoding into ordered events.
+//! Scope: glue over traits. Network I/O is delegated to `HttpExecutor`/`FrameSource`.
+//! Uses:
+//! rust/crates/
+//! |-- provider-adapters/src/core/cache_policy.rs
+//! |-- provider-adapters/src/core/protocol.rs
+//! `-- provider-adapters/src/core/shared.rs
+//! External:
+//! |-- futures::{StreamExt, stream::BoxStream}
+//! |-- opencode_llm_api::{LlmError, LlmEventStream, LlmRequest, PreparedRequest, Route, RouteDefaults}
+//! `-- url::Url
+//! Used by:
+//! rust/crates/
+//! `-- provider-adapters/src/core/mod.rs
+//! Invariants: header precedence is route headers < request `http.headers` < auth. Query
+//! precedence is endpoint query < request `http.query`. `http.body` may not overlay any
+//! protocol-owned field (exact baseline denylist) and only merges into JSON objects. Decode
+//! errors become `InvalidProviderOutput` with message `Invalid {provider}/{route} stream event`.
+//! Dropping the returned stream drops the executor future and therefore the connection.
+//! Contract tests: provider-adapters/tests/core.rs
+
+use std::fmt;
+use std::sync::Arc;
+
+use futures::StreamExt;
+use futures::future::BoxFuture;
+use futures::stream::BoxStream;
+use indexmap::IndexMap;
+use opencode_llm_api::options::merge_json_records;
+use opencode_llm_api::{
+    LlmError, LlmEventStream, LlmRequest, PreparedRequest, ProviderId, Route, RouteDefaults,
+};
+use serde_json::Value;
+
+use super::cache_policy::apply_cache_policy;
+use super::protocol::{Frame, Protocol};
+use super::shared::trim_base_url;
+
+/// Ordered request headers. Names are stored lowercase.
+pub type Headers = IndexMap<String, String>;
+
+/// URL path for one route, static or derived from request/body (Bedrock, Gemini).
+pub type PathFn = Arc<dyn Fn(&LlmRequest, &Value) -> String + Send + Sync>;
+
+#[derive(Clone)]
+pub struct Endpoint {
+    pub base_url: Option<String>,
+    pub path: PathFn,
+    pub query: IndexMap<String, String>,
+}
+
+impl fmt::Debug for Endpoint {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Endpoint")
+            .field("base_url", &self.base_url)
+            .field("query", &self.query)
+            .finish()
+    }
+}
+
+impl Endpoint {
+    pub fn path(path: &'static str) -> Self {
+        Self {
+            base_url: None,
+            path: Arc::new(move |_, _| path.to_owned()),
+            query: IndexMap::new(),
+        }
+    }
+
+    pub fn with_base_url(mut self, base_url: impl Into<String>) -> Self {
+        self.base_url = Some(base_url.into());
+        self
+    }
+
+    /// `Endpoint.render` plus request query overlay.
+    pub fn render(&self, request: &LlmRequest, body: &Value) -> Result<String, LlmError> {
+        let raw = format!(
+            "{}{}",
+            trim_base_url(self.base_url.as_deref().unwrap_or("")),
+            (self.path)(request, body)
+        );
+        let mut url = url::Url::parse(&raw)
+            .map_err(|_| LlmError::invalid_request(format!("Invalid endpoint URL: {raw}")))?;
+        let overlay = request.http.as_ref().and_then(|h| h.query.as_ref());
+        let query = self.query.iter().chain(overlay.into_iter().flatten());
+        for (key, value) in query {
+            set_query(&mut url, key, value);
+        }
+        Ok(url.to_string())
+    }
+}
+
+/// `URLSearchParams.set`: replace all existing values of `key`.
+fn set_query(url: &mut url::Url, key: &str, value: &str) {
+    let rest: Vec<(String, String)> = url
+        .query_pairs()
+        .filter(|(k, _)| k != key)
+        .map(|(k, v)| (k.into(), v.into()))
+        .collect();
+    let mut pairs = url.query_pairs_mut();
+    pairs.clear();
+    for (k, v) in &rest {
+        pairs.append_pair(k, v);
+    }
+    pairs.append_pair(key, value);
+}
+
+/// What auth sees: the fully rendered request before sending (SigV4 signs the body).
+#[derive(Clone, Debug)]
+pub struct AuthInput<'a> {
+    pub request: &'a LlmRequest,
+    pub method: &'static str,
+    pub url: &'a str,
+    pub body: &'a str,
+    pub headers: Headers,
+}
+
+/// Per-request transport auth (`route/auth.ts`). Implementations own credential loading and
+/// refresh, and return the final header set. They must never log secret values.
+pub trait Auth: Send + Sync + fmt::Debug {
+    fn apply<'a>(&'a self, input: AuthInput<'a>) -> BoxFuture<'a, Result<Headers, LlmError>>;
+}
+
+/// `Auth.none` / `Auth.passthrough`.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct NoAuth;
+
+impl Auth for NoAuth {
+    fn apply<'a>(&'a self, input: AuthInput<'a>) -> BoxFuture<'a, Result<Headers, LlmError>> {
+        Box::pin(async move { Ok(input.headers) })
+    }
+}
+
+/// A fully prepared HTTP request. `Debug` is redacted by the executor, never print raw.
+#[derive(Clone)]
+pub struct HttpRequest {
+    pub method: &'static str,
+    pub url: String,
+    pub headers: Headers,
+    pub body: String,
+}
+
+impl fmt::Debug for HttpRequest {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("HttpRequest")
+            .field("method", &self.method)
+            .field("headers", &self.headers.keys().collect::<Vec<_>>())
+            .finish()
+    }
+}
+
+pub type ByteStream = BoxStream<'static, Result<bytes::Bytes, LlmError>>;
+pub type FrameStream = BoxStream<'static, Result<Frame, LlmError>>;
+
+/// Sends one prepared request and yields the response byte stream after status mapping and
+/// bounded status retries (`RequestExecutor`). Implemented in `transport::executor`.
+pub trait HttpExecutor: Send + Sync + fmt::Debug {
+    fn execute(&self, request: HttpRequest) -> BoxFuture<'static, Result<ByteStream, LlmError>>;
+}
+
+/// Bytes to frames (`Framing`): SSE, AWS event stream. Implemented in `transport::framing`.
+pub trait Framing: Send + Sync + fmt::Debug {
+    fn id(&self) -> &'static str;
+    fn frames(&self, route_label: String, bytes: ByteStream) -> FrameStream;
+}
+
+/// How prepared requests reach the provider: HTTP + framing, or a WebSocket message.
+pub trait Transport: Send + Sync + fmt::Debug {
+    fn id(&self) -> &'static str;
+    /// Open the connection for `request` (already authed) and yield frames.
+    fn open(
+        &self,
+        route_label: String,
+        request: HttpRequest,
+        json_body: Value,
+    ) -> BoxFuture<'static, Result<FrameStream, LlmError>>;
+}
+
+/// `httpJson` transport: POST JSON through an executor, then frame the body.
+#[derive(Clone, Debug)]
+pub struct HttpJsonTransport {
+    pub executor: Arc<dyn HttpExecutor>,
+    pub framing: Arc<dyn Framing>,
+}
+
+impl Transport for HttpJsonTransport {
+    fn id(&self) -> &'static str {
+        "http-json"
+    }
+
+    fn open(
+        &self,
+        route_label: String,
+        request: HttpRequest,
+        _json_body: Value,
+    ) -> BoxFuture<'static, Result<FrameStream, LlmError>> {
+        let executor = self.executor.clone();
+        let framing = self.framing.clone();
+        Box::pin(async move {
+            let bytes = executor.execute(request).await?;
+            Ok(framing.frames(route_label, bytes))
+        })
+    }
+}
+
+/// Header factory evaluated per request (`MakeInput.headers`).
+pub type HeaderFn = Arc<dyn Fn(&LlmRequest) -> Headers + Send + Sync>;
+
+/// Configured route: protocol + endpoint + auth + transport + defaults.
+#[derive(Clone)]
+pub struct HttpRoute {
+    pub id: String,
+    pub provider: Option<ProviderId>,
+    pub protocol: Arc<dyn Protocol>,
+    pub endpoint: Endpoint,
+    pub auth: Arc<dyn Auth>,
+    pub transport: Arc<dyn Transport>,
+    pub headers: Option<HeaderFn>,
+    pub defaults: RouteDefaults,
+}
+
+impl fmt::Debug for HttpRoute {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("HttpRoute")
+            .field("id", &self.id)
+            .field("protocol", &self.protocol.id())
+            .field("transport", &self.transport.id())
+            .field("endpoint", &self.endpoint)
+            .finish()
+    }
+}
+
+/// `PROTOCOL_BODY_OVERLAY_DENYLIST` (transport/http.ts).
+pub const BODY_OVERLAY_DENYLIST: &[&str] = &[
+    "content",
+    "contents",
+    "frequencyPenalty",
+    "frequency_penalty",
+    "generationConfig",
+    "inferenceConfig",
+    "input",
+    "maxTokens",
+    "max_tokens",
+    "messages",
+    "model",
+    "presencePenalty",
+    "presence_penalty",
+    "responseFormat",
+    "response_format",
+    "seed",
+    "stop",
+    "stopSequences",
+    "stop_sequences",
+    "stream",
+    "streamOptions",
+    "stream_options",
+    "system",
+    "systemInstruction",
+    "system_instruction",
+    "temperature",
+    "thinking",
+    "toolChoice",
+    "toolConfig",
+    "tool_choice",
+    "tool_config",
+    "tools",
+    "topK",
+    "topP",
+    "top_k",
+    "top_p",
+];
+
+/// `bodyWithOverlay`.
+pub fn body_with_overlay(body: Value, request: &LlmRequest) -> Result<Value, LlmError> {
+    let Some(overlay) = request.http.as_ref().and_then(|h| h.body.as_ref()) else {
+        return Ok(body);
+    };
+    let forbidden: Vec<&str> = overlay
+        .keys()
+        .filter(|k| BODY_OVERLAY_DENYLIST.contains(&k.as_str()))
+        .map(String::as_str)
+        .collect();
+    if !forbidden.is_empty() {
+        return Err(LlmError::invalid_request(format!(
+            "http.body cannot overlay protocol-owned field(s): {}",
+            forbidden.join(", ")
+        )));
+    }
+    let Value::Object(map) = body else {
+        return Err(LlmError::invalid_request(
+            "http.body can only overlay JSON object request bodies",
+        ));
+    };
+    Ok(Value::Object(
+        merge_json_records([Some(&map), Some(overlay)]).unwrap_or_default(),
+    ))
+}
+
+impl HttpRoute {
+    fn compile(&self, request: &LlmRequest) -> Result<(LlmRequest, Value), LlmError> {
+        let request = apply_cache_policy(request.clone());
+        let body = self.protocol.body(&request)?;
+        Ok((request, body))
+    }
+
+    async fn http_request(
+        &self,
+        request: &LlmRequest,
+        body: &Value,
+    ) -> Result<(HttpRequest, Value), LlmError> {
+        let url = self.endpoint.render(request, body)?;
+        let json_body = body_with_overlay(body.clone(), request)?;
+        let body_text = json_body.to_string();
+        let mut headers: Headers = self
+            .headers
+            .as_ref()
+            .map(|h| h(request))
+            .unwrap_or_default();
+        if let Some(extra) = request.http.as_ref().and_then(|h| h.headers.as_ref()) {
+            headers.extend(extra.iter().map(|(k, v)| (k.to_lowercase(), v.clone())));
+        }
+        let headers = self
+            .auth
+            .apply(AuthInput {
+                request,
+                method: "POST",
+                url: &url,
+                body: &body_text,
+                headers,
+            })
+            .await?;
+        Ok((
+            HttpRequest {
+                method: "POST",
+                url,
+                headers,
+                body: body_text,
+            },
+            json_body,
+        ))
+    }
+}
+
+impl Route for HttpRoute {
+    fn id(&self) -> &str {
+        &self.id
+    }
+
+    fn protocol(&self) -> &str {
+        self.protocol.id()
+    }
+
+    fn transport(&self) -> &str {
+        self.transport.id()
+    }
+
+    fn provider(&self) -> Option<&ProviderId> {
+        self.provider.as_ref()
+    }
+
+    fn defaults(&self) -> &RouteDefaults {
+        &self.defaults
+    }
+
+    fn prepare(&self, request: &LlmRequest) -> Result<PreparedRequest, LlmError> {
+        let (request, body) = self.compile(request)?;
+        let mut metadata = serde_json::Map::new();
+        metadata.insert(
+            "transport".into(),
+            Value::String(self.transport.id().into()),
+        );
+        Ok(PreparedRequest {
+            id: request.id.clone().unwrap_or_else(|| "request".into()),
+            route: self.id.clone(),
+            protocol: self.protocol.id().into(),
+            model: request.model.id.clone(),
+            provider: request.model.provider.clone(),
+            body,
+            metadata: Some(metadata),
+        })
+    }
+
+    fn stream(&self, request: LlmRequest) -> LlmEventStream {
+        let route = self.clone();
+        let stream = async_stream::try_stream! {
+            let label = format!("{}/{}", request.model.provider, request.model.route.id());
+            let (request, body) = route.compile(&request)?;
+            let (http, json_body) = route.http_request(&request, &body).await?;
+            let mut frames = route.transport.open(label.clone(), http, json_body).await?;
+            let mut decoder = route.protocol.decoder(&request);
+            while let Some(frame) = frames.next().await {
+                let frame = frame?;
+                let terminal = decoder.is_terminal(&frame);
+                for event in decoder.step(frame)? {
+                    yield event;
+                }
+                // `Stream.takeUntil`: the terminal frame is emitted, then reading stops.
+                if terminal {
+                    break;
+                }
+            }
+            // `mapAccumEffect` onHalt runs whenever the framed stream ends without error.
+            for event in decoder.on_halt() {
+                yield event;
+            }
+        };
+        Box::pin(stream)
+    }
+}

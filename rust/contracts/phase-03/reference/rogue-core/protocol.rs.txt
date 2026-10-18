@@ -1,0 +1,62 @@
+//! Purpose: the semantic contract of one wire protocol family: build the provider-native
+//! JSON body from a canonical request and decode framed stream units into ordered events.
+//! Scope: traits and frame values only. Transport, URL and auth live elsewhere.
+//! Uses:
+//! `-- none
+//! External:
+//! |-- opencode_llm_api::{LlmError, LlmEvent, LlmRequest}
+//! `-- serde_json::Value
+//! Used by:
+//! rust/crates/
+//! |-- provider-adapters/src/core/mod.rs
+//! `-- provider-adapters/src/core/route.rs
+//! Invariants: mirrors packages/llm/src/route/protocol.ts. `body` is pure (no I/O) and
+//! returns `InvalidRequest` errors for unsupported content. A decoder is created once per
+//! response, sees frames in order, and `on_halt` runs once when the frame stream ends without
+//! error. `is_terminal` stops reading further frames (transports that never close).
+//! Contract tests: provider-adapters/tests/core.rs
+
+use opencode_llm_api::{LlmError, LlmEvent, LlmRequest};
+use serde_json::Value;
+
+/// One framed unit handed to a protocol decoder.
+#[derive(Clone, Debug, PartialEq)]
+pub enum Frame {
+    /// SSE `data:` payload or WebSocket text message (raw JSON text).
+    Text(String),
+    /// Already-structured frame (AWS event stream rewrapped as `{eventType: payload}`).
+    Json(Value),
+}
+
+impl Frame {
+    /// Raw text for diagnostics (`raw` on InvalidProviderOutput).
+    pub fn raw(&self) -> String {
+        match self {
+            Frame::Text(text) => text.clone(),
+            Frame::Json(value) => value.to_string(),
+        }
+    }
+}
+
+/// Per-response stream state machine (`ProtocolStream.initial/step/terminal/onHalt`).
+pub trait StreamDecoder: Send {
+    fn step(&mut self, frame: Frame) -> Result<Vec<LlmEvent>, LlmError>;
+    /// True when this frame completes the request (checked before `step` output is emitted,
+    /// matching `Stream.takeUntil`, so the terminal frame's events are still emitted).
+    fn is_terminal(&self, _frame: &Frame) -> bool {
+        false
+    }
+    fn on_halt(&mut self) -> Vec<LlmEvent> {
+        Vec::new()
+    }
+}
+
+/// One model-server API family (`Protocol`).
+pub trait Protocol: Send + Sync + std::fmt::Debug {
+    /// Stable protocol id, e.g. `openai-chat`, `anthropic-messages`.
+    fn id(&self) -> &'static str;
+    /// Build and validate the provider-native body.
+    fn body(&self, request: &LlmRequest) -> Result<Value, LlmError>;
+    /// Fresh decoder for one response.
+    fn decoder(&self, request: &LlmRequest) -> Box<dyn StreamDecoder>;
+}
