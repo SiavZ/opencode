@@ -1,0 +1,4405 @@
+# Captured baseline registry declarations. Status is NOT implementation approval.
+[[entry]]
+kind = "cli"
+name = "$0 [project]"
+source = "packages/opencode/src/cli/cmd/tui.ts"
+line = 73
+coverage = "BASELINE-CLI-db595623ae07"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "$0 [query]"
+source = "packages/opencode/src/cli/cmd/db.ts"
+line = 9
+coverage = "BASELINE-CLI-7261600c82df"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = """
+, () =>
+        Promise.all([proc.exited, text(proc.stdout!)]),
+      ).pipe(Effect.ensuring(Effect.sync(() => abort.abort())))
+      if (exit !== 0) {
+        yield* Prompt.log.error("""
+source = "packages/opencode/src/cli/cmd/providers.ts"
+line = 340
+coverage = "BASELINE-CLI-4152a2f40236"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "acp"
+source = "packages/opencode/src/cli/cmd/acp.ts"
+line = 10
+coverage = "BASELINE-CLI-8e9f8ef36494"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "add [name]"
+source = "packages/opencode/src/cli/cmd/mcp.ts"
+line = 430
+coverage = "BASELINE-CLI-82ac839aae78"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "agent"
+source = "packages/opencode/src/cli/cmd/agent.ts"
+line = 255
+coverage = "BASELINE-CLI-c225058b3003"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "agent <name>"
+source = "packages/opencode/src/cli/cmd/debug/agent.ts"
+line = 5
+coverage = "BASELINE-CLI-1bb0207734e2"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "attach <url>"
+source = "packages/opencode/src/cli/cmd/attach.ts"
+line = 8
+coverage = "BASELINE-CLI-502c213e7f52"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "auth [name]"
+source = "packages/opencode/src/cli/cmd/mcp.ts"
+line = 171
+coverage = "BASELINE-CLI-defcff1df933"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "config"
+source = "packages/opencode/src/cli/cmd/debug/config.ts"
+line = 7
+coverage = "BASELINE-CLI-8c3fa5ddc0a1"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "console"
+source = "packages/opencode/src/cli/cmd/account.ts"
+line = 238
+coverage = "BASELINE-CLI-16f1872e2e59"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "create"
+source = "packages/opencode/src/cli/cmd/agent.ts"
+line = 34
+coverage = "BASELINE-CLI-aa59d6af86b3"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "db"
+source = "packages/opencode/src/cli/cmd/db.ts"
+line = 55
+coverage = "BASELINE-CLI-86c41c99ef1b"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "debug"
+source = "packages/opencode/src/cli/cmd/debug/index.ts"
+line = 20
+coverage = "BASELINE-CLI-f5fdde3796d2"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "debug <name>"
+source = "packages/opencode/src/cli/cmd/mcp.ts"
+line = 660
+coverage = "BASELINE-CLI-134717b7a665"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "delete <sessionID>"
+source = "packages/opencode/src/cli/cmd/session.ts"
+line = 52
+coverage = "BASELINE-CLI-4216d9b1af34"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "diagnostics <file>"
+source = "packages/opencode/src/cli/cmd/debug/lsp.ts"
+line = 16
+coverage = "BASELINE-CLI-e606b546a0d2"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "diff <hash>"
+source = "packages/opencode/src/cli/cmd/debug/snapshot.ts"
+line = 38
+coverage = "BASELINE-CLI-9a1bd60cd9fe"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "document-symbols <uri>"
+source = "packages/opencode/src/cli/cmd/debug/lsp.ts"
+line = 42
+coverage = "BASELINE-CLI-13b659c6a66c"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "export [sessionID]"
+source = "packages/opencode/src/cli/cmd/export.ts"
+line = 223
+coverage = "BASELINE-CLI-697cf0f175a8"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "file"
+source = "packages/opencode/src/cli/cmd/debug/file.ts"
+line = 68
+coverage = "BASELINE-CLI-26f9be75e5ef"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "files"
+source = "packages/opencode/src/cli/cmd/debug/ripgrep.ts"
+line = 16
+coverage = "BASELINE-CLI-62f6b9226674"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "generate"
+source = "packages/opencode/src/cli/cmd/generate.ts"
+line = 6
+coverage = "BASELINE-CLI-9e20134eb605"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "git status"
+source = "packages/opencode/src/cli/cmd/run/demo.ts"
+line = 587
+coverage = "BASELINE-CLI-87f8c751bd81"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "github"
+source = "packages/opencode/src/cli/cmd/github.ts"
+line = 38
+coverage = "BASELINE-CLI-da9629c3e6fd"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "import <file>"
+source = "packages/opencode/src/cli/cmd/import.ts"
+line = 95
+coverage = "BASELINE-CLI-4a05c01efa71"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "info"
+source = "packages/opencode/src/cli/cmd/debug/index.ts"
+line = 50
+coverage = "BASELINE-CLI-9b1d2fdb1cf4"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "install"
+source = "packages/opencode/src/cli/cmd/github.ts"
+line = 8
+coverage = "BASELINE-CLI-7939eb42a251"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "list"
+source = "packages/opencode/src/cli/cmd/agent.ts"
+line = 235
+coverage = "BASELINE-CLI-e8bcbc4b681a"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "list"
+source = "packages/opencode/src/cli/cmd/mcp.ts"
+line = 110
+coverage = "BASELINE-CLI-586ac22f6b97"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "list"
+source = "packages/opencode/src/cli/cmd/mcp.ts"
+line = 307
+coverage = "BASELINE-CLI-aee11e3cdaa8"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "list"
+source = "packages/opencode/src/cli/cmd/providers.ts"
+line = 249
+coverage = "BASELINE-CLI-c6ac60c298f7"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "list"
+source = "packages/opencode/src/cli/cmd/session.ts"
+line = 71
+coverage = "BASELINE-CLI-e781b7453421"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "list <path>"
+source = "packages/opencode/src/cli/cmd/debug/file.ts"
+line = 53
+coverage = "BASELINE-CLI-4afbe97a044a"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "login [url]"
+source = "packages/opencode/src/cli/cmd/account.ts"
+line = 178
+coverage = "BASELINE-CLI-4091ae305b7a"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "login [url]"
+source = "packages/opencode/src/cli/cmd/providers.ts"
+line = 300
+coverage = "BASELINE-CLI-f82b2eecde45"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "logout [email]"
+source = "packages/opencode/src/cli/cmd/account.ts"
+line = 193
+coverage = "BASELINE-CLI-e8dd3d03efb4"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "logout [name]"
+source = "packages/opencode/src/cli/cmd/mcp.ts"
+line = 337
+coverage = "BASELINE-CLI-b24af7606e28"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "logout [provider]"
+source = "packages/opencode/src/cli/cmd/providers.ts"
+line = 492
+coverage = "BASELINE-CLI-0f6c4d24a4f7"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "lsp"
+source = "packages/opencode/src/cli/cmd/debug/lsp.ts"
+line = 8
+coverage = "BASELINE-CLI-854febceb160"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "mcp"
+source = "packages/opencode/src/cli/cmd/mcp.ts"
+line = 96
+coverage = "BASELINE-CLI-fd5bb6ba6ed8"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "models [provider]"
+source = "packages/opencode/src/cli/cmd/models.ts"
+line = 9
+coverage = "BASELINE-CLI-b054cb5a6a98"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "open"
+source = "packages/opencode/src/cli/cmd/account.ts"
+line = 228
+coverage = "BASELINE-CLI-036b0c3e79e5"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "orgs"
+source = "packages/opencode/src/cli/cmd/account.ts"
+line = 218
+coverage = "BASELINE-CLI-e2f06eaabfc5"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "patch <hash>"
+source = "packages/opencode/src/cli/cmd/debug/snapshot.ts"
+line = 23
+coverage = "BASELINE-CLI-07de4fae0b83"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "path"
+source = "packages/opencode/src/cli/cmd/db.ts"
+line = 46
+coverage = "BASELINE-CLI-56ffb49a8e6b"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "paths"
+source = "packages/opencode/src/cli/cmd/debug/index.ts"
+line = 80
+coverage = "BASELINE-CLI-5a9f88202ac4"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "plugin <module>"
+source = "packages/opencode/src/cli/cmd/plug.ts"
+line = 179
+coverage = "BASELINE-CLI-87a9d8d37393"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "pr <number>"
+source = "packages/opencode/src/cli/cmd/pr.ts"
+line = 9
+coverage = "BASELINE-CLI-6e3c1a6389b7"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "providers"
+source = "packages/opencode/src/cli/cmd/providers.ts"
+line = 240
+coverage = "BASELINE-CLI-58c6579cbe4c"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "read <path>"
+source = "packages/opencode/src/cli/cmd/debug/file.ts"
+line = 32
+coverage = "BASELINE-CLI-6fe5829605c7"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "rg"
+source = "packages/opencode/src/cli/cmd/debug/ripgrep.ts"
+line = 9
+coverage = "BASELINE-CLI-25f7f083b54f"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "run"
+source = "packages/opencode/src/cli/cmd/github.ts"
+line = 18
+coverage = "BASELINE-CLI-fa5446d7008b"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "run [message..]"
+source = "packages/opencode/src/cli/cmd/run.ts"
+line = 127
+coverage = "BASELINE-CLI-a5555eef8274"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "scrap"
+source = "packages/opencode/src/cli/cmd/debug/scrap.ts"
+line = 5
+coverage = "BASELINE-CLI-04c9fe6df0ae"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "search <pattern>"
+source = "packages/opencode/src/cli/cmd/debug/ripgrep.ts"
+line = 48
+coverage = "BASELINE-CLI-25cb671fabc3"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "search <query>"
+source = "packages/opencode/src/cli/cmd/debug/file.ts"
+line = 17
+coverage = "BASELINE-CLI-fa7b6c03db35"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "serve"
+source = "packages/opencode/src/cli/cmd/serve.ts"
+line = 7
+coverage = "BASELINE-CLI-d7df91d6ab9f"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "session"
+source = "packages/opencode/src/cli/cmd/session.ts"
+line = 45
+coverage = "BASELINE-CLI-28986cc08e05"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "skill"
+source = "packages/opencode/src/cli/cmd/debug/skill.ts"
+line = 7
+coverage = "BASELINE-CLI-f949c2cc5304"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "snapshot"
+source = "packages/opencode/src/cli/cmd/debug/snapshot.ts"
+line = 7
+coverage = "BASELINE-CLI-15ad6fe1df36"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "startup"
+source = "packages/opencode/src/cli/cmd/debug/startup.ts"
+line = 5
+coverage = "BASELINE-CLI-d2b7a9527f67"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "stats"
+source = "packages/opencode/src/cli/cmd/stats.ts"
+line = 50
+coverage = "BASELINE-CLI-06d81f790ec1"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "switch"
+source = "packages/opencode/src/cli/cmd/account.ts"
+line = 208
+coverage = "BASELINE-CLI-51dfa6aa15ba"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "symbols <query>"
+source = "packages/opencode/src/cli/cmd/debug/lsp.ts"
+line = 31
+coverage = "BASELINE-CLI-c7bfe6769039"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "track"
+source = "packages/opencode/src/cli/cmd/debug/snapshot.ts"
+line = 14
+coverage = "BASELINE-CLI-30183dbba7da"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "uninstall"
+source = "packages/opencode/src/cli/cmd/uninstall.ts"
+line = 26
+coverage = "BASELINE-CLI-a805be3039b8"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "upgrade [target]"
+source = "packages/opencode/src/cli/cmd/upgrade.ts"
+line = 8
+coverage = "BASELINE-CLI-027e776bcf79"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "v2"
+source = "packages/opencode/src/cli/cmd/debug/v2.ts"
+line = 10
+coverage = "BASELINE-CLI-ec2db6d2d73d"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "wait"
+source = "packages/opencode/src/cli/cmd/debug/index.ts"
+line = 42
+coverage = "BASELINE-CLI-9f4bdec6e714"
+status = "unverified"
+
+[[entry]]
+kind = "cli"
+name = "web"
+source = "packages/opencode/src/cli/cmd/web.ts"
+line = 32
+coverage = "BASELINE-CLI-5c33e32863e2"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "global.disposed"
+source = "packages/schema/src/server-event.ts"
+line = 6
+coverage = "BASELINE-EVENT-d1eef94f8afd"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "ide.installed"
+source = "packages/schema/src/ide-event.ts"
+line = 7
+coverage = "BASELINE-EVENT-9c9e04c3cbba"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "installation.update-available"
+source = "packages/schema/src/installation-event.ts"
+line = 14
+coverage = "BASELINE-EVENT-1289474ad14f"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "installation.updated"
+source = "packages/schema/src/installation-event.ts"
+line = 7
+coverage = "BASELINE-EVENT-dfb32add0320"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "lsp.updated"
+source = "packages/schema/src/lsp-event.ts"
+line = 5
+coverage = "BASELINE-EVENT-ed837ceb42d3"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "mcp.browser.open.failed"
+source = "packages/schema/src/mcp-event.ts"
+line = 14
+coverage = "BASELINE-EVENT-de9cbabd8ae9"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "mcp.tools.changed"
+source = "packages/schema/src/mcp-event.ts"
+line = 7
+coverage = "BASELINE-EVENT-2637c6905824"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "server.connected"
+source = "packages/schema/src/server-event.ts"
+line = 5
+coverage = "BASELINE-EVENT-c7b878130f04"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.compacted"
+source = "packages/schema/src/session-compaction-event.ts"
+line = 7
+coverage = "BASELINE-EVENT-c067755b8c7c"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.idle"
+source = "packages/schema/src/session-status-event.ts"
+line = 45
+coverage = "BASELINE-EVENT-0845371fba3d"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.agent.switched"
+source = "packages/schema/src/session-event.ts"
+line = 55
+coverage = "BASELINE-EVENT-5880214d0126"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.compaction.delta"
+source = "packages/schema/src/session-event.ts"
+line = 411
+coverage = "BASELINE-EVENT-b3e3746b6906"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.compaction.ended"
+source = "packages/schema/src/session-event.ts"
+line = 421
+coverage = "BASELINE-EVENT-e2e272447c7c"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.compaction.started"
+source = "packages/schema/src/session-event.ts"
+line = 400
+coverage = "BASELINE-EVENT-769dc899be55"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.context.updated"
+source = "packages/schema/src/session-event.ts"
+line = 102
+coverage = "BASELINE-EVENT-915dd91a70a2"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.model.switched"
+source = "packages/schema/src/session-event.ts"
+line = 66
+coverage = "BASELINE-EVENT-71a06380e713"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.moved"
+source = "packages/schema/src/session-event.ts"
+line = 77
+coverage = "BASELINE-EVENT-7c13d7ee48ec"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.prompt.admitted"
+source = "packages/schema/src/session-event.ts"
+line = 95
+coverage = "BASELINE-EVENT-64a9547b8069"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.prompted"
+source = "packages/schema/src/session-event.ts"
+line = 88
+coverage = "BASELINE-EVENT-f49a0390a451"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.reasoning.delta"
+source = "packages/schema/src/session-event.ts"
+line = 249
+coverage = "BASELINE-EVENT-da656a5025a7"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.reasoning.ended"
+source = "packages/schema/src/session-event.ts"
+line = 260
+coverage = "BASELINE-EVENT-c608d922b36b"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.reasoning.started"
+source = "packages/schema/src/session-event.ts"
+line = 236
+coverage = "BASELINE-EVENT-cf8ab68cfb4a"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.retried"
+source = "packages/schema/src/session-event.ts"
+line = 388
+coverage = "BASELINE-EVENT-a1edfe6d3c1f"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.revert.cleared"
+source = "packages/schema/src/session-event.ts"
+line = 440
+coverage = "BASELINE-EVENT-b13e6085dddd"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.revert.committed"
+source = "packages/schema/src/session-event.ts"
+line = 442
+coverage = "BASELINE-EVENT-4e65ed0ae165"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.revert.staged"
+source = "packages/schema/src/session-event.ts"
+line = 436
+coverage = "BASELINE-EVENT-eeda208fce8a"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.shell.ended"
+source = "packages/schema/src/session-event.ts"
+line = 137
+coverage = "BASELINE-EVENT-05515ee4de8a"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.shell.started"
+source = "packages/schema/src/session-event.ts"
+line = 125
+coverage = "BASELINE-EVENT-95eced4c7121"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.step.ended"
+source = "packages/schema/src/session-event.ts"
+line = 163
+coverage = "BASELINE-EVENT-ab75da681689"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.step.failed"
+source = "packages/schema/src/session-event.ts"
+line = 186
+coverage = "BASELINE-EVENT-f425460c64ff"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.step.started"
+source = "packages/schema/src/session-event.ts"
+line = 150
+coverage = "BASELINE-EVENT-5ea2a71b4296"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.synthetic"
+source = "packages/schema/src/session-event.ts"
+line = 113
+coverage = "BASELINE-EVENT-042c85c269e6"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.text.delta"
+source = "packages/schema/src/session-event.ts"
+line = 211
+coverage = "BASELINE-EVENT-a1e2d96a7b8c"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.text.ended"
+source = "packages/schema/src/session-event.ts"
+line = 222
+coverage = "BASELINE-EVENT-3efdb6cf6605"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.text.started"
+source = "packages/schema/src/session-event.ts"
+line = 199
+coverage = "BASELINE-EVENT-d54db603985e"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.tool.called"
+source = "packages/schema/src/session-event.ts"
+line = 313
+coverage = "BASELINE-EVENT-d3068d807469"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.tool.failed"
+source = "packages/schema/src/session-event.ts"
+line = 360
+coverage = "BASELINE-EVENT-500aa9648bb2"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.tool.input.delta"
+source = "packages/schema/src/session-event.ts"
+line = 293
+coverage = "BASELINE-EVENT-b403151f6bae"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.tool.input.ended"
+source = "packages/schema/src/session-event.ts"
+line = 302
+coverage = "BASELINE-EVENT-f330af297329"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.tool.input.started"
+source = "packages/schema/src/session-event.ts"
+line = 282
+coverage = "BASELINE-EVENT-77f7e14ad856"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.tool.progress"
+source = "packages/schema/src/session-event.ts"
+line = 332
+coverage = "BASELINE-EVENT-1d0970bfa322"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.next.tool.success"
+source = "packages/schema/src/session-event.ts"
+line = 343
+coverage = "BASELINE-EVENT-a3ec35e8bba2"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "session.status"
+source = "packages/schema/src/session-status-event.ts"
+line = 36
+coverage = "BASELINE-EVENT-482aec131a70"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "tui.command.execute"
+source = "packages/schema/src/tui-event.ts"
+line = 14
+coverage = "BASELINE-EVENT-22a0c4d6313d"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "tui.prompt.append"
+source = "packages/schema/src/tui-event.ts"
+line = 11
+coverage = "BASELINE-EVENT-f2167bc18c19"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "tui.session.select"
+source = "packages/schema/src/tui-event.ts"
+line = 53
+coverage = "BASELINE-EVENT-e09cd70e66dc"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "tui.toast.show"
+source = "packages/schema/src/tui-event.ts"
+line = 41
+coverage = "BASELINE-EVENT-17af1facb57b"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "vcs.branch.updated"
+source = "packages/schema/src/vcs-event.ts"
+line = 8
+coverage = "BASELINE-EVENT-f79a3d701266"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "workspace.failed"
+source = "packages/schema/src/workspace-event.ts"
+line = 21
+coverage = "BASELINE-EVENT-a000d3d985f9"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "workspace.ready"
+source = "packages/schema/src/workspace-event.ts"
+line = 14
+coverage = "BASELINE-EVENT-90c1fafe43e7"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "workspace.status"
+source = "packages/schema/src/workspace-event.ts"
+line = 28
+coverage = "BASELINE-EVENT-b58314d7dd80"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "worktree.failed"
+source = "packages/schema/src/worktree-event.ts"
+line = 16
+coverage = "BASELINE-EVENT-5b22e3b461a5"
+status = "unverified"
+
+[[entry]]
+kind = "event"
+name = "worktree.ready"
+source = "packages/schema/src/worktree-event.ts"
+line = 8
+coverage = "BASELINE-EVENT-4153fa247cb4"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "DELETE /api/credential/{credentialID} (v2.credential.remove)"
+source = "packages/sdk/openapi.json"
+line = 12665
+coverage = "BASELINE-HTTP-816c5d993fbf"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /api/integration/attempt/{attemptID} (v2.integration.attempt.cancel)"
+source = "packages/sdk/openapi.json"
+line = 12420
+coverage = "BASELINE-HTTP-560e68b6c5e0"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /api/permission/saved/{id} (v2.permission.saved.remove)"
+source = "packages/sdk/openapi.json"
+line = 12882
+coverage = "BASELINE-HTTP-4fcea4f50e98"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /api/pty/{ptyID} (v2.pty.remove)"
+source = "packages/sdk/openapi.json"
+line = 14230
+coverage = "BASELINE-HTTP-216bbe48906f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /auth/{providerID} (auth.remove)"
+source = "packages/sdk/openapi.json"
+line = 74
+coverage = "BASELINE-HTTP-f003fe74a268"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /experimental/project/{projectID}/copy (v2.projectCopy.remove)"
+source = "packages/sdk/openapi.json"
+line = 15031
+coverage = "BASELINE-HTTP-66234bf11266"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /experimental/workspace/{id} (experimental.workspace.remove)"
+source = "packages/sdk/openapi.json"
+line = 9617
+coverage = "BASELINE-HTTP-3a0d4ce4dd0c"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /experimental/worktree (worktree.remove)"
+source = "packages/sdk/openapi.json"
+line = 1366
+coverage = "BASELINE-HTTP-38d052fb7318"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /mcp/{name}/auth (mcp.auth.remove)"
+source = "packages/sdk/openapi.json"
+line = 3208
+coverage = "BASELINE-HTTP-38bdaa8c7405"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /pty/{ptyID} (pty.remove)"
+source = "packages/sdk/openapi.json"
+line = 4419
+coverage = "BASELINE-HTTP-eae8a4dc09e7"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /session/{sessionID} (session.delete)"
+source = "packages/sdk/openapi.json"
+line = 5660
+coverage = "BASELINE-HTTP-947f00b87a5c"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "DELETE /session/{sessionID}/message/{messageID} (session.deleteMessage)"
+source = "packages/sdk/openapi.json"
+line = 6469
+coverage = "BASELINE-HTTP-b92aa3a00746"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "DELETE /session/{sessionID}/message/{messageID}/part/{partID} (part.delete)"
+source = "packages/sdk/openapi.json"
+line = 7860
+coverage = "BASELINE-HTTP-a9e8e7bfa7dc"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "DELETE /session/{sessionID}/share (session.unshare)"
+source = "packages/sdk/openapi.json"
+line = 6921
+coverage = "BASELINE-HTTP-bd62ff716340"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /agent (app.agents)"
+source = "packages/sdk/openapi.json"
+line = 2725
+coverage = "BASELINE-HTTP-d71c5121cb8d"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/agent (v2.agent.list)"
+source = "packages/sdk/openapi.json"
+line = 9909
+coverage = "BASELINE-HTTP-5619c10d8c36"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/command (v2.command.list)"
+source = "packages/sdk/openapi.json"
+line = 13608
+coverage = "BASELINE-HTTP-3e41ad322abe"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/event (v2.event.subscribe)"
+source = "packages/sdk/openapi.json"
+line = 13770
+coverage = "BASELINE-HTTP-b221c1a06b55"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /api/fs/find (v2.fs.find)"
+source = "packages/sdk/openapi.json"
+line = 13502
+coverage = "BASELINE-HTTP-7bc40e172285"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/fs/list (v2.fs.list)"
+source = "packages/sdk/openapi.json"
+line = 13413
+coverage = "BASELINE-HTTP-a18110e42a38"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/fs/read/* (v2.fs.read)"
+source = "packages/sdk/openapi.json"
+line = 13344
+coverage = "BASELINE-HTTP-ec12a433251b"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/health (v2.health.get)"
+source = "packages/sdk/openapi.json"
+line = 9785
+coverage = "BASELINE-HTTP-c21e221d2a0a"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /api/integration (v2.integration.list)"
+source = "packages/sdk/openapi.json"
+line = 11954
+coverage = "BASELINE-HTTP-ec559a24f29f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/integration/attempt/{attemptID} (v2.integration.attempt.status)"
+source = "packages/sdk/openapi.json"
+line = 12336
+coverage = "BASELINE-HTTP-69c6bea95b84"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/integration/{integrationID} (v2.integration.get)"
+source = "packages/sdk/openapi.json"
+line = 12035
+coverage = "BASELINE-HTTP-ea533a1fd558"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/location (v2.location.get)"
+source = "packages/sdk/openapi.json"
+line = 9841
+coverage = "BASELINE-HTTP-a9bf3d8e4b87"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/model (v2.model.list)"
+source = "packages/sdk/openapi.json"
+line = 11666
+coverage = "BASELINE-HTTP-039394f48f76"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/permission/request (v2.permission.request.list)"
+source = "packages/sdk/openapi.json"
+line = 12734
+coverage = "BASELINE-HTTP-b90580419b1f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/permission/saved (v2.permission.saved.list)"
+source = "packages/sdk/openapi.json"
+line = 12815
+coverage = "BASELINE-HTTP-2cbb7c588012"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/provider (v2.provider.list)"
+source = "packages/sdk/openapi.json"
+line = 11757
+coverage = "BASELINE-HTTP-f441fd12cbbf"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/provider/{providerID} (v2.provider.get)"
+source = "packages/sdk/openapi.json"
+line = 11848
+coverage = "BASELINE-HTTP-3d0e1e4d894d"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/pty (v2.pty.list)"
+source = "packages/sdk/openapi.json"
+line = 13818
+coverage = "BASELINE-HTTP-0c0cae82fb82"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/pty/{ptyID} (v2.pty.get)"
+source = "packages/sdk/openapi.json"
+line = 14009
+coverage = "BASELINE-HTTP-7881ce76e3e2"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/pty/{ptyID}/connect (v2.pty.connect)"
+source = "packages/sdk/openapi.json"
+line = 14417
+coverage = "BASELINE-HTTP-fbffbf62858b"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /api/question/request (v2.question.request.list)"
+source = "packages/sdk/openapi.json"
+line = 14524
+coverage = "BASELINE-HTTP-bf811950e58e"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/reference (v2.reference.list)"
+source = "packages/sdk/openapi.json"
+line = 14860
+coverage = "BASELINE-HTTP-eaedc8f96ae9"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session (v2.session.list)"
+source = "packages/sdk/openapi.json"
+line = 9990
+coverage = "BASELINE-HTTP-0fe518418cd9"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/active (v2.session.active)"
+source = "packages/sdk/openapi.json"
+line = 10195
+coverage = "BASELINE-HTTP-bc57c444eb09"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID} (v2.session.get)"
+source = "packages/sdk/openapi.json"
+line = 10255
+coverage = "BASELINE-HTTP-2e986ba2b95a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID}/context (v2.session.context)"
+source = "packages/sdk/openapi.json"
+line = 11043
+coverage = "BASELINE-HTTP-8b9b2cae92aa"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID}/event (v2.session.events)"
+source = "packages/sdk/openapi.json"
+line = 11229
+coverage = "BASELINE-HTTP-e74456439556"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID}/history (v2.session.history)"
+source = "packages/sdk/openapi.json"
+line = 11138
+coverage = "BASELINE-HTTP-03c7710a3aef"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID}/message (v2.session.messages)"
+source = "packages/sdk/openapi.json"
+line = 11548
+coverage = "BASELINE-HTTP-100d873a2d05"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID}/message/{messageID} (v2.session.message)"
+source = "packages/sdk/openapi.json"
+line = 11454
+coverage = "BASELINE-HTTP-83220ee5bd78"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID}/permission (v2.session.permission.list)"
+source = "packages/sdk/openapi.json"
+line = 13065
+coverage = "BASELINE-HTTP-39ad94816cf9"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID}/permission/{requestID} (v2.session.permission.get)"
+source = "packages/sdk/openapi.json"
+line = 13150
+coverage = "BASELINE-HTTP-8843789bf573"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/session/{sessionID}/question (v2.session.question.list)"
+source = "packages/sdk/openapi.json"
+line = 14605
+coverage = "BASELINE-HTTP-32ec1adf9d7a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /api/skill (v2.skill.list)"
+source = "packages/sdk/openapi.json"
+line = 13689
+coverage = "BASELINE-HTTP-5956800d49a9"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /command (command.list)"
+source = "packages/sdk/openapi.json"
+line = 2667
+coverage = "BASELINE-HTTP-3aaa95301d80"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /config (config.get)"
+source = "packages/sdk/openapi.json"
+line = 625
+coverage = "BASELINE-HTTP-a9ff93884c1e"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /config/providers (config.providers)"
+source = "packages/sdk/openapi.json"
+line = 747
+coverage = "BASELINE-HTTP-29e73d051ba5"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /event (event.subscribe)"
+source = "packages/sdk/openapi.json"
+line = 581
+coverage = "BASELINE-HTTP-ba33567901f2"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/capabilities (experimental.capabilities.get)"
+source = "packages/sdk/openapi.json"
+line = 818
+coverage = "BASELINE-HTTP-c7c257309ac9"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/console (experimental.console.get)"
+source = "packages/sdk/openapi.json"
+line = 872
+coverage = "BASELINE-HTTP-03daeaf8aca2"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/console/orgs (experimental.console.listOrgs)"
+source = "packages/sdk/openapi.json"
+line = 936
+coverage = "BASELINE-HTTP-4a18da17cae3"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/resource (experimental.resource.list)"
+source = "packages/sdk/openapi.json"
+line = 1701
+coverage = "BASELINE-HTTP-a56fd8b540ad"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/session (experimental.session.list)"
+source = "packages/sdk/openapi.json"
+line = 1508
+coverage = "BASELINE-HTTP-81151c92178d"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/tool (tool.list)"
+source = "packages/sdk/openapi.json"
+line = 1097
+coverage = "BASELINE-HTTP-7068b6f4dedf"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/tool/ids (tool.ids)"
+source = "packages/sdk/openapi.json"
+line = 1174
+coverage = "BASELINE-HTTP-0a7cec4aa3af"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/workspace (experimental.workspace.list)"
+source = "packages/sdk/openapi.json"
+line = 9354
+coverage = "BASELINE-HTTP-c3fecc2e4c81"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/workspace/adapter (experimental.workspace.adapter.list)"
+source = "packages/sdk/openapi.json"
+line = 9283
+coverage = "BASELINE-HTTP-70d49bf482b1"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/workspace/status (experimental.workspace.status)"
+source = "packages/sdk/openapi.json"
+line = 9559
+coverage = "BASELINE-HTTP-4f4be331cd00"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /experimental/worktree (worktree.list)"
+source = "packages/sdk/openapi.json"
+line = 1235
+coverage = "BASELINE-HTTP-299607bf8fee"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /file (file.list)"
+source = "packages/sdk/openapi.json"
+line = 2045
+coverage = "BASELINE-HTTP-732f4315deed"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /file/content (file.read)"
+source = "packages/sdk/openapi.json"
+line = 2111
+coverage = "BASELINE-HTTP-39328e56756f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /file/status (file.status)"
+source = "packages/sdk/openapi.json"
+line = 2173
+coverage = "BASELINE-HTTP-e2e5e1330597"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /find (find.text)"
+source = "packages/sdk/openapi.json"
+line = 1759
+coverage = "BASELINE-HTTP-ad57a311352a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /find/file (find.files)"
+source = "packages/sdk/openapi.json"
+line = 1885
+coverage = "BASELINE-HTTP-c42e214ba714"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /find/symbol (find.symbols)"
+source = "packages/sdk/openapi.json"
+line = 1979
+coverage = "BASELINE-HTTP-9b9c316066a0"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /formatter (formatter.status)"
+source = "packages/sdk/openapi.json"
+line = 2915
+coverage = "BASELINE-HTTP-8cb8aff188f4"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /global/config (global.config.get)"
+source = "packages/sdk/openapi.json"
+line = 365
+coverage = "BASELINE-HTTP-992cce0334f6"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /global/event (global.event)"
+source = "packages/sdk/openapi.json"
+line = 328
+coverage = "BASELINE-HTTP-0026254966e2"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /global/health (global.health)"
+source = "packages/sdk/openapi.json"
+line = 279
+coverage = "BASELINE-HTTP-785525bed184"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /lsp (lsp.status)"
+source = "packages/sdk/openapi.json"
+line = 2857
+coverage = "BASELINE-HTTP-a52ed26f2a8e"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /mcp (mcp.status)"
+source = "packages/sdk/openapi.json"
+line = 2973
+coverage = "BASELINE-HTTP-bde9c03092cd"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /path (path.get)"
+source = "packages/sdk/openapi.json"
+line = 2286
+coverage = "BASELINE-HTTP-6de44b865b66"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /permission (permission.list)"
+source = "packages/sdk/openapi.json"
+line = 4816
+coverage = "BASELINE-HTTP-1de71ab4f4b5"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /project (project.list)"
+source = "packages/sdk/openapi.json"
+line = 3607
+coverage = "BASELINE-HTTP-ce2d1f6a6c8b"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /project/current (project.current)"
+source = "packages/sdk/openapi.json"
+line = 3665
+coverage = "BASELINE-HTTP-194aefbfcd89"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /project/{projectID}/directories (project.directories)"
+source = "packages/sdk/openapi.json"
+line = 3873
+coverage = "BASELINE-HTTP-dd3548243a9c"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /provider (provider.list)"
+source = "packages/sdk/openapi.json"
+line = 4975
+coverage = "BASELINE-HTTP-57628c8a02eb"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /provider/auth (provider.auth)"
+source = "packages/sdk/openapi.json"
+line = 5052
+coverage = "BASELINE-HTTP-7da8a80fdc23"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /pty (pty.list)"
+source = "packages/sdk/openapi.json"
+line = 4090
+coverage = "BASELINE-HTTP-19bb06964607"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /pty/shells (pty.shells)"
+source = "packages/sdk/openapi.json"
+line = 4019
+coverage = "BASELINE-HTTP-013827429717"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /pty/{ptyID} (pty.get)"
+source = "packages/sdk/openapi.json"
+line = 4240
+coverage = "BASELINE-HTTP-f4861d9ce713"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /pty/{ptyID}/connect (pty.connect)"
+source = "packages/sdk/openapi.json"
+line = 15176
+coverage = "BASELINE-HTTP-0fd1b3dad9d5"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /question (question.list)"
+source = "packages/sdk/openapi.json"
+line = 4576
+coverage = "BASELINE-HTTP-a72b1cb8ec01"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /session (session.list)"
+source = "packages/sdk/openapi.json"
+line = 5295
+coverage = "BASELINE-HTTP-c6fb7db8cc6c"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /session/status (session.status)"
+source = "packages/sdk/openapi.json"
+line = 5517
+coverage = "BASELINE-HTTP-2876b1e4a63a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /session/{sessionID} (session.get)"
+source = "packages/sdk/openapi.json"
+line = 5582
+coverage = "BASELINE-HTTP-d5155534558c"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /session/{sessionID}/children (session.children)"
+source = "packages/sdk/openapi.json"
+line = 5849
+coverage = "BASELINE-HTTP-eac03f49c3f7"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /session/{sessionID}/diff (session.diff)"
+source = "packages/sdk/openapi.json"
+line = 6017
+coverage = "BASELINE-HTTP-e096309509bd"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /session/{sessionID}/message (session.messages)"
+source = "packages/sdk/openapi.json"
+line = 6093
+coverage = "BASELINE-HTTP-9aab948abfa6"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /session/{sessionID}/message/{messageID} (session.message)"
+source = "packages/sdk/openapi.json"
+line = 6368
+coverage = "BASELINE-HTTP-cc677d7c675c"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /session/{sessionID}/todo (session.todo)"
+source = "packages/sdk/openapi.json"
+line = 5933
+coverage = "BASELINE-HTTP-ffb898582941"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /skill (app.skills)"
+source = "packages/sdk/openapi.json"
+line = 2783
+coverage = "BASELINE-HTTP-4d8b2ff01871"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /tui/control/next (tui.control.next)"
+source = "packages/sdk/openapi.json"
+line = 9158
+coverage = "BASELINE-HTTP-b74cccccecdc"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "GET /vcs (vcs.get)"
+source = "packages/sdk/openapi.json"
+line = 2340
+coverage = "BASELINE-HTTP-84df6713c5d1"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /vcs/diff (vcs.diff)"
+source = "packages/sdk/openapi.json"
+line = 2452
+coverage = "BASELINE-HTTP-26b1cc0048e8"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /vcs/diff/raw (vcs.diff.raw)"
+source = "packages/sdk/openapi.json"
+line = 2528
+coverage = "BASELINE-HTTP-7a7b2c63baf4"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "GET /vcs/status (vcs.status)"
+source = "packages/sdk/openapi.json"
+line = 2394
+coverage = "BASELINE-HTTP-aab92f8b8a1a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "PATCH /api/credential/{credentialID} (v2.credential.update)"
+source = "packages/sdk/openapi.json"
+line = 12581
+coverage = "BASELINE-HTTP-bc935353c299"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "PATCH /config (config.update)"
+source = "packages/sdk/openapi.json"
+line = 677
+coverage = "BASELINE-HTTP-0a9e97d9b2f8"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "PATCH /global/config (global.config.update)"
+source = "packages/sdk/openapi.json"
+line = 400
+coverage = "BASELINE-HTTP-90424aec0f2a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "PATCH /project/{projectID} (project.update)"
+source = "packages/sdk/openapi.json"
+line = 3773
+coverage = "BASELINE-HTTP-45f6b6147eaa"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "PATCH /session/{sessionID} (session.update)"
+source = "packages/sdk/openapi.json"
+line = 5739
+coverage = "BASELINE-HTTP-871dcfb23e08"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "PATCH /session/{sessionID}/message/{messageID}/part/{partID} (part.update)"
+source = "packages/sdk/openapi.json"
+line = 7956
+coverage = "BASELINE-HTTP-571ab208e8b2"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/integration/attempt/{attemptID}/complete (v2.integration.attempt.complete)"
+source = "packages/sdk/openapi.json"
+line = 12489
+coverage = "BASELINE-HTTP-c584d98b33f8"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/integration/{integrationID}/connect/key (v2.integration.connect.key)"
+source = "packages/sdk/openapi.json"
+line = 12121
+coverage = "BASELINE-HTTP-56564bf6b461"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/integration/{integrationID}/connect/oauth (v2.integration.connect.oauth)"
+source = "packages/sdk/openapi.json"
+line = 12217
+coverage = "BASELINE-HTTP-e052c22a9890"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/pty (v2.pty.create)"
+source = "packages/sdk/openapi.json"
+line = 13897
+coverage = "BASELINE-HTTP-19fa3c0be7a7"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /api/pty/{ptyID}/connect-token (v2.pty.connectToken)"
+source = "packages/sdk/openapi.json"
+line = 14310
+coverage = "BASELINE-HTTP-bdbb27278c30"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session (v2.session.create)"
+source = "packages/sdk/openapi.json"
+line = 10114
+coverage = "BASELINE-HTTP-e2f3c9cebd06"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/agent (v2.session.switchAgent)"
+source = "packages/sdk/openapi.json"
+line = 10337
+coverage = "BASELINE-HTTP-dca1522d6ae2"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/compact (v2.session.compact)"
+source = "packages/sdk/openapi.json"
+line = 10627
+coverage = "BASELINE-HTTP-6e3251dc3e35"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/interrupt (v2.session.interrupt)"
+source = "packages/sdk/openapi.json"
+line = 11386
+coverage = "BASELINE-HTTP-35c4d7eba627"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/model (v2.session.switchModel)"
+source = "packages/sdk/openapi.json"
+line = 10422
+coverage = "BASELINE-HTTP-9dd53549c81d"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/permission (v2.session.permission.create)"
+source = "packages/sdk/openapi.json"
+line = 12932
+coverage = "BASELINE-HTTP-1d6946e090da"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/permission/{requestID}/reply (v2.session.permission.reply)"
+source = "packages/sdk/openapi.json"
+line = 13244
+coverage = "BASELINE-HTTP-9e7c96718aad"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/prompt (v2.session.prompt)"
+source = "packages/sdk/openapi.json"
+line = 10507
+coverage = "BASELINE-HTTP-57f9e29a4391"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/question/{requestID}/reject (v2.session.question.reject)"
+source = "packages/sdk/openapi.json"
+line = 14780
+coverage = "BASELINE-HTTP-f37e2f287290"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/question/{requestID}/reply (v2.session.question.reply)"
+source = "packages/sdk/openapi.json"
+line = 14690
+coverage = "BASELINE-HTTP-381c037d3f2e"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/revert/clear (v2.session.revert.clear)"
+source = "packages/sdk/openapi.json"
+line = 10899
+coverage = "BASELINE-HTTP-fb405356866a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/revert/commit (v2.session.revert.commit)"
+source = "packages/sdk/openapi.json"
+line = 10976
+coverage = "BASELINE-HTTP-232fcd814d22"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/revert/stage (v2.session.revert.stage)"
+source = "packages/sdk/openapi.json"
+line = 10783
+coverage = "BASELINE-HTTP-28eae3880a8f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /api/session/{sessionID}/wait (v2.session.wait)"
+source = "packages/sdk/openapi.json"
+line = 10705
+coverage = "BASELINE-HTTP-c9f380b0665d"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/console/switch (experimental.console.switchOrg)"
+source = "packages/sdk/openapi.json"
+line = 1033
+coverage = "BASELINE-HTTP-e1f46289d48e"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/control-plane/move-session (experimental.controlPlane.moveSession)"
+source = "packages/sdk/openapi.json"
+line = 219
+coverage = "BASELINE-HTTP-49e1a47fa50f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/project/{projectID}/copy (v2.projectCopy.create)"
+source = "packages/sdk/openapi.json"
+line = 14941
+coverage = "BASELINE-HTTP-5045ee9f26e1"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/project/{projectID}/copy/generate-name (experimental.projectCopy.generateName)"
+source = "packages/sdk/openapi.json"
+line = 3935
+coverage = "BASELINE-HTTP-b521d4dd787f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/project/{projectID}/copy/refresh (v2.projectCopy.refresh)"
+source = "packages/sdk/openapi.json"
+line = 15113
+coverage = "BASELINE-HTTP-529cb806e383"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/session/{sessionID}/background (experimental.session.background)"
+source = "packages/sdk/openapi.json"
+line = 1630
+coverage = "BASELINE-HTTP-c222a8ef814c"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/workspace (experimental.workspace.create)"
+source = "packages/sdk/openapi.json"
+line = 9410
+coverage = "BASELINE-HTTP-32c2ef36cf02"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/workspace/sync-list (experimental.workspace.syncList)"
+source = "packages/sdk/openapi.json"
+line = 9512
+coverage = "BASELINE-HTTP-9b9e48549a06"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/workspace/warp (experimental.workspace.warp)"
+source = "packages/sdk/openapi.json"
+line = 9687
+coverage = "BASELINE-HTTP-208f5d43d499"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/worktree (worktree.create)"
+source = "packages/sdk/openapi.json"
+line = 1298
+coverage = "BASELINE-HTTP-e040adc21f2a"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /experimental/worktree/reset (worktree.reset)"
+source = "packages/sdk/openapi.json"
+line = 1437
+coverage = "BASELINE-HTTP-aad82b3e875a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /global/dispose (global.dispose)"
+source = "packages/sdk/openapi.json"
+line = 453
+coverage = "BASELINE-HTTP-d89f5f00363a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /global/upgrade (global.upgrade)"
+source = "packages/sdk/openapi.json"
+line = 491
+coverage = "BASELINE-HTTP-108519957bac"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /instance/dispose (instance.dispose)"
+source = "packages/sdk/openapi.json"
+line = 2231
+coverage = "BASELINE-HTTP-71d6c4dd56c8"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /log (app.log)"
+source = "packages/sdk/openapi.json"
+line = 128
+coverage = "BASELINE-HTTP-0e9abd7254b5"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /mcp (mcp.add)"
+source = "packages/sdk/openapi.json"
+line = 3029
+coverage = "BASELINE-HTTP-9c63a1e6ea81"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /mcp/{name}/auth (mcp.auth.start)"
+source = "packages/sdk/openapi.json"
+line = 3120
+coverage = "BASELINE-HTTP-8e538ff159ef"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /mcp/{name}/auth/authenticate (mcp.auth.authenticate)"
+source = "packages/sdk/openapi.json"
+line = 3384
+coverage = "BASELINE-HTTP-c3e457fbecb9"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /mcp/{name}/auth/callback (mcp.auth.callback)"
+source = "packages/sdk/openapi.json"
+line = 3289
+coverage = "BASELINE-HTTP-f0565f3d9c13"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /mcp/{name}/connect (mcp.connect)"
+source = "packages/sdk/openapi.json"
+line = 3463
+coverage = "BASELINE-HTTP-0bb511c4ba3e"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /mcp/{name}/disconnect (mcp.disconnect)"
+source = "packages/sdk/openapi.json"
+line = 3535
+coverage = "BASELINE-HTTP-628cf6368ff4"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /permission/{requestID}/reply (permission.reply)"
+source = "packages/sdk/openapi.json"
+line = 4874
+coverage = "BASELINE-HTTP-a2e6d12c219f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /project/git/init (project.initGit)"
+source = "packages/sdk/openapi.json"
+line = 3719
+coverage = "BASELINE-HTTP-280d8907ba0a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /provider/{providerID}/oauth/authorize (provider.oauth.authorize)"
+source = "packages/sdk/openapi.json"
+line = 5113
+coverage = "BASELINE-HTTP-ecf221f3811a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /provider/{providerID}/oauth/callback (provider.oauth.callback)"
+source = "packages/sdk/openapi.json"
+line = 5205
+coverage = "BASELINE-HTTP-a4d3ec2cae65"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /pty (pty.create)"
+source = "packages/sdk/openapi.json"
+line = 4146
+coverage = "BASELINE-HTTP-7865aab1ef68"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /pty/{ptyID}/connect-token (pty.connectToken)"
+source = "packages/sdk/openapi.json"
+line = 4493
+coverage = "BASELINE-HTTP-d981c005270d"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /question/{requestID}/reject (question.reject)"
+source = "packages/sdk/openapi.json"
+line = 4735
+coverage = "BASELINE-HTTP-ccafe0e2b859"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /question/{requestID}/reply (question.reply)"
+source = "packages/sdk/openapi.json"
+line = 4634
+coverage = "BASELINE-HTTP-caa0e251e08c"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session (session.create)"
+source = "packages/sdk/openapi.json"
+line = 5408
+coverage = "BASELINE-HTTP-da2ef7e1c88e"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/abort (session.abort)"
+source = "packages/sdk/openapi.json"
+line = 6665
+coverage = "BASELINE-HTTP-8c2f57a397ca"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/command (session.command)"
+source = "packages/sdk/openapi.json"
+line = 7250
+coverage = "BASELINE-HTTP-c72a852d8e63"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/fork (session.fork)"
+source = "packages/sdk/openapi.json"
+line = 6569
+coverage = "BASELINE-HTTP-e19a9f2593ee"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/init (session.init)"
+source = "packages/sdk/openapi.json"
+line = 6736
+coverage = "BASELINE-HTTP-21f6793512f0"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/message (session.prompt)"
+source = "packages/sdk/openapi.json"
+line = 6206
+coverage = "BASELINE-HTTP-0f99dc348648"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/permissions/{permissionID} (permission.respond)"
+source = "packages/sdk/openapi.json"
+line = 7745
+coverage = "BASELINE-HTTP-4061b18f3b9d"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/prompt_async (session.prompt_async)"
+source = "packages/sdk/openapi.json"
+line = 7107
+coverage = "BASELINE-HTTP-f41003a65a29"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/revert (session.revert)"
+source = "packages/sdk/openapi.json"
+line = 7544
+coverage = "BASELINE-HTTP-1d3accfb1a6d"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/share (session.share)"
+source = "packages/sdk/openapi.json"
+line = 6840
+coverage = "BASELINE-HTTP-766b614a5d25"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/shell (session.shell)"
+source = "packages/sdk/openapi.json"
+line = 7404
+coverage = "BASELINE-HTTP-9b51707eeec4"
+status = "unverified"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/summarize (session.summarize)"
+source = "packages/sdk/openapi.json"
+line = 7004
+coverage = "BASELINE-HTTP-96cc86238391"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /session/{sessionID}/unrevert (session.unrevert)"
+source = "packages/sdk/openapi.json"
+line = 7655
+coverage = "BASELINE-HTTP-8749637da9ae"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /sync/history (sync.history.list)"
+source = "packages/sdk/openapi.json"
+line = 8317
+coverage = "BASELINE-HTTP-84aa9b961ad3"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /sync/replay (sync.replay)"
+source = "packages/sdk/openapi.json"
+line = 8117
+coverage = "BASELINE-HTTP-4ed83551ddef"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /sync/start (sync.start)"
+source = "packages/sdk/openapi.json"
+line = 8062
+coverage = "BASELINE-HTTP-5187ef9ed88a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /sync/steal (sync.steal)"
+source = "packages/sdk/openapi.json"
+line = 8230
+coverage = "BASELINE-HTTP-87a5d2dd1d7c"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/append-prompt (tui.appendPrompt)"
+source = "packages/sdk/openapi.json"
+line = 8416
+coverage = "BASELINE-HTTP-bf6b9a68a9a7"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/clear-prompt (tui.clearPrompt)"
+source = "packages/sdk/openapi.json"
+line = 8769
+coverage = "BASELINE-HTTP-13298874584f"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/control/response (tui.control.response)"
+source = "packages/sdk/openapi.json"
+line = 9221
+coverage = "BASELINE-HTTP-427932ef6389"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/execute-command (tui.executeCommand)"
+source = "packages/sdk/openapi.json"
+line = 8824
+coverage = "BASELINE-HTTP-b3c60482ff9e"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/open-help (tui.openHelp)"
+source = "packages/sdk/openapi.json"
+line = 8494
+coverage = "BASELINE-HTTP-52463f73e487"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/open-models (tui.openModels)"
+source = "packages/sdk/openapi.json"
+line = 8659
+coverage = "BASELINE-HTTP-904c2e7ca061"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/open-sessions (tui.openSessions)"
+source = "packages/sdk/openapi.json"
+line = 8549
+coverage = "BASELINE-HTTP-81057e2cfe32"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/open-themes (tui.openThemes)"
+source = "packages/sdk/openapi.json"
+line = 8604
+coverage = "BASELINE-HTTP-6080b78135e1"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/publish (tui.publish)"
+source = "packages/sdk/openapi.json"
+line = 8984
+coverage = "BASELINE-HTTP-11987fe95007"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/select-session (tui.selectSession)"
+source = "packages/sdk/openapi.json"
+line = 9068
+coverage = "BASELINE-HTTP-4c6f368201da"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/show-toast (tui.showToast)"
+source = "packages/sdk/openapi.json"
+line = 8902
+coverage = "BASELINE-HTTP-4cbd485b3c9a"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /tui/submit-prompt (tui.submitPrompt)"
+source = "packages/sdk/openapi.json"
+line = 8714
+coverage = "BASELINE-HTTP-cb298958b871"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "POST /vcs/apply (vcs.apply)"
+source = "packages/sdk/openapi.json"
+line = 2582
+coverage = "BASELINE-HTTP-450a2ed7b6a0"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "PUT /api/pty/{ptyID} (v2.pty.update)"
+source = "packages/sdk/openapi.json"
+line = 14104
+coverage = "BASELINE-HTTP-6e042d378878"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "PUT /auth/{providerID} (auth.set)"
+source = "packages/sdk/openapi.json"
+line = 13
+coverage = "BASELINE-HTTP-3a5766f7e9ea"
+status = "not-ported"
+
+[[entry]]
+kind = "http"
+name = "PUT /pty/{ptyID} (pty.update)"
+source = "packages/sdk/openapi.json"
+line = 4311
+coverage = "BASELINE-HTTP-5858e6349219"
+status = "not-ported"
+
+[[entry]]
+kind = "http-declaration"
+name = "abort"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 253
+coverage = "BASELINE-HTTP-DECLARATION-e6886d639ef8"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "adapters"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/workspace.ts"
+line = 53
+coverage = "BASELINE-HTTP-DECLARATION-030fd6a327dd"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "add"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/mcp.ts"
+line = 55
+coverage = "BASELINE-HTTP-DECLARATION-6f4264fe7792"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "agent"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 149
+coverage = "BASELINE-HTTP-DECLARATION-a302e27994b1"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "agent.list"
+source = "packages/protocol/src/groups/agent.ts"
+line = 8
+coverage = "BASELINE-HTTP-DECLARATION-fed50781fa50"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "appendPrompt"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 56
+coverage = "BASELINE-HTTP-DECLARATION-4c94df255f6a"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "auth"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/provider.ts"
+line = 48
+coverage = "BASELINE-HTTP-DECLARATION-2ad9d11ba6cb"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "authAuthenticate"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/mcp.ts"
+line = 93
+coverage = "BASELINE-HTTP-DECLARATION-62fe7b1cc994"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "authCallback"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/mcp.ts"
+line = 79
+coverage = "BASELINE-HTTP-DECLARATION-512d367aa3f1"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "authRemove"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/control.ts"
+line = 51
+coverage = "BASELINE-HTTP-DECLARATION-20ae20074560"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "authRemove"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/mcp.ts"
+line = 105
+coverage = "BASELINE-HTTP-DECLARATION-d3787502ef53"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "authSet"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/control.ts"
+line = 39
+coverage = "BASELINE-HTTP-DECLARATION-6a9ef2fc4f66"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "authStart"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/mcp.ts"
+line = 67
+coverage = "BASELINE-HTTP-DECLARATION-379aee3cddb9"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "authorize"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/provider.ts"
+line = 58
+coverage = "BASELINE-HTTP-DECLARATION-42f0729e66d1"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "callback"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/provider.ts"
+line = 71
+coverage = "BASELINE-HTTP-DECLARATION-f0e619c6ffd8"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "capabilities"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 108
+coverage = "BASELINE-HTTP-DECLARATION-9fafb20ed790"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "children"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 144
+coverage = "BASELINE-HTTP-DECLARATION-1da3a613380a"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "clearPrompt"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 118
+coverage = "BASELINE-HTTP-DECLARATION-6e3d51cc3a99"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "command"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 139
+coverage = "BASELINE-HTTP-DECLARATION-ca459b969281"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "command"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 343
+coverage = "BASELINE-HTTP-DECLARATION-8b50d4845b30"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "command.list"
+source = "packages/protocol/src/groups/command.ts"
+line = 9
+coverage = "BASELINE-HTTP-DECLARATION-2717c0019f5d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "configGet"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/global.ts"
+line = 97
+coverage = "BASELINE-HTTP-DECLARATION-24d7df2cef03"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "configUpdate"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/global.ts"
+line = 106
+coverage = "BASELINE-HTTP-DECLARATION-fd7ac5c1ee73"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "connect"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/mcp.ts"
+line = 117
+coverage = "BASELINE-HTTP-DECLARATION-8db45adff3cd"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "connect"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/pty.ts"
+line = 144
+coverage = "BASELINE-HTTP-DECLARATION-5bd817e14bd3"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "connectToken"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/pty.ts"
+line = 113
+coverage = "BASELINE-HTTP-DECLARATION-5674bfb08c73"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "console"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 118
+coverage = "BASELINE-HTTP-DECLARATION-9f2e8d29277d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "consoleOrgs"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 129
+coverage = "BASELINE-HTTP-DECLARATION-7227830c2846"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "consoleSwitch"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 140
+coverage = "BASELINE-HTTP-DECLARATION-13752bb0c546"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "content"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/file.ts"
+line = 148
+coverage = "BASELINE-HTTP-DECLARATION-c60dd0484244"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "controlNext"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 175
+coverage = "BASELINE-HTTP-DECLARATION-3ed66f01456f"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "controlResponse"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 185
+coverage = "BASELINE-HTTP-DECLARATION-79117a723978"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "create"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/pty.ts"
+line = 64
+coverage = "BASELINE-HTTP-DECLARATION-5b201cfe8d6d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "create"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 203
+coverage = "BASELINE-HTTP-DECLARATION-27398facd202"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "create"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/workspace.ts"
+line = 73
+coverage = "BASELINE-HTTP-DECLARATION-568c47c601ba"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "credential.remove"
+source = "packages/protocol/src/groups/credential.ts"
+line = 24
+coverage = "BASELINE-HTTP-DECLARATION-9c2bf49bb567"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "credential.update"
+source = "packages/protocol/src/groups/credential.ts"
+line = 8
+coverage = "BASELINE-HTTP-DECLARATION-0045407bd4a7"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "current"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/project.ts"
+line = 32
+coverage = "BASELINE-HTTP-DECLARATION-0834022f4c7d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "deleteMessage"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 409
+coverage = "BASELINE-HTTP-DECLARATION-bfbd7f33085c"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "deletePart"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 422
+coverage = "BASELINE-HTTP-DECLARATION-7eb6d2836b83"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "diff"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 168
+coverage = "BASELINE-HTTP-DECLARATION-17c54d6cf34a"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "directories"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/project.ts"
+line = 65
+coverage = "BASELINE-HTTP-DECLARATION-03a3822d0c79"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "disconnect"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/mcp.ts"
+line = 128
+coverage = "BASELINE-HTTP-DECLARATION-ea338497b666"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "dispose"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/global.ts"
+line = 117
+coverage = "BASELINE-HTTP-DECLARATION-be9930b16911"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "dispose"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 62
+coverage = "BASELINE-HTTP-DECLARATION-d078f12735ae"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "event"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/global.ts"
+line = 88
+coverage = "BASELINE-HTTP-DECLARATION-05acfbce1d1f"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "event.subscribe"
+source = "packages/protocol/src/groups/event.ts"
+line = 35
+coverage = "BASELINE-HTTP-DECLARATION-9c0cf16f88b0"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "executeCommand"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 128
+coverage = "BASELINE-HTTP-DECLARATION-bbb9a92f46dd"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "findFile"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/file.ts"
+line = 118
+coverage = "BASELINE-HTTP-DECLARATION-ccb144400a89"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "findSymbol"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/file.ts"
+line = 128
+coverage = "BASELINE-HTTP-DECLARATION-a2f969b4576f"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "findText"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/file.ts"
+line = 108
+coverage = "BASELINE-HTTP-DECLARATION-a27bac576822"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "fork"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 240
+coverage = "BASELINE-HTTP-DECLARATION-e7d882100986"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "formatter"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 179
+coverage = "BASELINE-HTTP-DECLARATION-3d819d76a959"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "fs.find"
+source = "packages/protocol/src/groups/fs.ts"
+line = 50
+coverage = "BASELINE-HTTP-DECLARATION-e3a7ff6d1180"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "fs.list"
+source = "packages/protocol/src/groups/fs.ts"
+line = 36
+coverage = "BASELINE-HTTP-DECLARATION-77a3698bd836"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "fs.read"
+source = "packages/protocol/src/groups/fs.ts"
+line = 22
+coverage = "BASELINE-HTTP-DECLARATION-10d95c32d7b9"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "generateName"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/project-copy.ts"
+line = 15
+coverage = "BASELINE-HTTP-DECLARATION-f2754734c4e4"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "get"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/config.ts"
+line = 16
+coverage = "BASELINE-HTTP-DECLARATION-8b5c911d6635"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "get"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/pty.ts"
+line = 76
+coverage = "BASELINE-HTTP-DECLARATION-3805a1a462e8"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "get"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 132
+coverage = "BASELINE-HTTP-DECLARATION-fa3776c8cbf3"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "health"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/global.ts"
+line = 79
+coverage = "BASELINE-HTTP-DECLARATION-34a951ae492b"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "health.get"
+source = "packages/protocol/src/groups/health.ts"
+line = 5
+coverage = "BASELINE-HTTP-DECLARATION-27c8b4dc42bb"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "history"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/sync.ts"
+line = 83
+coverage = "BASELINE-HTTP-DECLARATION-ee382c3f782d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "init"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 265
+coverage = "BASELINE-HTTP-DECLARATION-2ae4489760e3"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "initGit"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/project.ts"
+line = 42
+coverage = "BASELINE-HTTP-DECLARATION-3f1c26ca28d1"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "integration.attempt.cancel"
+source = "packages/protocol/src/groups/integration.ts"
+line = 114
+coverage = "BASELINE-HTTP-DECLARATION-356899d35e61"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "integration.attempt.complete"
+source = "packages/protocol/src/groups/integration.ts"
+line = 97
+coverage = "BASELINE-HTTP-DECLARATION-bc5e4aa79a73"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "integration.attempt.status"
+source = "packages/protocol/src/groups/integration.ts"
+line = 82
+coverage = "BASELINE-HTTP-DECLARATION-b21bdb4cb3ab"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "integration.connect.key"
+source = "packages/protocol/src/groups/integration.ts"
+line = 41
+coverage = "BASELINE-HTTP-DECLARATION-4b876cd4b7db"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "integration.connect.oauth"
+source = "packages/protocol/src/groups/integration.ts"
+line = 61
+coverage = "BASELINE-HTTP-DECLARATION-cd8f849adf2f"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "integration.get"
+source = "packages/protocol/src/groups/integration.ts"
+line = 26
+coverage = "BASELINE-HTTP-DECLARATION-9864dcd0c525"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "integration.list"
+source = "packages/protocol/src/groups/integration.ts"
+line = 12
+coverage = "BASELINE-HTTP-DECLARATION-77cb8cf4f720"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "list"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/file.ts"
+line = 138
+coverage = "BASELINE-HTTP-DECLARATION-846c0897a17d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "list"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/permission.ts"
+line = 21
+coverage = "BASELINE-HTTP-DECLARATION-bcbcc241b0e7"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "list"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/project.ts"
+line = 22
+coverage = "BASELINE-HTTP-DECLARATION-c3d5e07a2683"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "list"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/provider.ts"
+line = 38
+coverage = "BASELINE-HTTP-DECLARATION-9ff1c54f7279"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "list"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/pty.ts"
+line = 54
+coverage = "BASELINE-HTTP-DECLARATION-b01b4bf3b8a6"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "list"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/question.ts"
+line = 22
+coverage = "BASELINE-HTTP-DECLARATION-b8ea16db2fc7"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "list"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 111
+coverage = "BASELINE-HTTP-DECLARATION-3ebdef71e4a8"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "list"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/workspace.ts"
+line = 63
+coverage = "BASELINE-HTTP-DECLARATION-ac8d989a47a1"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "location.get"
+source = "packages/protocol/src/groups/location.ts"
+line = 30
+coverage = "BASELINE-HTTP-DECLARATION-a53ad3bfb3b5"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "log"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/control.ts"
+line = 62
+coverage = "BASELINE-HTTP-DECLARATION-073c551a2903"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "lsp"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 169
+coverage = "BASELINE-HTTP-DECLARATION-b9a28373c27d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "message"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 191
+coverage = "BASELINE-HTTP-DECLARATION-1c66ac8e9c16"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "messages"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 179
+coverage = "BASELINE-HTTP-DECLARATION-5c068c63a848"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "model.list"
+source = "packages/protocol/src/groups/model.ts"
+line = 10
+coverage = "BASELINE-HTTP-DECLARATION-a3198013a7ca"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "moveSession"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/control-plane.ts"
+line = 22
+coverage = "BASELINE-HTTP-DECLARATION-e8fcca145fd3"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "openHelp"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 68
+coverage = "BASELINE-HTTP-DECLARATION-c14f5cd0d991"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "openModels"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 98
+coverage = "BASELINE-HTTP-DECLARATION-d07de7a8e43b"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "openSessions"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 78
+coverage = "BASELINE-HTTP-DECLARATION-ad90e656c9be"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "openThemes"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 88
+coverage = "BASELINE-HTTP-DECLARATION-623f9c4f2b3c"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "path"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 72
+coverage = "BASELINE-HTTP-DECLARATION-feb2e6e6109d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "permission.request.list"
+source = "packages/protocol/src/groups/permission.ts"
+line = 23
+coverage = "BASELINE-HTTP-DECLARATION-70f60d5a66cb"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "permission.saved.list"
+source = "packages/protocol/src/groups/permission.ts"
+line = 37
+coverage = "BASELINE-HTTP-DECLARATION-60a0172613ac"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "permission.saved.remove"
+source = "packages/protocol/src/groups/permission.ts"
+line = 49
+coverage = "BASELINE-HTTP-DECLARATION-fc7659ef50f2"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "permissionRespond"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 395
+coverage = "BASELINE-HTTP-DECLARATION-c3c1b2ae8aa1"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "projectCopy.create"
+source = "packages/protocol/src/groups/project-copy.ts"
+line = 25
+coverage = "BASELINE-HTTP-DECLARATION-8910644e2f4b"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "projectCopy.refresh"
+source = "packages/protocol/src/groups/project-copy.ts"
+line = 47
+coverage = "BASELINE-HTTP-DECLARATION-078638fafe92"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "projectCopy.remove"
+source = "packages/protocol/src/groups/project-copy.ts"
+line = 36
+coverage = "BASELINE-HTTP-DECLARATION-2e1a7942ba6a"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "prompt"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 316
+coverage = "BASELINE-HTTP-DECLARATION-0d60b4ee6475"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "promptAsync"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 329
+coverage = "BASELINE-HTTP-DECLARATION-39bb75726e37"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "provider.get"
+source = "packages/protocol/src/groups/provider.ts"
+line = 25
+coverage = "BASELINE-HTTP-DECLARATION-b9f0fd99d968"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "provider.list"
+source = "packages/protocol/src/groups/provider.ts"
+line = 10
+coverage = "BASELINE-HTTP-DECLARATION-d9b5736aac4e"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "providers"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/config.ts"
+line = 38
+coverage = "BASELINE-HTTP-DECLARATION-ffa0308f7cc9"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "pty.connect"
+source = "packages/protocol/src/groups/pty.ts"
+line = 119
+coverage = "BASELINE-HTTP-DECLARATION-40673b681395"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "pty.connectToken"
+source = "packages/protocol/src/groups/pty.ts"
+line = 101
+coverage = "BASELINE-HTTP-DECLARATION-f6f92dcd7ba6"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "pty.create"
+source = "packages/protocol/src/groups/pty.ts"
+line = 37
+coverage = "BASELINE-HTTP-DECLARATION-9044bdf0cf1a"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "pty.get"
+source = "packages/protocol/src/groups/pty.ts"
+line = 52
+coverage = "BASELINE-HTTP-DECLARATION-2d7634819626"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "pty.list"
+source = "packages/protocol/src/groups/pty.ts"
+line = 23
+coverage = "BASELINE-HTTP-DECLARATION-f0a3efd62414"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "pty.remove"
+source = "packages/protocol/src/groups/pty.ts"
+line = 85
+coverage = "BASELINE-HTTP-DECLARATION-25dbd358fa30"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "pty.update"
+source = "packages/protocol/src/groups/pty.ts"
+line = 68
+coverage = "BASELINE-HTTP-DECLARATION-454fe648fb35"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "publish"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 151
+coverage = "BASELINE-HTTP-DECLARATION-3fddaf5a2987"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "question.request.list"
+source = "packages/protocol/src/groups/question.ts"
+line = 20
+coverage = "BASELINE-HTTP-DECLARATION-4ac4d79e09d4"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "reference.list"
+source = "packages/protocol/src/groups/reference.ts"
+line = 9
+coverage = "BASELINE-HTTP-DECLARATION-282886e3fdb2"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "reject"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/question.ts"
+line = 45
+coverage = "BASELINE-HTTP-DECLARATION-d3433e855017"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "remove"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/pty.ts"
+line = 101
+coverage = "BASELINE-HTTP-DECLARATION-f3313bfb6182"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "remove"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 215
+coverage = "BASELINE-HTTP-DECLARATION-09ec3fae74a7"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "remove"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/workspace.ts"
+line = 105
+coverage = "BASELINE-HTTP-DECLARATION-6a5367ed83b2"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "replay"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/sync.ts"
+line = 59
+coverage = "BASELINE-HTTP-DECLARATION-e13804258520"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "reply"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/permission.ts"
+line = 31
+coverage = "BASELINE-HTTP-DECLARATION-f8c82efd4061"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "reply"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/question.ts"
+line = 32
+coverage = "BASELINE-HTTP-DECLARATION-b0bbcbd902dc"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "resource"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 248
+coverage = "BASELINE-HTTP-DECLARATION-9c07d1483184"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "revert"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 369
+coverage = "BASELINE-HTTP-DECLARATION-06bc0c41abd6"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "selectSession"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 163
+coverage = "BASELINE-HTTP-DECLARATION-7bd0966cee17"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 224
+coverage = "BASELINE-HTTP-DECLARATION-b842d8faad44"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.active"
+source = "packages/protocol/src/groups/session.ts"
+line = 146
+coverage = "BASELINE-HTTP-DECLARATION-295f89c17b61"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.compact"
+source = "packages/protocol/src/groups/session.ts"
+line = 226
+coverage = "BASELINE-HTTP-DECLARATION-f214d2a6c0ce"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.context"
+source = "packages/protocol/src/groups/session.ts"
+line = 292
+coverage = "BASELINE-HTTP-DECLARATION-edac76bf01bf"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.create"
+source = "packages/protocol/src/groups/session.ts"
+line = 129
+coverage = "BASELINE-HTTP-DECLARATION-1512fb72fde5"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.events"
+source = "packages/protocol/src/groups/session.ts"
+line = 327
+coverage = "BASELINE-HTTP-DECLARATION-6312f029898f"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.get"
+source = "packages/protocol/src/groups/session.ts"
+line = 158
+coverage = "BASELINE-HTTP-DECLARATION-a2f2b3206e7d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.history"
+source = "packages/protocol/src/groups/session.ts"
+line = 307
+coverage = "BASELINE-HTTP-DECLARATION-2a88f7816655"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.interrupt"
+source = "packages/protocol/src/groups/session.ts"
+line = 345
+coverage = "BASELINE-HTTP-DECLARATION-1830cf559f68"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.list"
+source = "packages/protocol/src/groups/session.ts"
+line = 109
+coverage = "BASELINE-HTTP-DECLARATION-3f1a6c7949ec"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.message"
+source = "packages/protocol/src/groups/session.ts"
+line = 360
+coverage = "BASELINE-HTTP-DECLARATION-1eecb902a27a"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.messages"
+source = "packages/protocol/src/groups/message.ts"
+line = 26
+coverage = "BASELINE-HTTP-DECLARATION-108fcb00b7c9"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.permission.create"
+source = "packages/protocol/src/groups/permission.ts"
+line = 63
+coverage = "BASELINE-HTTP-DECLARATION-97c220094f8d"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.permission.get"
+source = "packages/protocol/src/groups/permission.ts"
+line = 104
+coverage = "BASELINE-HTTP-DECLARATION-e6c0d70d4387"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.permission.list"
+source = "packages/protocol/src/groups/permission.ts"
+line = 89
+coverage = "BASELINE-HTTP-DECLARATION-d0633ff02ac3"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.permission.reply"
+source = "packages/protocol/src/groups/permission.ts"
+line = 119
+coverage = "BASELINE-HTTP-DECLARATION-6e50759253f2"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.prompt"
+source = "packages/protocol/src/groups/session.ts"
+line = 205
+coverage = "BASELINE-HTTP-DECLARATION-75b137b50b67"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.question.list"
+source = "packages/protocol/src/groups/question.ts"
+line = 37
+coverage = "BASELINE-HTTP-DECLARATION-f68532643d70"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.question.reject"
+source = "packages/protocol/src/groups/question.ts"
+line = 68
+coverage = "BASELINE-HTTP-DECLARATION-d45ed3b224d8"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.question.reply"
+source = "packages/protocol/src/groups/question.ts"
+line = 52
+coverage = "BASELINE-HTTP-DECLARATION-1eb7711b46ea"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.revert.clear"
+source = "packages/protocol/src/groups/session.ts"
+line = 272
+coverage = "BASELINE-HTTP-DECLARATION-b79527520a54"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.revert.commit"
+source = "packages/protocol/src/groups/session.ts"
+line = 281
+coverage = "BASELINE-HTTP-DECLARATION-6773bbef2d34"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.revert.stage"
+source = "packages/protocol/src/groups/session.ts"
+line = 256
+coverage = "BASELINE-HTTP-DECLARATION-2b99b876fd78"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.switchAgent"
+source = "packages/protocol/src/groups/session.ts"
+line = 173
+coverage = "BASELINE-HTTP-DECLARATION-0ba4a59909ca"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.switchModel"
+source = "packages/protocol/src/groups/session.ts"
+line = 189
+coverage = "BASELINE-HTTP-DECLARATION-cf7a280e67e2"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "session.wait"
+source = "packages/protocol/src/groups/session.ts"
+line = 241
+coverage = "BASELINE-HTTP-DECLARATION-b59dd5fc7e1f"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "sessionBackground"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 235
+coverage = "BASELINE-HTTP-DECLARATION-7881d28c6d8b"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "share"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 279
+coverage = "BASELINE-HTTP-DECLARATION-95c8a2ca36f0"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "shell"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 356
+coverage = "BASELINE-HTTP-DECLARATION-6aa0bc524b0e"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "shells"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/pty.ts"
+line = 44
+coverage = "BASELINE-HTTP-DECLARATION-479cdf7e5357"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "showToast"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 140
+coverage = "BASELINE-HTTP-DECLARATION-608ae2868c38"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "skill"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 159
+coverage = "BASELINE-HTTP-DECLARATION-cf6f597e6abf"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "skill.list"
+source = "packages/protocol/src/groups/skill.ts"
+line = 9
+coverage = "BASELINE-HTTP-DECLARATION-32c45ce0b2e5"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "start"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/sync.ts"
+line = 49
+coverage = "BASELINE-HTTP-DECLARATION-46305ccd83a6"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "status"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/file.ts"
+line = 158
+coverage = "BASELINE-HTTP-DECLARATION-bba8c1eb52e5"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "status"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/mcp.ts"
+line = 45
+coverage = "BASELINE-HTTP-DECLARATION-a094b27436b4"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "status"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 121
+coverage = "BASELINE-HTTP-DECLARATION-3cf9732ede05"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "status"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/workspace.ts"
+line = 95
+coverage = "BASELINE-HTTP-DECLARATION-c2a8a9875bf5"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "steal"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/sync.ts"
+line = 71
+coverage = "BASELINE-HTTP-DECLARATION-117f8fbfbded"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "submitPrompt"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/tui.ts"
+line = 108
+coverage = "BASELINE-HTTP-DECLARATION-66cb20c1a37f"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "subscribe"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/event.ts"
+line = 14
+coverage = "BASELINE-HTTP-DECLARATION-66f69234c7a8"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "summarize"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 303
+coverage = "BASELINE-HTTP-DECLARATION-d6f22aa7fc07"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "syncList"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/workspace.ts"
+line = 85
+coverage = "BASELINE-HTTP-DECLARATION-6742b3ae7177"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "todo"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 156
+coverage = "BASELINE-HTTP-DECLARATION-b97b9f4dac55"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "tool"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 152
+coverage = "BASELINE-HTTP-DECLARATION-e8e4002bf707"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "toolIDs"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 164
+coverage = "BASELINE-HTTP-DECLARATION-3989249901cf"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "unrevert"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 383
+coverage = "BASELINE-HTTP-DECLARATION-435f8b1ed45c"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "unshare"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 291
+coverage = "BASELINE-HTTP-DECLARATION-7859d072f3d8"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "update"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/config.ts"
+line = 26
+coverage = "BASELINE-HTTP-DECLARATION-4d00185a5c4e"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "update"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/project.ts"
+line = 52
+coverage = "BASELINE-HTTP-DECLARATION-ed6eb3689d4c"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "update"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/pty.ts"
+line = 88
+coverage = "BASELINE-HTTP-DECLARATION-302a75374ea5"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "update"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 227
+coverage = "BASELINE-HTTP-DECLARATION-df74e8adb39c"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "updatePart"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/session.ts"
+line = 433
+coverage = "BASELINE-HTTP-DECLARATION-a3bf5a797e8a"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "upgrade"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/global.ts"
+line = 126
+coverage = "BASELINE-HTTP-DECLARATION-19688f055328"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "vcs"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 83
+coverage = "BASELINE-HTTP-DECLARATION-6627a3a658fe"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "vcsApply"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 127
+coverage = "BASELINE-HTTP-DECLARATION-6b2ff967868f"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "vcsDiff"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 104
+coverage = "BASELINE-HTTP-DECLARATION-d7cf87dc91ed"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "vcsDiffRaw"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 114
+coverage = "BASELINE-HTTP-DECLARATION-14dffb6a5d3c"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "vcsStatus"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/instance.ts"
+line = 94
+coverage = "BASELINE-HTTP-DECLARATION-292ad1273459"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "warp"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/workspace.ts"
+line = 117
+coverage = "BASELINE-HTTP-DECLARATION-f509614182f1"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "worktree"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 176
+coverage = "BASELINE-HTTP-DECLARATION-e438836e79ca"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "worktreeCreate"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 187
+coverage = "BASELINE-HTTP-DECLARATION-dd353cd34473"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "worktreeRemove"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 200
+coverage = "BASELINE-HTTP-DECLARATION-ad8a302bd5a3"
+status = "unverified"
+
+[[entry]]
+kind = "http-declaration"
+name = "worktreeReset"
+source = "packages/opencode/src/server/routes/instance/httpapi/groups/experimental.ts"
+line = 212
+coverage = "BASELINE-HTTP-DECLARATION-bd6b1214d5d1"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/alibaba"
+source = "packages/opencode/src/provider/provider.ts"
+line = 170
+coverage = "BASELINE-PROVIDER-35dea5690274"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/amazon-bedrock"
+source = "packages/opencode/src/provider/provider.ts"
+line = 149
+coverage = "BASELINE-PROVIDER-986954c23997"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/amazon-bedrock/mantle"
+source = "packages/opencode/src/provider/provider.ts"
+line = 150
+coverage = "BASELINE-PROVIDER-7e0ee3476d5d"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/anthropic"
+source = "packages/opencode/src/provider/provider.ts"
+line = 151
+coverage = "BASELINE-PROVIDER-6f43c30ff51f"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/azure"
+source = "packages/opencode/src/provider/provider.ts"
+line = 152
+coverage = "BASELINE-PROVIDER-f2b2246de836"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/cerebras"
+source = "packages/opencode/src/provider/provider.ts"
+line = 164
+coverage = "BASELINE-PROVIDER-9056f7577759"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/cohere"
+source = "packages/opencode/src/provider/provider.ts"
+line = 165
+coverage = "BASELINE-PROVIDER-1e6428be5fd0"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/deepinfra"
+source = "packages/opencode/src/provider/provider.ts"
+line = 163
+coverage = "BASELINE-PROVIDER-03d198f63ecf"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/gateway"
+source = "packages/opencode/src/provider/provider.ts"
+line = 166
+coverage = "BASELINE-PROVIDER-a0cb3d74f565"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/github-copilot"
+source = "packages/opencode/src/provider/provider.ts"
+line = 172
+coverage = "BASELINE-PROVIDER-a961938507b7"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/google"
+source = "packages/opencode/src/provider/provider.ts"
+line = 153
+coverage = "BASELINE-PROVIDER-e8686df1a490"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/google-vertex"
+source = "packages/opencode/src/provider/provider.ts"
+line = 154
+coverage = "BASELINE-PROVIDER-26db873702ed"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/google-vertex/anthropic"
+source = "packages/opencode/src/provider/provider.ts"
+line = 155
+coverage = "BASELINE-PROVIDER-7b4356133e0e"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/groq"
+source = "packages/opencode/src/provider/provider.ts"
+line = 162
+coverage = "BASELINE-PROVIDER-68c996daf911"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/mistral"
+source = "packages/opencode/src/provider/provider.ts"
+line = 161
+coverage = "BASELINE-PROVIDER-c09966ed0122"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/openai"
+source = "packages/opencode/src/provider/provider.ts"
+line = 157
+coverage = "BASELINE-PROVIDER-cfc154e73eeb"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/openai-compatible"
+source = "packages/opencode/src/provider/provider.ts"
+line = 158
+coverage = "BASELINE-PROVIDER-8dca5be1d19a"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/perplexity"
+source = "packages/opencode/src/provider/provider.ts"
+line = 168
+coverage = "BASELINE-PROVIDER-51d3a8666638"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/togetherai"
+source = "packages/opencode/src/provider/provider.ts"
+line = 167
+coverage = "BASELINE-PROVIDER-052998bb57da"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/vercel"
+source = "packages/opencode/src/provider/provider.ts"
+line = 169
+coverage = "BASELINE-PROVIDER-637e8bf8fa6d"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@ai-sdk/xai"
+source = "packages/opencode/src/provider/provider.ts"
+line = 160
+coverage = "BASELINE-PROVIDER-721014fc8d25"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "@openrouter/ai-sdk-provider"
+source = "packages/opencode/src/provider/provider.ts"
+line = 159
+coverage = "BASELINE-PROVIDER-b0bfe200c2f7"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "gitlab-ai-provider"
+source = "packages/opencode/src/provider/provider.ts"
+line = 171
+coverage = "BASELINE-PROVIDER-20ed74a6f554"
+status = "unverified"
+
+[[entry]]
+kind = "provider"
+name = "venice-ai-sdk-provider"
+source = "packages/opencode/src/provider/provider.ts"
+line = 174
+coverage = "BASELINE-PROVIDER-72da16f364ac"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "apply_patch"
+source = "packages/core/src/tool/apply-patch.ts"
+line = 17
+coverage = "BASELINE-TOOL-f482167e74cf"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "apply_patch"
+source = "packages/opencode/src/tool/apply_patch.ts"
+line = 23
+coverage = "BASELINE-TOOL-c65c30045e75"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "bash"
+source = "packages/core/src/tool/bash.ts"
+line = 18
+coverage = "BASELINE-TOOL-06bd32055d27"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "edit"
+source = "packages/core/src/tool/edit.ts"
+line = 22
+coverage = "BASELINE-TOOL-b8a3160a3b6c"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "edit"
+source = "packages/opencode/src/tool/edit.ts"
+line = 59
+coverage = "BASELINE-TOOL-b4297227e30c"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "glob"
+source = "packages/core/src/tool/glob.ts"
+line = 16
+coverage = "BASELINE-TOOL-99e398e76f66"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "glob"
+source = "packages/opencode/src/tool/glob.ts"
+line = 18
+coverage = "BASELINE-TOOL-0282bb1743f3"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "grep"
+source = "packages/core/src/tool/grep.ts"
+line = 17
+coverage = "BASELINE-TOOL-7f0829c8ac4d"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "grep"
+source = "packages/opencode/src/tool/grep.ts"
+line = 21
+coverage = "BASELINE-TOOL-32913056c76c"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "invalid"
+source = "packages/opencode/src/tool/invalid.ts"
+line = 10
+coverage = "BASELINE-TOOL-72eacbca2906"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "lsp"
+source = "packages/opencode/src/tool/lsp.ts"
+line = 38
+coverage = "BASELINE-TOOL-3a8d540d3bfd"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "plan_exit"
+source = "packages/opencode/src/tool/plan.ts"
+line = 16
+coverage = "BASELINE-TOOL-1559ffd86088"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "question"
+source = "packages/core/src/tool/question.ts"
+line = 12
+coverage = "BASELINE-TOOL-471f74a5ed68"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "question"
+source = "packages/opencode/src/tool/question.ts"
+line = 15
+coverage = "BASELINE-TOOL-03ad88d6261c"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "read"
+source = "packages/core/src/tool/read.ts"
+line = 16
+coverage = "BASELINE-TOOL-f36822fb0968"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "read"
+source = "packages/opencode/src/tool/read.ts"
+line = 69
+coverage = "BASELINE-TOOL-cd7cf1b5c19d"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "skill"
+source = "packages/core/src/tool/skill.ts"
+line = 14
+coverage = "BASELINE-TOOL-3743325578e1"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "skill"
+source = "packages/opencode/src/tool/skill.ts"
+line = 13
+coverage = "BASELINE-TOOL-0d69f4dbdda3"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "todowrite"
+source = "packages/core/src/tool/todowrite.ts"
+line = 12
+coverage = "BASELINE-TOOL-0e42fa6d83d6"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "todowrite"
+source = "packages/opencode/src/tool/todo.ts"
+line = 15
+coverage = "BASELINE-TOOL-58506aa1c233"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "webfetch"
+source = "packages/core/src/tool/webfetch.ts"
+line = 16
+coverage = "BASELINE-TOOL-8a36e6e0b0ac"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "webfetch"
+source = "packages/opencode/src/tool/webfetch.ts"
+line = 25
+coverage = "BASELINE-TOOL-8fe0b3753d36"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "websearch"
+source = "packages/core/src/tool/websearch.ts"
+line = 18
+coverage = "BASELINE-TOOL-c58963ed4fe5"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "websearch"
+source = "packages/opencode/src/tool/websearch.ts"
+line = 100
+coverage = "BASELINE-TOOL-2632fd48b23a"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "write"
+source = "packages/core/src/tool/write.ts"
+line = 19
+coverage = "BASELINE-TOOL-b0628fcc1980"
+status = "unverified"
+
+[[entry]]
+kind = "tool"
+name = "write"
+source = "packages/opencode/src/tool/write.ts"
+line = 28
+coverage = "BASELINE-TOOL-9061e17d17e6"
+status = "unverified"

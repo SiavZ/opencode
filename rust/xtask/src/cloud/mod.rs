@@ -9,10 +9,13 @@
 //! |-- src/cloud/terraform.rs
 //! `-- src/cloud/tests.rs
 //! External:
-//! |-- anyhow::{bail, Context, Result}
-//! `-- serde_json
+//! |-- anyhow::Context
+//! |-- anyhow::Result
+//! |-- anyhow::bail
+//! `-- serde_json::to_string_pretty
 //! Used by:
 //! rust/xtask/
+//! |-- src/cloud/tests.rs
 //! `-- src/main.rs
 //! Invariants: output is byte-deterministic for a stage, contains no secret values, golden
 //! stages are production, dev and the preview stage `pr-123`.

@@ -9,31 +9,50 @@
 //! |-- src/inventory.rs
 //! `-- src/size.rs
 //! External:
-//! `-- anyhow::{Result, bail}
+//! |-- anyhow::Result
+//! `-- anyhow::bail
 //! Used by:
 //! rust/xtask/
-//! `-- src/lib.rs
+//! |-- src/lib.rs
+//! |-- src/main.rs
+//! `-- tests/gates.rs
 //! Invariants: read-only; exits non-zero when any gate fails.
 //! Contract tests: xtask/tests/check.rs
 
 use anyhow::{Result, bail};
 
-type Gate = (&'static str, fn(&[String]) -> Result<()>);
+pub type Gate = (&'static str, fn(&[String]) -> Result<()>);
 
 const GATES: [Gate; 5] = [
     ("headers", crate::headers::run),
     ("edges", crate::edges::run),
     ("size", crate::size::run),
     ("inventory", crate::inventory::run),
-    ("fixtures", crate::fixtures::run),
+    ("fixtures", |args| {
+        let mut fixture_args = vec![String::from("run")];
+        fixture_args.extend_from_slice(args);
+        crate::fixtures::run(&fixture_args)
+    }),
 ];
 
 /// Entry point for `cargo xtask check`.
-pub fn run(_args: &[String]) -> Result<()> {
-    let failures = GATES
+pub fn run(args: &[String]) -> Result<()> {
+    if !args.is_empty() && args != ["--strict"] {
+        bail!("usage: check [--strict]; no gate may be skipped");
+    }
+    evaluate_args(&GATES, args)
+}
+
+/// Execute every gate even after a failure, preserving each diagnostic.
+pub fn evaluate(gates: &[Gate]) -> Result<()> {
+    evaluate_args(gates, &[])
+}
+
+fn evaluate_args(gates: &[Gate], args: &[String]) -> Result<()> {
+    let failures = gates
         .iter()
         .filter_map(|(name, gate)| {
-            let result = gate(&[]);
+            let result = gate(if *name == "fixtures" { args } else { &[] });
             match &result {
                 Ok(()) => println!("xtask check: {name} ok"),
                 Err(error) => eprintln!("xtask check: {name} FAILED\n{error:#}"),

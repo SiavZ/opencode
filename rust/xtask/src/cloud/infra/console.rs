@@ -9,7 +9,8 @@
 //! `-- serde_json::json
 //! Used by:
 //! rust/xtask/
-//! `-- src/cloud/infra/mod.rs
+//! |-- src/cloud/infra/mod.rs
+//! `-- src/cloud/infra/stats.rs
 //! Invariants: production reads the existing `production` branch, other stages create a branch
 //! named after the stage with parent `production` (infra/console.ts:14-26). Dev uses fixed Go
 //! product/price IDs (infra/console.ts:151-153). Preview stages have empty migration URLs

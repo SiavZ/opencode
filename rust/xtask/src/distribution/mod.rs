@@ -11,9 +11,17 @@
 //! |-- src/distribution/tests.rs
 //! `-- src/distribution/verify.rs
 //! External:
-//! `-- anyhow::{Context, Result}
+//! |-- anyhow::Context
+//! |-- anyhow::Result
+//! |-- fmt::Display
+//! |-- fmt::Formatter
+//! `-- fmt::Result
 //! Used by:
 //! rust/xtask/
+//! |-- src/distribution/build.rs
+//! |-- src/distribution/sbom.rs
+//! |-- src/distribution/tests.rs
+//! |-- src/distribution/verify.rs
 //! `-- src/main.rs
 //! Invariants: outputs are byte-deterministic for the same inputs (fixed archive mtimes/owners,
 //! sorted checksums, no SBOM timestamp), failures are typed `DistError` values.

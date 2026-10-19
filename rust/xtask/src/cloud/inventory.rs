@@ -6,7 +6,8 @@
 //! `-- src/cloud/model.rs
 //! External:
 //! |-- serde::Deserialize
-//! `-- toml
+//! |-- toml::de::Error
+//! `-- toml::from_str
 //! Used by:
 //! rust/xtask/
 //! |-- src/cloud/mod.rs

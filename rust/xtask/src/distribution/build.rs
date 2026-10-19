@@ -10,7 +10,18 @@
 //! |-- src/distribution/sbom.rs
 //! `-- src/distribution/verify.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- anyhow::Context
+//! |-- anyhow::Result
+//! |-- anyhow::ensure
+//! |-- archive::write
+//! |-- matrix::PRODUCT
+//! |-- matrix::find
+//! |-- sbom::generate
+//! |-- sbom::render
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- str::to_string
+//! `-- verify::write_checksums
 //! Used by:
 //! rust/xtask/
 //! |-- src/distribution/mod.rs

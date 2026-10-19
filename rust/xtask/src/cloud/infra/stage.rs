@@ -7,7 +7,10 @@
 //! `-- serde_json::json
 //! Used by:
 //! rust/xtask/
-//! `-- src/cloud/infra/mod.rs
+//! |-- src/cloud/infra/app.rs
+//! |-- src/cloud/infra/console.rs
+//! |-- src/cloud/infra/mod.rs
+//! `-- src/cloud/infra/stats.rs
 //! Invariants: TrustCenter records exist only in production (infra/stage.ts:11-28).
 //! `sst.Secret` defaults ("unknown", "") are recorded as `has_default`, never as values.
 //! Contract tests: xtask/tests/cloud_plan.rs

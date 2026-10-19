@@ -13,8 +13,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! rust/xtask/
-//! `-- src/main.rs
+//! `-- none, entrypoint
 //! Invariants: every task takes an explicit workspace root (never the process cwd implicitly)
 //! so tests can point it at temp fixture trees.
 //! Contract tests: xtask/tests/

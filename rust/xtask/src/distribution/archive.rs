@@ -4,12 +4,23 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- flate2::{write::GzEncoder, read::GzDecoder, Compression}
-//! |-- tar::{Archive, Builder, Header}
-//! `-- zip::{ZipArchive, ZipWriter, write::SimpleFileOptions}
+//! |-- anyhow::Context
+//! |-- anyhow::Result
+//! |-- flate2::Compression
+//! |-- flate2::read::GzDecoder
+//! |-- flate2::write::GzEncoder
+//! |-- tar::Archive::new
+//! |-- tar::Builder::new
+//! |-- tar::EntryType::Regular
+//! |-- tar::Header::new_gnu
+//! |-- zip::CompressionMethod::Deflated
+//! |-- zip::ZipArchive::new
+//! |-- zip::ZipWriter::new
+//! `-- zip::write::SimpleFileOptions
 //! Used by:
 //! rust/xtask/
 //! |-- src/distribution/build.rs
+//! |-- src/distribution/mod.rs
 //! |-- src/distribution/tests.rs
 //! `-- src/distribution/verify.rs
 //! Invariants: mtime 0 (tar) / 1980-01-01 (zip), uid/gid 0, mode 0755, entry name is the bare

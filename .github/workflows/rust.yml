@@ -1,0 +1,154 @@
+name: Rust
+
+on:
+  push:
+    branches: [dev, rust-port]
+    paths: ["rust/**", "packages/**", ".github/workflows/rust.yml"]
+  pull_request:
+    paths: ["rust/**", "packages/**", ".github/workflows/rust.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rust-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_INCREMENTAL: "0"
+  CARGO_BUILD_JOBS: "4"
+  CARGO_TERM_COLOR: always
+
+jobs:
+  gates:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        shell: bash
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Pinned toolchain and locked dependencies
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal --component clippy --component rustfmt --target wasm32-unknown-unknown
+          cargo fetch --locked
+      - name: Focused gate regression tests (integration target, nonzero count)
+        env:
+          CARGO_NET_OFFLINE: "true"
+        run: |
+          set -o pipefail
+          cargo test --locked --offline -p xtask --test gates -- --nocapture | tee "$RUNNER_TEMP/gate-tests.log"
+          grep -Eq 'test result: ok\. [1-9][0-9]* passed' "$RUNNER_TEMP/gate-tests.log"
+      - name: Distribution tests live in the binary target
+        env:
+          CARGO_NET_OFFLINE: "true"
+        run: |
+          set -o pipefail
+          cargo test --locked --offline -p xtask --bin xtask distribution::tests -- --nocapture | tee "$RUNNER_TEMP/distribution-tests.log"
+          grep -Eq 'test result: ok\. [1-9][0-9]* passed' "$RUNNER_TEMP/distribution-tests.log"
+      - name: Tooling lint
+        run: cargo clippy --locked --offline -p xtask --all-targets -- -D warnings
+      - name: All structural gates and differential ledger conformance (not full parity)
+        env:
+          CARGO_NET_OFFLINE: "true"
+        run: cargo run --locked --offline -p xtask -- check
+      - name: Portable default-feature compilation
+        if: ${{ !cancelled() }}
+        run: |
+          cargo check --locked --offline --target wasm32-unknown-unknown -p opencode-schema -p opencode-protocol -p opencode-platform-api -p opencode-storage-api -p opencode-event-api -p opencode-llm-api -p opencode-permissions -p opencode-tool-api -p opencode-session-api -p opencode-codemode -p opencode-integration-api -p opencode-client -p opencode-view-model -p opencode-ui-web -p opencode-hosted-domain
+
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+          os: [ubuntu-24.04, macos-14]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: rust
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/rust/target/ci-native
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Pinned toolchain and locked dependencies
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal
+          cargo fetch --locked
+          cargo fetch --locked --manifest-path tests/acceptance/Cargo.toml
+      - name: Isolate product state
+        run: |
+          mkdir -p "$RUNNER_TEMP/rust-home" "$RUNNER_TEMP/rust-data" "$RUNNER_TEMP/rust-config" "$RUNNER_TEMP/rust-cache" "$RUNNER_TEMP/rust-state" "$RUNNER_TEMP/rust-tmp"
+          {
+            echo "CARGO_HOME=$HOME/.cargo"
+            echo "RUSTUP_HOME=$HOME/.rustup"
+            echo "HOME=$RUNNER_TEMP/rust-home"
+            echo "XDG_DATA_HOME=$RUNNER_TEMP/rust-data"
+            echo "XDG_CONFIG_HOME=$RUNNER_TEMP/rust-config"
+            echo "XDG_CACHE_HOME=$RUNNER_TEMP/rust-cache"
+            echo "XDG_STATE_HOME=$RUNNER_TEMP/rust-state"
+            echo "TMPDIR=$RUNNER_TEMP/rust-tmp"
+            echo "CARGO_NET_OFFLINE=true"
+          } >> "$GITHUB_ENV"
+      - name: Native compilation through the shipped package
+        run: cargo check --locked --offline -p opencode --all-targets
+      - name: Native runtime, HTTP, permission and filesystem integration
+        run: cargo test --locked --offline -p opencode-runtime -p opencode-server -p opencode-platform-native -p opencode-permissions -p opencode --tests
+      - name: Build real native release archive and verify its checksums, SBOM and contents
+        run: |
+          cargo run --locked --offline -p xtask -- distribution build --package opencode --bin opencode --out "$RUNNER_TEMP/rust-dist"
+          cargo run --locked --offline -p xtask -- distribution verify --dir "$RUNNER_TEMP/rust-dist"
+          mkdir -p "$RUNNER_TEMP/rust-extracted"
+          python3 - "$RUNNER_TEMP" <<'PY'
+          import pathlib, sys, tarfile, zipfile
+          root = pathlib.Path(sys.argv[1])
+          archives = list((root / "rust-dist").glob("*.zip")) + list((root / "rust-dist").glob("*.tar.gz"))
+          assert len(archives) == 1, f"expected exactly one host archive, got {archives}"
+          archive = archives[0]
+          destination = root / "rust-extracted"
+          if archive.suffix == ".zip":
+              with zipfile.ZipFile(archive) as source:
+                  source.extractall(destination)
+          else:
+              with tarfile.open(archive) as source:
+                  source.extractall(destination, filter="data")
+          binary = destination / "opencode"
+          assert binary.is_file(), f"missing extracted executable: {binary}"
+          binary.chmod(0o755)
+          PY
+          "$RUNNER_TEMP/rust-extracted/opencode" --version
+      - name: Acceptance harness tests
+        run: cargo test --locked --offline --manifest-path tests/acceptance/Cargo.toml
+      - name: Actual packaged-executable acceptance, no blocked candidate rows
+        env:
+          CANDIDATE_CMD: ${{ runner.temp }}/rust-extracted/opencode
+        run: |
+          cargo run --locked --offline --manifest-path tests/acceptance/Cargo.toml --bin acceptance -- --out "$RUNNER_TEMP/rust-acceptance.jsonl"
+          python3 - "$RUNNER_TEMP/rust-acceptance.jsonl" <<'PY'
+          import json, pathlib, sys
+          rows = [json.loads(line) for line in pathlib.Path(sys.argv[1]).read_text().splitlines()]
+          candidates = [row for row in rows if row["workflow"].endswith(" (candidate)")]
+          assert len(candidates) == 3, f"expected all 3 candidate workflows, got {len(candidates)}"
+          assert all(row["gate_decision"].startswith("pass") for row in candidates), candidates
+          PY
+      - name: Preserve acceptance evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-acceptance-${{ matrix.os }}
+          path: ${{ runner.temp }}/rust-acceptance.jsonl
+          if-no-files-found: warn
+
+  windows-build:
+    runs-on: windows-2025
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Pinned native Windows toolchain
+        run: rustup toolchain install 1.99.0 --profile minimal
+      - name: Compile the actual Windows executable, not only portable libraries
+        run: cargo check --locked -p opencode --bin opencode --target x86_64-pc-windows-msvc

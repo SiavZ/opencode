@@ -6,6 +6,7 @@
 //! |-- src/cloud/infra/stage.rs
 //! `-- src/cloud/model.rs
 //! External:
+//! |-- serde_json::Value
 //! `-- serde_json::json
 //! Used by:
 //! rust/xtask/

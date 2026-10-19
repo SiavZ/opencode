@@ -4,7 +4,10 @@
 //! rust/xtask/
 //! `-- src/cloud/model.rs
 //! External:
-//! `-- serde_json::{json, Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/xtask/
 //! |-- src/cloud/mod.rs

@@ -5,8 +5,17 @@
 //! rust/xtask/
 //! `-- src/distribution/mod.rs
 //! External:
-//! |-- serde_json::{json, Value}
-//! |-- sha2::{Digest, Sha256}
+//! |-- anyhow::Context
+//! |-- anyhow::Result
+//! |-- anyhow::ensure
+//! |-- hex::encode
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::json
+//! |-- serde_json::to_string_pretty
+//! |-- serde_json::to_vec
+//! |-- sha2::Digest
+//! |-- sha2::Sha256
 //! `-- toml::Table
 //! Used by:
 //! rust/xtask/

@@ -4,10 +4,13 @@
 //! rust/xtask/
 //! `-- src/cloud/model.rs
 //! External:
-//! `-- serde_json::{json, Value}
+//! |-- i32::from
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/xtask/
-//! `-- src/cloud/infra/mod.rs
+//! |-- src/cloud/infra/mod.rs
+//! `-- src/cloud/tests.rs
 //! Invariants: calculated field names are `<name>_<base36(hash31(expr) >>> 0)>` exactly as
 //! infra/monitoring.ts:34-39, triggers are disabled outside production (infra/monitoring.ts:5).
 //! Contract tests: xtask/tests/cloud_plan.rs (hash fixtures captured with bun from the TS function)

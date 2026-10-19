@@ -9,7 +9,16 @@
 //! |-- src/distribution/matrix.rs
 //! `-- src/distribution/mod.rs
 //! External:
-//! `-- sha2::{Digest, Sha256}
+//! |-- anyhow::Context
+//! |-- anyhow::Result
+//! |-- archive::list
+//! |-- hex::encode
+//! |-- matrix::Manifest
+//! |-- matrix::manifest
+//! |-- matrix::render
+//! |-- serde_json::from_str
+//! |-- sha2::Digest
+//! `-- sha2::Sha256
 //! Used by:
 //! rust/xtask/
 //! |-- src/distribution/build.rs

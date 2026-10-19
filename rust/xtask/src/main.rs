@@ -3,11 +3,17 @@
 //! Scope: build-time process, never a runtime dependency.
 //! Uses:
 //! rust/xtask/
+//! |-- src/check.rs
 //! |-- src/cloud/mod.rs
 //! |-- src/distribution/mod.rs
-//! `-- src/lib.rs
+//! |-- src/edges.rs
+//! |-- src/fixtures.rs
+//! |-- src/headers.rs
+//! |-- src/inventory.rs
+//! `-- src/size.rs
 //! External:
-//! `-- anyhow::{bail, Result}
+//! |-- anyhow::Result
+//! `-- anyhow::bail
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tasks are deterministic and never mutate files outside `rust/` unless asked.
@@ -24,9 +30,9 @@ Phase 01:
   headers [--fix]   check (or regenerate) Uses/Used by header trees
   edges             resolved native + wasm32 crate graph vs contracts/crate-edges.toml
   size              500-line rule vs contracts/modularity-reviews.toml
-  inventory         TS baseline registries vs coverage IDs
-  fixtures [run]    validate versioned fixtures, run differential comparisons
-  check             all of the above
+  inventory [--write] TS baseline registries vs explicit coverage IDs/status
+  fixtures [run [--strict]] validate corpora; execute ledger conformance, strict full parity
+  check [--strict]  every gate; --strict also rejects known compatibility debt
 Phase 13:
   cloud             infrastructure plans";
 

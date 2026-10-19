@@ -4,7 +4,9 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- serde_json::to_string_pretty
 //! Used by:
 //! rust/xtask/
 //! |-- src/distribution/build.rs

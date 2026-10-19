@@ -12,8 +12,20 @@
 //! |-- src/distribution/sbom.rs
 //! `-- src/distribution/verify.rs
 //! External:
-//! |-- serde_json::{json, Value}
-//! `-- tempfile::tempdir
+//! |-- archive::write
+//! |-- build::require_bin
+//! |-- matrix::manifest
+//! |-- matrix::render
+//! |-- sbom::from_metadata
+//! |-- sbom::generate
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_string
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! |-- verify::check_dir
+//! |-- verify::check_manifest
+//! `-- verify::write_checksums
 //! Used by:
 //! rust/xtask/
 //! `-- src/distribution/mod.rs

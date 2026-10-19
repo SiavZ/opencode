@@ -11,7 +11,10 @@
 //! |-- src/cloud/model.rs
 //! `-- src/cloud/terraform.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- inventory::diff
+//! |-- serde_json::Value
+//! |-- serde_json::to_string
+//! `-- terraform::emit
 //! Used by:
 //! rust/xtask/
 //! `-- src/cloud/mod.rs
