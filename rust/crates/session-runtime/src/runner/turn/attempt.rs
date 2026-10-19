@@ -149,7 +149,12 @@ impl LlmSessionRunner {
             model: &model,
             request: &request,
         };
-        if self.compaction.compact_if_needed(&compaction).await? {
+        let compacted = tokio::select! {
+            biased;
+            () = cancel.cancelled() => return Err(SessionError::Cancelled),
+            result = self.compaction.compact_if_needed(&compaction) => result?,
+        };
+        if compacted {
             return Ok(Attempt::ContinueAfterCompaction { step: current_step });
         }
 
@@ -260,7 +265,12 @@ impl LlmSessionRunner {
         if recover_overflow && !guard.has_assistant_started() && overflowed && !interrupted {
             drop(guard);
             tasks.cancel_all().await;
-            if self.compaction.compact_after_overflow(&compaction).await? {
+            let compacted = tokio::select! {
+                biased;
+                () = cancel.cancelled() => return Err(SessionError::Cancelled),
+                result = self.compaction.compact_after_overflow(&compaction) => result?,
+            };
+            if compacted {
                 return Ok(Attempt::ContinueAfterOverflowCompaction { step: current_step });
             }
             guard = publisher.lock().await;
