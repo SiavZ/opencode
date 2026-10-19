@@ -23,7 +23,7 @@ All Cargo invocations use the shared `repair-env.sh` wrapper, pinned cache, `--l
 
 - Initial `cargo test -p opencode-ui-terminal` plus `cargo clippy -p opencode-ui-terminal --all-targets --no-deps -- -D warnings` passed after fixing owned lints and coordinating a foreign dialog lint with herb.
 - Latest full UI test run completed successfully on 2026-10-19 at 11:36 UTC, including 14 editor, 8 renderer, 4 projection and 5 specialized tool tests, plus the existing input/keybind/theme/terminal/app suites.
-- The immediately following strict Clippy invocation was blocked by a concurrent workspace manifest/lock change. Root was asked to refresh its owned lock; rerun required before this revision is certified.
+- The immediately following strict Clippy invocation was initially blocked by a concurrent workspace manifest/lock change. After root refreshed its owned lock, the rerun completed successfully at 11:47 UTC with `--locked --offline --all-targets --no-deps -- -D warnings`.
 - Existing package terminal PTY tests passed. They are not the same as exercising the executable app with these new editor APIs.
 - Executable Unicode/paste PTY integration is owned by herb. At 11:32 UTC herb reported provider-adapter compilation errors blocking it; bird owns those fixes. No live executable acceptance is claimed here.
 
