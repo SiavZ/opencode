@@ -60,16 +60,6 @@ owner = ["02"]
 target = "native"
 allow = ["schema", "platform-api", "config", "storage-api", "event-api"]
 
-[crates.observability]
-owner = ["15", "02"]
-target = "native"
-allow = ["schema"]
-
-[crates.http-recorder]
-owner = ["03", "15"]
-target = "native"
-allow = ["schema"]
-
 [crates.llm-api]
 owner = ["03"]
 target = "portable"
@@ -78,7 +68,7 @@ allow = ["schema"]
 [crates.provider-adapters]
 owner = ["03"]
 target = "native"
-allow = ["schema", "llm-api", "config", "platform-api", "observability", "http-recorder"]
+allow = ["schema", "llm-api", "config", "platform-api"]
 
 [crates.permissions]
 owner = ["05"]
@@ -113,7 +103,7 @@ allow = ["schema", "tool-api", "permissions", "llm-api"]
 [crates.integration-adapters]
 owner = ["07"]
 target = "native"
-allow = ["schema", "integration-api", "tool-api", "permissions", "platform-api", "config", "codemode", "session-api", "llm-api", "event-api", "observability"]
+allow = ["schema", "integration-api", "tool-api", "permissions", "platform-api", "config", "codemode", "session-api", "llm-api", "event-api"]
 
 [crates.context]
 owner = ["04"]
@@ -123,12 +113,12 @@ allow = ["schema", "storage-api", "event-api", "config", "platform-api"]
 [crates.session-runtime]
 owner = ["04"]
 target = "native"
-allow = ["schema", "session-api", "storage-api", "event-api", "llm-api", "tool-api", "integration-api", "context", "permissions", "config", "platform-api", "locations", "observability"]
+allow = ["schema", "session-api", "storage-api", "event-api", "llm-api", "tool-api", "integration-api", "context", "permissions", "config", "platform-api", "locations"]
 
 [crates.server]
 owner = ["06"]
 target = "native"
-allow = ["schema", "protocol", "session-api", "event-api", "storage-api", "permissions", "config", "locations", "platform-api", "integration-api", "llm-api", "tool-api", "observability"]
+allow = ["schema", "protocol", "session-api", "event-api", "storage-api", "permissions", "config", "locations", "platform-api", "integration-api", "llm-api", "tool-api"]
 
 [crates.client]
 owner = ["08"]
@@ -138,7 +128,7 @@ allow = ["schema", "protocol"]
 [crates.runtime]
 owner = ["91", "01"]
 target = "native"
-allow = ["schema", "protocol", "platform-api", "platform-native", "config", "locations", "storage-api", "storage-sqlite", "event-api", "event-store", "observability", "http-recorder", "llm-api", "provider-adapters", "session-api", "session-runtime", "context", "permissions", "tool-api", "tools", "integration-api", "integration-adapters", "codemode", "server"]
+allow = ["schema", "protocol", "platform-api", "platform-native", "config", "locations", "storage-api", "storage-sqlite", "event-api", "event-store", "llm-api", "provider-adapters", "session-api", "session-runtime", "context", "permissions", "tool-api", "tools", "integration-api", "integration-adapters", "codemode", "server"]
 
 [crates.sdk-embedded]
 owner = ["08"]
@@ -173,24 +163,19 @@ allow = ["schema"]
 [crates.hosted-adapters]
 owner = ["12", "13"]
 target = "native"
-allow = ["schema", "protocol", "hosted-domain", "llm-api", "provider-adapters", "observability"]
+allow = ["schema", "protocol", "hosted-domain", "llm-api", "provider-adapters"]
 
 [crates.ecosystem]
 owner = ["14"]
 target = "native"
 allow = ["schema", "protocol", "client", "platform-api"]
 
-[crates.test-support]
-owner = ["01", "15"]
-target = "native"
-allow = ["schema", "storage-api", "event-api", "llm-api", "tool-api", "session-api", "platform-api"]
-
 # Binaries and tooling.
 
 [bins.opencode]
 owner = ["09", "91"]
 target = "native"
-allow = ["schema", "protocol", "client", "runtime", "ui-terminal", "view-model", "config", "platform-api", "platform-native", "ecosystem", "observability"]
+allow = ["schema", "protocol", "client", "runtime", "session-api", "ui-terminal", "view-model", "config", "platform-api", "platform-native", "ecosystem"]
 
 [bins.desktop]
 owner = ["11"]
@@ -200,7 +185,7 @@ allow = ["schema", "protocol", "client", "desktop-host", "platform-native", "con
 [bins.hosted]
 owner = ["12", "13"]
 target = "native"
-allow = ["schema", "protocol", "hosted-domain", "hosted-adapters", "observability"]
+allow = ["schema", "protocol", "hosted-domain", "hosted-adapters"]
 
 [bins.compatibility-host]
 owner = ["07", "14"]
