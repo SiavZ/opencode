@@ -202,7 +202,9 @@ impl GlobalServices {
                 .filter(|part| !part.is_empty())
                 .collect::<Vec<_>>();
             let mut items = parts
-                .chunks_exact(2)
+                .as_chunks::<2>()
+                .0
+                .iter()
                 .map(|pair| (pair[1].to_owned(), pair[0].to_owned()))
                 .collect::<Vec<_>>();
             items.extend(status.iter().filter(|(_, code)| code == "??").cloned());
@@ -304,7 +306,8 @@ async fn statuses(cli: &GitCli, cwd: &Path) -> Vec<(String, String)> {
     .await
     .text
     .split('\0')
-    .filter_map(|item| (item.len() > 3).then(|| (item[3..].to_owned(), item[..2].to_owned())))
+    .filter(|item| item.len() > 3)
+    .map(|item| (item[3..].to_owned(), item[..2].to_owned()))
     .collect()
 }
 

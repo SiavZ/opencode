@@ -80,7 +80,7 @@ impl GlobalServices {
             }
             overlay(&mut commands, command);
         }
-        for skill in &lease.integrations.resources.skills {
+        for skill in &lease.integrations.resources.legacy_skills() {
             if commands
                 .iter()
                 .any(|command| command.get("name") == skill.get("name"))

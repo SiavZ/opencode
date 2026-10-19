@@ -82,7 +82,7 @@ impl GlobalServices {
                         .cloned(),
                     project_id: id.into(),
                 };
-                let value = workspaces.create(input,&adapter_context).await.map_err(|error|LegacyError::Response {status:500,body:json!({"name":"WorkspaceCreateError","data":{"message":error.to_string()}})})?;
+                let value = workspaces.create(input,&adapter_context).await.map_err(|error|LegacyError::Response {status:400,body:json!({"name":"WorkspaceCreateError","data":{"message":error.to_string()}})})?;
                 serde_json::to_value(value).map_err(internal)
             }
             "experimental.workspace.syncList" => {

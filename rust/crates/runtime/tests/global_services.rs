@@ -14,8 +14,12 @@
 //! Contract tests: runtime/tests/global_services.rs
 #[path = "../src/global_services/catalog_acceptance.rs"]
 mod catalog_acceptance;
+#[path = "../src/global_services/move_acceptance.rs"]
+mod move_acceptance;
 #[path = "../src/global_services/tui_acceptance.rs"]
 mod tui_acceptance;
+#[path = "../src/global_services/warp_acceptance.rs"]
+mod warp_acceptance;
 
 use opencode_runtime::process::{Process, ProcessOptions};
 use opencode_server::middleware::legacy_routing::RouteContext;
@@ -79,11 +83,11 @@ async fn config_writes_are_real_and_keep_secrets_unexpanded() {
         "global.config.update",
         json!({}),
         json!({}),
-        Some(json!({"theme":"dark"})),
+        Some(json!({"model":"fixture/model"})),
     )
     .await
     .unwrap();
-    assert_eq!(updated["theme"], "dark");
+    assert_eq!(updated["model"], "fixture/model");
     let raw = std::fs::read_to_string(process.options.paths.config.join("opencode.jsonc")).unwrap();
     assert!(raw.contains("keep this"));
     assert!(raw.contains("{env:FIXTURE_SECRET}"));

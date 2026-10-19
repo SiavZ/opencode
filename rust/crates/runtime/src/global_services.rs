@@ -26,6 +26,7 @@ mod move_session;
 mod projects;
 mod tui;
 mod vcs;
+mod warp;
 mod workspace;
 
 use crate::location::Locations;
@@ -47,6 +48,8 @@ pub struct GlobalServices {
     projects: ProjectStore,
     locations: Locations,
     options: ProcessOptions,
+    sessions: Option<Arc<crate::legacy::LegacyAdapter>>,
+    workspace_transport: Option<Arc<dyn opencode_locations::workspace::sync::SyncTransport>>,
     workspaces: Option<opencode_locations::WorkspaceService>,
     events: Option<Arc<opencode_event_store::SqlEventStore>>,
 }
@@ -64,6 +67,8 @@ impl GlobalServices {
             database,
             locations,
             options,
+            sessions: None,
+            workspace_transport: None,
             workspaces: None,
             events: None,
         }
@@ -76,6 +81,19 @@ impl GlobalServices {
 
     pub fn with_events(mut self, events: Arc<opencode_event_store::SqlEventStore>) -> Self {
         self.events = Some(events);
+        self
+    }
+
+    pub fn with_sessions(mut self, sessions: Arc<crate::legacy::LegacyAdapter>) -> Self {
+        self.sessions = Some(sessions);
+        self
+    }
+
+    pub fn with_workspace_transport(
+        mut self,
+        transport: Arc<dyn opencode_locations::workspace::sync::SyncTransport>,
+    ) -> Self {
+        self.workspace_transport = Some(transport);
         self
     }
 
@@ -185,6 +203,7 @@ impl LegacySessions for GlobalServices {
             operation if operation.starts_with("tui.") => {
                 self.tui(operation, context, payload).await
             }
+            "experimental.workspace.warp" => self.warp(context, payload).await,
             "command.list" => self.commands(context).await,
             operation
                 if operation.starts_with("experimental.workspace.")
