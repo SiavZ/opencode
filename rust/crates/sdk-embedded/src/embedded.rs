@@ -1,47 +1,55 @@
-//! Purpose: opt-in in-process composition facade, the Rust shape of
-//! packages/sdk-next/src/opencode.ts:10-43: one shared service graph feeding both the embedded
-//! no-auth router and local tool registration, a client bound to that router, joined disposal.
-//! Scope: one embedded host per `OpenCode` value.
+//! Purpose: compose the embedded SDK over the real Process and no-auth server router.
+//! Scope: one isolated or environment-configured native host, with no listening socket.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! |-- client/src/transport/mod.rs
+//! |-- runtime/src/lib.rs
+//! |-- sdk-embedded/src/embedded/client.rs
+//! |-- sdk-embedded/src/embedded/tools.rs
+//! |-- server/src/app.rs
+//! `-- tool-api/src/lib.rs
 //! External:
-//! `-- thiserror::Error
+//! |-- tokio_util::sync::CancellationToken
+//! `-- tokio_util::task::TaskTracker
 //! Used by:
 //! rust/crates/
-//! |-- sdk-embedded/src/lib.rs
-//! `-- sdk-embedded/tests/embedded.rs
-//! Invariants: never fabricates a router or services. Until opencode-server exposes an
-//! embeddable router and opencode-runtime exposes the application tool/permission graph,
-//! `OpenCode::create` fails with `EmbedError::NotYetPorted` naming the first missing component.
+//! |-- sdk-embedded/src/embedded/client.rs
+//! |-- sdk-embedded/src/embedded/tools.rs
+//! `-- sdk-embedded/src/lib.rs
+//! Invariants: one Process feeds HTTP and application tools; shutdown joins owned cleanup;
+//! dropping the host closes clones immediately and starts cleanup on its live tokio runtime.
 //! Contract tests: sdk-embedded/tests/embedded.rs
 
-use thiserror::Error;
+mod client;
+mod tools;
 
-/// Base URL the embedded client addresses (opencode.ts:34). Requests never leave the process.
+use std::sync::{Arc, Mutex};
+
+use opencode_runtime::{Process, ProcessError};
+use opencode_server::app::embedded_router;
+use opencode_tool_api::Registration;
+use tokio_util::sync::CancellationToken;
+use tokio_util::task::TaskTracker;
+
+pub use client::EmbeddedClient;
+pub use opencode_client::transport::RequestDescriptor;
+pub use opencode_runtime::ProcessOptions;
+pub use tools::ApplicationTools;
+
 pub const EMBEDDED_BASE_URL: &str = "http://opencode.local";
-
-/// Basic-auth username of the embedded router; embedding always runs with no password, so
-/// authentication is disabled (packages/server/src/routes.ts:47-48).
 pub const EMBEDDED_AUTH_USERNAME: &str = "opencode";
 
-/// Components the embedded composition needs, in the order `create` acquires them.
+/// Construction order retained for consumers inspecting the embedding contract.
 pub const REQUIRED_COMPONENTS: [Component; 3] = [
     Component::RuntimeServices,
     Component::EmbeddedRouter,
     Component::InProcessClientTransport,
 ];
 
-/// One piece of the composition in opencode.ts:10-43.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Component {
-    /// `AppNodeBuilder.build([ApplicationTools.node, PermissionSaved.node])` with a shared memo
-    /// map (opencode.ts:11-19). Owner: phase 91 (`opencode-runtime`).
     RuntimeServices,
-    /// `createEmbeddedRoutes()` with no-auth config, request-scoped `PermissionSaved` and a
-    /// disposable web handler (opencode.ts:20-31). Owner: phase 06 (`opencode-server`).
     EmbeddedRouter,
-    /// Client transport that dispatches to the in-process handler instead of the network
-    /// (opencode.ts:32-37). Owner: phase 08 (`opencode-client`).
     InProcessClientTransport,
 }
 
@@ -59,29 +67,88 @@ impl Component {
     }
 }
 
-/// Embedded composition failures.
-#[derive(Debug, Error, PartialEq, Eq)]
+#[derive(Debug, thiserror::Error)]
 pub enum EmbedError {
-    /// A required crate does not expose the API yet. Not retryable within this build.
-    #[error("embedded composition not yet ported: {}", component.as_str())]
-    NotYetPorted { component: Component },
+    #[error(transparent)]
+    Process(#[from] ProcessError),
 }
 
-/// Embedded OpenCode host: client operations plus `tools.register` (opencode.ts:38-41).
-///
-/// Values can only be produced by [`OpenCode::create`], which currently always reports the
-/// missing component instead of returning a partially wired host.
-#[derive(Debug)]
+struct Lifetime {
+    cancel: CancellationToken,
+    cleanup: TaskTracker,
+    registrations: Mutex<Vec<Registration>>,
+}
+
+impl Lifetime {
+    fn close(&self) {
+        let registrations = {
+            let mut registrations = self
+                .registrations
+                .lock()
+                .unwrap_or_else(|error| error.into_inner());
+            self.cancel.cancel();
+            std::mem::take(&mut *registrations)
+        };
+        drop(registrations);
+    }
+}
+
+/// In-process client and process-wide application tool registration over one shared runtime.
+/// Call `shutdown().await` for joined disposal. After Drop, `client.wait_closed().await`
+/// waits for the same cleanup while the tokio runtime remains alive.
 pub struct OpenCode {
-    _private: (),
+    pub client: EmbeddedClient,
+    pub tools: ApplicationTools,
+    lifetime: Arc<Lifetime>,
+}
+
+impl std::fmt::Debug for OpenCode {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("OpenCode")
+            .field("closed", &self.lifetime.cancel.is_cancelled())
+            .finish_non_exhaustive()
+    }
 }
 
 impl OpenCode {
-    /// Port of `OpenCode.create` (opencode.ts:10). Builds runtime services first, so the first
-    /// missing component is reported.
     pub async fn create() -> Result<Self, EmbedError> {
-        Err(EmbedError::NotYetPorted {
-            component: REQUIRED_COMPONENTS[0],
+        Self::create_with_options(ProcessOptions::from_process("local", "local")).await
+    }
+
+    /// Explicit placement avoids reading or writing the caller's real product directories.
+    pub async fn create_with_options(options: ProcessOptions) -> Result<Self, EmbedError> {
+        let process = Process::start(options).await?;
+        let lifetime = Arc::new(Lifetime {
+            cancel: CancellationToken::new(),
+            cleanup: TaskTracker::new(),
+            registrations: Mutex::new(Vec::new()),
+        });
+        let client = EmbeddedClient::new(embedded_router(process.services()), lifetime.clone());
+        let tools = ApplicationTools::new(process.application_tools.clone(), lifetime.clone());
+        let cancel = lifetime.cancel.clone();
+        // The tracker retains ownership even when the host is dropped; both explicit shutdown
+        // and a surviving client's wait_closed join this worker and Process's child tasks.
+        lifetime.cleanup.spawn(async move {
+            cancel.cancelled().await;
+            process.shutdown().await;
+        });
+        lifetime.cleanup.close();
+        Ok(Self {
+            client,
+            tools,
+            lifetime,
         })
+    }
+
+    pub async fn shutdown(self) {
+        self.lifetime.close();
+        self.lifetime.cleanup.wait().await;
+    }
+}
+
+impl Drop for OpenCode {
+    fn drop(&mut self) {
+        self.lifetime.close();
     }
 }

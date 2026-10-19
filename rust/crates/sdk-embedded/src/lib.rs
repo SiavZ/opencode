@@ -11,9 +11,10 @@
 //! Used by:
 //! rust/crates/
 //! |-- sdk-embedded/tests/embedded.rs
+//! |-- sdk-embedded/tests/embedded_tools.rs
 //! `-- sdk-embedded/tests/launcher.rs
-//! Invariants: launcher only spawns the configured program, embedded composition is behind the
-//! `embedded` feature and reports `EmbedError::NotYetPorted` until Server and Runtime exist.
+//! Invariants: launcher only spawns the configured program; the optional `embedded` feature
+//! composes the actual Process without adding native dependencies to launcher-only consumers.
 //! Contract tests: sdk-embedded/tests/launcher.rs, sdk-embedded/tests/embedded.rs
 
 #[cfg(feature = "embedded")]
@@ -22,7 +23,9 @@ pub mod launcher;
 pub mod process;
 
 #[cfg(feature = "embedded")]
-pub use embedded::{EmbedError, OpenCode};
+pub use embedded::{
+    ApplicationTools, EmbedError, EmbeddedClient, OpenCode, ProcessOptions, RequestDescriptor,
+};
 pub use launcher::{
     LaunchError, ServerHandle, ServerOptions, TuiHandle, TuiOptions, create_opencode_server,
     create_opencode_tui,
