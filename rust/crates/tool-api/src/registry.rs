@@ -82,9 +82,9 @@ struct Entry {
 type Table = BTreeMap<String, Vec<Entry>>;
 
 struct Inner {
-    applications: Mutex<Table>,
+    applications: Arc<Mutex<Table>>,
     local: Mutex<Table>,
-    next: AtomicU64,
+    next: Arc<AtomicU64>,
     bounder: Arc<dyn OutputBounder>,
 }
 
@@ -123,7 +123,7 @@ impl std::fmt::Debug for Registration {
 impl Drop for Registration {
     fn drop(&mut self) {
         let table = if self.application {
-            &self.inner.applications
+            self.inner.applications.as_ref()
         } else {
             &self.inner.local
         };
@@ -181,9 +181,21 @@ impl ToolRegistry {
     pub fn new(bounder: Arc<dyn OutputBounder>) -> Self {
         Self {
             inner: Arc::new(Inner {
-                applications: Mutex::new(Table::new()),
+                applications: Arc::new(Mutex::new(Table::new())),
                 local: Mutex::new(Table::new()),
-                next: AtomicU64::new(1),
+                next: Arc::new(AtomicU64::new(1)),
+                bounder,
+            }),
+        }
+    }
+
+    /// Share process application registrations while retaining Location-owned tools and output.
+    pub fn fork(&self, bounder: Arc<dyn OutputBounder>) -> Self {
+        Self {
+            inner: Arc::new(Inner {
+                applications: self.inner.applications.clone(),
+                local: Mutex::new(Table::new()),
+                next: self.inner.next.clone(),
                 bounder,
             }),
         }
@@ -202,7 +214,7 @@ impl ToolRegistry {
         }
         let token = self.inner.next.fetch_add(1, Ordering::Relaxed);
         let table = if application {
-            &self.inner.applications
+            self.inner.applications.as_ref()
         } else {
             &self.inner.local
         };

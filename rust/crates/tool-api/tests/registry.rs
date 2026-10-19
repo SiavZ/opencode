@@ -178,3 +178,115 @@ async fn failures_become_error_results() {
     );
     assert_eq!(settled.output, None);
 }
+
+#[tokio::test]
+async fn forks_share_live_application_tools_but_keep_location_overlays_isolated() {
+    let application = ToolRegistry::new(Arc::new(PassthroughBounder));
+    let first = application.fork(Arc::new(PassthroughBounder));
+    let second = application.fork(Arc::new(PassthroughBounder));
+    let app = application
+        .register_application(vec![(
+            "echo".into(),
+            Arc::new(Echo("app")) as Arc<dyn Tool>,
+        )])
+        .unwrap();
+    let advertised = first.materialize(&[]);
+    assert_eq!(advertised.names(), vec!["echo"]);
+    assert_eq!(second.materialize(&[]).names(), vec!["echo"]);
+
+    let local = first
+        .register(vec![(
+            "echo".into(),
+            Arc::new(Echo("local")) as Arc<dyn Tool>,
+        )])
+        .unwrap();
+    assert_eq!(
+        advertised
+            .settle(call("echo"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::error("Stale tool call: echo")
+    );
+    assert_eq!(
+        second
+            .materialize(&[])
+            .settle(call("echo"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::Text {
+            value: json!("app:x")
+        }
+    );
+    assert_eq!(
+        first
+            .materialize(&[])
+            .settle(call("echo"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::Text {
+            value: json!("local:x")
+        }
+    );
+    drop(app);
+    assert!(application.materialize(&[]).names().is_empty());
+    assert!(second.materialize(&[]).names().is_empty());
+    assert_eq!(first.materialize(&[]).names(), vec!["echo"]);
+    drop(local);
+    assert!(first.materialize(&[]).names().is_empty());
+}
+
+#[tokio::test]
+async fn sibling_application_replacement_invalidates_earlier_advertisements() {
+    let application = ToolRegistry::new(Arc::new(PassthroughBounder));
+    let first = application.fork(Arc::new(PassthroughBounder));
+    let second = application.fork(Arc::new(PassthroughBounder));
+    let initial = first
+        .register_application(vec![(
+            "echo".into(),
+            Arc::new(Echo("old")) as Arc<dyn Tool>,
+        )])
+        .unwrap();
+    let advertised = second.materialize(&[]);
+    let replacement = application
+        .register_application(vec![(
+            "echo".into(),
+            Arc::new(Echo("new")) as Arc<dyn Tool>,
+        )])
+        .unwrap();
+    assert_eq!(
+        advertised
+            .settle(call("echo"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::error("Stale tool call: echo")
+    );
+    assert_eq!(
+        second
+            .materialize(&[])
+            .settle(call("echo"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::Text {
+            value: json!("new:x")
+        }
+    );
+    drop(replacement);
+    assert_eq!(
+        second
+            .materialize(&[])
+            .settle(call("echo"), &context())
+            .await
+            .unwrap()
+            .result,
+        ToolResultValue::Text {
+            value: json!("old:x")
+        }
+    );
+    drop(initial);
+    assert!(first.materialize(&[]).names().is_empty());
+}
