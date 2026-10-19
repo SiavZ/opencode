@@ -57,8 +57,20 @@ pub fn run(parsed: &Parsed, version: &str) -> ExitCode {
 
 async fn serve(parsed: &Parsed, version: &str) -> ExitCode {
     let env = Environment::from_process();
-    let config = load_global(&env, None, &mut Diagnostics::default()).unwrap_or(Value::Null);
-    let network = resolve(parsed, config.get("server"));
+    let config = match load_global(&env, None, &mut Diagnostics::default()) {
+        Ok(config) => config,
+        Err(error) => {
+            eprintln!("Error: {error}");
+            return ExitCode::from(1);
+        }
+    };
+    let network = match resolve(parsed, config.get("server")) {
+        Ok(network) => network,
+        Err(error) => {
+            eprintln!("Error: {error}");
+            return ExitCode::from(1);
+        }
+    };
     if std::env::var("OPENCODE_SERVER_PASSWORD").map_or(true, |p| p.is_empty()) {
         println!("Warning: OPENCODE_SERVER_PASSWORD is not set; server is unsecured.");
     }
@@ -100,6 +112,7 @@ async fn serve(parsed: &Parsed, version: &str) -> ExitCode {
     ExitCode::SUCCESS
 }
 
+#[cfg(unix)]
 async fn wait_for_shutdown() {
     let mut terminate =
         tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate()).ok();
@@ -114,8 +127,17 @@ async fn wait_for_shutdown() {
     }
 }
 
+#[cfg(not(unix))]
+async fn wait_for_shutdown() {
+    let _ = tokio::signal::ctrl_c().await;
+}
+
+#[derive(Debug, thiserror::Error)]
+#[error("invalid port: expected a finite integer in 0..=65535")]
+pub struct InvalidPort;
+
 /// `resolveNetworkOptionsNoConfig(args, config.server)`.
-pub fn resolve(parsed: &Parsed, server: Option<&Value>) -> Network {
+pub fn resolve(parsed: &Parsed, server: Option<&Value>) -> Result<Network, InvalidPort> {
     let args = &parsed.args;
     let flags: Vec<&str> = parsed
         .raw
@@ -152,7 +174,11 @@ pub fn resolve(parsed: &Parsed, server: Option<&Value>) -> Network {
     } else {
         config_str("mdnsDomain").unwrap_or_else(|| arg_str("mdns-domain", "opencode.local"))
     };
-    let arg_port = args.num("port").unwrap_or(0.0);
+    let arg_port = if has("--port") {
+        args.num("port").ok_or(InvalidPort)?
+    } else {
+        args.num("port").unwrap_or(0.0)
+    };
     let port = if has("--port") {
         arg_port
     } else {
@@ -176,17 +202,16 @@ pub fn resolve(parsed: &Parsed, server: Option<&Value>) -> Network {
         })
         .unwrap_or_default();
     cors.extend(args.strings("cors"));
-    Network {
+    if !port.is_finite() || port.fract() != 0.0 || !(0.0..=65535.0).contains(&port) {
+        return Err(InvalidPort);
+    }
+    Ok(Network {
         hostname,
-        port: if port.is_finite() && (0.0..=65535.0).contains(&port) {
-            port as u16
-        } else {
-            0
-        },
+        port: port as u16,
         mdns,
         mdns_domain,
         cors,
-    }
+    })
 }
 
 #[cfg(test)]
@@ -212,7 +237,7 @@ mod tests {
 
     #[test]
     fn defaults_without_config() {
-        let network = resolve(&parsed(&["serve"]), None);
+        let network = resolve(&parsed(&["serve"]), None).unwrap();
         assert_eq!(
             network,
             Network {
@@ -228,7 +253,7 @@ mod tests {
     #[test]
     fn config_wins_over_defaults_and_flags_win_over_config() {
         let server = json!({ "port": 4096, "hostname": "0.0.0.0", "cors": ["https://a"] });
-        let network = resolve(&parsed(&["serve"]), Some(&server));
+        let network = resolve(&parsed(&["serve"]), Some(&server)).unwrap();
         assert_eq!(network.port, 4096);
         assert_eq!(network.hostname, "0.0.0.0");
         assert_eq!(network.cors, vec!["https://a".to_owned()]);
@@ -243,7 +268,8 @@ mod tests {
                 "https://b",
             ]),
             Some(&server),
-        );
+        )
+        .unwrap();
         assert_eq!(network.port, 5000);
         assert_eq!(network.hostname, "localhost");
         assert_eq!(
@@ -254,22 +280,24 @@ mod tests {
 
     #[test]
     fn mdns_defaults_hostname_to_all_interfaces_unless_configured() {
-        let network = resolve(&parsed(&["serve", "--mdns"]), None);
+        let network = resolve(&parsed(&["serve", "--mdns"]), None).unwrap();
         assert!(network.mdns);
         assert_eq!(network.hostname, "0.0.0.0");
-        let network = resolve(&parsed(&["serve"]), Some(&json!({ "mdns": true })));
+        let network = resolve(&parsed(&["serve"]), Some(&json!({ "mdns": true }))).unwrap();
         assert!(network.mdns);
         assert_eq!(network.hostname, "0.0.0.0");
         let network = resolve(
             &parsed(&["serve"]),
             Some(&json!({ "mdns": true, "hostname": "10.0.0.1", "mdnsDomain": "x.local" })),
-        );
+        )
+        .unwrap();
         assert_eq!(network.hostname, "10.0.0.1");
         assert_eq!(network.mdns_domain, "x.local");
         let network = resolve(
             &parsed(&["serve", "--no-mdns"]),
             Some(&json!({ "mdns": true })),
-        );
+        )
+        .unwrap();
         assert!(!network.mdns);
         assert_eq!(network.hostname, "127.0.0.1");
     }

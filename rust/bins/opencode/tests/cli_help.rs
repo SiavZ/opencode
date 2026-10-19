@@ -177,10 +177,32 @@ fn help_fixtures_match_baseline() {
 }
 
 /// The acp `--cwd` default embeds the process cwd, so its row layout depends on the path length
-/// (cliui inlines or wraps it). Drop that row pair from both sides; all other rows stay exact.
+/// (cliui inlines or wraps it). This is ACP's final option, including any wrapped type line.
 fn strip_cwd_row(text: &str) -> String {
     text.lines()
-        .filter(|l| !l.contains("--cwd") && !l.contains("[default: \"/"))
-        .map(|l| format!("{l}\n"))
+        .take_while(|line| !line.contains("--cwd"))
+        .map(|line| format!("{line}\n"))
         .collect()
+}
+
+#[test]
+fn acp_help_normalizes_short_and_long_cwd_without_dropping_other_options() {
+    let root = tempfile::tempdir().unwrap();
+    let short = root.path().canonicalize().unwrap();
+    let long = short.join("long-working-directory-for-acp-help-wrapping".repeat(3));
+    std::fs::create_dir(&long).unwrap();
+    let expected = strip_cwd_row(&std::fs::read_to_string(fixtures().join("acp.stderr")).unwrap());
+    for cwd in [&short, &long] {
+        let (out, err, code) = run(&["acp".into(), "--help".into()], cwd, &short);
+        assert_eq!(code, 0);
+        assert!(out.is_empty());
+        assert!(err.contains("--cwd"));
+        assert!(err.contains("working directory"));
+        let compact = err.split_whitespace().collect::<String>();
+        assert!(
+            compact.contains(&format!("[default:\"{}\"]", cwd.display())),
+            "{err}"
+        );
+        assert_eq!(strip_cwd_row(&err), expected);
+    }
 }
