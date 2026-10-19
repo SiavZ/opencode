@@ -11,6 +11,7 @@ publish.workspace = true
 name = "opencode_platform_native"
 
 [dependencies]
+portable-pty.workspace = true
 opencode-schema.workspace = true
 opencode-platform-api.workspace = true
 serde.workspace = true

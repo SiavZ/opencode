@@ -29,16 +29,32 @@ opencode-provider-adapters.workspace = true
 opencode-permissions.workspace = true
 opencode-tool-api.workspace = true
 opencode-tools.workspace = true
+opencode-integration-api.workspace = true
+opencode-integration-adapters.workspace = true
 serde_json.workspace = true
 indexmap.workspace = true
 futures.workspace = true
 async-trait.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
+reqwest = { workspace = true, features = ["rustls", "json"] }
+base64.workspace = true
+regex.workspace = true
+ignore.workspace = true
 tokio = { workspace = true, features = ["rt", "net", "sync", "time", "macros"] }
 tokio-util = { workspace = true, features = ["rt"] }
 
 [dev-dependencies]
+axum.workspace = true
+base64.workspace = true
+form_urlencoded.workspace = true
+futures-util.workspace = true
+http-body-util.workspace = true
+percent-encoding.workspace = true
+regex.workspace = true
+serde.workspace = true
+sha2.workspace = true
+tower.workspace = true
 tempfile.workspace = true
 tokio = { workspace = true, features = ["rt-multi-thread", "macros", "test-util", "process"] }
 reqwest = { workspace = true, features = ["rustls", "json"] }

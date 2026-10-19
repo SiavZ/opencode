@@ -1514,6 +1514,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "crossbeam-deque"
+version = "0.8.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "622f3fc73690be383c7214310406f28a90e6edeadc3cea882f9d71e495b9711a"
+dependencies = [
+ "crossbeam-epoch",
+ "crossbeam-utils",
+]
+
+[[package]]
+name = "crossbeam-epoch"
+version = "0.9.21"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dc74980687109a3b14c72fd458107bf0baa1da1a1a805e178d15501ba9b86d9d"
+dependencies = [
+ "crossbeam-utils",
+]
+
+[[package]]
 name = "crossbeam-queue"
 version = "0.3.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3412,6 +3431,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "ignore"
+version = "0.4.33"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "00b69833ed729dc5aa7d19541d96d6cf8e9137194207a04916d658e43168402f"
+dependencies = [
+ "crossbeam-deque",
+ "globset",
+ "log",
+ "memchr",
+ "regex-automata",
+ "same-file",
+ "walkdir",
+ "winapi-util",
+]
+
+[[package]]
 name = "indexmap"
 version = "1.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5283,6 +5318,7 @@ dependencies = [
  "notify",
  "opencode-platform-api",
  "opencode-schema",
+ "portable-pty",
  "serde",
  "serde_json",
  "sha1 0.11.0",
@@ -5346,12 +5382,20 @@ name = "opencode-runtime"
 version = "0.0.0"
 dependencies = [
  "async-trait",
+ "axum",
+ "base64 0.23.1",
+ "form_urlencoded",
  "futures",
+ "futures-util",
+ "http-body-util",
+ "ignore",
  "indexmap 2.14.2",
  "opencode-config",
  "opencode-context",
  "opencode-event-api",
  "opencode-event-store",
+ "opencode-integration-adapters",
+ "opencode-integration-api",
  "opencode-llm-api",
  "opencode-locations",
  "opencode-permissions",
@@ -5366,12 +5410,17 @@ dependencies = [
  "opencode-storage-sqlite",
  "opencode-tool-api",
  "opencode-tools",
+ "percent-encoding",
+ "regex",
  "reqwest",
+ "serde",
  "serde_json",
+ "sha2 0.11.0",
  "tempfile",
  "thiserror 2.0.21",
  "tokio",
  "tokio-util",
+ "tower",
  "tracing",
 ]
 
