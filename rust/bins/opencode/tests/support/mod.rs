@@ -14,7 +14,7 @@
 //! rust/bins/
 //! `-- opencode/tests/commands.rs
 //! Invariants: every child is reaped, server joined, all application state lives in temp roots.
-//! Contract tests: opencode/tests/commands.rs, opencode/tests/tui.rs
+//! Contract tests: opencode/tests/commands.rs
 
 use std::io::{Read, Write};
 use std::net::TcpListener;
@@ -30,6 +30,18 @@ use std::time::{Duration, Instant};
 use serde_json::{Value, json};
 
 pub struct Home(pub tempfile::TempDir);
+
+/// Test-only artifact selection, resolved before children change cwd or clear their environment.
+/// Invalid overrides fail rather than silently falling back to the Cargo-built executable.
+pub fn binary() -> std::path::PathBuf {
+    std::env::var_os("OPENCODE_ACCEPTANCE_BIN")
+        .map(|path| {
+            std::path::PathBuf::from(path)
+                .canonicalize()
+                .expect("OPENCODE_ACCEPTANCE_BIN must identify an existing executable")
+        })
+        .unwrap_or_else(|| env!("CARGO_BIN_EXE_opencode").into())
+}
 
 impl Home {
     pub fn new() -> Self {
@@ -96,7 +108,7 @@ impl Home {
     }
 
     pub fn command(&self, args: &[&str]) -> Command {
-        let mut command = Command::new(env!("CARGO_BIN_EXE_opencode"));
+        let mut command = Command::new(binary());
         command
             .args(args)
             .current_dir(self.0.path().join("project"))

@@ -263,7 +263,7 @@ mod pty {
                 })
                 .unwrap();
             let original = format!("{:?}", pair.master.get_termios().unwrap());
-            let mut command = CommandBuilder::new(env!("CARGO_BIN_EXE_opencode"));
+            let mut command = CommandBuilder::new(super::support::binary());
             command.env_clear();
             command.env("PATH", "/usr/bin:/bin");
             command.env("TERM", "xterm-256color");

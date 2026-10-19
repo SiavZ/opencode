@@ -19,6 +19,40 @@ The command regressions in `rust/bins/opencode/tests/commands.rs` exercise the b
 
 All tests isolate HOME/XDG/TMPDIR. The nine command/provider/PTY tests also passed three consecutive additional runs after the TCP fixture was hardened for idle connections and bounded slow reads. No live credentials, paid inference, remote publishing, or user-state writes are used.
 
+## Shipped executable acceptance
+
+The `commands` integration target accepts an optional test-only `OPENCODE_ACCEPTANCE_BIN` path. Both ordinary command children and PTY children select that same executable. Without the variable, selection remains `CARGO_BIN_EXE_opencode`. An invalid override fails rather than falling back; all existing functional assertions and isolated child environments remain unchanged. The variable is not a production CLI option.
+
+Run from `rust/`, with the same isolated test environment used above:
+
+```sh
+OPENCODE_ACCEPTANCE_BIN=/absolute/path/to/extracted/opencode \
+  cargo test --locked --offline -p opencode --test commands
+```
+
+### Extracted release artifact result
+
+On 2026-10-19 the same nine tests passed with the override set to the coordinator's extracted shipped artifact, `~/.jcode/scratch/opencode-rust-audit/native-package-gbZLRy/extracted/opencode`. No test or assertion was replaced for this run. The unchanged Cargo default also passed all nine tests, strict all-target bin clippy passed, and a nonexistent override was confirmed to fail rather than use the default binary.
+
+SHA-256: `d0f7cc65de10c47c1af66c022ee96ba8e63fa591514cba9870b27324e7fceb16`
+
+Preserved output from the extracted artifact run:
+
+```text
+running 9 tests
+test provider_failure_is_a_failed_command_not_admission_success ... ok
+test run_uses_production_provider_and_combines_stdin ... ok
+test run_and_models_use_canonical_v2_configuration ... ok
+test models_lists_real_configured_catalog_and_filters_unknown_provider ... ok
+test input_errors_and_unimplemented_features_are_honest_failures ... ok
+test run_continue_reuses_durable_session_without_reprinting_old_response ... ok
+test pty::default_tui_restores_terminal_after_provider_error ... ok
+test pty::default_tui_interrupts_an_active_turn_and_restores_terminal ... ok
+test pty::default_tui_runs_a_real_turn_and_restores_terminal ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.69s
+```
+
 ## Remaining parity blockers
 
 | item | missing behavior | why | owner | proof needed |
