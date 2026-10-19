@@ -11,7 +11,7 @@
 //! Used by:
 //! rust/crates/
 //! |-- platform-api/src/lib.rs
-//! |-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams/pty.rs
 //! |-- server/src/services/streams.rs
 //! |-- server/src/transport/websocket.rs
 //! `-- server/tests/ws_pty.rs

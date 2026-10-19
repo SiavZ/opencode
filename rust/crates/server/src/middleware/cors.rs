@@ -28,7 +28,7 @@
 //! rust/crates/
 //! |-- runtime/src/process.rs
 //! |-- server/src/app.rs
-//! |-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams/pty.rs
 //! |-- server/src/middleware/mod.rs
 //! |-- server/tests/http_auth.rs
 //! |-- server/tests/http_cors.rs

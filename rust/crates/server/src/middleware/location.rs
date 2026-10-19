@@ -20,6 +20,7 @@
 //! rust/crates/
 //! |-- server/src/handlers/dispatch.rs
 //! |-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams/pty.rs
 //! |-- server/src/middleware/legacy_routing.rs
 //! `-- server/src/middleware/mod.rs
 //! Invariants: an empty query hint falls back to the header, then to `process.cwd()`. The

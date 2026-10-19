@@ -26,6 +26,7 @@
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/lsp/client.rs
+//! |-- integration-adapters/src/lsp/client/server_handler.rs
 //! |-- integration-adapters/src/lsp/mod.rs
 //! `-- integration-adapters/tests/lsp_jsonrpc.rs
 //! Invariants: one frame per write under the writer lock, ids start at 0 and increase, unknown

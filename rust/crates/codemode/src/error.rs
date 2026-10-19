@@ -16,6 +16,7 @@
 //! |-- codemode/src/interp/diagnose.rs
 //! |-- codemode/src/interp/expr.rs
 //! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/members/cycles.rs
 //! |-- codemode/src/interp/mod.rs
 //! |-- codemode/src/interp/ops.rs
 //! |-- codemode/src/interp/patterns.rs

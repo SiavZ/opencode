@@ -19,7 +19,7 @@
 //! Used by:
 //! rust/crates/
 //! |-- runtime/src/legacy.rs
-//! |-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams/pty.rs
 //! |-- server/src/services/mod.rs
 //! |-- server/tests/sse_events.rs
 //! `-- server/tests/ws_pty.rs

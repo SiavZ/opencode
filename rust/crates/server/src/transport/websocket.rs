@@ -16,7 +16,7 @@
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
-//! |-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams/pty.rs
 //! `-- server/src/transport/mod.rs
 //! Invariants: one writer keeps order replay chunks (text, 64Ki UTF-16 units each), then the
 //! binary meta frame `0x00 + {"cursor":N}`, then live output, then close 1000 on PTY end. Inbound

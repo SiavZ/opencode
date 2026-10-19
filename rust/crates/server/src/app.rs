@@ -48,6 +48,7 @@
 //! |-- server/src/handlers/dispatch.rs
 //! |-- server/src/handlers/mod.rs
 //! |-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams/pty.rs
 //! |-- server/src/lib.rs
 //! |-- server/tests/http_auth.rs
 //! |-- server/tests/http_cors.rs

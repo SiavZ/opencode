@@ -9,6 +9,7 @@
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/lsp/client.rs
+//! |-- integration-adapters/src/lsp/client/server_handler.rs
 //! |-- integration-adapters/src/lsp/diagnostics.rs
 //! |-- integration-adapters/src/lsp/mod.rs
 //! |-- integration-adapters/src/lsp/requests.rs

@@ -25,6 +25,7 @@
 //! |-- server/src/handlers/mod.rs
 //! |-- server/src/handlers/session.rs
 //! |-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams/pty.rs
 //! |-- server/src/middleware/auth.rs
 //! |-- server/src/middleware/legacy_routing.rs
 //! |-- server/src/middleware/location.rs

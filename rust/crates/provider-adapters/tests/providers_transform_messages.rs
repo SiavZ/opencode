@@ -1,7 +1,14 @@
 //! Purpose: exercise provider-specific message normalization, caching, unsupported media and option mapping.
 //! Scope: offline typed-message examples; no live provider requests or full production parity claim.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! |-- llm-api/src/lib.rs
+//! |-- provider-adapters/src/providers/transform.rs
+//! `-- provider-adapters/src/providers/transform_message.rs
+//! External:
+//! |-- indexmap::IndexMap::new
+//! |-- serde_json::Map::new
+//! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: assertions call the actual exported transforms and verify model-specific output.
