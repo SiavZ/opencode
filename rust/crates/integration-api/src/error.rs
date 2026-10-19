@@ -38,6 +38,12 @@ pub enum IntegrationError {
     PermissionDenied(String),
     #[error("transport closed: {0}")]
     Closed(String),
+    #[error("plugin RPC {code}: {message}")]
+    Rpc {
+        code: i64,
+        message: String,
+        data: Option<serde_json::Value>,
+    },
     /// A typed gap: the behavior exists in the TypeScript baseline but is not ported yet.
     #[error("not yet ported: {0}")]
     NotYetPorted(&'static str),
