@@ -4928,12 +4928,14 @@ dependencies = [
  "opencode-session-api",
  "opencode-ui-terminal",
  "portable-pty",
+ "regex",
  "reqwest",
  "serde",
  "serde_json",
  "tempfile",
  "thiserror 2.0.21",
  "tokio",
+ "url",
  "vt100",
 ]
 
@@ -5365,6 +5367,7 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "sha1 0.11.0",
  "sha2 0.11.0",
  "tempfile",
  "thiserror 2.0.21",
@@ -5440,12 +5443,22 @@ dependencies = [
 name = "opencode-sdk-embedded"
 version = "0.0.0"
 dependencies = [
+ "async-trait",
+ "axum",
+ "futures-util",
+ "http-body-util",
  "nix 0.31.3",
+ "opencode-client",
+ "opencode-runtime",
+ "opencode-server",
+ "opencode-tool-api",
  "serde_json",
  "tempfile",
  "thiserror 2.0.21",
  "tokio",
  "tokio-util",
+ "tower",
+ "url",
 ]
 
 [[package]]
@@ -10508,6 +10521,7 @@ dependencies = [
  "flate2",
  "hex",
  "indexmap 2.14.2",
+ "opencode-protocol",
  "opencode-schema",
  "pretty_assertions",
  "proc-macro2",

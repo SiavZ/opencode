@@ -37,9 +37,9 @@ tower.workspace = true
 hyper = { workspace = true, features = ["server", "http1"] }
 hyper-util = { workspace = true, features = ["server", "server-auto", "server-graceful", "service", "http1", "http2", "tokio"] }
 reqwest = { workspace = true, features = ["rustls", "stream", "json"] }
+tokio-tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
 
 [dev-dependencies]
-tokio-tungstenite.workspace = true
 regex.workspace = true
 sha2.workspace = true
 tempfile.workspace = true

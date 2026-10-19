@@ -37,7 +37,7 @@ futures.workspace = true
 async-trait.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
-reqwest = { workspace = true, features = ["rustls", "json"] }
+reqwest = { workspace = true, features = ["rustls", "json", "stream"] }
 base64.workspace = true
 regex.workspace = true
 ignore.workspace = true

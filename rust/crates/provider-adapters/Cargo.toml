@@ -11,6 +11,7 @@ publish.workspace = true
 name = "opencode_provider_adapters"
 
 [dependencies]
+sha1.workspace = true
 opencode-schema.workspace = true
 opencode-llm-api.workspace = true
 serde.workspace = true

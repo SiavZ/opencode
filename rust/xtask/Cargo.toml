@@ -21,6 +21,7 @@ cargo_metadata.workspace = true
 walkdir.workspace = true
 regex.workspace = true
 opencode-schema.workspace = true
+opencode-protocol.workspace = true
 # Phase 15 (distribution).
 sha2.workspace = true
 hex.workspace = true

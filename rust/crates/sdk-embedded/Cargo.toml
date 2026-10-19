@@ -14,13 +14,22 @@ name = "opencode_sdk_embedded"
 default = []
 # Opt-in in-process composition of Server + Runtime. Off by default so launcher-only
 # consumers never pull native services.
-embedded = []
+embedded = ["dep:opencode-runtime", "dep:opencode-server", "dep:opencode-client", "dep:opencode-tool-api", "dep:axum", "dep:tower", "dep:http-body-util", "dep:url", "dep:futures-util"]
 
 [dependencies]
 serde_json.workspace = true
 thiserror.workspace = true
 tokio = { workspace = true, features = ["rt", "macros", "process", "io-util", "time", "sync"] }
-tokio-util.workspace = true
+tokio-util = { workspace = true, features = ["rt"] }
+opencode-runtime = { workspace = true, optional = true }
+opencode-server = { workspace = true, optional = true }
+opencode-client = { workspace = true, optional = true }
+opencode-tool-api = { workspace = true, optional = true }
+axum = { workspace = true, optional = true }
+tower = { workspace = true, optional = true, features = ["util"] }
+http-body-util = { workspace = true, optional = true }
+url = { workspace = true, optional = true }
+futures-util = { workspace = true, optional = true }
 
 [target.'cfg(unix)'.dependencies]
 nix = { workspace = true, features = ["signal"] }
@@ -28,6 +37,7 @@ nix = { workspace = true, features = ["signal"] }
 [dev-dependencies]
 tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
 tempfile.workspace = true
+async-trait.workspace = true
 
 [lints]
 workspace = true

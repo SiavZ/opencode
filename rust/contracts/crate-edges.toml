@@ -133,7 +133,7 @@ allow = ["schema", "protocol", "platform-api", "platform-native", "config", "loc
 [crates.sdk-embedded]
 owner = ["08"]
 target = "native"
-allow = ["schema", "protocol", "client", "server", "runtime"]
+allow = ["schema", "protocol", "client", "server", "runtime", "tool-api"]
 
 [crates.view-model]
 owner = ["10"]
