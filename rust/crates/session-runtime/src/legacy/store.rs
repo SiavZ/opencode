@@ -360,6 +360,13 @@ fn load_messages(
         return Ok(exists.then(Vec::new));
     }
     rows.reverse();
+    hydrate(tx, rows).map(Some)
+}
+
+pub(super) fn hydrate(
+    tx: &dyn Sql,
+    rows: Vec<opencode_storage_api::Row>,
+) -> Result<Vec<WithParts>, StorageError> {
     let mut result = Vec::with_capacity(rows.len());
     for row in rows {
         let id: String = row.get("id")?;
@@ -388,7 +395,7 @@ fn load_messages(
             .collect::<Result<Vec<_>, StorageError>>()?;
         result.push(WithParts { info, parts });
     }
-    Ok(Some(result))
+    Ok(result)
 }
 
 /// `Session.fromRow` (session.ts:59-118), absent optionals omitted.

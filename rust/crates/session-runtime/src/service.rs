@@ -76,6 +76,7 @@ use crate::projection::{
 use crate::revert::Revert;
 use crate::store::SessionStore;
 
+mod lifecycle;
 mod util;
 
 pub use util::{iso, relative, slug};
@@ -255,6 +256,22 @@ fn is_already_projected(error: &EventError) -> bool {
 
 #[async_trait]
 impl SessionService for LocalSessionService {
+    async fn rename(&self, session_id: &SessionID, title: &str) -> SessionResult<()> {
+        self.rename_host(session_id, title).await
+    }
+
+    async fn delete(&self, session_id: &SessionID) -> SessionResult<()> {
+        self.delete_host(session_id).await
+    }
+
+    async fn fork(
+        &self,
+        session_id: &SessionID,
+        message_id: Option<&MessageID>,
+    ) -> SessionResult<SessionInfo> {
+        self.fork_host(session_id, message_id).await
+    }
+
     async fn list(&self, request: ListRequest) -> SessionResult<Vec<SessionInfo>> {
         self.store.list(request).await
     }

@@ -68,6 +68,9 @@ impl LegacySession {
     pub async fn cancel(&self, session: &str) {
         tracing::info!(session.id = session, "cancel");
         self.deps.run_state.cancel(session).await;
+        if let Err(error) = self.deps.run_loop.cancel(session).await {
+            tracing::warn!(session.id = session, %error, "legacy cancellation cleanup failed");
+        }
     }
 
     /// `SessionPrompt.prompt`.

@@ -86,7 +86,7 @@ enum State {
     Running {
         id: u64,
         done: Arc<Done>,
-        abort: tokio::task::AbortHandle,
+        task: tokio::task::JoinHandle<()>,
     },
     Shell(ShellHandle),
     ShellThenRun {
@@ -214,11 +214,7 @@ impl Runner {
             let outcome = work.await;
             runner.finish_run(id, &sender, outcome).await;
         });
-        State::Running {
-            id,
-            done,
-            abort: task.abort_handle(),
-        }
+        State::Running { id, done, task }
     }
 
     async fn finish_run(&self, id: u64, done: &Done, outcome: Outcome) {
@@ -351,8 +347,9 @@ impl Runner {
         let previous = std::mem::replace(&mut *self.lock(), State::Idle);
         match previous {
             State::Idle => return,
-            State::Running { done, abort, .. } => {
-                abort.abort();
+            State::Running { done, task, .. } => {
+                task.abort();
+                let _ = task.await;
                 done.send_replace(Some(Err(LegacyError::Cancelled)));
             }
             State::Shell(shell) => Self::stop_shell(shell).await,

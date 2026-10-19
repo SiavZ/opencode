@@ -39,7 +39,7 @@ use opencode_locations::ProjectResolver;
 use opencode_locations::project_store::ProjectStore;
 use opencode_schema::ids::SessionID;
 use opencode_server::middleware::legacy_routing::RouteContext;
-use opencode_server::services::legacy::{LegacyError, LegacySessions};
+use opencode_server::services::legacy::{LegacyError, LegacyResponse, LegacySessions};
 use opencode_server::services::streams::{GlobalBus, GlobalEvent};
 use opencode_session_runtime::legacy::run_state::RunState;
 use opencode_session_runtime::legacy::store::LegacyStore;
@@ -48,11 +48,20 @@ use opencode_session_runtime::service::{iso, relative, slug};
 use opencode_storage_api::{DatabaseExt, Value as StorageValue};
 use serde_json::{Map, Value, json};
 
+mod global;
+mod import;
+mod locations;
+mod operations;
+
+pub use locations::{LegacyLocationServices, LegacyLocations};
+
 pub struct LegacyAdapter {
     store: LegacyStore,
     projects: ProjectStore,
     version: String,
     run_state: RunState,
+    locations: Option<Arc<dyn LegacyLocations>>,
+    tasks: tokio_util::task::TaskTracker,
 }
 
 impl LegacyAdapter {
@@ -67,7 +76,19 @@ impl LegacyAdapter {
             store,
             version,
             run_state,
+            locations: None,
+            tasks: tokio_util::task::TaskTracker::new(),
         }
+    }
+
+    pub fn with_locations(mut self, locations: Arc<dyn LegacyLocations>) -> Self {
+        self.locations = Some(locations);
+        self
+    }
+
+    pub async fn shutdown(&self) {
+        self.tasks.close();
+        self.tasks.wait().await;
     }
 
     async fn create(
@@ -243,8 +264,19 @@ impl LegacySessions for LegacyAdapter {
                 .ok_or_else(|| LegacyError::BadRequest("Missing sessionID".into()))
         };
         match operation {
+            "session.import" => self.import(context, payload).await,
             "session.create" => self.create(context, payload).await,
             "session.list" => self.list(context, query).await,
+            "experimental.session.list" => Ok(self.global_page(context, query).await?.body),
+            "session.todo" => {
+                let session = SessionID::new(id()?)
+                    .map_err(|error| LegacyError::BadRequest(error.to_string()))?;
+                let todos = opencode_session_runtime::todo::Todos::new(
+                    self.store.events().database(),
+                    self.store.events().store().clone(),
+                );
+                serde_json::to_value(todos.get(&session).await.map_err(internal)?).map_err(internal)
+            }
             "session.status" => Ok(json!(self.run_state.status().list())),
             "session.get" => self
                 .store
@@ -253,30 +285,33 @@ impl LegacySessions for LegacyAdapter {
                 .map(Value::Object)
                 .map(numbers)
                 .map_err(map_error),
-            "session.messages" => {
-                let before = query
-                    .get("before")
-                    .and_then(Value::as_str)
-                    .filter(|value| !value.is_empty());
-                if before.is_some() && !query.contains_key("limit") {
-                    return Err(LegacyError::BadRequest("before requires limit".into()));
-                }
-                if before.is_some() {
-                    return Err(LegacyError::Unavailable(
-                        "session.messages.pagination".into(),
-                    ));
-                }
-                let messages = self.store.messages(id()?).await.map_err(map_error)?;
-                let limit = query.get("limit").and_then(Value::as_u64).unwrap_or(0);
-                if limit != 0 && messages.len() as u64 > limit {
-                    return Err(LegacyError::Unavailable(
-                        "session.messages.pagination".into(),
-                    ));
-                }
-                serde_json::to_value(messages)
-                    .map(numbers)
-                    .map_err(internal)
+            "session.update" => self.update(id()?, payload).await,
+            "session.delete" => self.remove(id()?).await,
+            "session.children" => self.children(id()?).await,
+            "session.fork" => self.fork(context, id()?, payload).await,
+            "session.messages" => Ok(self.message_page(id()?, query).await?.body),
+            "session.deleteMessage" | "session.delete_message" => {
+                self.store.get(id()?).await.map_err(map_error)?;
+                self.run_state.assert_not_busy(id()?).map_err(map_error)?;
+                self.store
+                    .remove_message(id()?, parameter(params, "messageID")?)
+                    .await
+                    .map_err(map_error)?;
+                Ok(json!(true))
             }
+            "part.delete" => {
+                self.store.get(id()?).await.map_err(map_error)?;
+                self.store
+                    .remove_part(
+                        id()?,
+                        parameter(params, "messageID")?,
+                        parameter(params, "partID")?,
+                    )
+                    .await
+                    .map_err(map_error)?;
+                Ok(json!(true))
+            }
+            "part.update" => self.update_part(id()?, params, payload).await,
             "session.message" => {
                 let message = params
                     .get("messageID")
@@ -292,12 +327,58 @@ impl LegacySessions for LegacyAdapter {
                     .and_then(|row| serde_json::to_value(row).map(numbers).map_err(internal))
             }
             "session.abort" => {
-                self.run_state.cancel(id()?).await;
+                if let Some(locations) = &self.locations {
+                    locations.get(context).await?.session.cancel(id()?).await;
+                } else {
+                    self.run_state.cancel(id()?).await;
+                }
                 Ok(json!(true))
+            }
+            "session.prompt"
+            | "session.prompt_async"
+            | "session.command"
+            | "session.shell"
+            | "session.init"
+            | "session.summarize"
+            | "session.share"
+            | "session.unshare"
+            | "session.revert"
+            | "session.unrevert"
+            | "session.diff" => {
+                self.located(operation, context, id()?, query, payload)
+                    .await
             }
             _ => Err(LegacyError::Unavailable(operation.into())),
         }
     }
+
+    async fn handle_response(
+        &self,
+        operation: &str,
+        context: &RouteContext,
+        params: &Map<String, Value>,
+        query: &Map<String, Value>,
+        payload: Option<Value>,
+    ) -> Result<LegacyResponse, LegacyError> {
+        if operation == "session.messages" {
+            return self
+                .message_page(parameter(params, "sessionID")?, query)
+                .await;
+        }
+        if operation == "experimental.session.list" {
+            return self.global_page(context, query).await;
+        }
+        self.handle(operation, context, params, query, payload)
+            .await
+            .map(Into::into)
+    }
+}
+
+fn parameter<'a>(params: &'a Map<String, Value>, name: &str) -> Result<&'a str, LegacyError> {
+    params
+        .get(name)
+        .and_then(Value::as_str)
+        .ok_or_else(|| LegacyError::BadRequest(format!("Missing {name}")))
 }
 
 fn internal(error: impl std::fmt::Display) -> LegacyError {
@@ -311,6 +392,12 @@ fn map_error(error: opencode_session_runtime::legacy::types::LegacyError) -> Leg
         }
         opencode_session_runtime::legacy::types::LegacyError::NotYetPorted(name) => {
             LegacyError::Unavailable(name.into())
+        }
+        opencode_session_runtime::legacy::types::LegacyError::Busy(session) => {
+            LegacyError::Response {
+                status: 409,
+                body: json!({"name":"SessionBusyError","data":{"sessionID":session}}),
+            }
         }
         other => internal(other),
     }

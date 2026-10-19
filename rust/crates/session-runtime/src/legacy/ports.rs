@@ -50,6 +50,9 @@ pub trait LegacyProvider: Send + Sync {
 #[async_trait]
 pub trait LegacyLoop: Send + Sync {
     async fn run(&self, session_id: &str) -> Result<WithParts, LegacyError>;
+    async fn cancel(&self, _session_id: &str) -> Result<(), LegacyError> {
+        Ok(())
+    }
 }
 
 /// Calling context handed to the Read tool for prompt file parts.

@@ -40,12 +40,17 @@
 
 pub mod command;
 pub mod compaction;
+mod llm_history;
+pub mod llm_loop;
+mod llm_turn;
+pub mod pagination;
 mod parts;
 pub mod policy;
 pub mod ports;
 pub mod projectors;
 pub mod prompt;
 mod resource;
+pub mod revert;
 pub mod run_state;
 pub mod share;
 pub mod shell;

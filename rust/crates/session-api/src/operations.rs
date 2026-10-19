@@ -137,6 +137,26 @@ pub trait SessionExecution: Send + Sync {
 /// Public Session operations (`SessionV2.Interface`).
 #[async_trait]
 pub trait SessionService: Send + Sync {
+    /// Host lifecycle extension over the shared Session row (not part of the TS V2 interface).
+    async fn rename(&self, _session_id: &SessionID, _title: &str) -> SessionResult<()> {
+        Err(crate::SessionError::Validation(
+            "Host rename service is not composed".into(),
+        ))
+    }
+    async fn delete(&self, _session_id: &SessionID) -> SessionResult<()> {
+        Err(crate::SessionError::Validation(
+            "Host delete service is not composed".into(),
+        ))
+    }
+    async fn fork(
+        &self,
+        _session_id: &SessionID,
+        _message_id: Option<&MessageID>,
+    ) -> SessionResult<SessionInfo> {
+        Err(crate::SessionError::Validation(
+            "Host fork service is not composed".into(),
+        ))
+    }
     async fn list(&self, request: ListRequest) -> SessionResult<Vec<SessionInfo>>;
     async fn create(&self, request: CreateRequest) -> SessionResult<SessionInfo>;
     async fn get(&self, session_id: &SessionID) -> SessionResult<SessionInfo>;
