@@ -49,7 +49,7 @@ jobs:
           grep -Eq 'test result: ok\. [1-9][0-9]* passed' "$RUNNER_TEMP/distribution-tests.log"
       - name: Tooling lint
         run: cargo clippy --locked --offline -p xtask --all-targets -- -D warnings
-      - name: All structural gates and differential ledger conformance (not full parity)
+      - name: Structural gates and strict production parity (no conformance bypass)
         env:
           CARGO_NET_OFFLINE: "true"
         run: cargo run --locked --offline -p xtask -- check
@@ -73,11 +73,13 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - name: Pinned toolchain and locked dependencies
+        id: dependencies
         run: |
           rustup toolchain install 1.99.0 --profile minimal
           cargo fetch --locked
           cargo fetch --locked --manifest-path tests/acceptance/Cargo.toml
       - name: Isolate product state
+        id: isolation
         run: |
           mkdir -p "$RUNNER_TEMP/rust-home" "$RUNNER_TEMP/rust-data" "$RUNNER_TEMP/rust-config" "$RUNNER_TEMP/rust-cache" "$RUNNER_TEMP/rust-state" "$RUNNER_TEMP/rust-tmp"
           {
@@ -94,8 +96,18 @@ jobs:
       - name: Native compilation through the shipped package
         run: cargo check --locked --offline -p opencode --all-targets
       - name: Native runtime, HTTP, permission and filesystem integration
-        run: cargo test --locked --offline -p opencode-runtime -p opencode-server -p opencode-platform-native -p opencode-permissions -p opencode --tests
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
+        run: |
+          set -o pipefail
+          cargo test --locked --offline -p opencode-runtime -p opencode-server -p opencode-platform-native -p opencode-permissions -p opencode --tests 2>&1 | tee "$RUNNER_TEMP/rust-runtime-tests.log"
+      - name: Desktop lifecycle and real terminal PTY integration
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
+        run: |
+          set -o pipefail
+          cargo test --locked --offline -p opencode-desktop-host -p opencode-ui-terminal --tests 2>&1 | tee "$RUNNER_TEMP/rust-terminal-tests.log"
       - name: Build real native release archive and verify its checksums, SBOM and contents
+        id: package
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
         run: |
           cargo run --locked --offline -p xtask -- distribution build --package opencode --bin opencode --out "$RUNNER_TEMP/rust-dist"
           cargo run --locked --offline -p xtask -- distribution verify --dir "$RUNNER_TEMP/rust-dist"
@@ -119,8 +131,10 @@ jobs:
           PY
           "$RUNNER_TEMP/rust-extracted/opencode" --version
       - name: Acceptance harness tests
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
         run: cargo test --locked --offline --manifest-path tests/acceptance/Cargo.toml
       - name: Actual packaged-executable acceptance, no blocked candidate rows
+        if: ${{ !cancelled() && steps.package.outcome == 'success' }}
         env:
           CANDIDATE_CMD: ${{ runner.temp }}/rust-extracted/opencode
         run: |
@@ -137,10 +151,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rust-acceptance-${{ matrix.os }}
-          path: ${{ runner.temp }}/rust-acceptance.jsonl
+          path: |
+            ${{ runner.temp }}/rust-acceptance.jsonl
+            ${{ runner.temp }}/rust-runtime-tests.log
+            ${{ runner.temp }}/rust-terminal-tests.log
           if-no-files-found: warn
 
-  windows-build:
+  windows-native:
     runs-on: windows-2025
     defaults:
       run:
@@ -149,6 +166,83 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - name: Pinned native Windows toolchain
-        run: rustup toolchain install 1.99.0 --profile minimal
-      - name: Compile the actual Windows executable, not only portable libraries
-        run: cargo check --locked -p opencode --bin opencode --target x86_64-pc-windows-msvc
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo fetch --locked
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo fetch --locked --manifest-path tests/acceptance/Cargo.toml
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Isolate Windows product state
+        id: isolation
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP "rust-state"
+          "home", "data", "config", "cache", "state", "tmp", "appdata", "localappdata" | ForEach-Object {
+            New-Item -ItemType Directory -Force -Path (Join-Path $root $_) | Out-Null
+          }
+          @(
+            "CARGO_HOME=$env:USERPROFILE/.cargo"
+            "RUSTUP_HOME=$env:USERPROFILE/.rustup"
+            "CARGO_TARGET_DIR=$env:GITHUB_WORKSPACE/rust/target/ci-windows"
+            "CARGO_NET_OFFLINE=true"
+            "HOME=$root/home"
+            "USERPROFILE=$root/home"
+            "APPDATA=$root/appdata"
+            "LOCALAPPDATA=$root/localappdata"
+            "XDG_DATA_HOME=$root/data"
+            "XDG_CONFIG_HOME=$root/config"
+            "XDG_CACHE_HOME=$root/cache"
+            "XDG_STATE_HOME=$root/state"
+            "TEMP=$root/tmp"
+            "TMP=$root/tmp"
+          ) | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Compile shipped Windows executable and test targets
+        run: cargo check --locked --offline -p opencode --all-targets
+      - name: Native Windows runtime, HTTP, permission and filesystem integration
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
+        run: |
+          cargo test --locked --offline -p opencode-runtime -p opencode-server -p opencode-platform-native -p opencode-permissions -p opencode --tests 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/rust-runtime-tests.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Windows desktop lifecycle and terminal tests
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
+        run: |
+          cargo test --locked --offline -p opencode-desktop-host -p opencode-ui-terminal --tests 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/rust-terminal-tests.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build and verify real Windows release archive
+        id: package
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
+        run: |
+          cargo run --locked --offline -p xtask -- distribution build --package opencode --bin opencode --out "$env:RUNNER_TEMP/rust-dist"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo run --locked --offline -p xtask -- distribution verify --dir "$env:RUNNER_TEMP/rust-dist"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $archives = @(Get-ChildItem "$env:RUNNER_TEMP/rust-dist/*.zip")
+          if ($archives.Count -ne 1) { throw "Expected exactly one Windows archive, got $($archives.Count)" }
+          Expand-Archive -LiteralPath $archives[0].FullName -DestinationPath "$env:RUNNER_TEMP/rust-extracted"
+          if (!(Test-Path "$env:RUNNER_TEMP/rust-extracted/opencode.exe")) { throw "Archive lacks opencode.exe" }
+          & "$env:RUNNER_TEMP/rust-extracted/opencode.exe" --version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Windows acceptance harness tests
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
+        run: cargo test --locked --offline --manifest-path tests/acceptance/Cargo.toml
+      - name: Actual packaged Windows executable acceptance, no blocked candidate rows
+        if: ${{ !cancelled() && steps.package.outcome == 'success' }}
+        run: |
+          $env:CANDIDATE_CMD = "'" + ("$env:RUNNER_TEMP/rust-extracted/opencode.exe" -replace '\\', '/') + "'"
+          cargo run --locked --offline --manifest-path tests/acceptance/Cargo.toml --bin acceptance -- --out "$env:RUNNER_TEMP/rust-acceptance.jsonl"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $rows = @(Get-Content "$env:RUNNER_TEMP/rust-acceptance.jsonl" | ForEach-Object { $_ | ConvertFrom-Json })
+          $candidates = @($rows | Where-Object { $_.workflow.EndsWith(" (candidate)") })
+          if ($candidates.Count -ne 3) { throw "Expected 3 candidate workflows, got $($candidates.Count)" }
+          $failures = @($candidates | Where-Object { !$_.gate_decision.StartsWith("pass") })
+          if ($failures.Count -ne 0) { throw ($failures | ConvertTo-Json -Depth 20) }
+      - name: Preserve Windows native execution evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-acceptance-windows-2025
+          path: |
+            ${{ runner.temp }}/rust-acceptance.jsonl
+            ${{ runner.temp }}/rust-runtime-tests.log
+            ${{ runner.temp }}/rust-terminal-tests.log
+          if-no-files-found: warn
