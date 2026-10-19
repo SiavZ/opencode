@@ -6,9 +6,12 @@
 //! |-- opencode/src/cli/spec/invocation.rs
 //! `-- opencode/src/cli/spec/model.rs
 //! External:
-//! `-- std::collections::BTreeMap
+//! |-- f64::INFINITY
+//! |-- f64::NEG_INFINITY
+//! `-- i64::from_str_radix
 //! Used by:
 //! rust/bins/
+//! |-- opencode/src/cli/spec/mod.rs
 //! `-- opencode/src/cli/spec/parse.rs
 //! Invariants: unknown switches are reported (strict mode), never silently dropped; a value-taking
 //! option never swallows a following switch, except negative numbers.

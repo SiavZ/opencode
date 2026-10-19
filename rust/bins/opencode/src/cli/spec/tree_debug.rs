@@ -7,6 +7,7 @@
 //! `-- none
 //! Used by:
 //! rust/bins/
+//! |-- opencode/src/cli/spec/mod.rs
 //! `-- opencode/src/cli/spec/tree.rs
 //! Invariants: subcommand order equals debug/index.ts registration order.
 //! Contract tests: opencode/tests/cli_help.rs

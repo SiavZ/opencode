@@ -7,10 +7,25 @@
 //! |-- opencode/src/cli/spec/tree_debug.rs
 //! `-- opencode/src/cli/spec/tree_misc.rs
 //! External:
-//! `-- none
+//! |-- tree_debug::debug
+//! |-- tree_misc::agent
+//! |-- tree_misc::console
+//! |-- tree_misc::db
+//! |-- tree_misc::export
+//! |-- tree_misc::github
+//! |-- tree_misc::import
+//! |-- tree_misc::models
+//! |-- tree_misc::plugin
+//! |-- tree_misc::pr
+//! |-- tree_misc::providers
+//! |-- tree_misc::session
+//! |-- tree_misc::stats
+//! |-- tree_misc::uninstall
+//! `-- tree_misc::upgrade
 //! Used by:
 //! rust/bins/
-//! `-- opencode/src/cli/spec/mod.rs
+//! |-- opencode/src/cli/spec/mod.rs
+//! `-- opencode/src/cli/spec/parse.rs
 //! Invariants: registration order equals index.ts `.command(...)` order (completion first).
 //! Contract tests: opencode/tests/cli_help.rs
 use super::model::{CommandId as Id, Default, Kind, Node, Opt};

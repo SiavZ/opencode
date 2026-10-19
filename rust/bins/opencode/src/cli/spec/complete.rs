@@ -8,6 +8,7 @@
 //! `-- none
 //! Used by:
 //! rust/bins/
+//! |-- opencode/src/cli/spec/mod.rs
 //! `-- opencode/src/cli/spec/parse.rs
 //! Invariants: script text is byte-identical to the yargs template for app name `opencode`.
 //! Contract tests: opencode/tests/cli_help.rs

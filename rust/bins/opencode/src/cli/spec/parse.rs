@@ -10,10 +10,16 @@
 //! |-- opencode/src/cli/spec/model.rs
 //! `-- opencode/src/cli/spec/tree.rs
 //! External:
-//! `-- none
+//! |-- complete::reply
+//! |-- complete::script
+//! |-- help::render
+//! |-- help::show
+//! |-- tree::root
+//! `-- u8::from
 //! Used by:
 //! rust/bins/
-//! `-- opencode/src/cli/spec/mod.rs
+//! |-- opencode/src/cli/spec/mod.rs
+//! `-- opencode/src/serve.rs
 //! Invariants: no failure message is printed for the three handled yargs failures (index.ts:105-116);
 //! help wins over version; options are not inherited from parent commands except the globals.
 //! Contract tests: opencode/tests/cli_parse.rs, opencode/tests/cli_help.rs

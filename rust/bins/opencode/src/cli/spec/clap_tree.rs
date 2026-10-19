@@ -5,7 +5,9 @@
 //! rust/bins/
 //! `-- opencode/src/cli/spec/model.rs
 //! External:
-//! `-- clap::{Arg, ArgAction, Command}
+//! |-- clap::Arg
+//! |-- clap::ArgAction
+//! `-- clap::Command
 //! Used by:
 //! rust/bins/
 //! `-- opencode/src/cli/spec/mod.rs

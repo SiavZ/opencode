@@ -4,7 +4,10 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- clap::{Arg, ArgAction, Command}
+//! |-- clap::Arg
+//! |-- clap::ArgAction
+//! |-- clap::Command
+//! `-- clap::value_parser
 //! Used by:
 //! rust/bins/
 //! `-- opencode/src/cli/spec/mod.rs

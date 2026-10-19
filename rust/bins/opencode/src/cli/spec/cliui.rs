@@ -4,10 +4,11 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- none
+//! `-- str::to_string
 //! Used by:
 //! rust/bins/
-//! `-- opencode/src/cli/spec/help.rs
+//! |-- opencode/src/cli/spec/help.rs
+//! `-- opencode/src/cli/spec/mod.rs
 //! Invariants: only the features yargs help uses (span/div, padding, width, right align, inline
 //! render of a row into a preceding span line); text is plain (no ANSI), width is char count.
 //! Contract tests: opencode/tests/cli_help.rs

@@ -5,7 +5,7 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- reqwest::Client::new
+//! |-- reqwest::Client::builder
 //! |-- serde_json::Value
 //! |-- serde_json::json
 //! |-- tempfile::tempdir
@@ -15,6 +15,7 @@
 //! Invariants: the child never sees the real HOME or XDG dirs; it is always killed on failure.
 //! Contract tests: this file
 
+#[cfg(unix)]
 use std::io::{BufRead, BufReader};
 use std::process::{Child, Command, Stdio};
 use std::time::Duration;
@@ -35,22 +36,44 @@ fn serve_binds_answers_and_exits_on_sigterm() {
     let base = root.path().canonicalize().unwrap();
     let home = base.join("home");
     std::fs::create_dir_all(&home).unwrap();
+    std::fs::create_dir_all(base.join("tmp")).unwrap();
     let child = Command::new(env!("CARGO_BIN_EXE_opencode"))
+        .current_dir(&base)
         .args(["serve", "--port", "0", "--hostname", "127.0.0.1"])
         .env_clear()
         .env("PATH", "/usr/bin:/bin")
         .env("HOME", &home)
+        .env("XDG_CONFIG_HOME", base.join("config"))
+        .env("XDG_DATA_HOME", base.join("data"))
+        .env("XDG_CACHE_HOME", base.join("cache"))
+        .env("XDG_STATE_HOME", base.join("state"))
+        .env("TMPDIR", base.join("tmp"))
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
         .unwrap();
     let mut guard = Guard(child);
-    let mut lines = BufReader::new(guard.0.stdout.take().unwrap()).lines();
+    let stdout = guard.0.stdout.take().unwrap();
+    let (send, lines) = std::sync::mpsc::channel();
+    let reader = std::thread::spawn(move || {
+        for line in BufReader::new(stdout).lines().take(2) {
+            if send.send(line).is_err() {
+                break;
+            }
+        }
+    });
     assert_eq!(
-        lines.next().unwrap().unwrap(),
+        lines
+            .recv_timeout(Duration::from_secs(10))
+            .unwrap()
+            .unwrap(),
         "Warning: OPENCODE_SERVER_PASSWORD is not set; server is unsecured."
     );
-    let ready = lines.next().unwrap().unwrap();
+    let ready = lines
+        .recv_timeout(Duration::from_secs(10))
+        .unwrap()
+        .unwrap();
+    reader.join().unwrap();
     let url = ready
         .strip_prefix("opencode server listening on ")
         .unwrap_or_else(|| panic!("unexpected readiness line {ready:?}"))
@@ -62,7 +85,10 @@ fn serve_binds_answers_and_exits_on_sigterm() {
         .build()
         .unwrap();
     runtime.block_on(async {
-        let client = reqwest::Client::new();
+        let client = reqwest::Client::builder()
+            .timeout(Duration::from_secs(5))
+            .build()
+            .unwrap();
         let location: serde_json::Value = client
             .get(format!("{url}/api/location"))
             .header("x-opencode-directory", &directory)
@@ -83,8 +109,7 @@ fn serve_binds_answers_and_exits_on_sigterm() {
         assert_eq!(created.status().as_u16(), 200);
     });
     assert!(
-        home.join(".local/share/opencode/opencode-local.db")
-            .exists(),
+        base.join("data/opencode/opencode-local.db").exists(),
         "database lives under the isolated XDG data dir"
     );
 
@@ -113,18 +138,22 @@ fn rejected(args: &[&str], config: Option<&str>) -> std::process::Output {
     let config_dir = root.path().join("config/opencode");
     std::fs::create_dir_all(&home).unwrap();
     std::fs::create_dir_all(&config_dir).unwrap();
+    std::fs::create_dir_all(root.path().join("tmp")).unwrap();
     if let Some(config) = config {
         std::fs::write(config_dir.join("opencode.json"), config).unwrap();
     }
     let mut guard = Guard(
         Command::new(env!("CARGO_BIN_EXE_opencode"))
             .args(args)
+            .current_dir(root.path())
             .env_clear()
             .env("PATH", "/usr/bin:/bin")
             .env("HOME", &home)
             .env("XDG_CONFIG_HOME", root.path().join("config"))
             .env("XDG_DATA_HOME", root.path().join("data"))
             .env("XDG_CACHE_HOME", root.path().join("cache"))
+            .env("XDG_STATE_HOME", root.path().join("state"))
+            .env("TMPDIR", root.path().join("tmp"))
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())
             .spawn()

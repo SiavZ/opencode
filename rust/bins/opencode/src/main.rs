@@ -4,11 +4,14 @@
 //! Scope: process entrypoint.
 //! Uses:
 //! rust/bins/
+//! |-- opencode/src/cli/dispatch.rs
 //! |-- opencode/src/cli/mod.rs
-//! `-- opencode/src/cli/spec/mod.rs
+//! |-- opencode/src/cli/spec/mod.rs
+//! `-- opencode/src/serve.rs
 //! External:
-//! |-- std::io::IsTerminal
-//! `-- std::process::ExitCode
+//! |-- spec::CommandId::Serve
+//! |-- spec::Parsed
+//! `-- spec::parse
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: help and failures go to stderr; failures exit 1; never claims a capability it
@@ -54,18 +57,12 @@ fn main() -> ExitCode {
     }
 }
 
-/// Hand-off to `cli::dispatch` (owner p09.cli-commands). Until it exposes `run(Parsed)`, every
-/// command except the Phase 91 composed ones reports a typed NotYetPorted error. The global
-/// middleware env (`parsed.globals.middleware_env(pid)`) is data, not `set_var` (unsafe in
-/// edition 2024): dispatch passes it into the runtime config and child process environments.
+/// Dispatch uses the production process; middleware values stay explicit rather than unsafe
+/// process environment mutation in edition 2024.
 fn run(parsed: spec::Parsed) -> ExitCode {
-    let _env = parsed.globals.middleware_env(std::process::id());
+    let version = option_env!("OPENCODE_VERSION").unwrap_or("local");
     if parsed.command == spec::CommandId::Serve {
-        return serve::run(&parsed, option_env!("OPENCODE_VERSION").unwrap_or("local"));
+        return serve::run(&parsed, version);
     }
-    eprintln!(
-        "opencode (rust port): command {:?} is not yet ported, see rust/contracts/phase-09/status.md",
-        parsed.command
-    );
-    ExitCode::from(2)
+    cli::dispatch::run(&parsed, version)
 }

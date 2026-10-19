@@ -5,7 +5,9 @@
 //! rust/bins/
 //! `-- opencode/src/cli/spec/mod.rs
 //! External:
-//! `-- clap_complete::Shell
+//! |-- clap_complete::Shell::Bash
+//! |-- clap_complete::Shell::Fish
+//! `-- clap_complete::Shell::Zsh
 //! Used by:
 //! rust/bins/
 //! `-- opencode/src/cli/spec/mod.rs

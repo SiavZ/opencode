@@ -7,6 +7,7 @@
 //! `-- none
 //! Used by:
 //! rust/bins/
+//! |-- opencode/src/cli/spec/argv.rs
 //! |-- opencode/src/cli/spec/clap_tree.rs
 //! |-- opencode/src/cli/spec/complete.rs
 //! |-- opencode/src/cli/spec/help.rs

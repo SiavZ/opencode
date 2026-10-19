@@ -11,16 +11,24 @@
 //! |-- opencode/src/cli/spec/invocation.rs
 //! |-- opencode/src/cli/spec/model.rs
 //! |-- opencode/src/cli/spec/parse.rs
+//! |-- opencode/src/cli/spec/tests.rs
 //! |-- opencode/src/cli/spec/tree.rs
 //! |-- opencode/src/cli/spec/tree_debug.rs
 //! |-- opencode/src/cli/spec/tree_misc.rs
 //! `-- opencode/src/cli/spec/v2.rs
 //! External:
-//! `-- clap::Command
+//! |-- clap::Command
+//! |-- clap_complete::Shell
+//! `-- clap_complete::generate
 //! Used by:
 //! rust/bins/
+//! |-- opencode/src/cli/commands/mod.rs
+//! |-- opencode/src/cli/commands/terminal.rs
+//! |-- opencode/src/cli/dispatch.rs
 //! |-- opencode/src/cli/mod.rs
-//! `-- opencode/src/main.rs
+//! |-- opencode/src/cli/spec/tests.rs
+//! |-- opencode/src/main.rs
+//! `-- opencode/src/serve.rs
 //! Invariants: help text matches captured baseline fixtures (tests/fixtures/help).
 //! Contract tests: opencode/tests/cli_help.rs, opencode/src/cli/spec/tests.rs
 // Public API consumed by dispatch (p09.cli-commands) and the v2 executable; unused until wired.

@@ -5,13 +5,12 @@
 //! rust/bins/
 //! `-- opencode/src/cli/spec/model.rs
 //! External:
-//! `-- std::collections::BTreeMap
+//! `-- none
 //! Used by:
 //! rust/bins/
 //! |-- opencode/src/cli/spec/argv.rs
 //! |-- opencode/src/cli/spec/mod.rs
-//! |-- opencode/src/cli/spec/parse.rs
-//! `-- opencode/src/main.rs
+//! `-- opencode/src/cli/spec/parse.rs
 //! Invariants: argument keys are canonical kebab-case option/positional names; values follow
 //! yargs-parser coercion (number NaN is `Null`, repeated scalars become `List`).
 //! Contract tests: opencode/tests/cli_parse.rs

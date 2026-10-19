@@ -6,9 +6,11 @@
 //! |-- opencode/src/cli/spec/cliui.rs
 //! `-- opencode/src/cli/spec/model.rs
 //! External:
-//! `-- none
+//! |-- serde_json::to_string
+//! `-- str::trim_start
 //! Used by:
 //! rust/bins/
+//! |-- opencode/src/cli/spec/mod.rs
 //! `-- opencode/src/cli/spec/parse.rs
 //! Invariants: wrap is 100 columns, group order is Positionals then Options, option order is
 //! globals then builder order, hidden options and `describe: false` commands never render.

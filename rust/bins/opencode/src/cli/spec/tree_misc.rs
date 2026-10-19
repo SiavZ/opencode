@@ -8,6 +8,7 @@
 //! `-- none
 //! Used by:
 //! rust/bins/
+//! |-- opencode/src/cli/spec/mod.rs
 //! `-- opencode/src/cli/spec/tree.rs
 //! Invariants: option order equals each builder's `.option(...)` call order.
 //! Contract tests: opencode/tests/cli_help.rs
