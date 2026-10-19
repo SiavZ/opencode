@@ -8,7 +8,10 @@
 //! External:
 //! |-- serde_json::json
 //! |-- tempfile::TempDir
+//! |-- tokio::join
 //! |-- tokio::spawn
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::Mutex::const_new
 //! |-- tokio::test
 //! |-- tokio::time::sleep
 //! |-- tokio::time::timeout
@@ -29,6 +32,11 @@ use opencode_sdk_embedded::{
 };
 use tempfile::TempDir;
 use tokio_util::sync::CancellationToken;
+
+// Keep the separate shell scenarios from racing their short startup deadlines on macOS,
+// where concurrent execs can stall in dyld before even `exit 0` runs. The explicit concurrent
+// launch test below still exercises independent child supervisors together.
+static PROCESSES: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
 
 fn script(dir: &Path, body: &str) -> PathBuf {
     let path = dir.join("fake-opencode");
@@ -92,6 +100,7 @@ fn parse_url_matches_regex() {
 
 #[tokio::test]
 async fn ready_line_passes_flags_and_config_env() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let record = dir.path().join("record");
     let program = script(
@@ -123,6 +132,7 @@ async fn ready_line_passes_flags_and_config_env() {
 
 #[tokio::test]
 async fn config_defaults_to_empty_object_without_log_level() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let record = dir.path().join("record");
     let program = script(
@@ -146,6 +156,7 @@ async fn config_defaults_to_empty_object_without_log_level() {
 
 #[tokio::test]
 async fn timeout_stops_child() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let pidfile = dir.path().join("pid");
     let program = script(
@@ -173,6 +184,7 @@ async fn timeout_stops_child() {
 
 #[tokio::test]
 async fn unparseable_ready_line_fails() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let program = script(
         dir.path(),
@@ -187,6 +199,7 @@ async fn unparseable_ready_line_fails() {
 
 #[tokio::test]
 async fn ready_prefix_on_stderr_is_ignored() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let program = script(
         dir.path(),
@@ -199,6 +212,7 @@ async fn ready_prefix_on_stderr_is_ignored() {
 
 #[tokio::test]
 async fn early_exit_reports_code_and_output() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let program = script(dir.path(), "echo out\necho err >&2\nexit 3");
     let error = create_opencode_server(options(&program)).await.unwrap_err();
@@ -216,6 +230,7 @@ async fn early_exit_reports_code_and_output() {
 
 #[tokio::test]
 async fn silent_exit_has_no_output_suffix() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let program = script(dir.path(), "exit 0");
     let error = create_opencode_server(options(&program)).await.unwrap_err();
@@ -224,6 +239,7 @@ async fn silent_exit_has_no_output_suffix() {
 
 #[tokio::test]
 async fn missing_program_is_spawn_error() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let error = create_opencode_server(options(&dir.path().join("nope")))
         .await
@@ -233,6 +249,7 @@ async fn missing_program_is_spawn_error() {
 
 #[tokio::test]
 async fn abort_before_spawn_and_during_startup() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let pidfile = dir.path().join("pid");
     let program = script(
@@ -277,6 +294,7 @@ async fn abort_before_spawn_and_during_startup() {
 
 #[tokio::test]
 async fn abort_after_ready_and_close_kill_process_tree() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let grandchild = dir.path().join("grandchild");
     let program = script(
@@ -309,6 +327,7 @@ async fn abort_after_ready_and_close_kill_process_tree() {
 
 #[tokio::test]
 async fn drop_stops_server() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let pidfile = dir.path().join("pid");
     let program = script(
@@ -330,6 +349,7 @@ async fn drop_stops_server() {
 
 #[tokio::test]
 async fn tui_passes_flags_env_and_closes() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let record = dir.path().join("record");
     let program = script(
@@ -349,12 +369,22 @@ async fn tui_passes_flags_env_and_closes() {
         cancel: None,
     })
     .unwrap();
-    for _ in 0..50 {
-        if std::fs::metadata(format!("{}.env", record.display())).is_ok() {
-            break;
+    // TUI launch returns immediately and promises no readiness deadline. Wait for the actual
+    // child write, using the existing server startup watchdog only to bound this fixture.
+    tokio::time::timeout(ServerOptions::default().timeout, async {
+        loop {
+            if std::fs::read_to_string(format!("{}.env", record.display()))
+                .ok()
+                .as_deref()
+                == Some(r#"{"x":1}"#)
+            {
+                break;
+            }
+            tokio::time::sleep(Duration::from_millis(50)).await;
         }
-        tokio::time::sleep(Duration::from_millis(50)).await;
-    }
+    })
+    .await
+    .expect("TUI fixture must write its complete configuration record");
     assert_eq!(
         std::fs::read_to_string(&record).unwrap(),
         "--project=/p\n--model=a/b\n--agent=build\n"
@@ -369,6 +399,7 @@ async fn tui_passes_flags_env_and_closes() {
 
 #[tokio::test]
 async fn tui_abort_and_natural_exit() {
+    let _processes = PROCESSES.lock().await;
     let dir = TempDir::new().unwrap();
     let program = script(dir.path(), "exit 4");
     let tui = create_opencode_tui(TuiOptions {
@@ -392,4 +423,30 @@ async fn tui_abort_and_natural_exit() {
         .expect("abort stops tui")
         .expect("status");
     assert!(!status.success());
+}
+
+#[tokio::test]
+async fn concurrent_servers_keep_readiness_and_shutdown_independent() {
+    let _processes = PROCESSES.lock().await;
+    let left_root = TempDir::new().unwrap();
+    let right_root = TempDir::new().unwrap();
+    let left_program = script(
+        left_root.path(),
+        "echo 'opencode server listening on http://left'\nexec sleep 30",
+    );
+    let right_program = script(
+        right_root.path(),
+        "echo 'opencode server listening on http://right'\nexec sleep 30",
+    );
+    let (left, right) = tokio::join!(
+        create_opencode_server(options(&left_program)),
+        create_opencode_server(options(&right_program))
+    );
+    let left = left.unwrap();
+    let right = right.unwrap();
+    assert_eq!(left.url, "http://left");
+    assert_eq!(right.url, "http://right");
+    let (left, right) = tokio::join!(left.close(), right.close());
+    assert!(!left.unwrap().success());
+    assert!(!right.unwrap().success());
 }
