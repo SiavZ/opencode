@@ -35,6 +35,7 @@
 //! Invariants: every registered provider ID resolves or fails with a typed error.
 //! Contract tests: provider-adapters/tests/providers_*.rs
 
+pub mod variants;
 pub mod azure;
 pub mod bedrock;
 pub mod cloud;

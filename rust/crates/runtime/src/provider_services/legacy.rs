@@ -109,5 +109,10 @@ fn project(catalog: &CatalogStore, model: &ModelInfo) -> Value {
     if !tiers.is_empty() {
         result["cost"]["tiers"] = json!(tiers);
     }
+    let mut variants = opencode_provider_adapters::providers::variants::generated(&result, raw);
+    for variant in &model.variants {
+        variants.insert(variant.id.as_str().to_owned(), json!(variant.body));
+    }
+    result["variants"] = Value::Object(variants);
     result
 }
