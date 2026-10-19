@@ -17,8 +17,9 @@
 //! |-- src/check.rs
 //! |-- src/lib.rs
 //! |-- src/main.rs
-//! `-- tests/gates.rs
-//! Invariants: empty corpora and runner failures fail; strict mode also rejects known parity debt.
+//! |-- tests/gates.rs
+//! `-- tests/parity.rs
+//! Invariants: execution is strict by default; ledger conformance is a separate diagnostic mode.
 //! Contract tests: xtask/tests/gates.rs
 
 use anyhow::{Context, Result, bail};
@@ -26,18 +27,46 @@ use serde_json::Value;
 use std::collections::BTreeSet;
 use std::path::Path;
 
-pub fn run(args: &[String]) -> Result<()> {
-    let strict = args.iter().any(|arg| arg == "--strict");
-    if !args.is_empty() && args != ["run"] && args != ["run", "--strict"] {
-        bail!("usage: fixtures [run [--strict]]");
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Mode {
+    Validate,
+    Strict,
+    Conformance,
+}
+
+pub fn mode(args: &[String]) -> Result<Mode> {
+    match args
+        .iter()
+        .map(String::as_str)
+        .collect::<Vec<_>>()
+        .as_slice()
+    {
+        [] => Ok(Mode::Validate),
+        ["run"] | ["run", "--strict"] => Ok(Mode::Strict),
+        ["run", "--conformance"] => Ok(Mode::Conformance),
+        _ => bail!("usage: fixtures [run [--strict | --conformance]]"),
     }
+}
+
+pub fn run(args: &[String]) -> Result<()> {
+    let mode = mode(args)?;
     let root = crate::workspace::rust_root()?;
     let mut errors = validate(&root)?;
-    if args.first().is_some_and(|arg| arg == "run") {
+    if mode != Mode::Validate {
         let executed = regex::Regex::new(r"test result: ok\. ([1-9][0-9]*) passed")?;
+        let replay_package = if mode == Mode::Strict {
+            "opencode-runtime"
+        } else {
+            "opencode-server"
+        };
+        let replay_target = if mode == Mode::Strict {
+            "strict_replay"
+        } else {
+            "replay_baseline"
+        };
         for (package, target, filter) in [
             ("opencode-schema", None, None),
-            ("opencode-server", Some("replay_baseline"), None),
+            (replay_package, Some(replay_target), None),
             ("opencode-provider-adapters", None, None),
             ("opencode", Some("cli_help"), None),
             ("xtask", Some("xtask"), Some("cloud::tests")),
@@ -59,6 +88,10 @@ pub fn run(args: &[String]) -> Result<()> {
             if let Some(filter) = filter {
                 command.arg(filter);
             }
+            if mode == Mode::Strict && target == Some("strict_replay") {
+                // Strict gates must execute the opt-in differential, not count an ignored test.
+                command.args(["--", "--ignored", "--nocapture"]);
+            }
             let output = command
                 .output()
                 .with_context(|| format!("run {package} {target:?}"))?;
@@ -69,20 +102,17 @@ pub fn run(args: &[String]) -> Result<()> {
                 errors.push(format!("differential runner {package} {target:?} failed or executed no passing tests ({})", output.status));
             }
         }
-        // The replay harness detects ledger drift, but its known failures are still product
-        // incompatibilities. Keep them visible rather than treating a stable red ledger as green.
-        let ledger: Value = serde_json::from_str(&std::fs::read_to_string(
-            root.join("crates/server/tests/fixtures/replay-ledger.json"),
-        )?)?;
-        let count = ledger
-            .as_object()
-            .context("replay ledger must be an object")?
-            .len();
-        println!(
-            "fixtures: differential ledger conformance executed; {count} known server incompatibilities remain (this is NOT full production parity)"
-        );
-        if strict && count != 0 {
-            errors.push(format!("strict parity: server differential replay retains {count} known incompatibilities in crates/server/tests/fixtures/replay-ledger.json"));
+        if mode == Mode::Conformance {
+            let ledger: Value = serde_json::from_str(&std::fs::read_to_string(
+                root.join("crates/server/tests/fixtures/replay-ledger.json"),
+            )?)?;
+            let count = ledger
+                .as_object()
+                .context("replay ledger must be an object")?
+                .len();
+            println!(
+                "fixtures: EMPTY-HOST ledger conformance only; {count} recorded mismatches. This is NOT production parity. Use fixtures run for the composed strict differential."
+            );
         }
     }
     crate::workspace::finish("fixtures", errors)

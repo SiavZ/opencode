@@ -92,7 +92,7 @@ pub struct Digest {
 }
 
 pub fn manifest_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../server")
 }
 
 pub fn baseline_dir() -> PathBuf {

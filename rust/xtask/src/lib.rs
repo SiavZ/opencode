@@ -8,6 +8,7 @@
 //! |-- src/fixtures.rs
 //! |-- src/headers.rs
 //! |-- src/inventory.rs
+//! |-- src/parity.rs
 //! |-- src/size.rs
 //! `-- src/workspace.rs
 //! External:
@@ -23,5 +24,6 @@ pub mod edges;
 pub mod fixtures;
 pub mod headers;
 pub mod inventory;
+pub mod parity;
 pub mod size;
 pub mod workspace;

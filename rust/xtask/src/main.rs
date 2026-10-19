@@ -10,6 +10,7 @@
 //! |-- src/fixtures.rs
 //! |-- src/headers.rs
 //! |-- src/inventory.rs
+//! |-- src/parity.rs
 //! `-- src/size.rs
 //! External:
 //! |-- anyhow::Result
@@ -31,8 +32,9 @@ Phase 01:
   edges             resolved native + wasm32 crate graph vs contracts/crate-edges.toml
   size              500-line rule vs contracts/modularity-reviews.toml
   inventory [--write] TS baseline registries vs explicit coverage IDs/status
-  fixtures [run [--strict]] validate corpora; execute ledger conformance, strict full parity
-  check [--strict]  every gate; --strict also rejects known compatibility debt
+  parity-census    print exact empty-host categories, baseline routes and domain owners
+  fixtures [run [--strict | --conformance]] validate; run strict production replay by default
+  check [--strict | --conformance] every gate; conformance is diagnostic, NOT product parity
 Phase 13:
   cloud             infrastructure plans";
 
@@ -46,6 +48,7 @@ fn main() -> Result<()> {
         "edges" => xtask::edges::run(&args),
         "size" => xtask::size::run(&args),
         "inventory" => xtask::inventory::run(&args),
+        "parity-census" => xtask::parity::run(&args),
         "fixtures" => xtask::fixtures::run(&args),
         "check" => xtask::check::run(&args),
         "" | "help" => {

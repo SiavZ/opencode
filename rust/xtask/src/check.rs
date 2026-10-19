@@ -37,8 +37,8 @@ const GATES: [Gate; 5] = [
 
 /// Entry point for `cargo xtask check`.
 pub fn run(args: &[String]) -> Result<()> {
-    if !args.is_empty() && args != ["--strict"] {
-        bail!("usage: check [--strict]; no gate may be skipped");
+    if !args.is_empty() && args != ["--strict"] && args != ["--conformance"] {
+        bail!("usage: check [--strict | --conformance]; no gate may be skipped");
     }
     evaluate_args(&GATES, args)
 }
