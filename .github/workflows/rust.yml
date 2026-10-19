@@ -95,6 +95,12 @@ jobs:
           } >> "$GITHUB_ENV"
       - name: Native compilation through the shipped package
         run: cargo check --locked --offline -p opencode --all-targets
+      - name: Real native PTY spawn, IO, resize, removal and joined shutdown
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
+        run: |
+          set -o pipefail
+          cargo test --locked --offline -p opencode-platform-native --test pty native_pty_write_read_resize_remove_and_shutdown -- --exact --nocapture 2>&1 | tee "$RUNNER_TEMP/rust-pty-tests.log"
+          grep -Eq 'test result: ok\. [1-9][0-9]* passed' "$RUNNER_TEMP/rust-pty-tests.log"
       - name: Native runtime, HTTP, permission and filesystem integration
         if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
         run: |
@@ -155,6 +161,7 @@ jobs:
             ${{ runner.temp }}/rust-acceptance.jsonl
             ${{ runner.temp }}/rust-runtime-tests.log
             ${{ runner.temp }}/rust-terminal-tests.log
+            ${{ runner.temp }}/rust-pty-tests.log
           if-no-files-found: warn
 
   windows-native:
@@ -198,6 +205,12 @@ jobs:
           ) | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
       - name: Compile shipped Windows executable and test targets
         run: cargo check --locked --offline -p opencode --all-targets
+      - name: Real Windows ConPTY spawn, IO, resize, removal and joined shutdown
+        if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
+        run: |
+          cargo test --locked --offline -p opencode-platform-native --test pty native_pty_write_read_resize_remove_and_shutdown -- --exact --nocapture 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/rust-pty-tests.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (!(Select-String -Path "$env:RUNNER_TEMP/rust-pty-tests.log" -Pattern 'test result: ok\. [1-9][0-9]* passed' -Quiet)) { throw "Real Windows PTY test did not execute" }
       - name: Native Windows runtime, HTTP, permission and filesystem integration
         if: ${{ !cancelled() && steps.isolation.outcome == 'success' }}
         run: |
@@ -245,4 +258,5 @@ jobs:
             ${{ runner.temp }}/rust-acceptance.jsonl
             ${{ runner.temp }}/rust-runtime-tests.log
             ${{ runner.temp }}/rust-terminal-tests.log
+            ${{ runner.temp }}/rust-pty-tests.log
           if-no-files-found: warn
