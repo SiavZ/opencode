@@ -113,30 +113,76 @@ async fn resolve_path(absolute: &Path) -> Result<(PathBuf, PathBuf, bool), PathE
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
         Err(error) => return Err(io_error("realPath", absolute, error).into()),
     }
-    let mut anchor = absolute.parent().unwrap_or(absolute);
-    loop {
-        match tokio::fs::canonicalize(anchor).await {
-            Ok(canonical) => {
-                let info = tokio::fs::metadata(&canonical)
-                    .await
-                    .map_err(|error| io_error("stat", &canonical, error))?;
-                if !info.is_dir() {
-                    return Err(ancestor_error(absolute));
-                }
-                let suffix = absolute
-                    .strip_prefix(anchor)
-                    .map_err(|_| ancestor_error(absolute))?;
-                return Ok((canonical.join(suffix), canonical, false));
+    // ENOENT does not imply that the path itself is absent: a dangling symlink still
+    // redirects a prospective write. Expand links component by component, including
+    // missing directory referents, before deriving either containment or approval.
+    let mut remaining = absolute
+        .components()
+        .map(|part| part.as_os_str().to_owned())
+        .collect::<std::collections::VecDeque<_>>();
+    let mut canonical = PathBuf::new();
+    let mut directory = PathBuf::new();
+    let mut is_directory = false;
+    let mut links = 0;
+    while let Some(part) = remaining.pop_front() {
+        match Path::new(&part).components().next() {
+            Some(Component::Prefix(_)) => {
+                canonical.push(&part);
+                continue;
             }
-            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Some(Component::CurDir) => continue,
+            Some(Component::ParentDir) => {
+                canonical.pop();
+            }
+            _ => canonical.push(&part),
+        }
+        let info = match tokio::fs::symlink_metadata(&canonical).await {
+            Ok(info) => info,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                is_directory = false;
+                continue;
+            }
             Err(error) if error.kind() == std::io::ErrorKind::NotADirectory => {
                 return Err(ancestor_error(absolute));
             }
-            Err(error) => return Err(io_error("realPath", anchor, error).into()),
+            Err(error) => return Err(io_error("lstat", &canonical, error).into()),
+        };
+        if info.file_type().is_symlink() {
+            links += 1;
+            if links > 40 {
+                return Err(io_error(
+                    "realPath",
+                    absolute,
+                    std::io::Error::other("too many symbolic links"),
+                )
+                .into());
+            }
+            let referent = tokio::fs::read_link(&canonical)
+                .await
+                .map_err(|error| io_error("readLink", &canonical, error))?;
+            canonical.pop();
+            if referent.is_absolute() {
+                canonical.clear();
+            }
+            for part in referent.components().rev() {
+                remaining.push_front(part.as_os_str().to_owned());
+            }
+            continue;
         }
-        let parent = anchor.parent().ok_or_else(|| ancestor_error(absolute))?;
-        anchor = parent;
+        is_directory = info.is_dir();
+        if !is_directory && !remaining.is_empty() {
+            return Err(ancestor_error(absolute));
+        }
+        canonical = tokio::fs::canonicalize(&canonical)
+            .await
+            .map_err(|error| io_error("realPath", &canonical, error))?;
+        directory = if is_directory {
+            canonical.clone()
+        } else {
+            canonical.parent().unwrap_or(&canonical).to_path_buf()
+        };
     }
+    Ok((canonical, directory, is_directory))
 }
 
 fn ancestor_error(path: &Path) -> PathError {

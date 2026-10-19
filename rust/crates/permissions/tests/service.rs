@@ -21,6 +21,8 @@ struct Ports {
     rules: Mutex<Option<Ruleset>>,
     saved: Mutex<Vec<SavedGrant>>,
     events: Mutex<Vec<PermissionEvent>>,
+    pause_publish: std::sync::atomic::AtomicBool,
+    fail_publish: std::sync::atomic::AtomicBool,
 }
 
 #[async_trait]
@@ -79,6 +81,12 @@ impl SavedGrants for Ports {
 impl PermissionEvents for Ports {
     async fn publish(&self, event: PermissionEvent) -> Result<(), PermissionError> {
         self.events.lock().unwrap().push(event);
+        if self.pause_publish.load(std::sync::atomic::Ordering::SeqCst) {
+            std::future::pending::<()>().await;
+        }
+        if self.fail_publish.load(std::sync::atomic::Ordering::SeqCst) {
+            return Err(PermissionError::Port("event publication failed".into()));
+        }
         Ok(())
     }
 }
@@ -104,6 +112,128 @@ async fn wait_pending(svc: &PermissionService, n: usize) {
         tokio::time::sleep(std::time::Duration::from_millis(2)).await;
     }
     panic!("pending never reached {n}");
+}
+
+#[tokio::test]
+async fn duplicate_assert_keeps_original_replyable() {
+    let (svc, ports) = service(Some(vec![]));
+    let original = {
+        let svc = svc.clone();
+        tokio::spawn(async move {
+            svc.assert(input("per_same", "ses_original", "edit", "x"))
+                .await
+        })
+    };
+    wait_pending(&svc, 1).await;
+    let duplicate = svc
+        .assert(input("per_same", "ses_other", "edit", "y"))
+        .await;
+    let preserved = svc.get("per_same");
+    let reply = svc
+        .reply(ReplyInput {
+            request_id: "per_same".into(),
+            reply: Reply::Once,
+            message: None,
+        })
+        .await;
+    let settled = tokio::time::timeout(std::time::Duration::from_secs(1), original).await;
+    svc.shutdown();
+    assert_eq!(
+        duplicate,
+        Err(PermissionError::Duplicate {
+            id: "per_same".into()
+        })
+    );
+    assert_eq!(preserved.unwrap().session_id, "ses_original");
+    assert!(reply.is_ok());
+    assert_eq!(settled.unwrap().unwrap(), Ok(()));
+    assert!(ports.saved.lock().unwrap().is_empty());
+    assert_eq!(
+        ports
+            .events
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|event| matches!(event, PermissionEvent::Asked(_)))
+            .count(),
+        1
+    );
+}
+
+#[tokio::test]
+async fn duplicate_ask_keeps_original_pending() {
+    let (svc, _) = service(Some(vec![]));
+    svc.ask(input("per_same", "ses_original", "edit", "x"))
+        .await
+        .unwrap();
+    assert!(matches!(
+        svc.ask(input("per_same", "ses_other", "edit", "y")).await,
+        Err(PermissionError::Duplicate { .. })
+    ));
+    assert_eq!(svc.get("per_same").unwrap().session_id, "ses_original");
+    svc.shutdown();
+    assert!(svc.list().is_empty());
+}
+
+#[tokio::test]
+async fn completed_assert_guard_cannot_remove_reused_id() {
+    let (svc, _) = service(Some(vec![]));
+    let mut original = Box::pin(svc.assert(input("per_same", "ses_old", "edit", "old")));
+    assert!(futures::poll!(&mut original).is_pending());
+    svc.reply(ReplyInput {
+        request_id: "per_same".into(),
+        reply: Reply::Once,
+        message: None,
+    })
+    .await
+    .unwrap();
+    svc.ask(input("per_same", "ses_new", "edit", "new"))
+        .await
+        .unwrap();
+    assert_eq!(original.await, Ok(()));
+    assert_eq!(svc.get("per_same").unwrap().session_id, "ses_new");
+    svc.shutdown();
+}
+
+#[tokio::test]
+async fn publication_cancellation_and_failure_remove_only_their_own_entry() {
+    for assert_request in [false, true] {
+        let (svc, ports) = service(Some(vec![]));
+        svc.ask(input("per_other", "ses_other", "edit", "other"))
+            .await
+            .unwrap();
+        ports
+            .pause_publish
+            .store(true, std::sync::atomic::Ordering::SeqCst);
+        let mut request = Box::pin(async {
+            if assert_request {
+                svc.assert(input("per_cancel", "ses_cancel", "edit", "x"))
+                    .await
+            } else {
+                svc.ask(input("per_cancel", "ses_cancel", "edit", "x"))
+                    .await
+                    .map(|_| ())
+            }
+        });
+        assert!(futures::poll!(&mut request).is_pending());
+        assert!(svc.get("per_cancel").is_some());
+        drop(request);
+        assert!(svc.get("per_cancel").is_none());
+        assert!(svc.get("per_other").is_some());
+        ports
+            .pause_publish
+            .store(false, std::sync::atomic::Ordering::SeqCst);
+        ports
+            .fail_publish
+            .store(true, std::sync::atomic::Ordering::SeqCst);
+        assert!(matches!(
+            svc.assert(input("per_fail", "ses_fail", "edit", "x")).await,
+            Err(PermissionError::Port(_))
+        ));
+        assert!(svc.get("per_fail").is_none());
+        assert_eq!(svc.list().len(), 1);
+        svc.shutdown();
+    }
 }
 
 #[tokio::test]

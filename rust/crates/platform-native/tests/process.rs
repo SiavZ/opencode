@@ -46,6 +46,127 @@ async fn wait_gone(pid: i32) -> bool {
 }
 
 #[tokio::test]
+async fn stdin_after_parent_success_stays_inside_timeout_and_cancellation() {
+    for cancel_run in [false, true] {
+        let temp = tempfile::tempdir().unwrap();
+        let pidfile = temp.path().join("holder");
+        // Explicitly inherit stdin on a descendant, but close its output pipes so the leader
+        // and output readers finish before the blocked 4 MiB stdin write.
+        let command = sh(&format!(
+            "/bin/sh -c 'sleep 2' <&0 >/dev/null 2>&1 & echo $! > '{}'",
+            pidfile.display()
+        ));
+        let cancel = CancellationToken::new();
+        let trigger = cancel.clone();
+        let started = Instant::now();
+        let run = NativeProcessRunner.run(
+            &command,
+            RunOptions {
+                stdin: Some(vec![b'x'; 4 * 1024 * 1024]),
+                timeout: (!cancel_run).then_some(Duration::from_millis(150)),
+                cancel: Some(cancel),
+                kill_grace: Some(Duration::from_millis(30)),
+                ..RunOptions::default()
+            },
+        );
+        let trigger = async move {
+            tokio::time::sleep(Duration::from_millis(150)).await;
+            if cancel_run {
+                trigger.cancel();
+            }
+        };
+        let (result, ()) = tokio::join!(run, trigger);
+        let elapsed = started.elapsed();
+        let pid = std::fs::read_to_string(pidfile)
+            .unwrap()
+            .trim()
+            .parse()
+            .unwrap();
+        let gone = wait_gone(pid).await;
+        assert!(gone, "owned stdin holder survived cleanup");
+        assert!(
+            elapsed < Duration::from_secs(1),
+            "stdin escaped deadline: {elapsed:?}"
+        );
+        if cancel_run {
+            assert!(
+                matches!(result, Err(ProcessError::Cancelled { .. })),
+                "{result:?}"
+            );
+        } else {
+            assert!(
+                matches!(result, Err(ProcessError::TimedOut { .. })),
+                "{result:?}"
+            );
+        }
+    }
+}
+
+#[tokio::test]
+async fn cancelled_or_dropped_run_closes_stdin_without_killing_unrelated_processes() {
+    for drop_run in [false, true] {
+        let temp = tempfile::tempdir().unwrap();
+        let mut unrelated = tokio::process::Command::new("/bin/sleep")
+            .arg("10")
+            .kill_on_drop(true)
+            .spawn()
+            .unwrap();
+        let command = sh(
+            "(/bin/sleep 0.3; cat > drained) <&0 >/dev/null 2>&1 & echo $! > holder; /bin/sleep 1",
+        )
+        .cwd(temp.path());
+        let cancel = CancellationToken::new();
+        let run = NativeProcessRunner.run(
+            &command,
+            RunOptions {
+                stdin: Some(vec![b'x'; 4 * 1024 * 1024]),
+                // Only the leader belongs to this run's kill target. The finite descendant
+                // drains the inherited pipe later, proving that our writer closed on teardown.
+                detached: Some(false),
+                cancel: Some(cancel.clone()),
+                kill_grace: Some(Duration::from_millis(30)),
+                ..RunOptions::default()
+            },
+        );
+        let result = if drop_run {
+            tokio::time::timeout(Duration::from_millis(150), run)
+                .await
+                .ok()
+        } else {
+            let trigger = async {
+                tokio::time::sleep(Duration::from_millis(150)).await;
+                cancel.cancel();
+            };
+            Some(tokio::join!(run, trigger).0)
+        };
+        let pid = std::fs::read_to_string(temp.path().join("holder"))
+            .unwrap()
+            .trim()
+            .parse()
+            .unwrap();
+        let gone = wait_gone(pid).await;
+        let drained = std::fs::metadata(temp.path().join("drained")).map(|info| info.len());
+        let unrelated_alive = unrelated.try_wait().unwrap().is_none();
+        unrelated.kill().await.unwrap();
+        let _ = unrelated.wait().await;
+        assert!(
+            gone,
+            "stdin reader did not observe EOF after writer cleanup"
+        );
+        assert!(
+            drained.unwrap() < 4 * 1024 * 1024,
+            "detached writer continued after run teardown"
+        );
+        assert!(unrelated_alive, "run teardown killed an unrelated process");
+        if drop_run {
+            assert!(result.is_none());
+        } else {
+            assert!(matches!(result, Some(Err(ProcessError::Cancelled { .. }))));
+        }
+    }
+}
+
+#[tokio::test]
 async fn exit_codes_and_separate_streams() {
     let result = NativeProcessRunner
         .run(&sh("echo out; echo err >&2; exit 7"), RunOptions::default())

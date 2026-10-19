@@ -5,7 +5,8 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
-//! `-- platform-native/src/fs/location.rs
+//! |-- platform-native/src/fs/location.rs
+//! `-- platform-native/src/fs/mutation.rs
 //! External:
 //! `-- tempfile::TempDir
 //! Used by:
@@ -50,6 +51,97 @@ fn reason(error: PathError) -> PathErrorReason {
 
 fn slash(path: &Path) -> String {
     path.to_string_lossy().replace('\\', "/")
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn dangling_links_preserve_location_and_external_approval_boundaries() {
+    use opencode_platform_api::fs::FileMutation;
+    use opencode_platform_native::fs::NativeFileMutation;
+
+    let temp = tempfile::tempdir().unwrap();
+    let root = real(temp.path());
+    let inside = root.join("location");
+    let outside = root.join("outside");
+    std::fs::create_dir_all(&inside).unwrap();
+    std::fs::create_dir_all(&outside).unwrap();
+    let loc = location(&inside).await;
+    for (name, referent) in [
+        ("relative", PathBuf::from("../outside/new/file.txt")),
+        ("absolute", outside.join("new/file.txt")),
+        ("chain", PathBuf::from("relative")),
+        ("directory", PathBuf::from("../outside/missing")),
+    ] {
+        std::os::unix::fs::symlink(referent, inside.join(name)).unwrap();
+        let path = if name == "directory" {
+            "directory/file.txt"
+        } else {
+            name
+        };
+        assert_eq!(
+            reason(resolve(&loc, path, None).await.unwrap_err()),
+            PathErrorReason::LocationEscape,
+            "{path}"
+        );
+    }
+    assert!(!outside.join("new").exists());
+    std::os::unix::fs::symlink("new/internal.txt", inside.join("internal")).unwrap();
+    let internal = resolve(&loc, "internal", None).await.unwrap();
+    assert_eq!(internal.canonical, inside.join("new/internal.txt"));
+    assert!(internal.external_directory.is_none());
+    NativeFileMutation::new()
+        .write(&internal, b"internal")
+        .await
+        .unwrap();
+    assert_eq!(
+        std::fs::read(inside.join("new/internal.txt")).unwrap(),
+        b"internal"
+    );
+
+    std::os::unix::fs::symlink("new/approved.txt", outside.join("link")).unwrap();
+    let external = resolve(&loc, outside.join("link"), None).await.unwrap();
+    assert_eq!(external.canonical, outside.join("new/approved.txt"));
+    let approval = external.external_directory.as_ref().unwrap();
+    assert_eq!(approval.directory, outside);
+    assert_eq!(approval.permission().0, "external_directory");
+    // A caller with explicit external approval can still perform the prospective write.
+    NativeFileMutation::new()
+        .write(&external, b"approved")
+        .await
+        .unwrap();
+    assert_eq!(
+        std::fs::read(outside.join("new/approved.txt")).unwrap(),
+        b"approved"
+    );
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn prospective_links_keep_parent_traversal_and_cycles_bounded() {
+    let temp = tempfile::tempdir().unwrap();
+    let root = real(temp.path());
+    let inside = root.join("location");
+    let outside = root.join("outside");
+    std::fs::create_dir_all(&inside).unwrap();
+    std::fs::create_dir_all(outside.join("sub")).unwrap();
+    std::os::unix::fs::symlink(outside.join("sub"), inside.join("bridge")).unwrap();
+    std::os::unix::fs::symlink("bridge/../missing.txt", inside.join("parent")).unwrap();
+    let loc = location(&inside).await;
+    assert_eq!(
+        reason(resolve(&loc, "parent", None).await.unwrap_err()),
+        PathErrorReason::LocationEscape
+    );
+
+    std::os::unix::fs::symlink("missing/../cycle", inside.join("cycle")).unwrap();
+    let error = tokio::time::timeout(
+        std::time::Duration::from_secs(1),
+        resolve(&loc, "cycle/new.txt", None),
+    )
+    .await
+    .unwrap()
+    .unwrap_err();
+    assert!(matches!(error, PathError::Platform(_)));
+    assert!(!outside.join("missing.txt").exists());
 }
 
 #[tokio::test]

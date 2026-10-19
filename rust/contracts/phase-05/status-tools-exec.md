@@ -43,3 +43,23 @@ Fixture-only: schema JSON (`search/fixtures`, `shell/fixtures/schemas.json`) and
 | shell.env plugin hook | plugin env augmentation | `ShellEnv` port only; plugin host not ported | p07.plugins | composition test |
 | fff search layer, FileSystemSearch.find | fuzzy find / fff backend | out of tool scope | p05.native-fs / runtime | |
 | Config/RuntimeFlags wiring | `tool_output` limits, `bashDefaultTimeoutMs`, config `shell` | constructor parameters; composition is phase 91 | p91 | composition test |
+
+## Native boundary audit follow-up, 2026-10-19
+
+Audit findings 8-10 are fixed in the real `platform-native` and `permissions` crates.
+
+- `platform-native/src/fs/location.rs` expands existing symlinks even when the referent is missing. Relative and absolute in-Location link escapes fail before mutation; valid missing internal writes still work. Explicit external paths retain canonical target and `external_directory` approval metadata. Link expansion is bounded and respects parent traversal through symlink referents.
+- `permissions/src/service.rs` registers cleanup only after successful pending insertion, before event publication can suspend. `service/pending.rs` identifies the inserted entry by ownership token, so duplicate assertions and old guards cannot delete another pending entry with the same ID. Publication failure/cancellation cleans up only the inserted entry; successful `ask` retains its entry for later reply.
+- `platform-native/src/process/mod.rs` no longer spawns an independently owned stdin writer. Input delivery runs concurrently with exit/output collection inside the operation's timeout/cancellation lifetime. Cancellation and caller-drop synchronously drop the writer and close stdin, so there is no task to detach or join after the deadline. The existing process-group ownership policy is unchanged.
+
+Regression evidence: the new real-package tests first failed against the audited implementation for the dangling external symlink, duplicate assertion, and post-success stdin wait. The stdin reproducer took 2.015 seconds despite a 150 ms timeout. The duplicate-`ask` control passed before the fix.
+
+Validation uses isolated scratch HOME/XDG/TMPDIR and the prescribed cached Cargo environment, always `--locked --offline` from `rust/`:
+
+- `cargo test -p opencode-platform-native -p opencode-permissions`: all owned-package tests pass, including filesystem, mutations, process, git, snapshots, worktrees, watcher, formatting and permission lifecycle controls.
+- `cargo clippy -p opencode-platform-native -p opencode-permissions --all-targets -- -D warnings`: passes.
+- `fs_location.rs` covers dangling relative/absolute/chained file links, dangling directory links, valid internal missing writes, explicit external approval metadata/writes, symlink-aware parent traversal and bounded expansion.
+- `permissions/tests/service.rs` covers original pending request replyability, duplicate ask control, ID reuse, publication cancellation/failure, pending cancellation, saved grants and configured denial.
+- `platform-native/tests/process.rs` covers stdin after leader success under timeout/cancellation, stdin EOF and partial delivery after cancellation/caller-drop, and survival of an unrelated child during teardown.
+
+Permission policy/storage/event ports in lifecycle tests are fixtures; the permission service itself is real. Filesystem/process regressions use actual scratch files and local child processes. A transient shared lockfile mismatch blocked one permissions test attempt; the coordinator restored lock consistency and the same locked command passed. No TypeScript, dependency manifests, user data, network service, or unowned implementation was changed. Windows execution and concurrent symlink replacement between resolution and mutation remain outside this validation.

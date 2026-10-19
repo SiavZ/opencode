@@ -5,6 +5,7 @@
 //! Uses:
 //! rust/crates/
 //! |-- permissions/src/rule.rs
+//! |-- permissions/src/service/pending.rs
 //! `-- permissions/src/wildcard.rs
 //! External:
 //! |-- async_trait::async_trait
@@ -23,7 +24,10 @@ use async_trait::async_trait;
 use futures::channel::oneshot;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
-use std::sync::{Arc, Mutex, MutexGuard};
+use std::sync::{Arc, Mutex};
+
+mod pending;
+use pending::{Pending, PendingGuard, Settler, lock};
 
 /// `PermissionV2.Source`.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -180,14 +184,6 @@ pub trait PermissionEvents: Send + Sync {
     async fn publish(&self, event: PermissionEvent) -> Result<(), PermissionError>;
 }
 
-type Settler = oneshot::Sender<Result<(), PermissionError>>;
-
-struct Pending {
-    request: PermissionRequest,
-    agent: Option<String>,
-    sender: Option<Settler>,
-}
-
 /// Location-scoped permission service.
 pub struct PermissionService {
     project_id: String,
@@ -213,22 +209,6 @@ fn denied(action: &str, resources: &[String], rules: &[Rule]) -> bool {
     resources
         .iter()
         .any(|r| evaluate(action, r, &[rules]).effect == Effect::Deny)
-}
-
-/// Removes the pending entry when an awaiting `assert` is dropped or finishes.
-struct PendingGuard {
-    pending: Arc<Mutex<Vec<Pending>>>,
-    id: String,
-}
-
-impl Drop for PendingGuard {
-    fn drop(&mut self) {
-        lock(&self.pending).retain(|item| item.request.id != self.id);
-    }
-}
-
-fn lock(pending: &Mutex<Vec<Pending>>) -> MutexGuard<'_, Vec<Pending>> {
-    pending.lock().unwrap_or_else(|poison| poison.into_inner())
 }
 
 impl PermissionService {
@@ -316,8 +296,10 @@ impl PermissionService {
         &self,
         request: PermissionRequest,
         agent: Option<String>,
-    ) -> Result<oneshot::Receiver<Result<(), PermissionError>>, PermissionError> {
+    ) -> Result<(oneshot::Receiver<Result<(), PermissionError>>, PendingGuard), PermissionError>
+    {
         let (sender, receiver) = oneshot::channel();
+        let owner = Arc::new(());
         {
             let mut pending = lock(&self.pending);
             if pending.iter().any(|item| item.request.id == request.id) {
@@ -327,14 +309,18 @@ impl PermissionService {
                 request: request.clone(),
                 agent,
                 sender: Some(sender),
+                owner: owner.clone(),
             });
         }
-        let id = request.id.clone();
-        if let Err(error) = self.events.publish(PermissionEvent::Asked(request)).await {
-            lock(&self.pending).retain(|item| item.request.id != id);
-            return Err(error);
-        }
-        Ok(receiver)
+        // Install cleanup only after insertion, but before the first cancellable await.
+        // Identity rather than ID prevents an old assertion from removing a reused ID.
+        let guard = PendingGuard {
+            pending: self.pending.clone(),
+            owner,
+            armed: true,
+        };
+        self.events.publish(PermissionEvent::Asked(request)).await?;
+        Ok((receiver, guard))
     }
 
     /// `ask`: evaluate, and when the effect is `ask` register a pending request without waiting.
@@ -343,7 +329,8 @@ impl PermissionService {
         let request = Self::request(&input);
         let id = request.id.clone();
         if effect == Effect::Ask {
-            drop(self.create(request, input.agent.clone()).await?);
+            let (_, mut guard) = self.create(request, input.agent.clone()).await?;
+            guard.armed = false;
         }
         Ok(AskResult { id, effect })
     }
@@ -361,11 +348,7 @@ impl PermissionService {
             }),
             Effect::Ask => {
                 let request = Self::request(&input);
-                let guard = PendingGuard {
-                    pending: self.pending.clone(),
-                    id: request.id.clone(),
-                };
-                let receiver = self.create(request, input.agent.clone()).await?;
+                let (receiver, guard) = self.create(request, input.agent.clone()).await?;
                 let result = receiver.await.unwrap_or(Err(PermissionError::Declined));
                 drop(guard);
                 result

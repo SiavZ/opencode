@@ -18,6 +18,7 @@
 //! Invariants: `run` returns only after the leader is reaped and reader tasks are joined. Timeout,
 //! cancellation, drop and non-zero exit terminate the whole group, mirroring the baseline spawner
 //! finalizer; a zero exit leaves detached background jobs that no longer hold the pipes alone.
+//! Stdin delivery runs inside the same timeout/cancellation lifetime, with no detached writer task.
 //! Contract tests: platform-native/tests/process.rs
 
 pub mod capture;
@@ -142,7 +143,11 @@ enum Outcome {
 
 #[async_trait]
 impl ProcessRunner for NativeProcessRunner {
-    async fn run(&self, command: &Command, options: RunOptions) -> Result<RunResult, ProcessError> {
+    async fn run(
+        &self,
+        command: &Command,
+        mut options: RunOptions,
+    ) -> Result<RunResult, ProcessError> {
         let description = command.describe();
         let detached = options.detached.unwrap_or(true);
         let mut child = prepare(command, detached, options.stdin.is_some())?
@@ -155,13 +160,15 @@ impl ProcessRunner for NativeProcessRunner {
         let mut guard = kill::GroupGuard::new(target);
         let grace = options.kill_grace.unwrap_or(kill::DEFAULT_GRACE);
 
-        let mut writer = None;
-        if let (Some(bytes), Some(mut stdin)) = (options.stdin.clone(), child.stdin.take()) {
-            writer = Some(tokio::spawn(async move {
+        // Keep the writer in the run future instead of a spawned task. Dropping this
+        // future closes stdin on every error, cancellation and caller-drop path.
+        let stdin = child.stdin.take();
+        let bytes = options.stdin.take();
+        let writer = async move {
+            if let (Some(bytes), Some(mut stdin)) = (bytes, stdin) {
                 let _ = stdin.write_all(&bytes).await;
-                drop(stdin);
-            }));
-        }
+            }
+        };
         let (out, err) = if options.combine_output {
             let combined = capture::shared(options.max_output_bytes);
             (combined.clone(), combined)
@@ -192,7 +199,7 @@ impl ProcessRunner for NativeProcessRunner {
         let cancel = options.cancel.clone().unwrap_or_default();
         let timeout = options.timeout;
         let outcome = {
-            let finished = async {
+            let collect = async {
                 let status = child.wait().await;
                 // Baseline collects streams and exit code together: pipes must reach EOF.
                 for reader in readers.iter_mut() {
@@ -202,6 +209,7 @@ impl ProcessRunner for NativeProcessRunner {
                 }
                 status
             };
+            let finished = async { tokio::join!(collect, writer).0 };
             tokio::select! {
                 status = finished => match status {
                     Ok(status) => Outcome::Exited(status),
@@ -230,10 +238,6 @@ impl ProcessRunner for NativeProcessRunner {
                 kill::terminate(&mut child, target, grace).await;
                 guard.disarm();
                 join_readers(readers, true).await;
-                if let Some(writer) = writer {
-                    writer.abort();
-                    let _ = writer.await;
-                }
                 return Err(match other {
                     Outcome::TimedOut => ProcessError::TimedOut {
                         command: description,
@@ -244,9 +248,6 @@ impl ProcessRunner for NativeProcessRunner {
                 });
             }
         };
-        if let Some(writer) = writer {
-            let _ = writer.await;
-        }
         let (exit_code, signal) = exit_parts(status);
         let out = capture::take(&out);
         if options.combine_output {
