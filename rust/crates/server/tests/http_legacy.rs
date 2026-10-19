@@ -88,6 +88,48 @@ async fn legacy_health_is_versioned_and_authenticated_with_cors() {
 }
 
 #[tokio::test]
+async fn legacy_authorization_precedes_session_decode_and_stream_subscription() {
+    let server = start(Some("local-secret")).await;
+    let client = reqwest::Client::new();
+    for path in [
+        "/session",
+        "/session/ses_missing",
+        "/event",
+        "/global/event",
+    ] {
+        let url = format!("{}{path}", server.url());
+        let rejected = client.get(&url).send().await.unwrap();
+        assert_eq!(rejected.status(), 401, "{path}");
+        assert!(rejected.bytes().await.unwrap().is_empty());
+        let admitted = client
+            .get(&url)
+            .basic_auth("opencode", Some("local-secret"))
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(admitted.status(), 503, "{path}");
+        assert_ne!(admitted.json::<Value>().await.unwrap()["service"], "ui");
+    }
+    let url = format!("{}/session", server.url());
+    let rejected = client.post(&url).body("{").send().await.unwrap();
+    assert_eq!(rejected.status(), 401);
+    assert!(rejected.bytes().await.unwrap().is_empty());
+    let admitted = client
+        .post(&url)
+        .basic_auth("opencode", Some("local-secret"))
+        .body("{")
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(admitted.status(), 400);
+    assert_eq!(
+        admitted.json::<Value>().await.unwrap(),
+        json!({"_tag":"BadRequest"})
+    );
+    server.stop(false).await;
+}
+
+#[tokio::test]
 async fn registered_legacy_routes_fail_typed_without_runtime_services() {
     let server = start(None).await;
     let client = reqwest::Client::new();
