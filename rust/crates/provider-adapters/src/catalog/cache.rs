@@ -32,6 +32,8 @@ pub enum CatalogError {
     Io(#[from] std::io::Error),
     #[error("invalid model cache: {0}")]
     Invalid(String),
+    #[error("cannot fetch model cache: {0}")]
+    Fetch(String),
 }
 
 pub(super) fn load(store: &mut CatalogStore, path: &Path) -> Result<(), CatalogError> {
@@ -40,8 +42,12 @@ pub(super) fn load(store: &mut CatalogStore, path: &Path) -> Result<(), CatalogE
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
         Err(error) => return Err(error.into()),
     };
+    decode(store, &bytes)
+}
+
+pub(super) fn decode(store: &mut CatalogStore, bytes: &[u8]) -> Result<(), CatalogError> {
     let value: Value =
-        serde_json::from_slice(&bytes).map_err(|error| CatalogError::Invalid(error.to_string()))?;
+        serde_json::from_slice(bytes).map_err(|error| CatalogError::Invalid(error.to_string()))?;
     let entries = value
         .as_object()
         .ok_or_else(|| CatalogError::Invalid("expected provider object".into()))?;
@@ -60,6 +66,16 @@ pub(super) fn load(store: &mut CatalogStore, path: &Path) -> Result<(), CatalogE
             .is_some_and(|names| !names.is_empty())
         {
             next.integrations.insert(IntegrationID::new(provider_id));
+        }
+        if let Some(names) = entry.get("env").and_then(Value::as_array) {
+            next.environment.insert(
+                IntegrationID::new(provider_id),
+                names
+                    .iter()
+                    .filter_map(Value::as_str)
+                    .map(str::to_owned)
+                    .collect(),
+            );
         }
         let models = entry
             .get("models")
