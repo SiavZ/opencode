@@ -29,6 +29,15 @@ fn run_uses_production_provider_and_combines_stdin() {
     let home = Home::new();
     let provider = Provider::start(false);
     home.config(&provider.url);
+    drop(
+        std::net::TcpStream::connect(
+            provider
+                .url
+                .trim_start_matches("http://")
+                .trim_end_matches("/v1"),
+        )
+        .unwrap(),
+    );
     let result = output(
         home.command(&["run", "hello", "--model", "local/local-test"]),
         Some("from stdin"),

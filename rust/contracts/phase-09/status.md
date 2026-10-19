@@ -13,11 +13,11 @@ The Rust executable now dispatches real local `run`, `models`, and the default t
 
 ## Validation
 
-Startup fixes are committed as `4fb351576` and `7798ebb3d`. The current startup suite passes 13 binary unit tests, 2 help integration tests, and 4 serve executable tests under `cargo test --locked --offline -p opencode --test serve --test cli_help --bin opencode`. Strict all-target bin clippy also passes with `-D warnings`.
+Startup fixes are committed as `4fb351576` and `7798ebb3d`; real command dispatch is committed as `9b1d1d342`. With the production runtime/catalog composition in place, `cargo test --locked --offline -p opencode` passes all 28 tests: 13 binary unit tests, 2 help tests, 9 command/provider/PTY tests, and 4 serve executable tests. None are ignored. `cargo clippy --locked --offline -p opencode --all-targets --no-deps -- -D warnings` also passes.
 
-Command and real PTY/provider regressions are in `rust/bins/opencode/tests/commands.rs`. They exercise the built executable against a controlled TCP OpenAI-compatible SSE server, not an injected runner or fixture response inside production code. Final command validation is pending the production runtime composition integration.
+The command regressions in `rust/bins/opencode/tests/commands.rs` exercise the built executable against a controlled TCP OpenAI-compatible SSE server. Production code uses the actual Process, durable Session service, serialized runner, model catalog, credentials, and provider transport. The tests cover legacy and canonical V2 config, configured Bearer credentials, positional plus piped input, provider errors, provider filtering and verbose metadata, and `--continue` across process restarts without replaying old output. Three real no-argument PTY scenarios cover a completed provider turn, provider failure, and in-flight Ctrl-C cancellation. Each checks terminal modes, alternate screen, and bracketed-paste restoration. Only the external provider response is a fixture; no injected runner or fabricated production success is used.
 
-All tests isolate HOME/XDG/TMPDIR. No live credentials, paid inference, remote publishing, or user-state writes are used.
+All tests isolate HOME/XDG/TMPDIR. The nine command/provider/PTY tests also passed three consecutive additional runs after the TCP fixture was hardened for idle connections and bounded slow reads. No live credentials, paid inference, remote publishing, or user-state writes are used.
 
 ## Remaining parity blockers
 

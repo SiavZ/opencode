@@ -180,7 +180,7 @@ impl Provider {
         let token = stop.clone();
         let (send, requests) = mpsc::channel();
         let thread = std::thread::spawn(move || {
-            while !token.load(Ordering::Acquire) {
+            'requests: while !token.load(Ordering::Acquire) {
                 let (mut socket, _) = match listener.accept() {
                     Ok(socket) => socket,
                     Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
@@ -189,14 +189,39 @@ impl Provider {
                     }
                     Err(error) => panic!("accept: {error}"),
                 };
+                socket.set_nonblocking(false).unwrap();
                 socket
-                    .set_read_timeout(Some(Duration::from_secs(2)))
+                    .set_read_timeout(Some(Duration::from_millis(100)))
                     .unwrap();
+                socket
+                    .set_write_timeout(Some(Duration::from_secs(5)))
+                    .unwrap();
+                let deadline = std::time::Instant::now() + Duration::from_secs(10);
                 let mut buffer = Vec::new();
                 let mut chunk = [0; 4096];
                 let (headers, body) = loop {
-                    let count = socket.read(&mut chunk).unwrap();
-                    assert_ne!(count, 0);
+                    if token.load(Ordering::Acquire) {
+                        return;
+                    }
+                    let count = match socket.read(&mut chunk) {
+                        Ok(0) if buffer.is_empty() => continue 'requests,
+                        Ok(0) => panic!("provider received a truncated HTTP request"),
+                        Ok(count) => count,
+                        Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
+                        Err(error)
+                            if matches!(
+                                error.kind(),
+                                std::io::ErrorKind::WouldBlock | std::io::ErrorKind::TimedOut
+                            ) =>
+                        {
+                            assert!(
+                                std::time::Instant::now() < deadline,
+                                "provider request read deadline: {error}"
+                            );
+                            continue;
+                        }
+                        Err(error) => panic!("provider request read: {error}"),
+                    };
                     buffer.extend_from_slice(&chunk[..count]);
                     let Some(end) = buffer.windows(4).position(|bytes| bytes == b"\r\n\r\n") else {
                         continue;
@@ -258,7 +283,10 @@ impl Drop for Provider {
     fn drop(&mut self) {
         self.stop.store(true, Ordering::Release);
         if let Some(thread) = self.thread.take() {
-            thread.join().unwrap();
+            let result = thread.join();
+            if !std::thread::panicking() {
+                result.unwrap();
+            }
         }
     }
 }
