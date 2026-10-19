@@ -32,10 +32,9 @@ use std::sync::Arc;
 
 use async_trait::async_trait;
 use opencode_config::CurrentConfig;
-use opencode_permissions::{AssertInput, Effect, PermissionError, Rule, evaluate};
+use opencode_permissions::PermissionService;
 use opencode_platform_native::fs::{NativeFileMutation, NativeFileSystem, NativeLocationMutation};
 use opencode_platform_native::process::NativeProcessRunner;
-use opencode_session_runtime::agents::Agents;
 use opencode_session_runtime::runner::ports::RegistryMaterializer;
 use opencode_tool_api::{
     Authorizer, BoundOutput, OutputBounder, Tool, ToolContent, ToolOutput, ToolRegistry,
@@ -46,19 +45,51 @@ use opencode_tools::files::{
     read_core::{CoreReadTool, NoResizer},
     write::CoreWriteTool,
 };
+use opencode_tools::interaction::{QuestionTool, Questions};
+use opencode_tools::search::{
+    CoreGlobTool, CoreGrepTool, NoInstaller, Ripgrep, RipgrepBinary, SearchServices,
+};
 use opencode_tools::shell::{CoreBashTool, DirectoryRetention, OutputRetention};
 
+#[path = "location_legacy_tools.rs"]
+mod legacy;
+
 pub struct Tools {
+    pub legacy_materializer: RegistryMaterializer,
+    pub legacy_registration: opencode_tool_api::Registration,
     pub materializer: RegistryMaterializer,
     pub registration: opencode_tool_api::Registration,
 }
 
-pub async fn build(
+pub async fn build_with_permissions(
     directory: &Path,
     project: &Path,
     data: &Path,
     config: &CurrentConfig,
-    agents: Agents,
+    permissions: Arc<PermissionService>,
+    application_tools: &ToolRegistry,
+    questions: Arc<Questions>,
+) -> Result<Tools, String> {
+    build_authorized(
+        directory,
+        project,
+        data,
+        config,
+        permissions,
+        application_tools,
+        questions,
+    )
+    .await
+}
+
+async fn build_authorized(
+    directory: &Path,
+    project: &Path,
+    data: &Path,
+    config: &CurrentConfig,
+    authorizer: Arc<dyn Authorizer>,
+    application_tools: &ToolRegistry,
+    questions: Arc<Questions>,
 ) -> Result<Tools, String> {
     let location = Arc::new(
         NativeLocationMutation::new(directory)
@@ -72,10 +103,46 @@ pub async fn build(
         directory.to_owned(),
         project.to_owned(),
     );
-    let registry = ToolRegistry::new(Arc::new(RetainedOutput(DirectoryRetention::new(
+    let registry = application_tools.fork(Arc::new(RetainedOutput(DirectoryRetention::new(
         data.join("tool-output"),
     ))));
+    let search = SearchServices {
+        ripgrep: Ripgrep::new(
+            Arc::new(NativeProcessRunner::new()),
+            Arc::new(RipgrepBinary::new(
+                data.join("bin"),
+                None,
+                Arc::new(NoInstaller),
+            )),
+        ),
+        directory: directory.to_owned(),
+        worktree: project.to_owned(),
+    };
+    let (legacy_materializer, legacy_registration) = legacy::build(
+        &files,
+        &search,
+        data,
+        config,
+        authorizer.clone(),
+        questions.clone(),
+        application_tools,
+    )?;
     let tools: Vec<(String, Arc<dyn Tool>)> = vec![
+        ("question".into(), Arc::new(QuestionTool(questions))),
+        (
+            "glob".into(),
+            Arc::new(SecureSearch {
+                tool: Arc::new(CoreGlobTool::new(search.clone())),
+                files: files.clone(),
+            }),
+        ),
+        (
+            "grep".into(),
+            Arc::new(SecureSearch {
+                tool: Arc::new(CoreGrepTool::new(search)),
+                files: files.clone(),
+            }),
+        ),
         (
             "read".into(),
             Arc::new(CoreReadTool::new(files.clone(), Arc::new(NoResizer))),
@@ -96,51 +163,57 @@ pub async fn build(
     ];
     let registration = registry.register(tools).map_err(|e| e.to_string())?;
     Ok(Tools {
+        legacy_materializer,
+        legacy_registration,
         materializer: RegistryMaterializer {
             registry,
-            authorizer: Arc::new(ConfiguredAuthorization { agents }),
+            authorizer,
         },
         registration,
     })
 }
 
-struct ConfiguredAuthorization {
-    agents: Agents,
+struct SecureSearch {
+    tool: Arc<dyn Tool>,
+    files: FileServices,
 }
 
 #[async_trait]
-impl Authorizer for ConfiguredAuthorization {
-    async fn assert(&self, input: AssertInput) -> Result<(), PermissionError> {
-        let selected = self.agents.select(input.agent.as_deref());
-        let rules: Vec<Rule> = selected
-            .info
-            .map(|agent| {
-                agent
-                    .permissions
-                    .into_iter()
-                    .map(|rule| {
-                        Rule::new(
-                            rule.action,
-                            rule.resource,
-                            match rule.effect {
-                                opencode_schema::permission::Effect::Allow => Effect::Allow,
-                                opencode_schema::permission::Effect::Deny => Effect::Deny,
-                                opencode_schema::permission::Effect::Ask => Effect::Ask,
-                            },
-                        )
-                    })
-                    .collect()
-            })
-            .unwrap_or_default();
-        for resource in &input.resources {
-            match evaluate(&input.action, resource, &[&rules]).effect {
-                Effect::Allow => {}
-                Effect::Deny => return Err(PermissionError::Blocked { rules }),
-                // Headless execution cannot silently grant an interactive permission.
-                Effect::Ask => return Err(PermissionError::Declined),
-            }
+impl Tool for SecureSearch {
+    fn description(&self) -> &str {
+        self.tool.description()
+    }
+    fn input_schema(&self) -> serde_json::Value {
+        self.tool.input_schema()
+    }
+    fn output_schema(&self) -> Option<serde_json::Value> {
+        self.tool.output_schema()
+    }
+    async fn execute(
+        &self,
+        input: serde_json::Value,
+        context: &opencode_tool_api::ToolContext,
+    ) -> Result<ToolOutput, opencode_tool_api::ToolFailure> {
+        // Reuse canonical filesystem policy before ripgrep observes any content.
+        let target = self
+            .files
+            .resolve(
+                input
+                    .get("path")
+                    .and_then(serde_json::Value::as_str)
+                    .unwrap_or("."),
+                opencode_platform_api::fs::ResolveKind::Directory,
+            )
+            .await?;
+        self.files.authorize_external(&target, context).await?;
+        let mut input = input;
+        if let Some(object) = input.as_object_mut() {
+            object.insert(
+                "path".into(),
+                serde_json::Value::String(target.canonical.display().to_string()),
+            );
         }
-        Ok(())
+        self.tool.execute(input, context).await
     }
 }
 
@@ -182,7 +255,6 @@ impl OutputBounder for RetainedOutput {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use opencode_config::{Document, Entry};
     use serde_json::json;
 
     #[tokio::test]
@@ -223,41 +295,5 @@ mod tests {
         };
         assert!(text.starts_with(&"a".repeat(50 * 1024 - 1)));
         assert!(!text.contains('�'));
-    }
-
-    #[tokio::test]
-    async fn actual_agent_rules_allow_read_deny_secret_and_decline_ask() {
-        let root = tempfile::tempdir().unwrap();
-        let config = CurrentConfig::from_entries(vec![Entry::Document(Document {
-            path: None,
-            info: json!({"permissions":[{"action":"read","resource":"secret.txt","effect":"deny"}]}),
-        })]);
-        let authorizer = ConfiguredAuthorization {
-            agents: super::super::agents::build(&config, root.path(), root.path(), root.path()),
-        };
-        authorizer
-            .assert(AssertInput::new(
-                "session",
-                "read",
-                vec!["public.txt".into()],
-            ))
-            .await
-            .unwrap();
-        assert!(matches!(
-            authorizer
-                .assert(AssertInput::new(
-                    "session",
-                    "read",
-                    vec!["secret.txt".into()]
-                ))
-                .await,
-            Err(PermissionError::Blocked { .. })
-        ));
-        assert!(matches!(
-            authorizer
-                .assert(AssertInput::new("session", "read", vec![".env".into()]))
-                .await,
-            Err(PermissionError::Declined)
-        ));
     }
 }
