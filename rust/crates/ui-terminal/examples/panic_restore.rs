@@ -13,9 +13,11 @@
 //! Contract tests: ui-terminal/tests/terminal_pty.rs
 
 use std::io::{Read, Write};
+#[cfg(unix)]
 use std::time::{Duration, Instant};
 
 use opencode_ui_terminal::terminal::{TerminalError, TerminalGuard, TerminalOptions, restore};
+#[cfg(unix)]
 use signal_hook::consts::{SIGHUP, SIGTERM};
 
 fn checkpoint(marker: &str) {
@@ -26,6 +28,11 @@ fn checkpoint(marker: &str) {
 
 fn main() {
     let mode = std::env::args().nth(1).unwrap_or_else(|| "panic".into());
+    #[cfg(not(unix))]
+    assert!(
+        !matches!(mode.as_str(), "sighup" | "sigterm"),
+        "Unix-only signal fixture"
+    );
     std::panic::set_hook(Box::new(|_| {
         eprintln!(
             "PREVIOUS_HOOK raw={}",
@@ -55,6 +62,7 @@ fn main() {
         if mode == "panic" {
             panic!("deliberate terminal guard panic");
         }
+        #[cfg(unix)]
         if mode == "sighup" || mode == "sigterm" {
             signal_hook::low_level::raise(if mode == "sighup" { SIGHUP } else { SIGTERM }).unwrap();
             let deadline = Instant::now() + Duration::from_secs(3);
@@ -69,6 +77,15 @@ fn main() {
             restore().unwrap();
         }
         drop(guard);
+        if mode == "reacquire" {
+            let guard = TerminalGuard::with_options(TerminalOptions {
+                mouse: false,
+                kitty_keyboard: false,
+            })
+            .unwrap();
+            assert!(guard.is_active());
+            drop(guard);
+        }
     });
     assert!(!crossterm::terminal::is_raw_mode_enabled().unwrap());
     restore().unwrap();

@@ -16,6 +16,7 @@
 use std::io;
 use std::sync::atomic::{AtomicI32, Ordering};
 use std::sync::{Arc, Mutex, Once, Weak};
+#[cfg(unix)]
 use std::thread::JoinHandle;
 
 use crossterm::cursor::{Hide, Show};
@@ -29,7 +30,9 @@ use crossterm::terminal::{
     EnterAlternateScreen, LeaveAlternateScreen, SetTitle, disable_raw_mode, enable_raw_mode,
     supports_keyboard_enhancement,
 };
+#[cfg(unix)]
 use signal_hook::consts::{SIGHUP, SIGTERM};
+#[cfg(unix)]
 use signal_hook::iterator::{Handle, Signals};
 
 static OWNER: Mutex<Option<Weak<State>>> = Mutex::new(None);
@@ -145,7 +148,9 @@ impl State {
 /// A unique process-wide terminal owner. Drop never panics, including during unwind.
 pub struct TerminalGuard {
     state: Arc<State>,
+    #[cfg(unix)]
     signals: Handle,
+    #[cfg(unix)]
     worker: Option<JoinHandle<()>>,
 }
 
@@ -166,6 +171,7 @@ impl TerminalGuard {
                 previous(info);
             }));
         });
+        #[cfg(unix)]
         let mut signals = Signals::new([SIGTERM, SIGHUP])?;
         let state = Arc::new(State {
             modes: Mutex::new(Modes::default()),
@@ -176,26 +182,35 @@ impl TerminalGuard {
         *owner = Some(Arc::downgrade(&state));
         drop(owner);
         state.enter()?;
-        let handle = signals.handle();
-        let worker_state = Arc::clone(&state);
-        let worker = std::thread::Builder::new()
-            .name("terminal-signals".into())
-            .spawn(move || {
-                for signal in signals.forever() {
-                    worker_state.signal.store(signal, Ordering::Release);
-                    let _ = worker_state.restore();
+        #[cfg(unix)]
+        {
+            let handle = signals.handle();
+            let worker_state = Arc::clone(&state);
+            let worker = std::thread::Builder::new()
+                .name("terminal-signals".into())
+                .spawn(move || {
+                    for signal in signals.forever() {
+                        worker_state.signal.store(signal, Ordering::Release);
+                        let _ = worker_state.restore();
+                    }
+                });
+            match worker {
+                Ok(worker) => Ok(Self {
+                    state,
+                    signals: handle,
+                    worker: Some(worker),
+                }),
+                Err(error) => {
+                    let _ = state.restore();
+                    Err(error.into())
                 }
-            });
-        match worker {
-            Ok(worker) => Ok(Self {
-                state,
-                signals: handle,
-                worker: Some(worker),
-            }),
-            Err(error) => {
-                let _ = state.restore();
-                Err(error.into())
             }
+        }
+        // On Windows, raw-mode Ctrl-C/Ctrl-D are input events handled by the app.
+        // Acquisition, panic restoration and scoped drop still use the same real modes.
+        #[cfg(not(unix))]
+        {
+            Ok(Self { state })
         }
     }
 
@@ -243,9 +258,12 @@ pub fn restore() -> io::Result<()> {
 
 impl Drop for TerminalGuard {
     fn drop(&mut self) {
-        self.signals.close();
-        if let Some(worker) = self.worker.take() {
-            let _ = worker.join();
+        #[cfg(unix)]
+        {
+            self.signals.close();
+            if let Some(worker) = self.worker.take() {
+                let _ = worker.join();
+            }
         }
         let _ = self.state.restore();
         let mut owner = OWNER.lock().unwrap_or_else(|error| error.into_inner());

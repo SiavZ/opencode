@@ -36,8 +36,9 @@ fn example() -> &'static PathBuf {
                 "opencode-ui-terminal",
                 "--example",
                 "panic_restore",
+                "--locked",
+                "--offline",
             ])
-            .env("CARGO_BUILD_JOBS", "3")
             .env("CARGO_TARGET_DIR", &target)
             .status()
             .unwrap();
@@ -212,7 +213,11 @@ fn exercise(mode: &str, kitty: bool) {
     );
     assert_eq!(
         output.matches("\x1b[?1049l").count(),
-        if mode == "suspend" { 2 } else { 1 },
+        if matches!(mode, "suspend" | "reacquire") {
+            2
+        } else {
+            1
+        },
         "restoration must be idempotent"
     );
     if mode == "panic" {
@@ -254,4 +259,9 @@ fn sigterm_restores_real_pty_and_prevents_resume() {
 #[test]
 fn mouse_capture_can_be_disabled() {
     exercise("no-mouse", false);
+}
+
+#[test]
+fn drop_joins_signal_worker_and_allows_terminal_reacquisition() {
+    exercise("reacquire", false);
 }
