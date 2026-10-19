@@ -16,7 +16,6 @@ use opencode_desktop_host::deeplinks::{
 use parking_lot::Mutex;
 use std::collections::HashMap;
 
-
 #[derive(Default)]
 struct FixtureSink {
     focused: Mutex<Option<String>>,
