@@ -157,7 +157,7 @@ pub fn api() -> &'static Api {
         }
         global.endpoints.extend(core::global());
         session.endpoints.extend(session::endpoints());
-        let mut groups = vec![global, event, session];
+        let mut groups = vec![global, event, build::group("session", session.endpoints)];
         groups.extend(core::groups());
         groups.extend(integration::groups());
         groups.extend(native::groups());

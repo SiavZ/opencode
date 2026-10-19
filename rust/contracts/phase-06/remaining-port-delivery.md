@@ -56,3 +56,13 @@ A repeat complete scoped suite hit its 240-second wall-clock limit after 217 sec
 Protocol inventory currently declares no non-JSON payload endpoint (`payload_encoding` has no call sites), so the earlier generic non-JSON implementation limitation is not a presently declared endpoint gap.
 
 No production user data, TypeScript baseline source, manifests, crate edges, expected-failure ledger or fixtures were edited in this delivery.
+
+## Follow-up: concrete remote workspace history and SSE
+
+`runtime/src/workspace_transport.rs` now implements the real `SyncTransport` port with the root-supplied reqwest client. The supervisor already supplies routed endpoint URLs, so the transport never appends them a second time. Requests preserve adapter headers, set SSE Accept or JSON Content-Type, retain exact non-2xx SyncHttp messages and history error bodies, and return a response-owned byte stream. No detached transport task survives dropping that stream.
+
+At **11:55 UTC**, all three `runtime/tests/workspace_transport.rs` tests passed. The production Process supervisor test uses actual SQLite/event storage and two native loopback listeners: initial history sequence 0, live sequence 1, reconnect with persisted fence 1, live sequence 2, recorded remote workspace ownership, joined shutdown, and observed remote stream cancellation. The remote adapter only supplies a controlled target; cloud provisioning is not claimed. Separate real-listener tests prove headers, invalid response bodies, typed HTTP errors, and standalone stream-drop cancellation.
+
+At **11:57 UTC**, the unrestricted server/protocol package suite passed with only the separately measured immutable replay ledger assertion excluded. This includes six domain HTTP tests, eight SSE tests, three remote relay tests, and seven PTY socket tests. Server/protocol **all-target Clippy with `-D warnings` also passed**. A registry regression additionally proves `session.prompt_async` advertises only empty 204, not the constructor's earlier accidental JSON 200 alternative.
+
+Strict Clippy for the runtime workspace transport target was attempted and blocked by seven newly edited provider variant compilation errors (`serde_json::Map` cannot be constructed from a two-element array with `.into()`). This is a peer-owned dependency failure, reported to the provider owner, not a transport lint pass. Reverification is pending that repair.

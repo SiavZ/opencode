@@ -92,3 +92,30 @@ fn current_health_is_first() {
     assert_eq!(e.path, "/api/health");
     assert_eq!(e.operation_id, "v2.health.get");
 }
+
+#[test]
+fn legacy_void_successes_do_not_advertise_a_json_alternative() {
+    use opencode_protocol::operation::SuccessEncoding;
+
+    let api = opencode_protocol::legacy::api();
+    let endpoint = api.find("session.prompt_async").expect("async prompt");
+    assert_eq!(endpoint.successes.len(), 1);
+    assert_eq!(endpoint.successes[0].status, 204);
+    assert_eq!(endpoint.successes[0].encoding, SuccessEncoding::Void);
+    for (_, endpoint) in api.endpoints() {
+        if endpoint
+            .successes
+            .iter()
+            .any(|success| success.encoding == SuccessEncoding::Void)
+        {
+            assert!(
+                endpoint
+                    .successes
+                    .iter()
+                    .all(|success| success.encoding == SuccessEncoding::Void),
+                "{}",
+                endpoint.name
+            );
+        }
+    }
+}
