@@ -52,6 +52,7 @@ pub(super) fn decode(store: &mut CatalogStore, bytes: &[u8]) -> Result<(), Catal
         .as_object()
         .ok_or_else(|| CatalogError::Invalid("expected provider object".into()))?;
     let mut next = store.clone();
+    next.metadata.extend(entries.clone());
     for (provider_id, entry) in entries {
         let mut provider = ProviderInfo::empty(ProviderID::new(provider_id));
         provider.name = entry
@@ -142,9 +143,66 @@ pub(super) fn decode(store: &mut CatalogStore, bytes: &[u8]) -> Result<(), Catal
                 }
                 value["cost"] = json!(costs);
             }
-            let model = serde_json::from_value(value)
+            let model: ModelInfo = serde_json::from_value(value)
                 .map_err(|error| CatalogError::Invalid(error.to_string()))?;
-            next.insert_model(model);
+            next.insert_model(model.clone());
+            for (mode, options) in entry
+                .pointer("/experimental/modes")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flatten()
+            {
+                let mut variant = model.clone();
+                variant.id = ModelID::new(format!("{id}-{mode}"));
+                let mut letters = mode.chars();
+                variant.name = format!(
+                    "{} {}{}",
+                    model.name,
+                    letters
+                        .next()
+                        .map(|letter| letter.to_uppercase().to_string())
+                        .unwrap_or_default(),
+                    letters.as_str()
+                );
+                if let Some(cost) = options.get("cost") {
+                    variant.cost[0] = serde_json::from_value(project_cost(cost))
+                        .map_err(|error| CatalogError::Invalid(error.to_string()))?;
+                    for cost in cost
+                        .get("tiers")
+                        .and_then(Value::as_array)
+                        .into_iter()
+                        .flatten()
+                    {
+                        let cost: opencode_schema::provider::ModelCost =
+                            serde_json::from_value(project_cost(cost))
+                                .map_err(|error| CatalogError::Invalid(error.to_string()))?;
+                        if let Some(existing) = variant
+                            .cost
+                            .iter_mut()
+                            .find(|existing| existing.tier == cost.tier)
+                        {
+                            *existing = cost;
+                        } else {
+                            variant.cost.push(cost);
+                        }
+                    }
+                }
+                if let Some(body) = options.pointer("/provider/body").and_then(Value::as_object) {
+                    variant.request.body.extend(body.clone());
+                }
+                if let Some(headers) = options
+                    .pointer("/provider/headers")
+                    .and_then(Value::as_object)
+                {
+                    variant
+                        .request
+                        .headers
+                        .extend(headers.iter().filter_map(|(key, value)| {
+                            value.as_str().map(|value| (key.clone(), value.to_owned()))
+                        }));
+                }
+                next.insert_model(variant);
+            }
         }
         next.insert_provider(provider);
     }

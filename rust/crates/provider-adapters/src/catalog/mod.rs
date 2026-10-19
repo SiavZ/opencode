@@ -30,9 +30,11 @@ use std::path::Path;
 
 mod cache;
 mod refresh;
+mod selection;
 pub use cache::CatalogError;
 use opencode_schema::provider::{ModelInfo, ProviderApi, ProviderInfo};
-pub use refresh::ModelsService;
+pub use refresh::{ModelsService, cache_filename};
+pub use selection::SelectionError;
 use serde_json::Value;
 
 #[derive(Debug, Clone, Default)]
@@ -43,6 +45,7 @@ pub struct CatalogStore {
     connected: HashSet<IntegrationID>,
     integrations: HashSet<IntegrationID>,
     environment: IndexMap<IntegrationID, Vec<String>>,
+    metadata: serde_json::Map<String, Value>,
 }
 
 impl CatalogStore {
@@ -309,6 +312,9 @@ impl CatalogStore {
     pub fn provider(&self, id: &ProviderID) -> Option<ProviderInfo> {
         self.providers.get(id).cloned()
     }
+    pub fn metadata(&self, provider: &ProviderID) -> Option<&Value> {
+        self.metadata.get(provider.as_str())
+    }
     pub fn environment_names(&self) -> IndexMap<IntegrationID, Vec<String>> {
         self.environment.clone()
     }
@@ -317,30 +323,6 @@ impl CatalogStore {
             .into_iter()
             .filter(|model| &model.provider_id == provider)
             .collect()
-    }
-    /// V1 provider default order is intentionally distinct from V2 release-date selection.
-    pub fn legacy_default_for(&self, provider: &ProviderID) -> Option<ModelInfo> {
-        let mut models = self.models_for(provider);
-        models.sort_by(|left, right| {
-            let rank = |id: &str| {
-                ["gpt-5", "claude-sonnet-4", "big-pickle", "gemini-3-pro"]
-                    .iter()
-                    .position(|filter| id.contains(filter))
-                    .map(|index| index as i32)
-                    .unwrap_or(-1)
-            };
-            rank(right.id.as_str())
-                .cmp(&rank(left.id.as_str()))
-                .then_with(|| {
-                    right
-                        .id
-                        .as_str()
-                        .contains("latest")
-                        .cmp(&left.id.as_str().contains("latest"))
-                })
-                .then_with(|| right.id.as_str().cmp(left.id.as_str()))
-        });
-        models.into_iter().next()
     }
     pub fn providers(&self) -> Vec<ProviderInfo> {
         self.providers.values().cloned().collect()

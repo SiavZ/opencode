@@ -12,9 +12,21 @@
 //! Contract tests: provider-adapters/tests/catalog_refresh.rs
 
 use super::{CatalogError, CatalogStore};
+use sha1::{Digest, Sha1};
 use std::path::PathBuf;
 use std::time::{Duration, SystemTime};
 use tokio::sync::Mutex;
+
+pub fn cache_filename(source: &str) -> String {
+    if source == "https://models.opencode.ai" {
+        return "models.json".into();
+    }
+    let hash: String = Sha1::digest(source.as_bytes())
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect();
+    format!("models-{hash}.json")
+}
 
 pub struct ModelsService {
     client: reqwest::Client,
@@ -24,6 +36,8 @@ pub struct ModelsService {
     state: Mutex<Option<CatalogStore>>,
     disabled: bool,
     snapshot: Option<CatalogStore>,
+    read_path: Option<PathBuf>,
+    refreshed: tokio::sync::broadcast::Sender<()>,
 }
 
 impl ModelsService {
@@ -41,6 +55,8 @@ impl ModelsService {
             state: Mutex::new(None),
             disabled: false,
             snapshot: None,
+            read_path: None,
+            refreshed: tokio::sync::broadcast::channel(16).0,
         }
     }
 
@@ -51,20 +67,33 @@ impl ModelsService {
         self
     }
 
+    /// A models-path override is read-only: refresh still updates the regular cache.
+    pub fn with_read_path(mut self, path: Option<PathBuf>) -> Self {
+        self.read_path = path;
+        self
+    }
+
+    pub fn subscribe(&self) -> tokio::sync::broadcast::Receiver<()> {
+        self.refreshed.subscribe()
+    }
+
     pub async fn get(&self) -> Result<CatalogStore, CatalogError> {
         let mut state = self.state.lock().await;
         if let Some(store) = state.as_ref() {
             return Ok(store.clone());
         }
         let mut store = CatalogStore::new();
-        let loaded = self.cache.exists() && store.load_cache(&self.cache).is_ok();
+        let loaded = self.read_path.as_ref().unwrap_or(&self.cache).exists()
+            && store
+                .load_cache(self.read_path.as_ref().unwrap_or(&self.cache))
+                .is_ok();
         if !loaded && let Some(snapshot) = &self.snapshot {
             *state = Some(snapshot.clone());
             return Ok(snapshot.clone());
         }
         if !loaded && !self.disabled {
             let _lock = self.lock().await?;
-            if !self.cache.exists() {
+            if !self.cache.exists() || store.load_cache(&self.cache).is_err() {
                 self.fetch().await?;
             }
             store.load_cache(&self.cache)?;
@@ -92,27 +121,30 @@ impl ModelsService {
         }
         self.fetch().await?;
         *state = None;
+        let _ = self.refreshed.send(());
         Ok(true)
     }
 
     async fn lock(&self) -> Result<std::fs::File, CatalogError> {
         let path = self.cache.with_extension("json.lock");
-        tokio::task::spawn_blocking(move || {
-            if let Some(parent) = path.parent() {
-                std::fs::create_dir_all(parent)?;
+        if let Some(parent) = path.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        let file = std::fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(path)?;
+        loop {
+            match file.try_lock() {
+                Ok(()) => return Ok(file),
+                Err(std::fs::TryLockError::WouldBlock) => {
+                    tokio::time::sleep(Duration::from_millis(25)).await
+                }
+                Err(std::fs::TryLockError::Error(error)) => return Err(error.into()),
             }
-            let file = std::fs::OpenOptions::new()
-                .create(true)
-                .truncate(false)
-                .read(true)
-                .write(true)
-                .open(path)?;
-            file.lock()?;
-            Ok::<_, std::io::Error>(file)
-        })
-        .await
-        .map_err(|_| CatalogError::Fetch("cache lock task failed".into()))?
-        .map_err(CatalogError::Io)
+        }
     }
 
     fn fresh(&self) -> bool {
@@ -124,6 +156,12 @@ impl ModelsService {
     }
 
     async fn fetch(&self) -> Result<(), CatalogError> {
+        tokio::time::timeout(Duration::from_secs(10), self.fetch_inner())
+            .await
+            .map_err(|_| CatalogError::Fetch("catalog request timed out".into()))?
+    }
+
+    async fn fetch_inner(&self) -> Result<(), CatalogError> {
         let url = format!("{}/api.json", self.source.trim_end_matches('/'));
         let mut attempt = 0;
         let bytes = loop {
