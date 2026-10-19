@@ -5,47 +5,33 @@
 //! Scope: per-connection handlers.
 //! Uses:
 //! rust/crates/
-//! |-- platform-api/src/pty.rs
 //! |-- protocol/src/current/mod.rs
 //! |-- protocol/src/sse.rs
 //! |-- schema/src/ids.rs
 //! |-- schema/src/session_event.rs
 //! |-- server/src/app.rs
-//! |-- server/src/middleware/cors.rs
+//! |-- server/src/handlers/streams/pty.rs
 //! |-- server/src/middleware/decode.rs
 //! |-- server/src/middleware/errors.rs
 //! |-- server/src/middleware/legacy_routing.rs
 //! |-- server/src/middleware/location.rs
-//! |-- server/src/services/streams.rs
-//! |-- server/src/transport/sse.rs
-//! `-- server/src/transport/websocket.rs
+//! `-- server/src/transport/sse.rs
 //! External:
 //! |-- axum::Router
-//! |-- axum::body::Body
 //! |-- axum::extract::Path
 //! |-- axum::extract::Request
 //! |-- axum::extract::State
-//! |-- axum::extract::ws::WebSocketUpgrade
-//! |-- axum::extract::ws::rejection::WebSocketUpgradeRejection
-//! |-- axum::http::HeaderMap
-//! |-- axum::http::StatusCode
-//! |-- axum::http::header
 //! |-- axum::response::IntoResponse
 //! |-- axum::response::Response
 //! |-- axum::routing::get
 //! |-- decode::query
-//! |-- form_urlencoded::parse
 //! |-- futures_util::future::ready
 //! |-- futures_util::stream::BoxStream
 //! |-- futures_util::stream::StreamExt
 //! |-- futures_util::stream::self
-//! |-- header::HOST
-//! |-- header::ORIGIN
 //! |-- legacy_routing::RouteContext
 //! |-- legacy_routing::instance
 //! |-- legacy_routing::route
-//! |-- location::reference
-//! |-- location::resolve
 //! |-- location::session
 //! |-- serde_json::Value
 //! |-- serde_json::json
@@ -59,13 +45,12 @@
 //! |-- str::to_string
 //! |-- stream::once
 //! |-- stream::pending
-//! |-- stream::select
-//! |-- websocket::close_with
-//! `-- websocket::run
+//! `-- stream::select
 //! Used by:
 //! rust/crates/
 //! |-- server/src/app.rs
-//! `-- server/src/handlers/mod.rs
+//! |-- server/src/handlers/mod.rs
+//! `-- server/src/handlers/streams/pty.rs
 //! Invariants: current `/api/event` writes `server.connected` first, the 15 s `: heartbeat`
 //! comment (first tick immediate, as in Effect `Stream.tick`), and ends the body abnormally when the
 //! 256-slot subscriber overflows. Legacy streams write `{id,type,properties}` frames with a 10 s
@@ -76,18 +61,15 @@
 //! 404) before ticket/origin (empty 403), then upgrades. Sockets are tracked by `SocketTracker`.
 //! Contract tests: server/tests/sse_events.rs, server/tests/ws_pty.rs
 
-use std::sync::Arc;
+mod pty;
+
+pub use pty::{issue_ticket, parse_cursor};
 
 use axum::Router;
-use axum::body::Body;
-use axum::extract::ws::WebSocketUpgrade;
-use axum::extract::ws::rejection::WebSocketUpgradeRejection;
 use axum::extract::{Path, Request, State};
-use axum::http::{HeaderMap, StatusCode, header};
 use axum::response::{IntoResponse, Response};
 use axum::routing::get;
 use futures_util::stream::{self, BoxStream, StreamExt};
-use opencode_platform_api::pty::{PtyError, PtyStatus, ReplayFrom};
 use opencode_protocol::sse::{
     CONNECTED_TYPE, CURRENT_HEARTBEAT, CURRENT_HEARTBEAT_INTERVAL, CURRENT_SUBSCRIBER_CAPACITY,
     INSTANCE_DISPOSED_TYPE, LEGACY_HEARTBEAT_INTERVAL, LEGACY_HEARTBEAT_TYPE,
@@ -96,12 +78,10 @@ use opencode_schema::ids::EventID;
 use serde_json::{Value, json};
 
 use crate::app::AppState;
-use crate::middleware::cors::is_allowed_request_origin;
 use crate::middleware::errors::HttpError;
 use crate::middleware::legacy_routing::{self, Plan};
 use crate::middleware::{decode, location};
-use crate::services::streams::TicketScope;
-use crate::transport::{sse, websocket};
+use crate::transport::sse;
 
 /// Effect reserved SSE failure event name.
 pub const STREAM_FAILURE_EVENT: &str = "effect/httpapi/stream/failure";
@@ -126,10 +106,10 @@ pub fn routes() -> Router<AppState> {
     Router::new()
         .route("/api/event", get(current_events))
         .route("/api/session/{sessionID}/event", get(session_events))
-        .route("/api/pty/{ptyID}/connect", get(current_pty))
+        .route("/api/pty/{ptyID}/connect", get(pty::current_pty))
         .route("/event", get(legacy_events))
         .route("/global/event", get(global_events))
-        .route("/pty/{ptyID}/connect", get(legacy_pty))
+        .route("/pty/{ptyID}/connect", get(pty::legacy_pty))
 }
 
 fn event_id() -> String {
@@ -349,188 +329,4 @@ async fn global_events(State(state): State<AppState>) -> Response {
             .chain(sse::halt_left(events, heartbeat))
             .boxed();
     sse::response(body)
-}
-
-/// `Number(x)` for a query value, then `isSafeInteger && >= -1`.
-pub fn parse_cursor(raw: Option<&str>) -> Option<i64> {
-    let raw = raw?;
-    let trimmed = raw.trim();
-    let number = if trimmed.is_empty() {
-        0.0
-    } else if trimmed
-        .chars()
-        .all(|c| c.is_ascii_digit() || matches!(c, '-' | '+' | '.' | 'e' | 'E'))
-    {
-        trimmed.parse::<f64>().ok()?
-    } else {
-        return None;
-    };
-    const MAX_SAFE: f64 = 9_007_199_254_740_991.0;
-    (number.fract() == 0.0 && number.abs() <= MAX_SAFE && number >= -1.0).then_some(number as i64)
-}
-
-fn query_value(query: Option<&str>, name: &str) -> Option<String> {
-    query.and_then(|q| {
-        form_urlencoded::parse(q.as_bytes())
-            .find(|(k, _)| k == name)
-            .map(|(_, v)| v.into_owned())
-    })
-}
-
-fn empty(status: StatusCode) -> Response {
-    status.into_response()
-}
-
-/// Inputs shared by both PTY connect routes once placement is known.
-struct Connect {
-    pty_id: String,
-    directory: String,
-    workspace_id: Option<String>,
-    /// Current route closes with `session exited` for exited PTYs; legacy says `session not found`.
-    exited_reason: &'static str,
-    /// Legacy treats an exited PTY as missing (404 before upgrade).
-    require_running: bool,
-}
-
-async fn current_pty(
-    State(state): State<AppState>,
-    Path(pty_id): Path<String>,
-    upgrade: Result<WebSocketUpgrade, WebSocketUpgradeRejection>,
-    headers: HeaderMap,
-    request: Request,
-) -> Response {
-    let query = request.uri().query().map(str::to_string);
-    let reference = match location::reference(query.as_deref(), &headers) {
-        Ok(reference) => reference,
-        Err(error) => return error.into_response(),
-    };
-    let info = match location::resolve(&state.services, &reference).await {
-        Ok(info) => info,
-        Err(error) => return error.into_response(),
-    };
-    let connect = Connect {
-        pty_id,
-        directory: info.directory.as_str().to_string(),
-        workspace_id: info.workspace_id.map(|w| w.into_inner()),
-        exited_reason: "session exited",
-        require_running: false,
-    };
-    pty_connect(state, connect, upgrade, headers, query).await
-}
-
-async fn legacy_pty(
-    State(state): State<AppState>,
-    Path(pty_id): Path<String>,
-    upgrade: Result<WebSocketUpgrade, WebSocketUpgradeRejection>,
-    request: Request,
-) -> Response {
-    let headers = request.headers().clone();
-    let query = request.uri().query().map(str::to_string);
-    let mut routed = Request::new(Body::empty());
-    *routed.uri_mut() = request.uri().clone();
-    *routed.headers_mut() = headers.clone();
-    let context = match legacy_context(&state, routed).await {
-        Ok(context) => context,
-        Err(response) => return *response,
-    };
-    let connect = Connect {
-        pty_id,
-        directory: context.directory,
-        workspace_id: context.workspace_id,
-        exited_reason: "session not found",
-        require_running: true,
-    };
-    pty_connect(state, connect, upgrade, headers, query).await
-}
-
-async fn pty_connect(
-    state: AppState,
-    connect: Connect,
-    upgrade: Result<WebSocketUpgrade, WebSocketUpgradeRejection>,
-    headers: HeaderMap,
-    query: Option<String>,
-) -> Response {
-    let streams = state.services.streams.clone();
-    let Some(provider) = streams.pty.clone() else {
-        return HttpError::not_yet_ported("pty.connect").into_response();
-    };
-    let service = match provider
-        .pty(&connect.directory, connect.workspace_id.as_deref())
-        .await
-    {
-        Ok(service) => service,
-        Err(error) => return HttpError::Defect(error.message).into_response(),
-    };
-    let exists = match service.get(&connect.pty_id).await {
-        Ok(info) => !connect.require_running || info.status == PtyStatus::Running,
-        Err(_) => false,
-    };
-    if !exists {
-        return empty(StatusCode::NOT_FOUND);
-    }
-    if let Some(ticket) = query_value(query.as_deref(), "ticket").filter(|t| !t.is_empty()) {
-        let cors = state.config.cors.clone().unwrap_or_default();
-        let origin = headers.get(header::ORIGIN).and_then(|v| v.to_str().ok());
-        let host = headers.get(header::HOST).and_then(|v| v.to_str().ok());
-        let scope = TicketScope {
-            pty_id: connect.pty_id.clone(),
-            directory: Some(connect.directory.clone()),
-            workspace_id: connect.workspace_id.clone(),
-        };
-        let valid = is_allowed_request_origin(origin, host, &cors)
-            && streams.tickets.consume(&ticket, &scope);
-        if !valid {
-            return empty(StatusCode::FORBIDDEN);
-        }
-    }
-    let from = match parse_cursor(query_value(query.as_deref(), "cursor").as_deref()) {
-        None => ReplayFrom::Start,
-        Some(-1) => ReplayFrom::End,
-        Some(n) => ReplayFrom::Cursor(n as u64),
-    };
-    let upgrade = match upgrade {
-        Ok(upgrade) => upgrade,
-        // `ctx.request.upgrade` with `orDie`: a non-upgrade request is a defect.
-        Err(rejection) => return HttpError::Defect(rejection.to_string()).into_response(),
-    };
-    let registration = streams.sockets.register();
-    let pty_id = connect.pty_id.clone();
-    let exited_reason = connect.exited_reason;
-    upgrade.on_upgrade(move |socket| async move {
-        let Some((_token, closing)) = registration else {
-            websocket::close_with(socket, 1001, "server closing").await;
-            return;
-        };
-        match service.attach(&pty_id, from).await {
-            Ok(attachment) => websocket::run(socket, attachment, closing).await,
-            Err(PtyError::Exited(_)) => websocket::close_with(socket, 4404, exited_reason).await,
-            Err(_) => websocket::close_with(socket, 4404, "session not found").await,
-        }
-    })
-}
-
-/// Shared ticket issuer used by the `connect-token` handlers.
-pub fn issue_ticket(
-    state: &AppState,
-    scope: TicketScope,
-) -> crate::services::streams::ConnectToken {
-    let tickets: Arc<dyn crate::services::streams::PtyTickets> =
-        state.services.streams.tickets.clone();
-    tickets.issue(scope)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn cursor_parsing_matches_number_semantics() {
-        assert_eq!(parse_cursor(None), None);
-        assert_eq!(parse_cursor(Some("")), Some(0));
-        assert_eq!(parse_cursor(Some("-1")), Some(-1));
-        assert_eq!(parse_cursor(Some("-2")), None);
-        assert_eq!(parse_cursor(Some("1.5")), None);
-        assert_eq!(parse_cursor(Some("abc")), None);
-        assert_eq!(parse_cursor(Some("1e3")), Some(1000));
-    }
 }
