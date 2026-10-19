@@ -4,13 +4,83 @@
 //! Scope: pure values.
 //! Uses:
 //! rust/crates/
-//! `-- schema/src/macros.rs
+//! `-- schema/src/lib.rs
 //! External:
-//! |-- serde::{Deserialize, Deserializer, Serialize, Serializer}
-//! `-- serde_json
+//! |-- de::Error
+//! |-- de::Error::custom
+//! |-- fmt::Formatter
+//! |-- fmt::Result
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::Serializer
+//! |-- serde::de
+//! |-- serde::de::Visitor
+//! |-- serde::de::self
+//! |-- serde::ser::Error::custom
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::Value::deserialize
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- locations/src/ports.rs
+//! |-- locations/src/project_store.rs
+//! |-- runtime/src/adapters.rs
+//! |-- runtime/src/execution_support.rs
+//! |-- runtime/src/location.rs
+//! |-- runtime/src/process.rs
+//! |-- runtime/tests/process.rs
+//! |-- schema/src/agent.rs
+//! |-- schema/src/event.rs
+//! |-- schema/src/filesystem.rs
+//! |-- schema/src/integration.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/misc_event.rs
+//! |-- schema/src/permission.rs
+//! |-- schema/src/project.rs
+//! |-- schema/src/prompt.rs
+//! |-- schema/src/provider.rs
+//! |-- schema/src/pty.rs
+//! |-- schema/src/question.rs
+//! |-- schema/src/reference.rs
+//! |-- schema/src/revert.rs
+//! |-- schema/src/session.rs
+//! |-- schema/src/session_aux_event.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/session_event/stream.rs
+//! |-- schema/src/session_input.rs
+//! |-- schema/src/session_message.rs
+//! |-- schema/src/session_message/assistant.rs
+//! |-- schema/src/workspace.rs
+//! |-- server/src/handlers/session.rs
+//! |-- server/src/middleware/location.rs
+//! |-- session-api/src/ids.rs
+//! |-- session-api/tests/wire.rs
+//! |-- session-runtime/src/admission.rs
+//! |-- session-runtime/src/compaction.rs
+//! |-- session-runtime/src/inbox.rs
+//! |-- session-runtime/src/legacy/types.rs
+//! |-- session-runtime/src/projection.rs
+//! |-- session-runtime/src/projection/updater.rs
+//! |-- session-runtime/src/revert.rs
+//! |-- session-runtime/src/runner/model.rs
+//! |-- session-runtime/src/runner/ports.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! |-- session-runtime/src/runner/publish/tools.rs
+//! |-- session-runtime/src/runner/turn.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/service.rs
+//! |-- session-runtime/src/store.rs
+//! |-- session-runtime/tests/admission.rs
+//! |-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/tests/admission_inbox.rs
+//! |-- session-runtime/tests/admission_projection.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: numbers encode like `JSON.stringify` for integral values (no `.0`, `-0` -> `0`);
 //! Int accepts any JSON number that is a safe integer (`3.0` decodes, `2^53` fails);
 //! DateTimeUtcFromMillis truncates fractional millis toward zero like `new Date(x)` and

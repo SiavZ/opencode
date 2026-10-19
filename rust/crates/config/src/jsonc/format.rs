@@ -8,7 +8,8 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- config/src/jsonc/edit.rs
+//! |-- config/src/jsonc/edit.rs
+//! `-- config/src/jsonc/mod.rs
 //! Invariants: only `keepLines: false`, `insertSpaces: true` paths are used by config writes, but
 //! all branches of the baseline are kept so formatting stays faithful.
 //! Contract tests: config/tests/jsonc.rs

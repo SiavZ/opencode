@@ -9,9 +9,13 @@
 //! |-- provider-adapters/src/protocol.rs
 //! |-- provider-adapters/src/protocols/anthropic/wire.rs
 //! |-- provider-adapters/src/shared.rs
-//! `-- provider-adapters/src/transport/overflow.rs
+//! `-- provider-adapters/src/transport/mod.rs
 //! External:
-//! `-- serde::Deserialize
+//! |-- serde::Deserialize
+//! |-- serde_json::Error
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::from_value
 //! Used by:
 //! rust/crates/
 //! `-- provider-adapters/src/protocols/bedrock/mod.rs

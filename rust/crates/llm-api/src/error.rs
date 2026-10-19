@@ -7,15 +7,15 @@
 //! `-- llm-api/src/ids.rs
 //! External:
 //! |-- indexmap::IndexMap
-//! |-- serde::{Deserialize, Serialize}
-//! `-- thiserror::Error
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
 //! |-- llm-api/src/client.rs
 //! |-- llm-api/src/event.rs
 //! |-- llm-api/src/lib.rs
-//! |-- llm-api/src/response.rs
-//! `-- llm-api/src/route.rs
+//! |-- llm-api/src/route.rs
+//! `-- llm-api/tests/contract.rs
 //! Invariants: `_tag` spellings and `retryable` per reason match
 //! packages/llm/src/schema/errors.ts. `Cancelled` is Rust-only (Effect interruption in the
 //! baseline) and is never retryable. Header values in `HttpContext` are already redacted by

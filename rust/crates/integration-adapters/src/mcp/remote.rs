@@ -8,10 +8,16 @@
 //! |-- integration-adapters/src/mcp/oauth_provider.rs
 //! `-- integration-adapters/src/mcp/transport.rs
 //! External:
-//! `-- reqwest::{Client, RequestBuilder}
+//! |-- reqwest::Client
+//! |-- reqwest::RequestBuilder
+//! |-- tokio::task::JoinHandle
+//! `-- url::Url
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/mcp/connect.rs
 //! |-- integration-adapters/src/mcp/legacy_sse.rs
+//! |-- integration-adapters/src/mcp/mod.rs
+//! |-- integration-adapters/src/mcp/service_auth.rs
 //! `-- integration-adapters/src/mcp/streamable.rs
 //! Invariants: user headers override generated ones (SDK `new Headers({...headers, ...extra})`);
 //! an auth attempt that does not end `Authorized` surfaces `TransportError::Unauthorized`.

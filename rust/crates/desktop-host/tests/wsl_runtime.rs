@@ -7,11 +7,15 @@
 //! rust/crates/
 //! |-- desktop-host/src/platform/wsl/controller.rs
 //! |-- desktop-host/src/platform/wsl/exe.rs
+//! |-- desktop-host/src/platform/wsl/mod.rs
 //! |-- desktop-host/src/platform/wsl/runtime.rs
 //! `-- desktop-host/src/platform/wsl/sidecar.rs
 //! External:
-//! |-- tokio
-//! `-- tokio_util::sync::CancellationToken
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! |-- tokio_util::sync::CancellationToken
+//! `-- u16::to_le_bytes
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no wsl.exe invocation on non-Windows hosts.

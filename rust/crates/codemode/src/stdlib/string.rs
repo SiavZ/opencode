@@ -2,15 +2,25 @@
 //! Scope: runtime.ts invokeStringMethod (lines 330-520) and stdlib/string.ts.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
 //! |-- codemode/src/stdlib/regexp.rs
 //! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
+//! |-- codemode/src/value/number.rs
 //! `-- codemode/src/value/text.rs
 //! External:
+//! |-- char::from_u32
+//! |-- f64::NAN
+//! |-- f64::from
+//! |-- str::to_string
+//! |-- u32::MAX
+//! |-- u32::from
 //! `-- unicode_normalization::UnicodeNormalization
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/call.rs
-//! `-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/members.rs
+//! `-- codemode/src/stdlib/mod.rs
 //! Invariants: argument types are validated exactly as the baseline; results are bounded data.
 //! Contract tests: codemode/tests/parity.rs, codemode/tests/stdlib.rs
 

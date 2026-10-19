@@ -6,13 +6,22 @@
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/catalog.rs
 //! |-- integration-adapters/src/mcp/client.rs
-//! |-- integration-adapters/src/mcp/jsonrpc.rs
 //! |-- integration-adapters/src/mcp/service.rs
-//! |-- integration-adapters/src/mcp/service_auth.rs
 //! |-- integration-api/src/error.rs
 //! `-- integration-api/src/mcp.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- catalog::prompts
+//! |-- catalog::resource_templates
+//! |-- catalog::resources
+//! |-- catalog::tool_name
+//! |-- catalog::translate_call_result
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! `-- integration-adapters/src/mcp/mod.rs

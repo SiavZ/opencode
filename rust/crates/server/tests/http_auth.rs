@@ -3,9 +3,17 @@
 //! Uses:
 //! rust/crates/
 //! |-- server/src/app.rs
+//! |-- server/src/lifecycle.rs
+//! |-- server/src/middleware/auth.rs
+//! |-- server/src/middleware/cors.rs
 //! `-- server/tests/support/mod.rs
 //! External:
-//! `-- reqwest::Client
+//! |-- app::router
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- serde_json::Value
+//! |-- str::to_string
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: mirrors packages/server/src/middleware/authorization.ts and the legacy router

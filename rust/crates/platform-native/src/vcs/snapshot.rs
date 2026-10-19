@@ -11,11 +11,23 @@
 //! `-- platform-native/src/vcs/tree.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- sha1::Sha1
+//! |-- sha1::Digest
+//! |-- sha1::Sha1
+//! |-- tokio::fs::try_exists
+//! |-- tracing::info
+//! |-- tracing::warn
+//! |-- tree::capture
+//! |-- tree::checkout
+//! |-- tree::diff
+//! |-- tree::files
+//! |-- tree::ignored
+//! |-- tree::preview
+//! `-- tree::restore
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/vcs/mod.rs
-//! `-- platform-native/tests/snapshot.rs
+//! |-- platform-native/tests/snapshot.rs
+//! `-- runtime/src/execution_support.rs
 //! Invariants: capture is best effort (None when disabled, outside git or failed); untracked files
 //! above 2 MiB and paths ignored by the source repository never enter a tree; restore/preview reject
 //! paths escaping the project; nothing is written outside the injected data dir and the worktree.

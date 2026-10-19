@@ -4,15 +4,18 @@
 //! Scope: synchronous, runs inside the event publish transaction.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
 //! |-- session-runtime/src/legacy/store.rs
 //! |-- session-runtime/src/legacy/types.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! |-- opencode_event_api::{Payload, Projector}
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- session-runtime/src/legacy/mod.rs
+//! |-- runtime/src/process.rs
+//! |-- session-runtime/src/legacy/mod.rs
+//! `-- session-runtime/tests/support/legacy.rs
 //! Invariants: message rows store `info` without `id`/`sessionID`, part rows without
 //! `id`/`messageID`/`sessionID`; upserts keep `time_created`. Replacing or removing a step-finish
 //! part reverses its previous usage before applying the new one.

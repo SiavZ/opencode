@@ -4,15 +4,21 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
+//! |-- platform-api/src/lib.rs
 //! |-- platform-native/src/fs/error.rs
 //! `-- platform-native/src/fs/native.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- tokio::fs::OpenOptions::new
+//! |-- tokio::fs::remove_file
+//! |-- tokio::fs::symlink_metadata
+//! |-- tokio::fs::write
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::spawn
 //! `-- tokio::sync::Mutex
 //! Used by:
 //! rust/crates/
-//! |-- platform-native/src/fs/mod.rs
-//! `-- platform-native/tests/fs_mutation.rs
+//! `-- platform-native/src/fs/mod.rs
 //! Invariants: every operation holds the lock for `target.canonical` for its whole body; the
 //! conditional write compares and writes under that same lock (file-mutation.ts:69-82); each body
 //! runs in its own task so caller cancellation cannot interrupt a started write (baseline

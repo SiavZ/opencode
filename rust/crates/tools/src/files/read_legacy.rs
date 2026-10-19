@@ -4,9 +4,8 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
-//! |-- tool-api/src/context.rs
-//! |-- tool-api/src/definition.rs
-//! |-- tool-api/src/output.rs
+//! |-- platform-api/src/lib.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/common.rs
 //! |-- tools/src/files/read_common.rs
 //! |-- tools/src/files/read_input.rs
@@ -14,10 +13,17 @@
 //! `-- tools/src/files/schemas.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- base64::engine::general_purpose::STANDARD
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- schemas::description
+//! |-- schemas::input_schema
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/files/mod.rs
+//! |-- tools/src/files/mod.rs
+//! `-- tools/tests/files_read/legacy.rs
 //! Invariants: the stat probe is metadata only, external_directory then read approval precede
 //! every content byte, the output is never passed through generic truncation.
 //! Contract tests: tools/tests/files_read.rs

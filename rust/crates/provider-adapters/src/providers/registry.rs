@@ -11,20 +11,31 @@
 //! |-- provider-adapters/src/protocols/anthropic/mod.rs
 //! |-- provider-adapters/src/protocols/gemini/mod.rs
 //! |-- provider-adapters/src/protocols/openai/mod.rs
-//! |-- provider-adapters/src/providers/azure.rs
 //! |-- provider-adapters/src/providers/cloud.rs
 //! |-- provider-adapters/src/providers/config.rs
 //! |-- provider-adapters/src/providers/gateways.rs
 //! |-- provider-adapters/src/providers/inventory.rs
 //! |-- provider-adapters/src/providers/loaders.rs
-//! |-- provider-adapters/src/providers/registry_rules.rs
 //! |-- provider-adapters/src/route.rs
 //! `-- provider-adapters/src/unsupported.rs
 //! External:
-//! `-- none
+//! |-- cloud::bedrock_converse
+//! |-- cloud::bedrock_mantle
+//! |-- cloud::snowflake
+//! |-- cloud::vertex_anthropic
+//! |-- cloud::vertex_gemini
+//! |-- gateways::openrouter
+//! |-- gemini::route
+//! |-- loaders::catalog_headers
+//! |-- loaders::opencode_public_key
+//! |-- messages::route
+//! |-- openai::compatible_chat_route
+//! |-- openai::responses_route
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/providers/mod.rs
+//! |-- provider-adapters/src/providers/mod.rs
+//! `-- provider-adapters/src/providers/registry_rules.rs
 //! Invariants: every `PLUGINS` id resolves or fails typed; unknown packages are the
 //! dynamic-provider path and fail typed. Header precedence: route defaults < catalog headers.
 //! Contract tests: provider-adapters/tests/providers_registry.rs

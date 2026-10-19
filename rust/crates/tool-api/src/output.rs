@@ -4,7 +4,10 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde_json::Value
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! |-- tool-api/src/definition.rs

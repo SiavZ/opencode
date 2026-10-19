@@ -5,12 +5,16 @@
 //! |-- storage-api/src/lib.rs
 //! `-- storage-sqlite/src/transaction.rs
 //! External:
+//! |-- rusqlite::Connection
 //! |-- serde::Deserialize
-//! `-- serde_json
+//! |-- serde_json::from_str
+//! `-- transaction::query
 //! Used by:
 //! rust/crates/
 //! |-- storage-sqlite/src/lib.rs
-//! `-- storage-sqlite/src/migration.rs
+//! |-- storage-sqlite/src/migration.rs
+//! |-- storage-sqlite/tests/common/mod.rs
+//! `-- storage-sqlite/tests/migration.rs
 //! Invariants: registry order equals packages/core/src/database/migration.gen.ts (38 ids). The two
 //! conditional migrations port their column probes exactly:
 //! 20260410174513_workspace-name copies `name` only when the old table has it, otherwise ''.

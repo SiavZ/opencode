@@ -4,13 +4,12 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- thiserror::Error
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/updater.rs
 //! |-- desktop-host/src/updater/controller.rs
-//! |-- desktop-host/src/updater/feed.rs
 //! |-- desktop-host/src/updater/signature.rs
 //! `-- desktop-host/src/updater/store.rs
 //! Invariants: JSON shape matches `packages/app/src/updater.ts` `UpdaterState` exactly

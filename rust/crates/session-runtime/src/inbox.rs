@@ -6,16 +6,20 @@
 //! rust/crates/
 //! |-- event-api/src/lib.rs
 //! |-- schema/src/session_event.rs
+//! |-- schema/src/values.rs
 //! |-- session-api/src/admission.rs
-//! |-- session-api/src/error.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/projection.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/admission.rs
+//! |-- session-runtime/src/lib.rs
 //! |-- session-runtime/src/projection.rs
+//! |-- session-runtime/src/runner/turn.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
 //! |-- session-runtime/tests/admission.rs
 //! `-- session-runtime/tests/admission_inbox.rs
 //! Invariants: a row is admitted once (unique id, unique (session, admitted_seq)) and promoted once

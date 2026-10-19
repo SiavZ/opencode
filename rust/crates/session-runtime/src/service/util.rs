@@ -4,8 +4,7 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- jiff::Timestamp
-//! `-- rand::random_range
+//! `-- jiff::Timestamp::from_millisecond
 //! Used by:
 //! rust/crates/
 //! `-- session-runtime/src/service.rs

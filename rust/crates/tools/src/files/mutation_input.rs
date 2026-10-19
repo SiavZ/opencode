@@ -3,14 +3,15 @@
 //! Scope: `EditTool.Input`/`WriteTool.Input` (core) and `Parameters` (legacy) decoding.
 //! Uses:
 //! rust/crates/
-//! |-- tool-api/src/definition.rs
+//! |-- tool-api/src/lib.rs
 //! `-- tools/src/files/read_common.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/files/edit.rs
 //! |-- tools/src/files/edit_legacy.rs
+//! |-- tools/src/files/mod.rs
 //! `-- tools/src/files/write.rs
 //! Invariants: keys are checked in schema declaration order and the first failure wins, optional
 //! booleans reject `null` (`Expected boolean | undefined, got null`), excess keys are ignored.

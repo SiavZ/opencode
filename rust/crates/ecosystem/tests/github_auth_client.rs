@@ -7,7 +7,19 @@
 //! |-- ecosystem/src/github/auth/client.rs
 //! `-- ecosystem/tests/github_auth_support/mod.rs
 //! External:
-//! `-- axum::{Router, routing}
+//! |-- axum::Json
+//! |-- axum::Router
+//! |-- axum::extract::Query
+//! |-- axum::extract::RawQuery
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::response::IntoResponse
+//! |-- axum::routing::delete
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no network beyond 127.0.0.1, tokens are fixture strings.

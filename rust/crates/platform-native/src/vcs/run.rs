@@ -3,18 +3,21 @@
 //! Scope: command building, environment injection and result decoding. No git semantics.
 //! Uses:
 //! rust/crates/
+//! |-- platform-api/src/git.rs
 //! |-- platform-api/src/process.rs
 //! `-- platform-native/src/process/mod.rs
 //! External:
+//! |-- str::to_string
 //! `-- tokio::sync::Mutex
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/vcs/change.rs
+//! |-- platform-native/src/vcs/mod.rs
 //! |-- platform-native/src/vcs/repo.rs
-//! |-- platform-native/src/vcs/snapshot.rs
 //! |-- platform-native/src/vcs/tree.rs
 //! |-- platform-native/src/vcs/tree_restore.rs
-//! `-- platform-native/src/vcs/worktree.rs
+//! |-- platform-native/src/vcs/worktree.rs
+//! `-- platform-native/src/vcs/worktree_reset.rs
 //! Invariants: every git child inherits the parent environment plus the injected overrides; stdin
 //! is closed unless bytes are supplied. Locks are keyed by git directory and never held across a
 //! different repository's operation.

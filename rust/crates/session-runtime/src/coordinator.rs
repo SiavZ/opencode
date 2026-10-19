@@ -4,9 +4,21 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- futures::future::{BoxFuture, FutureExt}
+//! |-- fmt::Debug
+//! |-- fmt::Display
+//! |-- fmt::Formatter
+//! |-- fmt::Result
+//! |-- futures::future::BoxFuture
+//! |-- futures::future::FutureExt
+//! |-- tokio::runtime::Handle
+//! |-- tokio::runtime::Handle::current
 //! |-- tokio::sync::watch
-//! `-- tokio_util::{sync::CancellationToken, task::TaskTracker}
+//! |-- tokio::task::yield_now
+//! |-- tokio_util::sync::CancellationToken
+//! |-- tokio_util::task::TaskTracker
+//! |-- watch::Receiver
+//! |-- watch::Sender
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/execution.rs

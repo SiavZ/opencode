@@ -2,14 +2,21 @@
 //! Scope: converting faults into public diagnostics and program-visible error objects.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
+//! |-- codemode/src/run.rs
+//! |-- codemode/src/tools/render.rs
 //! |-- codemode/src/value/convert.rs
 //! `-- codemode/src/value/mod.rs
 //! External:
-//! `-- none
+//! |-- convert::to_json
+//! `-- convert::to_string
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/interp/console.rs
 //! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/interp/promise.rs
+//! |-- codemode/src/interp/stmt.rs
 //! `-- codemode/src/run.rs
 //! Invariants: host paths are redacted from every message; thrown runtime references never leak.
 //! Contract tests: codemode/tests/codemode.rs, codemode/tests/parity.rs

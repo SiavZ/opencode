@@ -5,7 +5,25 @@
 //! rust/crates/
 //! `-- sdk-embedded/src/process.rs
 //! External:
+//! |-- char::is_whitespace
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- serde_json::Value
+//! |-- serde_json::Value::String
+//! |-- serde_json::Value::to_string
+//! |-- thiserror::Error
+//! |-- tokio::io::AsyncBufReadExt
+//! |-- tokio::io::AsyncRead
+//! |-- tokio::io::BufReader
+//! |-- tokio::pin
+//! |-- tokio::process::Child
 //! |-- tokio::process::Command
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::sleep
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/

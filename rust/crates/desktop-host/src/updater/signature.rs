@@ -6,13 +6,13 @@
 //! rust/crates/
 //! `-- desktop-host/src/updater/state.rs
 //! External:
+//! |-- base64::Engine
 //! |-- base64::engine::general_purpose::STANDARD
-//! `-- minisign_verify::{PublicKey, Signature}
+//! |-- minisign_verify::PublicKey
+//! `-- minisign_verify::Signature
 //! Used by:
 //! rust/crates/
-//! |-- desktop-host/src/updater.rs
-//! |-- desktop-host/src/updater/feed.rs
-//! `-- desktop-host/tests/updater_feed.rs
+//! `-- desktop-host/src/updater.rs
 //! Invariants: verification fails closed, legacy (non-prehashed) signatures are rejected like
 //! the Tauri updater does, a key id mismatch is a signature failure.
 //! Contract tests: desktop-host/tests/updater_feed.rs

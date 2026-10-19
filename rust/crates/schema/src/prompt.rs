@@ -5,10 +5,25 @@
 //! rust/crates/
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- indexmap::IndexMap
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- schema/src/agent.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/session_event/stream.rs
+//! |-- schema/src/session_input.rs
+//! |-- schema/src/session_message.rs
+//! |-- schema/src/session_message/assistant.rs
+//! |-- session-api/src/prompt.rs
+//! |-- session-runtime/src/compaction.rs
+//! |-- session-runtime/src/projection/updater.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! |-- session-runtime/src/runner/publish/tools.rs
+//! `-- session-runtime/tests/admission_historical.rs
 //! Invariants: key order follows the baseline Struct order; optional keys are omitted;
 //! ToolContent is tagged by `type` with the tag first.
 //! Contract tests: schema/src/prompt.rs (unit tests), schema/tests/baseline_fixtures.rs

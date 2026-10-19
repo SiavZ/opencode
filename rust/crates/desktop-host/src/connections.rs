@@ -10,13 +10,22 @@
 //! |-- desktop-host/src/connections/sidecar.rs
 //! `-- desktop-host/src/platform/process_tree.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
 //! `-- tokio::sync::Mutex
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/connections/background_cli.rs
+//! |-- desktop-host/src/connections/child.rs
+//! |-- desktop-host/src/connections/health.rs
+//! |-- desktop-host/src/connections/sidecar.rs
 //! |-- desktop-host/src/lib.rs
+//! |-- desktop-host/src/platform/wsl/policy.rs
+//! |-- desktop-host/src/platform/wsl/sidecar.rs
 //! |-- desktop-host/tests/connections.rs
-//! `-- desktop-host/tests/connections_live.rs
+//! |-- desktop-host/tests/connections_live.rs
+//! |-- desktop-host/tests/wsl_policy.rs
+//! `-- desktop-host/tests/wsl_support/mod.rs
 //! Invariants: `SidecarSlot::kill_sidecar` stops an `OwnedSidecar` only (joined process-tree stop) and
 //! leaves daemon, remote and WSL connections running; the slot is cleared before the stop awaits.
 //! Contract tests: desktop-host/tests/connections.rs, desktop-host/tests/connections_live.rs

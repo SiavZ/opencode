@@ -6,10 +6,15 @@
 //! `-- integration-adapters/src/lsp/mod.rs
 //! External:
 //! |-- serde_json::Value
-//! `-- tempfile::TempDir
+//! |-- serde_json::from_str
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio::time::sleep
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/tests/lsp_client.rs
+//! |-- integration-adapters/tests/lsp_inventory.rs
+//! |-- integration-adapters/tests/lsp_live.rs
 //! `-- integration-adapters/tests/lsp_service.rs
 //! Invariants: every path (bin dir, npm cache, home, logs) lives inside the TempDir.
 //! Contract tests: none, helper

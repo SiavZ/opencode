@@ -5,8 +5,9 @@
 //! |-- schema/src/event.rs
 //! `-- schema/src/misc_event.rs
 //! External:
-//! |-- serde::{Serialize, de::DeserializeOwned}
-//! `-- serde_json
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! `-- serde_json::from_str
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixtures are Bun output, JS trim and optional null rejection are preserved.

@@ -9,11 +9,20 @@
 //! `-- provider-adapters/src/auth.rs
 //! External:
 //! |-- aws_credential_types::Credentials
-//! `-- aws_sigv4::http_request::{SignableBody, SignableRequest, SigningSettings, sign}
+//! |-- aws_sigv4::http_request::SignableBody
+//! |-- aws_sigv4::http_request::SignableRequest
+//! |-- aws_sigv4::http_request::SigningSettings
+//! |-- aws_sigv4::http_request::sign
+//! |-- aws_sigv4::sign::v4
+//! |-- fmt::Debug
+//! |-- fmt::Display
+//! |-- fmt::Formatter
+//! |-- fmt::Result
+//! |-- futures::future::BoxFuture
+//! `-- v4::SigningParams::builder
 //! Used by:
 //! rust/crates/
-//! |-- provider-adapters/src/protocols/bedrock/mod.rs
-//! `-- provider-adapters/tests/bedrock_converse.rs
+//! `-- provider-adapters/src/protocols/bedrock/mod.rs
 //! Invariants: signs the same bytes the transport sends; no credentials means an
 //! `InvalidRequest` naming both auth paths; the secret never appears in `Debug`.
 //! Contract tests: provider-adapters/tests/bedrock_converse.rs

@@ -11,16 +11,33 @@
 //! |-- config/src/jsonc/mod.rs
 //! |-- config/src/legacy/compat.rs
 //! |-- config/src/legacy/plugin.rs
-//! |-- config/src/schema/v1.rs
+//! |-- config/src/schema/mod.rs
 //! |-- config/src/value.rs
 //! `-- config/src/variable.rs
 //! External:
-//! |-- serde_json::{Map, Value}
-//! `-- toml::Value
+//! |-- compat::lower
+//! |-- fs::read_safe
+//! |-- jsonc::parse_strict
+//! |-- plugin::resolve_spec
+//! |-- schema::decode
+//! |-- schema::v1::info
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! |-- toml::Value
+//! |-- toml::from_str
+//! `-- variable::substitute
 //! Used by:
+//! rust/bins/
+//! |-- opencode/src/cli/commands/mod.rs
+//! `-- opencode/src/serve.rs
 //! rust/crates/
 //! |-- config/src/legacy/load.rs
-//! `-- config/src/legacy/update.rs
+//! |-- config/src/legacy/mod.rs
+//! |-- config/src/legacy/steps.rs
+//! |-- config/src/legacy/update.rs
+//! `-- config/tests/compat_fixtures.rs
 //! Invariants: the `$schema` seed edits the original (unsubstituted) file text, so expanded
 //! `{env:}`/`{file:}` values are never written back; seed write failures are ignored.
 //! Contract tests: config/tests/legacy_load.rs

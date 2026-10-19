@@ -5,11 +5,28 @@
 //! |-- schema/src/ids.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
+//! |-- locations/src/lib.rs
+//! |-- locations/src/ports.rs
+//! |-- locations/src/registry.rs
+//! |-- runtime/src/adapters.rs
+//! |-- runtime/src/location.rs
+//! |-- runtime/src/process.rs
 //! |-- schema/src/event.rs
-//! `-- schema/src/lib.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/session.rs
+//! |-- schema/src/session_event.rs
+//! |-- server/src/services/ports.rs
+//! |-- session-api/src/ids.rs
+//! |-- session-runtime/src/service.rs
+//! |-- session-runtime/tests/admission.rs
+//! |-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/tests/admission_inbox.rs
+//! |-- session-runtime/tests/admission_projection.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: field order `directory`, `workspaceID`, `project`; `workspaceID` omitted when absent.
 //! Contract tests: schema/tests/baseline_fixtures.rs
 

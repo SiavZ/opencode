@@ -4,12 +4,13 @@
 //! Uses:
 //! rust/crates/
 //! |-- schema/src/event.rs
-//! |-- schema/src/session.rs
-//! |-- schema/src/session_aux_event.rs
 //! |-- schema/src/session_event.rs
 //! `-- schema/src/session_message.rs
 //! External:
-//! `-- serde_json
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::from_str
+//! `-- serde_json::to_string
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every expected string is verbatim bun output (fixture: captured from bun at baseline).

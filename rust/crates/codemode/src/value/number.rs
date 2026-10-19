@@ -4,11 +4,30 @@
 //! rust/crates/
 //! `-- codemode/src/value/text.rs
 //! External:
-//! `-- ryu_js::Buffer
+//! |-- char::is_ascii_digit
+//! |-- f64::INFINITY
+//! |-- f64::NAN
+//! |-- f64::NEG_INFINITY
+//! |-- f64::from
+//! |-- ryu_js::Buffer::new
+//! `-- str::is_empty
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/interp/console.rs
+//! |-- codemode/src/interp/expr.rs
+//! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/ops.rs
+//! |-- codemode/src/parse/mod.rs
+//! |-- codemode/src/run.rs
+//! |-- codemode/src/stdlib/math.rs
 //! |-- codemode/src/stdlib/number.rs
-//! `-- codemode/src/value/convert.rs
+//! |-- codemode/src/stdlib/string.rs
+//! |-- codemode/src/stdlib/value.rs
+//! |-- codemode/src/tools/discovery.rs
+//! |-- codemode/src/tools/schema.rs
+//! |-- codemode/src/tools/text.rs
+//! |-- codemode/src/value/convert.rs
+//! `-- codemode/src/value/mod.rs
 //! Invariants: formatting matches `Number.prototype.toString` for radix 10.
 //! Contract tests: codemode/tests/parity.rs
 

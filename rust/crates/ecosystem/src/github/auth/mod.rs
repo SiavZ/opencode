@@ -10,9 +10,13 @@
 //! |-- ecosystem/src/github/auth/handlers.rs
 //! `-- ecosystem/src/github/auth/oidc.rs
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
+//! |-- ecosystem/src/github/auth/app.rs
+//! |-- ecosystem/src/github/auth/client.rs
+//! |-- ecosystem/src/github/auth/handlers.rs
+//! |-- ecosystem/src/github/auth/oidc.rs
 //! `-- ecosystem/src/github/mod.rs
 //! Invariants: error messages never contain token or private-key material.
 //! Contract tests: ecosystem/tests/github_auth_oidc.rs, ecosystem/tests/github_auth_exchange.rs,

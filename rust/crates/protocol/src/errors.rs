@@ -5,12 +5,26 @@
 //! rust/crates/
 //! `-- protocol/src/ir.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- thiserror::Error
+//! |-- ir::def
+//! |-- ir::string
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
+//! |-- protocol/src/current/catalog.rs
+//! |-- protocol/src/current/integration.rs
 //! |-- protocol/src/current/mod.rs
-//! `-- protocol/src/operation.rs
+//! |-- protocol/src/current/permission.rs
+//! |-- protocol/src/current/pty.rs
+//! |-- protocol/src/current/session.rs
+//! |-- protocol/src/lib.rs
+//! |-- protocol/src/operation.rs
+//! |-- protocol/tests/errors.rs
+//! |-- server/src/handlers/session.rs
+//! |-- server/src/middleware/auth.rs
+//! |-- server/src/middleware/errors.rs
+//! |-- server/src/middleware/legacy_routing.rs
+//! `-- server/src/middleware/location.rs
 //! Invariants: JSON is `{"_tag": <name>, ...fields}` with fields in baseline declaration order and
 //! absent optional fields omitted (never null). Status codes match `httpApiStatus`.
 //! Contract tests: protocol/tests/errors.rs

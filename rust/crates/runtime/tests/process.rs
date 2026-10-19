@@ -5,10 +5,19 @@
 //! Uses:
 //! rust/crates/
 //! |-- runtime/src/lib.rs
-//! `-- runtime/src/process.rs
+//! |-- schema/src/values.rs
+//! |-- server/src/lifecycle.rs
+//! |-- session-api/src/lib.rs
+//! `-- session-api/src/operations.rs
 //! External:
-//! |-- opencode_server::lifecycle::ListenOptions
-//! `-- serde_json::{Value, json}
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! |-- tokio::process::Command::new
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: nothing is written outside the temp root; `git` runs with an isolated global config.

@@ -1,10 +1,9 @@
 //! Purpose: prompt composer: editing, IME composition, drafts, attachments, submit with captured target.
 //! Scope: composer.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- leptos::prelude::*
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

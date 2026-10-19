@@ -6,13 +6,15 @@
 //! |-- config/src/schema/mod.rs
 //! `-- config/src/schema/v1_provider.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- config/src/legacy/compat.rs
-//! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/compat_mcp.rs
 //! |-- config/src/legacy/markdown.rs
-//! `-- config/src/migrate.rs
+//! |-- config/src/schema/mod.rs
+//! `-- config/src/schema/v2.rs
 //! Invariants: field sets and literals match the baseline `ConfigV1.Info`; agent normalize moves
 //! unknown keys into `options` and `tools` into `permission`, `maxSteps` into `steps`.
 //! Contract tests: config/tests/compat_fixtures.rs

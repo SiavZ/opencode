@@ -3,17 +3,48 @@
 //! Uses:
 //! rust/crates/
 //! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
 //! |-- codemode/src/value/convert.rs
 //! |-- codemode/src/value/number.rs
 //! |-- codemode/src/value/object.rs
 //! `-- codemode/src/value/text.rs
 //! External:
-//! |-- std::sync::{Arc, Mutex}
+//! |-- f64::NAN
+//! |-- indexmap::IndexMap
+//! |-- regress::Regex
 //! `-- url::Url
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/error.rs
+//! |-- codemode/src/interp/call.rs
+//! |-- codemode/src/interp/collections.rs
+//! |-- codemode/src/interp/console.rs
+//! |-- codemode/src/interp/diagnose.rs
+//! |-- codemode/src/interp/expr.rs
+//! |-- codemode/src/interp/members.rs
 //! |-- codemode/src/interp/mod.rs
-//! `-- codemode/src/stdlib/mod.rs
+//! |-- codemode/src/interp/ops.rs
+//! |-- codemode/src/interp/patterns.rs
+//! |-- codemode/src/interp/pool.rs
+//! |-- codemode/src/interp/promise.rs
+//! |-- codemode/src/interp/stmt.rs
+//! |-- codemode/src/lib.rs
+//! |-- codemode/src/run.rs
+//! |-- codemode/src/stdlib/array.rs
+//! |-- codemode/src/stdlib/collections.rs
+//! |-- codemode/src/stdlib/date.rs
+//! |-- codemode/src/stdlib/json.rs
+//! |-- codemode/src/stdlib/math.rs
+//! |-- codemode/src/stdlib/mod.rs
+//! |-- codemode/src/stdlib/number.rs
+//! |-- codemode/src/stdlib/object.rs
+//! |-- codemode/src/stdlib/regexp.rs
+//! |-- codemode/src/stdlib/string.rs
+//! |-- codemode/src/stdlib/url.rs
+//! |-- codemode/src/stdlib/value.rs
+//! |-- codemode/src/tools/runtime.rs
+//! |-- codemode/src/value/convert.rs
+//! `-- codemode/src/value/object.rs
 //! Invariants: containers are shared by reference (JS identity), primitives by value; the
 //! `ShortCircuit` marker never escapes an optional chain.
 //! Contract tests: codemode/tests/parity.rs, codemode/tests/stdlib.rs

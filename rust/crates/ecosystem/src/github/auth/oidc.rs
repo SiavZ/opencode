@@ -10,13 +10,24 @@
 //! rust/crates/
 //! `-- ecosystem/src/github/auth/mod.rs
 //! External:
-//! |-- jsonwebtoken::{decode, decode_header, jwk::JwkSet, DecodingKey, Validation}
+//! |-- jsonwebtoken::Algorithm
+//! |-- jsonwebtoken::DecodingKey
+//! |-- jsonwebtoken::Validation
+//! |-- jsonwebtoken::decode
+//! |-- jsonwebtoken::decode_header
+//! |-- jsonwebtoken::jwk::AlgorithmParameters
+//! |-- jsonwebtoken::jwk::Jwk
+//! |-- jsonwebtoken::jwk::JwkSet
+//! |-- jsonwebtoken::jwk::KeyOperations::Verify
 //! |-- reqwest::Client
-//! `-- serde_json::{Map, Value}
+//! |-- reqwest::Client::new
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- ecosystem/src/github/auth/handlers.rs
 //! |-- ecosystem/src/github/auth/mod.rs
+//! |-- ecosystem/tests/github_auth_exchange.rs
 //! `-- ecosystem/tests/github_auth_oidc.rs
 //! Invariants: only RSA signature algorithms are accepted, `none`/HMAC are rejected, the
 //! verifier never trusts an unverified claim.

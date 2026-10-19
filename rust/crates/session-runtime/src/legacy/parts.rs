@@ -5,19 +5,27 @@
 //! Scope: one user message; I/O through `PromptTools` and `opencode_platform_api::fs::FileSystem`.
 //! Uses:
 //! rust/crates/
+//! |-- permissions/src/wildcard.rs
 //! |-- platform-api/src/fs.rs
 //! |-- session-runtime/src/legacy/mod.rs
 //! |-- session-runtime/src/legacy/ports.rs
-//! |-- session-runtime/src/legacy/resource.rs
+//! |-- session-runtime/src/legacy/store.rs
 //! |-- session-runtime/src/legacy/template.rs
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
 //! |-- base64::Engine
-//! |-- serde_json::{Value, json}
-//! `-- url::Url
+//! |-- char::is_ascii_digit
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- url::Url
+//! |-- url::Url::from_file_path
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/legacy/mod.rs
+//! |-- session-runtime/src/legacy/prompt.rs
 //! `-- session-runtime/src/legacy/resource.rs
 //! Invariants: synthetic text wording, MCP binary limits (10 MiB, pdf/gif/jpeg/png/webp) and part key
 //! order match the baseline. Read failures publish `session.error` and degrade to a synthetic text

@@ -5,10 +5,14 @@
 //! Uses:
 //! rust/crates/
 //! |-- session-runtime/src/legacy/compaction.rs
+//! |-- session-runtime/src/legacy/types.rs
 //! |-- session-runtime/tests/support/legacy.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: transcripts are hand-built baseline-shaped fixtures.

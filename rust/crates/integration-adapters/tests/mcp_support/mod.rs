@@ -3,10 +3,13 @@
 //! Scope: test support only, included by the mcp_* test files via `mod`.
 //! Uses:
 //! rust/crates/
-//! `-- integration-adapters/src/mcp/mod.rs
+//! |-- integration-adapters/src/mcp/mod.rs
+//! |-- integration-adapters/tests/mcp_support/http.rs
+//! `-- integration-api/src/mcp.rs
 //! External:
-//! |-- axum::{Router, routing}
-//! `-- tempfile::TempDir
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio::time::sleep
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/tests/mcp_http.rs

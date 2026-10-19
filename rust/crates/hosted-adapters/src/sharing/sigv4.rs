@@ -4,14 +4,22 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- hmac::{Hmac, KeyInit, Mac}
-//! |-- percent_encoding
-//! |-- sha2::{Digest, Sha256}
+//! |-- hex::encode
+//! |-- hmac::Hmac
+//! |-- hmac::KeyInit
+//! |-- hmac::Mac
+//! |-- percent_encoding::AsciiSet
+//! |-- percent_encoding::NON_ALPHANUMERIC
+//! |-- percent_encoding::percent_decode_str
+//! |-- percent_encoding::utf8_percent_encode
+//! |-- sha2::Digest
+//! |-- sha2::Sha256
 //! `-- url::Url
 //! Used by:
 //! rust/crates/
 //! |-- hosted-adapters/src/sharing/mod.rs
-//! `-- hosted-adapters/src/sharing/objects.rs
+//! |-- hosted-adapters/src/sharing/objects.rs
+//! `-- hosted-adapters/tests/sharing_baseline.rs
 //! Invariants: canonical path is decode-then-encodeURIComponent with `/` kept and `!'()*`
 //! escaped, query pairs are de-duplicated (s3) then sorted, signed headers are `host` plus
 //! every set header except unsignable ones, lowercased and sorted.

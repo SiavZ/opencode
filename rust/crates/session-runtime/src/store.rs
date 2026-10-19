@@ -4,17 +4,27 @@
 //! Uses:
 //! rust/crates/
 //! |-- context/src/history.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/provider.rs
+//! |-- schema/src/values.rs
 //! |-- session-api/src/info.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-api/src/message.rs
 //! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/projection.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::Value::Object
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/process.rs
+//! |-- session-runtime/src/execution.rs
+//! |-- session-runtime/src/lib.rs
+//! |-- session-runtime/src/runner/turn.rs
 //! |-- session-runtime/src/service.rs
-//! `-- session-runtime/tests/admission_store.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: falsy optional columns (empty strings, 0 archive time) decode as absent like the
 //! baseline truthiness checks; a stored model without variant reads as variant `default`.
 //! Message decode failures surface as `MessageDecode` with the row's Session and message IDs.

@@ -7,9 +7,12 @@
 //! |-- event-api/src/lib.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json
+//! |-- serde_json::Value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
+//! |-- event-store/src/lib.rs
+//! |-- event-store/src/read.rs
 //! `-- event-store/src/store.rs
 //! Invariants: error messages are byte-identical to the baseline. Exact duplicate replay (same id,
 //! versioned type and deep-equal encoded data) is a no-op that only backfills a missing owner.

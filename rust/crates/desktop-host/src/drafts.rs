@@ -6,12 +6,21 @@
 //! External:
 //! |-- hex::encode
 //! |-- parking_lot::Mutex
-//! |-- rusqlite::{Connection, OptionalExtension}
+//! |-- rusqlite::Connection
+//! |-- rusqlite::Error
+//! |-- rusqlite::OptionalExtension
+//! |-- rusqlite::params
+//! |-- serde_json::Error
 //! |-- serde_json::Value
-//! |-- sha2::{Digest, Sha256}
-//! |-- thiserror::Error
-//! |-- tokio::{runtime::Handle, task::{AbortHandle, JoinSet}, time::sleep}
-//! `-- tracing
+//! |-- serde_json::from_str
+//! |-- sha2::Digest
+//! |-- sha2::Sha256
+//! |-- tokio::runtime::Handle
+//! |-- tokio::task::AbortHandle
+//! |-- tokio::task::JoinError
+//! |-- tokio::task::JoinSet
+//! |-- tokio::time::sleep
+//! `-- tracing::error
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/lib.rs

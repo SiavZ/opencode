@@ -5,11 +5,13 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
-//! |-- platform-native/src/fs/glob.rs
+//! |-- platform-api/src/lib.rs
 //! |-- platform-native/src/fs/ignore.rs
-//! `-- platform-native/src/fs/native.rs
+//! `-- platform-native/src/fs/mod.rs
 //! External:
-//! `-- tempfile::TempDir
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every test owns its temp dirs and never touches user data.

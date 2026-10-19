@@ -5,12 +5,16 @@
 //! message when `git` is unavailable.
 //! Uses:
 //! rust/crates/
+//! |-- storage-api/src/json_store.rs
 //! |-- storage-api/src/lib.rs
-//! `-- storage-sqlite/src/lib.rs
+//! `-- storage-sqlite/src/legacy_files.rs
 //! External:
-//! |-- serde_json
-//! |-- tempfile
-//! `-- tokio
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches the real user data dir.

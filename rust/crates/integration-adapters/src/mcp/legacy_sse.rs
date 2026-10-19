@@ -5,10 +5,23 @@
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/remote.rs
 //! |-- integration-adapters/src/mcp/sse.rs
+//! |-- integration-adapters/src/mcp/streamable.rs
 //! `-- integration-adapters/src/mcp/transport.rs
 //! External:
+//! |-- async_trait::async_trait
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- oneshot::channel
+//! |-- reqwest::RequestBuilder
 //! |-- serde_json::Value
-//! `-- tokio::sync::{mpsc, oneshot}
+//! |-- serde_json::from_str
+//! |-- str::to_string
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc
+//! |-- tokio::sync::oneshot
+//! |-- tracing::warn
+//! `-- url::Url
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/connect.rs

@@ -16,7 +16,7 @@
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/transport/mod.rs
-//! `-- provider-adapters/tests/transport_http.rs
+//! `-- runtime/src/execution_support.rs
 //! Invariants: retries only happen inside `execute`, before the first body byte; once a 2xx
 //! response is streaming, read and framing failures end the stream with
 //! `InvalidProviderOutput` and are never retried. Body read errors map to

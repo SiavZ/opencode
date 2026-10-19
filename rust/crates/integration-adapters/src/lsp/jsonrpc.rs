@@ -4,14 +4,29 @@
 //! Scope: transport only. Knows nothing about LSP methods.
 //! Uses:
 //! rust/crates/
-//! `-- integration-api/src/error.rs
+//! `-- integration-api/src/lib.rs
 //! External:
-//! |-- serde_json::{Value, json}
-//! |-- tokio::io::{AsyncBufRead, AsyncWrite}
-//! `-- tokio::sync::{Mutex, oneshot}
+//! |-- oneshot::Sender
+//! |-- oneshot::channel
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::json
+//! |-- serde_json::to_vec
+//! |-- tokio::io::AsyncBufRead
+//! |-- tokio::io::AsyncBufReadExt
+//! |-- tokio::io::AsyncReadExt
+//! |-- tokio::io::AsyncWrite
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::spawn
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::oneshot
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::timeout
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/lsp/client.rs
+//! |-- integration-adapters/src/lsp/mod.rs
 //! `-- integration-adapters/tests/lsp_jsonrpc.rs
 //! Invariants: one frame per write under the writer lock, ids start at 0 and increase, unknown
 //! server requests answer -32601, every pending request resolves (Closed) when the reader ends.

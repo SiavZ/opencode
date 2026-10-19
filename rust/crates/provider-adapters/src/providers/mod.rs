@@ -12,6 +12,7 @@
 //! |-- provider-adapters/src/providers/config.rs
 //! |-- provider-adapters/src/providers/error.rs
 //! |-- provider-adapters/src/providers/gateways.rs
+//! |-- provider-adapters/src/providers/gitlab_dws_discovery.rs
 //! |-- provider-adapters/src/providers/inventory.rs
 //! |-- provider-adapters/src/providers/loaders.rs
 //! |-- provider-adapters/src/providers/native.rs
@@ -19,12 +20,18 @@
 //! |-- provider-adapters/src/providers/registry.rs
 //! |-- provider-adapters/src/providers/registry_rules.rs
 //! |-- provider-adapters/src/providers/transform.rs
+//! |-- provider-adapters/src/providers/transform_message.rs
 //! `-- provider-adapters/src/providers/wrap.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/tests/providers_cloud.rs
+//! |-- provider-adapters/tests/providers_facades.rs
+//! |-- provider-adapters/tests/providers_gateways.rs
+//! |-- provider-adapters/tests/providers_registry.rs
+//! `-- provider-adapters/tests/providers_support/mod.rs
 //! Invariants: every registered provider ID resolves or fails with a typed error.
 //! Contract tests: provider-adapters/tests/providers_*.rs
 

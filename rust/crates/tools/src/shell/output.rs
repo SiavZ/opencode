@@ -3,14 +3,19 @@
 //! retained-output port (`Truncate.write` / `Truncate.limits`) with a directory-backed adapter.
 //! Scope: pure text helpers plus file writes under the managed tool-output directory.
 //! Uses:
-//! rust/crates/
-//! `-- schema/src/identifier.rs
+//! `-- none
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- tokio::fs::OpenOptions::new
+//! |-- tokio::fs::create_dir_all
+//! |-- tokio::fs::write
+//! |-- tokio::io::AsyncWriteExt
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/shell/legacy.rs
-//! `-- tools/src/shell/mod.rs
+//! |-- tools/src/shell/mod.rs
+//! `-- tools/tests/shell_legacy.rs
 //! Invariants: preview keeps the last 30,000 UTF-16 units; tail keeps whole trailing lines within
 //! both limits and never splits a UTF-8 sequence; retained files are named `tool_<ascending id>`.
 //! Contract tests: tools/tests/shell_legacy.rs

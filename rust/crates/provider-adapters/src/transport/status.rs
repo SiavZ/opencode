@@ -8,8 +8,19 @@
 //! |-- provider-adapters/src/transport/overflow.rs
 //! `-- provider-adapters/src/transport/redact.rs
 //! External:
+//! |-- f64::INFINITY
+//! |-- f64::NAN
+//! |-- f64::NEG_INFINITY
+//! |-- indexmap::IndexMap
 //! |-- regex::Regex
-//! `-- time::OffsetDateTime
+//! |-- serde_json::to_string
+//! |-- time::OffsetDateTime
+//! |-- time::OffsetDateTime::now_utc
+//! |-- time::OffsetDateTime::parse
+//! |-- time::format_description::well_known::Rfc2822
+//! |-- time::format_description::well_known::Rfc3339
+//! |-- time::macros::datetime
+//! `-- u64::from_str_radix
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/transport/executor.rs

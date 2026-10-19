@@ -6,11 +6,14 @@
 //! |-- integration-api/src/plugin.rs
 //! `-- integration-api/src/plugin_abi/bridge.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- integration-api/src/lib.rs
+//! |-- integration-api/src/lib.rs
+//! `-- integration-api/src/plugin_abi/bridge.rs
 //! Invariants: framing is one JSON-RPC 2.0 object per line on stdio. The bridge dispatch table and
 //! host stubs are generated from `METHODS`, so the script cannot drift from this file. Policy
 //! (module shape, ids, ordering) stays in Rust: the bridge only reports shapes and runs code.

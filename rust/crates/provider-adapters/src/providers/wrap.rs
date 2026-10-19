@@ -7,12 +7,15 @@
 //! |-- llm-api/src/lib.rs
 //! `-- provider-adapters/src/protocol.rs
 //! External:
+//! |-- fmt::Debug
+//! |-- fmt::Formatter
+//! |-- fmt::Result
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! |-- provider-adapters/src/providers/openrouter.rs
-//! |-- provider-adapters/src/providers/snowflake.rs
-//! `-- provider-adapters/src/providers/vertex.rs
+//! |-- provider-adapters/src/providers/cloud.rs
+//! |-- provider-adapters/src/providers/gateways.rs
+//! `-- provider-adapters/src/providers/mod.rs
 //! Invariants: the wrapped protocol's stream semantics are unchanged except for the frame
 //! rewrite; the decorator id is stable and distinct from the inner id.
 //! Contract tests: provider-adapters/tests/providers_gateways.rs

@@ -6,12 +6,18 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- futures::future::{join_all, BoxFuture}
+//! |-- futures::future::BoxFuture
+//! |-- futures::future::join_all
 //! |-- parking_lot::Mutex
-//! |-- thiserror::Error
+//! |-- tokio::select
 //! |-- tokio::sync::watch
-//! |-- tokio::time::timeout
-//! `-- tokio_util::sync::CancellationToken
+//! |-- tokio_util::sync::CancellationToken
+//! |-- tracing::info
+//! |-- tracing::warn
+//! |-- watch::Receiver
+//! |-- watch::Sender
+//! |-- watch::Sender::new
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/lifecycle.rs

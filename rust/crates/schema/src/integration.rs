@@ -5,10 +5,14 @@
 //! |-- schema/src/ids.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! `-- serde::Serializer
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- schema/src/lib.rs
+//! `-- schema/tests/schema_domains_integration.rs
 //! Invariants: byte-identical JSON with the baseline module. Tagged unions use strict literals.
 //! Contract tests: schema/tests/schema_domains_integration.rs
 

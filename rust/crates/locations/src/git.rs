@@ -3,17 +3,22 @@
 //! `history.rootCommits` and the raw `git` helper of packages/opencode/src/worktree/index.ts).
 //! Scope: trait, value types and `SubprocessGit`.
 //! Uses:
-//! rust/crates/
-//! `-- locations/src/error.rs
+//! `-- none
 //! External:
 //! |-- async_trait::async_trait
-//! `-- tokio::process::Command
+//! |-- str::to_owned
+//! |-- str::trim
+//! |-- tokio::fs::try_exists
+//! `-- tokio::process::Command::new
 //! Used by:
 //! rust/crates/
 //! |-- locations/src/lib.rs
 //! |-- locations/src/project.rs
+//! |-- locations/src/project_store.rs
 //! |-- locations/src/workspace/worktree.rs
-//! `-- locations/tests/project.rs
+//! |-- locations/tests/project.rs
+//! |-- locations/tests/support/mod.rs
+//! `-- runtime/src/process.rs
 //! Invariants: discovery walks up looking for `.git` from the input path (file or directory) and
 //! returns None when any of `--git-dir`/`--git-common-dir` fails; relative rev-parse output resolves
 //! against the directory containing `.git`; spawn failures read as exit code 1 with empty output

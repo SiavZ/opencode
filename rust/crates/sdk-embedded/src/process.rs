@@ -4,8 +4,12 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- nix::sys::signal::Signal
+//! |-- nix::sys::signal::kill
 //! |-- nix::sys::signal::killpg
-//! `-- tokio::process::{Child, Command}
+//! |-- nix::unistd::Pid
+//! |-- tokio::process::Child
+//! `-- tokio::process::Command
 //! Used by:
 //! rust/crates/
 //! |-- sdk-embedded/src/launcher.rs

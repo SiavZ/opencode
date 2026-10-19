@@ -2,7 +2,10 @@
 //! installer, triage tools). Children are added by the phase-14 GitHub leaves.
 //! Scope: module namespace only.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! |-- ecosystem/src/github/auth/mod.rs
+//! |-- ecosystem/src/github/run/mod.rs
+//! `-- ecosystem/src/github/triage/mod.rs
 //! External:
 //! `-- none
 //! Used by:

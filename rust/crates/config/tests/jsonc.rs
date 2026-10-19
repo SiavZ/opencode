@@ -5,7 +5,12 @@
 //! rust/crates/
 //! `-- config/src/jsonc/mod.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- jsonc::modify
+//! |-- jsonc::parse
+//! |-- jsonc::parse_strict
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixtures are regenerated only from the TS baseline, never hand edited.

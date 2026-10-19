@@ -6,9 +6,16 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- serde_json::{Map, Value, json}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_vec_pretty
 //! |-- time::OffsetDateTime
-//! `-- zip::{ZipWriter, write::SimpleFileOptions}
+//! |-- time::UtcOffset::UTC
+//! |-- zip::CompressionMethod::Deflated
+//! |-- zip::ZipWriter::new
+//! |-- zip::result::ZipError
+//! `-- zip::write::SimpleFileOptions
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/store.rs

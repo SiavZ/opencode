@@ -6,8 +6,11 @@
 //! rust/crates/
 //! `-- desktop-host/src/lifecycle/single_instance.rs
 //! External:
-//! |-- tempfile
-//! `-- tokio
+//! |-- tempfile::Builder::new
+//! |-- tempfile::TempDir
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::net::UnixStream::connect
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tempdir only, never the real user data directory.

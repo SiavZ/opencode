@@ -5,8 +5,11 @@
 //! |-- schema/src/event.rs
 //! `-- schema/src/filesystem.rs
 //! External:
-//! |-- serde::{Serialize, de::DeserializeOwned}
-//! `-- serde_json
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: Schema.Class decode produces validated DTOs and no extra defaults.

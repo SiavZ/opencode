@@ -3,8 +3,11 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! |-- event-api/src/lib.rs

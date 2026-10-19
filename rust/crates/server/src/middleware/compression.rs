@@ -4,11 +4,30 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- axum::body::Body
+//! |-- axum::body::HttpBody
+//! |-- axum::body::to_bytes
+//! |-- axum::extract::Request
+//! |-- axum::http::HeaderValue
+//! |-- axum::http::Method
+//! |-- axum::http::header
 //! |-- axum::middleware::Next
-//! `-- flate2::write::{DeflateEncoder, GzEncoder}
+//! |-- axum::response::Response
+//! |-- flate2::Compression
+//! |-- flate2::write::DeflateEncoder
+//! |-- flate2::write::GzEncoder
+//! |-- header::ACCEPT_ENCODING
+//! |-- header::CACHE_CONTROL
+//! |-- header::CONTENT_ENCODING
+//! |-- header::CONTENT_LENGTH
+//! |-- header::CONTENT_TYPE
+//! |-- header::TRANSFER_ENCODING
+//! |-- str::to_ascii_lowercase
+//! `-- usize::MAX
 //! Used by:
 //! rust/crates/
-//! `-- server/src/app.rs
+//! |-- server/src/app.rs
+//! `-- server/src/middleware/mod.rs
 //! Invariants: skips HEAD, responses with content-encoding or transfer-encoding, streaming
 //! bodies (no exact size hint), bodies under 1024 bytes, `cache-control: no-transform`,
 //! `/event`, `/global/event`, `POST /session/:id/message|prompt_async`, and content types

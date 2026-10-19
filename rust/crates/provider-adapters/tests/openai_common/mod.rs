@@ -9,7 +9,11 @@
 //! |-- provider-adapters/src/route.rs
 //! `-- provider-adapters/src/transport/sse.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- futures::stream::iter
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! `-- serde_json::to_value
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/tests/openai_chat.rs

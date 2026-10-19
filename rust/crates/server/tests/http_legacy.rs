@@ -4,10 +4,16 @@
 //! rust/crates/
 //! |-- server/src/app.rs
 //! |-- server/src/lifecycle.rs
+//! |-- server/src/middleware/auth.rs
+//! |-- server/src/middleware/cors.rs
 //! `-- server/src/services/mod.rs
 //! External:
-//! |-- reqwest::Client
-//! `-- serde_json::json
+//! |-- reqwest::Client::new
+//! |-- reqwest::Method::OPTIONS
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: absent capabilities are typed 503, never UI fallback or fabricated domain success.

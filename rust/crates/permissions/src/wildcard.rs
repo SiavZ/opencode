@@ -4,11 +4,14 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- regex::Regex
+//! |-- regex::Regex
+//! `-- regex::escape
 //! Used by:
 //! rust/crates/
 //! |-- permissions/src/lib.rs
-//! `-- permissions/src/rule.rs
+//! |-- permissions/src/rule.rs
+//! |-- permissions/src/service.rs
+//! `-- session-runtime/src/legacy/parts.rs
 //! Invariants: `*` matches any run including `/` and newlines, `?` one char, backslashes are
 //! normalized to `/` on both sides, a trailing ` *` also matches the bare prefix. Case-insensitive
 //! only on Windows.

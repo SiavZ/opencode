@@ -8,9 +8,12 @@
 //! `-- integration-adapters/src/mcp/oauth_provider.rs
 //! External:
 //! |-- reqwest::Response
+//! |-- serde_json::Value
+//! |-- str::to_string
 //! `-- url::Url
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/mcp/mod.rs
 //! |-- integration-adapters/src/mcp/oauth.rs
 //! `-- integration-adapters/src/mcp/oauth_token.rs
 //! Invariants: 4xx on a discovery candidate moves to the next candidate, 5xx fails; resource

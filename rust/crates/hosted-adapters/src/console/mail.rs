@@ -7,7 +7,9 @@
 //! `-- async_trait::async_trait
 //! Used by:
 //! rust/crates/
-//! `-- hosted-adapters/src/console/mod.rs
+//! |-- hosted-adapters/src/console/mod.rs
+//! |-- hosted-adapters/src/console/tenant/member.rs
+//! `-- hosted-adapters/tests/console_identity.rs
 //! Invariants: owned by p12.ops. The `InviteMailer` port below is the frozen seam that
 //! p12.identity calls from the invite flow; keep its signature.
 //! Contract tests: none yet.

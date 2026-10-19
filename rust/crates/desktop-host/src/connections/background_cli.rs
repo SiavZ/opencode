@@ -8,10 +8,20 @@
 //! |-- desktop-host/src/connections.rs
 //! `-- desktop-host/src/platform/proxy.rs
 //! External:
-//! |-- tokio::{fs, process::Command}
-//! `-- url::Url
+//! |-- futures::future::join_all
+//! |-- tokio::fs::copy
+//! |-- tokio::fs::create_dir_all
+//! |-- tokio::fs::remove_file
+//! |-- tokio::fs::rename
+//! |-- tokio::fs::set_permissions
+//! |-- tokio::fs::try_exists
+//! |-- tokio::process::Command
+//! |-- tracing::error
+//! |-- tracing::info
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/connections.rs
 //! `-- desktop-host/tests/connections.rs
 //! Invariants: the returned connection is `ServerConnection::Daemon`; staged binaries are reused when
 //! present; a failed rename removes the temp file; password output is never logged.

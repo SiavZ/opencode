@@ -11,7 +11,15 @@
 //! |-- tools/src/shell/select.rs
 //! `-- tools/tests/search_support.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- arity::ARITY
+//! |-- schemas::PROMPTS
+//! |-- schemas::core
+//! |-- schemas::legacy
+//! |-- select::acceptable
+//! |-- select::args
+//! |-- select::list
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: rendered prompts equal the baseline `ShellPrompt.render` output byte for byte.

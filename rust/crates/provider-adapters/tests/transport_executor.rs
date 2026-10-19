@@ -3,11 +3,19 @@
 //! Scope: fixture-based (local wiremock server), no live provider calls.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/route.rs
-//! `-- provider-adapters/src/transport/executor.rs
+//! |-- provider-adapters/src/transport/mod.rs
+//! `-- provider-adapters/src/transport/redact.rs
 //! External:
-//! |-- tokio
-//! `-- wiremock::{Mock, MockServer, ResponseTemplate}
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! |-- tokio::test
+//! |-- wiremock::Mock
+//! |-- wiremock::MockServer
+//! |-- wiremock::ResponseTemplate
+//! |-- wiremock::matchers::method
+//! `-- wiremock::matchers::path
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: mirrors packages/llm/test/executor.test.ts expectations.

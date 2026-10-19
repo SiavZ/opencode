@@ -3,13 +3,37 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- crossterm::{cursor, event, terminal}
-//! |-- signal_hook::{consts, iterator}
-//! `-- thiserror::Error
+//! |-- crossterm::cursor::Hide
+//! |-- crossterm::cursor::Show
+//! |-- crossterm::event::DisableBracketedPaste
+//! |-- crossterm::event::DisableFocusChange
+//! |-- crossterm::event::DisableMouseCapture
+//! |-- crossterm::event::EnableBracketedPaste
+//! |-- crossterm::event::EnableFocusChange
+//! |-- crossterm::event::EnableMouseCapture
+//! |-- crossterm::event::KeyboardEnhancementFlags
+//! |-- crossterm::event::PopKeyboardEnhancementFlags
+//! |-- crossterm::event::PushKeyboardEnhancementFlags
+//! |-- crossterm::execute
+//! |-- crossterm::terminal::EnterAlternateScreen
+//! |-- crossterm::terminal::LeaveAlternateScreen
+//! |-- crossterm::terminal::SetTitle
+//! |-- crossterm::terminal::disable_raw_mode
+//! |-- crossterm::terminal::enable_raw_mode
+//! |-- crossterm::terminal::supports_keyboard_enhancement
+//! |-- io::Error
+//! |-- io::Result
+//! |-- io::stdout
+//! |-- signal_hook::consts::SIGHUP
+//! |-- signal_hook::consts::SIGTERM
+//! |-- signal_hook::iterator::Handle
+//! `-- signal_hook::iterator::Signals
 //! Used by:
+//! rust/bins/
+//! `-- opencode/src/cli/commands/terminal.rs
 //! rust/crates/
-//! |-- ui-terminal/src/lib.rs
-//! `-- ui-terminal/tests/terminal_pty.rs
+//! |-- ui-terminal/examples/panic_restore.rs
+//! `-- ui-terminal/src/lib.rs
 //! Invariants: one owner, restoration is idempotent, signal worker is closed and joined.
 //! Contract tests: ui-terminal/tests/terminal_pty.rs
 

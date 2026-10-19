@@ -6,8 +6,10 @@
 //! |-- codemode/src/openapi/spec.rs
 //! `-- codemode/src/value/convert.rs
 //! External:
-//! |-- serde_json::{Map, Value}
-//! `-- url::Url
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- str::to_string
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! `-- codemode/src/openapi/mod.rs

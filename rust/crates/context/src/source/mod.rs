@@ -7,16 +7,27 @@
 //! |-- context/src/source/error.rs
 //! `-- context/src/source/snapshot.rs
 //! External:
+//! |-- fmt::Debug
+//! |-- fmt::Formatter
+//! |-- fmt::Result
 //! |-- futures::future::try_join_all
-//! |-- serde::{de::DeserializeOwned, Serialize}
-//! `-- serde_json::Value
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value
+//! `-- serde_json::to_value
 //! Used by:
 //! rust/crates/
 //! |-- context/src/builtins.rs
 //! |-- context/src/epoch.rs
+//! |-- context/src/history.rs
 //! |-- context/src/lib.rs
 //! |-- context/src/registry.rs
-//! `-- context/tests/system_context.rs
+//! |-- context/tests/epoch.rs
+//! |-- context/tests/history.rs
+//! |-- context/tests/registry.rs
+//! |-- context/tests/system_context.rs
+//! |-- session-runtime/src/runner/ports.rs
+//! `-- session-runtime/src/runner/turn.rs
 //! Invariants: unavailable is not removal (refresh keeps the admitted snapshot, replacement and
 //! initialization block), each source is loaded once per observation, update text is rendered only
 //! when the result is `Updated`, removals render in sorted key order, empty renderings fail.

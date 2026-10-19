@@ -4,11 +4,19 @@
 //! Scope: integration tests, fixture-based.
 //! Uses:
 //! rust/crates/
+//! |-- config/src/current.rs
 //! |-- config/src/legacy/markdown.rs
+//! |-- config/src/lib.rs
 //! |-- config/src/provider.rs
-//! `-- config/src/variable.rs
+//! |-- config/src/variable.rs
+//! |-- schema/src/lib.rs
+//! `-- schema/src/provider.rs
 //! External:
-//! `-- serde_json::json
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture markdown files are byte-identical copies of the TS fixtures.

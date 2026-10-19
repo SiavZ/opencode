@@ -9,7 +9,12 @@
 //! |-- tools/tests/files_mutation/legacy_edit_lines.rs
 //! `-- tools/tests/files_mutation/support.rs
 //! External:
-//! `-- tempfile::tempdir
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::json
+//! |-- serde_json::to_string
+//! |-- tempfile::tempdir
+//! `-- usize::from
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests drive the real tools through `Tool::execute`, filesystem and FileMutation are

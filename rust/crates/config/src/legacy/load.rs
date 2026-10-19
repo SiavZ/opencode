@@ -18,10 +18,27 @@
 //! |-- config/src/variable.rs
 //! `-- platform-api/src/path.rs
 //! External:
-//! `-- serde_json::{Map, Value, json}
+//! |-- markdown::load_agents
+//! |-- markdown::load_commands
+//! |-- markdown::load_modes
+//! |-- parse::load_config
+//! |-- parse::load_file
+//! |-- parse::load_global
+//! |-- plugin::dedupe
+//! |-- plugin::discover
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- steps::directories
+//! |-- steps::dirname
+//! |-- steps::ensure_gitignore
+//! |-- steps::load_wellknown
+//! |-- steps::post_process
+//! `-- steps::project_files
 //! Used by:
 //! rust/crates/
-//! `-- config/src/legacy/mod.rs
+//! |-- config/src/legacy/mod.rs
+//! `-- config/src/legacy/steps.rs
 //! Invariants: precedence and merge order match the baseline line by line (see
 //! contracts/phase-02/leaves/config.md); `instructions` concatenate with dedupe; plugin lists
 //! dedupe by identity keeping the highest-priority origin; the process env is never mutated.

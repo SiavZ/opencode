@@ -8,8 +8,10 @@
 //! |-- storage-api/src/lib.rs
 //! `-- storage-sqlite/src/lib.rs
 //! External:
-//! |-- serde_json
-//! `-- tempfile::TempDir
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! rust/crates/
 //! |-- event-store/tests/commit.rs

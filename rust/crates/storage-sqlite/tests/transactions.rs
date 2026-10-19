@@ -6,8 +6,14 @@
 //! |-- storage-api/src/lib.rs
 //! `-- storage-sqlite/src/lib.rs
 //! External:
-//! |-- tempfile
-//! `-- tokio
+//! |-- i64::MAX
+//! |-- tempfile::tempdir
+//! |-- tokio::join
+//! |-- tokio::spawn
+//! |-- tokio::sync::oneshot::channel
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: mirrors packages/effect-drizzle-sqlite/test/sqlite.test.ts transaction cases.

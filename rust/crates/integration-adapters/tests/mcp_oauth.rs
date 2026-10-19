@@ -6,10 +6,19 @@
 //! simulated browser that follows the authorization redirect), not live.
 //! Uses:
 //! rust/crates/
+//! |-- integration-adapters/src/mcp/auth_store.rs
 //! |-- integration-adapters/src/mcp/mod.rs
-//! `-- integration-adapters/tests/mcp_support/mod.rs
+//! |-- integration-adapters/tests/mcp_support/http.rs
+//! |-- integration-adapters/tests/mcp_support/mod.rs
+//! |-- integration-api/src/error.rs
+//! `-- integration-api/src/mcp.rs
 //! External:
-//! `-- reqwest::Client
+//! |-- async_trait::async_trait
+//! |-- reqwest::get
+//! |-- serde_json::Map
+//! |-- tempfile::tempdir
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the auth store lives in a temp dir, never the real data dir.

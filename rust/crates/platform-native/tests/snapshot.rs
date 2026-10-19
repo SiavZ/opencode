@@ -4,7 +4,7 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/snapshot.rs
-//! |-- platform-native/src/vcs/repo.rs
+//! |-- platform-native/src/vcs/mod.rs
 //! |-- platform-native/src/vcs/snapshot.rs
 //! `-- platform-native/tests/git_support.rs
 //! External:

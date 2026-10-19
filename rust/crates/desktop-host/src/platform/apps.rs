@@ -5,9 +5,16 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- tokio::{fs, process::Command}
+//! |-- char::is_ascii_alphanumeric
+//! |-- str::to_string
+//! |-- str::trim
+//! |-- tokio::fs::read_dir
+//! |-- tokio::fs::read_to_string
+//! |-- tokio::fs::try_exists
+//! `-- tokio::process::Command
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/platform/mod.rs
 //! `-- desktop-host/tests/platform.rs
 //! Invariants: macOS checks /Applications, /System/Applications, ~/Applications, then `which`; Windows
 //! and Linux report every app as present (baseline); resolution on non-Windows returns the name.

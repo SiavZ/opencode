@@ -5,23 +5,28 @@
 //! Uses:
 //! rust/crates/
 //! |-- locations/src/error.rs
-//! `-- locations/src/scope.rs
+//! |-- locations/src/scope.rs
+//! `-- schema/src/location.rs
 //! External:
 //! |-- async_trait::async_trait
 //! |-- futures::future::BoxFuture
-//! |-- opencode_schema::location::Ref
-//! |-- tokio::sync::{OnceCell, watch}
-//! |-- tokio::time::{Instant, sleep_until}
+//! |-- tokio::runtime::Handle
+//! |-- tokio::runtime::Handle::current
+//! |-- tokio::select
+//! |-- tokio::sync::OnceCell
+//! |-- tokio::sync::watch
+//! |-- tokio::time::Instant
+//! |-- tokio::time::sleep_until
 //! |-- tokio_util::sync::CancellationToken
 //! |-- tokio_util::task::TaskTracker
-//! `-- tracing::info
+//! |-- tracing::info
+//! |-- watch::Sender
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
 //! |-- locations/src/lib.rs
 //! |-- locations/src/ports.rs
-//! |-- locations/src/scope.rs
-//! |-- locations/tests/registry.rs
-//! `-- locations/tests/registry_log.rs
+//! `-- locations/src/scope.rs
 //! Invariants: one build per live Ref even under concurrent `get`; global services (`G`) are built by
 //! the owner once and shared by every bundle; a bundle is torn down only when no lease is live
 //! (explicit `invalidate` defers until the last lease drops, like `RcMap.invalidate`), or on

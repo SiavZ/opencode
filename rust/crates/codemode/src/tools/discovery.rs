@@ -6,12 +6,16 @@
 //! |-- codemode/src/tools/mod.rs
 //! |-- codemode/src/tools/render.rs
 //! |-- codemode/src/tools/schema.rs
+//! |-- codemode/src/value/number.rs
 //! `-- codemode/src/value/text.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
 //! |-- codemode/src/run.rs
+//! |-- codemode/src/tools/mod.rs
 //! `-- codemode/src/tools/runtime.rs
 //! Invariants: namespace stub lines are never budgeted; a COMPLETE catalog never advertises search.
 //! Contract tests: codemode/tests/codemode.rs, codemode/tests/signature.rs

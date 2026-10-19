@@ -8,7 +8,7 @@
 //! |-- schema/src/agent.rs
 //! `-- session-runtime/src/agents.rs
 //! External:
-//! `-- std::sync::{Arc, Mutex}
+//! `-- none
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: assertions go through the public `Agents` API only.

@@ -8,7 +8,9 @@
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/transport/http.rs
-//! `-- provider-adapters/src/transport/mod.rs
+//! |-- provider-adapters/src/transport/mod.rs
+//! |-- provider-adapters/tests/openai_common/mod.rs
+//! `-- provider-adapters/tests/transport_framing.rs
 //! Invariants: line handling matches effect/unstable/encoding/Sse.ts `makeParser`: CR, LF
 //! and CRLF terminate lines (CRLF split across chunks is handled), BOM stripped once,
 //! `data` lines join with `\n`, an event dispatches on a blank line only when data is

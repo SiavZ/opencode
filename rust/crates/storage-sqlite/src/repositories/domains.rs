@@ -3,16 +3,16 @@
 //! Scope: stateless functions over `&dyn Sql`.
 //! Uses:
 //! rust/crates/
+//! |-- schema/src/lib.rs
+//! |-- storage-api/src/lib.rs
 //! |-- storage-api/src/records/collation.rs
 //! |-- storage-api/src/records/crud.rs
-//! |-- storage-api/src/records/mod.rs
-//! `-- storage-api/src/sql.rs
+//! `-- storage-api/src/records/mod.rs
 //! External:
-//! `-- url::Url
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
-//! |-- storage-sqlite/src/repositories/mod.rs
-//! `-- storage-sqlite/tests/repositories.rs
+//! `-- storage-sqlite/src/repositories/mod.rs
 //! Invariants: permission ids are `psv_` ascending ids, workspace list sorts by `id.localeCompare`,
 //! account_state is the single row `id = 1`, share upserts keep `time_created` and bump `time_updated`.
 //! Contract tests: storage-sqlite/tests/repositories.rs

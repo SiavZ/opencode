@@ -2,13 +2,20 @@
 //! Scope: stdlib/number.ts.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
+//! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
 //! `-- codemode/src/value/number.rs
 //! External:
-//! `-- none
+//! |-- f64::EPSILON
+//! |-- f64::MAX
+//! |-- f64::is_finite
+//! `-- f64::is_nan
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/call.rs
-//! `-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/members.rs
+//! `-- codemode/src/stdlib/mod.rs
 //! Invariants: method arguments must be numbers; radix is 2..=36.
 //! Contract tests: codemode/tests/parity.rs
 

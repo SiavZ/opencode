@@ -6,10 +6,26 @@
 //! `-- platform-api/src/error.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- futures::stream::BoxStream
+//! |-- str::trim
+//! |-- tokio::sync::mpsc::Sender
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
-//! `-- platform-api/src/lib.rs
+//! |-- platform-api/src/git.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-native/src/process/mod.rs
+//! |-- platform-native/src/process/stream.rs
+//! |-- platform-native/src/vcs/error.rs
+//! |-- platform-native/src/vcs/format/mod.rs
+//! |-- platform-native/src/vcs/run.rs
+//! |-- platform-native/tests/process.rs
+//! |-- session-runtime/src/legacy/command.rs
+//! |-- session-runtime/src/legacy/mod.rs
+//! |-- session-runtime/src/legacy/shell.rs
+//! |-- tools/src/search/ripgrep.rs
+//! |-- tools/src/shell/core.rs
+//! `-- tools/src/shell/legacy.rs
 //! Invariants: `run` returns only after the child and every descendant in its group are reaped;
 //! truncation flags are set when more bytes arrived than the bound (baseline process.ts:121-139).
 //! Contract tests: platform-native/tests/process.rs

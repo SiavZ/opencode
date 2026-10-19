@@ -2,23 +2,30 @@
 //! Scope: native HTTP updater backend, installer handoff remains injected.
 //! Uses:
 //! rust/crates/
-//! |-- desktop-host/src/updater/controller.rs
-//! |-- desktop-host/src/updater/signature.rs
-//! `-- desktop-host/src/updater/state.rs
+//! `-- desktop-host/src/updater.rs
 //! External:
 //! |-- futures::future::BoxFuture
 //! |-- parking_lot::Mutex
 //! |-- reqwest::Client
+//! |-- reqwest::Client::builder
+//! |-- reqwest::Error
+//! |-- reqwest::StatusCode::NO_CONTENT
+//! |-- reqwest::StatusCode::TOO_MANY_REQUESTS
+//! |-- reqwest::redirect::Policy::none
 //! |-- semver::Version
+//! |-- semver::Version::parse
 //! |-- serde::Deserialize
 //! |-- serde_json::from_slice
-//! |-- tokio::{fs, sync::Mutex}
-//! |-- url::Url
-//! `-- uuid::Uuid
+//! |-- tokio::fs::OpenOptions::new
+//! |-- tokio::fs::create_dir_all
+//! |-- tokio::fs::remove_file
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::Mutex::new
+//! `-- url::Url
 //! Used by:
 //! rust/crates/
-//! |-- desktop-host/src/updater.rs
-//! `-- desktop-host/tests/updater_feed.rs
+//! `-- desktop-host/src/updater.rs
 //! Invariants: HTTPS except numeric loopback HTTP, no redirects, bounded reads, verification before disk writes.
 //! Contract tests: desktop-host/tests/updater_feed.rs
 

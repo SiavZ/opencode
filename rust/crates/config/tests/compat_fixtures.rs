@@ -4,13 +4,23 @@
 //! Scope: integration tests, fixture-based.
 //! Uses:
 //! rust/crates/
-//! |-- config/src/env.rs
-//! |-- config/src/legacy/compat.rs
+//! |-- config/src/legacy/mod.rs
 //! |-- config/src/legacy/parse.rs
-//! `-- config/src/legacy/update.rs
+//! |-- config/src/lib.rs
+//! `-- config/src/schema/mod.rs
 //! External:
+//! |-- legacy::lower
+//! |-- legacy::update
+//! |-- legacy::update_global
+//! |-- parse::Diagnostics::default
+//! |-- parse::decode_config
+//! |-- parse::parse_jsonc
+//! |-- pretty_assertions::assert_eq
+//! |-- schema::decode
+//! |-- schema::v1::info
 //! |-- serde_json::Value
-//! `-- tempfile::TempDir
+//! |-- str::to_string
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: comparisons follow the TS `snapshot` helper (JSONC-parsed equality), plus exact

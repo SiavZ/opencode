@@ -5,14 +5,17 @@
 //! actor) performs the storage, bucket and WebSocket effects in the order returned here.
 //! Uses:
 //! rust/crates/
-//! |-- hosted-domain/src/sharing/mod.rs
 //! `-- hosted-domain/src/sharing/share.rs
 //! External:
 //! |-- serde::Serialize
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
+//! rust/bins/
+//! `-- hosted/src/sharing/public.rs
 //! rust/crates/
 //! |-- hosted-adapters/src/sharing/public.rs
+//! |-- hosted-domain/src/sharing/mod.rs
 //! `-- hosted-domain/tests/sharing_domain.rs
 //! Invariants: publish writes bucket `share/<key>.json`, then DO storage, then broadcasts
 //! `{"key","content"}` (api.ts:46-66). `clear` lists `session/message/<sid>/` (limit 1000) and

@@ -13,11 +13,31 @@
 //! |-- schema/src/session_message.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::from_str
+//! `-- session_event
 //! Used by:
 //! rust/crates/
 //! |-- schema/src/lib.rs
-//! `-- schema/src/session_event/stream.rs
+//! |-- schema/src/session_event/stream.rs
+//! |-- schema/tests/schema_session.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- session-runtime/src/admission.rs
+//! |-- session-runtime/src/compaction.rs
+//! |-- session-runtime/src/inbox.rs
+//! |-- session-runtime/src/projection.rs
+//! |-- session-runtime/src/projection/updater.rs
+//! |-- session-runtime/src/revert.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! |-- session-runtime/src/runner/publish/tools.rs
+//! |-- session-runtime/src/runner/turn.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/service.rs
+//! |-- session-runtime/tests/admission.rs
+//! |-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/tests/admission_inbox.rs
+//! `-- session-runtime/tests/admission_projection.rs
 //! Invariants: every payload starts with `timestamp, sessionID` (the baseline `Base` spread);
 //! durable events use aggregate `sessionID`, version 1 except step ended/failed (version 2);
 //! delta events are live-only (absent from DURABLE_DEFINITIONS and `DurableEvent`).

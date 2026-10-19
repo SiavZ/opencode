@@ -7,10 +7,15 @@
 //! rust/crates/
 //! |-- desktop-host/src/platform/wsl/controller.rs
 //! |-- desktop-host/src/platform/wsl/mod.rs
-//! |-- desktop-host/src/platform/wsl/sidecar.rs
 //! `-- desktop-host/tests/wsl_support/mod.rs
 //! External:
-//! `-- tokio::sync::Semaphore
+//! |-- futures::FutureExt
+//! |-- parking_lot::Mutex
+//! |-- tokio::spawn
+//! |-- tokio::sync::Semaphore
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every controller is shut down (tasks joined) before the test ends.

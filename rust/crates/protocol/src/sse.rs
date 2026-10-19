@@ -7,7 +7,11 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- protocol/src/lib.rs
+//! |-- protocol/src/lib.rs
+//! |-- protocol/tests/sse.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- server/src/transport/sse.rs
+//! `-- server/tests/sse_events.rs
 //! Invariants: `id:` only when present, `event:` omitted for `message`, `data:` omitted when empty,
 //! embedded `\n` split into multiple `data:` lines, frame terminated by a blank line.
 //! Heartbeat cadence and header sets are protocol constants consumed by server transports.

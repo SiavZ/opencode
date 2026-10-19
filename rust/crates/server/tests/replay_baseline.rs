@@ -8,9 +8,24 @@
 //! |-- server/src/middleware/auth.rs
 //! |-- server/src/middleware/cors.rs
 //! |-- server/src/services/mod.rs
-//! `-- server/tests/support/replay/mod.rs
+//! |-- server/tests/support/mod.rs
+//! |-- server/tests/support/replay/matcher.rs
+//! |-- server/tests/support/replay/mod.rs
+//! `-- server/tests/support/replay/run.rs
 //! External:
-//! `-- tempfile::TempDir
+//! |-- app::router
+//! |-- axum::Router
+//! |-- fixtures::baseline_dir
+//! |-- fixtures::ledger
+//! |-- fixtures::ledger_path
+//! |-- fixtures::load
+//! |-- fixtures::openapi_operations
+//! |-- fixtures::repo_root
+//! |-- run::replay
+//! |-- serde_json::to_string_pretty
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no silent skips. Every case either passes or is listed in

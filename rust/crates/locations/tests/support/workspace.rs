@@ -3,12 +3,16 @@
 //! Scope: test support submodule.
 //! Uses:
 //! rust/crates/
+//! |-- event-store/src/lib.rs
 //! |-- locations/src/lib.rs
-//! `-- locations/tests/support/mod.rs
+//! |-- locations/src/workspace/mod.rs
+//! |-- locations/tests/support/mod.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! `-- opencode_event_store::SqlEventStore
+//! `-- async_trait::async_trait
 //! Used by:
 //! rust/crates/
+//! |-- locations/tests/support/mod.rs
 //! |-- locations/tests/workspace_lifecycle.rs
 //! `-- locations/tests/workspace_sync.rs
 //! Invariants: `Flaky` fails only where told to; the host records every session removal.

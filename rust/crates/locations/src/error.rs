@@ -1,20 +1,22 @@
 //! Purpose: typed failures of the locations crate (registry, project identity, workspace lifecycle).
 //! Scope: error enum plus storage/event conversions.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! |-- event-api/src/lib.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! |-- opencode_event_api::EventError
-//! `-- opencode_storage_api::StorageError
+//! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- locations/src/git.rs
 //! |-- locations/src/lib.rs
 //! |-- locations/src/ports.rs
 //! |-- locations/src/project.rs
 //! |-- locations/src/project_store.rs
 //! |-- locations/src/registry.rs
 //! |-- locations/src/workspace/adapter.rs
+//! |-- locations/src/workspace/host.rs
 //! |-- locations/src/workspace/mod.rs
+//! |-- locations/src/workspace/sse.rs
 //! |-- locations/src/workspace/sync.rs
 //! `-- locations/src/workspace/worktree.rs
 //! Invariants: retryable/cancelled/conflict/validation/not-found distinctions of the storage layer

@@ -4,12 +4,14 @@
 //! rust/crates/
 //! |-- schema/src/event.rs
 //! |-- schema/src/ids.rs
-//! |-- schema/src/macros.rs
+//! |-- schema/src/lib.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
+//! |-- locations/src/project_store.rs
 //! |-- schema/src/lib.rs
 //! `-- schema/tests/schema_domains_project.rs
 //! Invariants: field order matches baseline, absent optional keys omit and explicit null fails.

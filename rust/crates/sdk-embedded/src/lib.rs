@@ -9,7 +9,9 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-08, consumers: Rust hosts embedding opencode)
+//! rust/crates/
+//! |-- sdk-embedded/tests/embedded.rs
+//! `-- sdk-embedded/tests/launcher.rs
 //! Invariants: launcher only spawns the configured program, embedded composition is behind the
 //! `embedded` feature and reports `EmbedError::NotYetPorted` until Server and Runtime exist.
 //! Contract tests: sdk-embedded/tests/launcher.rs, sdk-embedded/tests/embedded.rs

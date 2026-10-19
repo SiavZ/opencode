@@ -11,10 +11,15 @@
 //! `-- desktop-host/src/store/keys.rs
 //! External:
 //! |-- dirs::home_dir
-//! |-- rusqlite::{Connection, OpenFlags}
+//! |-- rusqlite::Connection
+//! |-- rusqlite::Error
+//! |-- rusqlite::OpenFlags
+//! |-- rusqlite::params
+//! |-- serde_json::Map::new
 //! |-- serde_json::Value
-//! |-- thiserror::Error
-//! `-- tracing
+//! |-- serde_json::from_str
+//! |-- tracing::info
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/lib.rs

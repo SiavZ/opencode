@@ -5,9 +5,7 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
-//! |-- tool-api/src/context.rs
-//! |-- tool-api/src/definition.rs
-//! |-- tool-api/src/output.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/common.rs
 //! |-- tools/src/files/jsdiff.rs
 //! |-- tools/src/files/mutation_input.rs
@@ -16,11 +14,21 @@
 //! `-- tools/src/files/schemas.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- schemas::description
+//! |-- schemas::input_schema
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
 //! `-- tokio::sync::Mutex
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/files/mod.rs
-//! `-- tools/src/files/write.rs
+//! |-- tools/src/files/write.rs
+//! |-- tools/tests/files_mutation/legacy_edit.rs
+//! |-- tools/tests/files_mutation/legacy_edit_lines.rs
+//! |-- tools/tests/files_mutation/native.rs
+//! |-- tools/tests/files_mutation/support.rs
+//! `-- tools/tests/files_mutation/write.rs
 //! Invariants: external_directory approval precedes the lock, the lock (keyed by the resolved
 //! real path) spans read, approval and write so concurrent edits of one file never lose updates,
 //! nothing is written when approval fails, diffs are LF-normalized and BOM-free.

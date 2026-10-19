@@ -2,6 +2,7 @@
 //! Scope: fixture-free, exercises the public registry.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/ir.rs
 //! `-- protocol/src/lib.rs
 //! External:
 //! `-- none

@@ -6,12 +6,40 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- axum::{Router, routing}
-//! `-- sha2::Sha256
+//! |-- axum::Json
+//! |-- axum::Router
+//! |-- axum::body::Body::from_stream
+//! |-- axum::extract::Query
+//! |-- axum::extract::State
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- axum::serve
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::URL_SAFE_NO_PAD
+//! |-- futures::Stream
+//! |-- futures::stream::unfold
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- sha2::Digest
+//! |-- sha2::Sha256::digest
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc
+//! |-- tokio::task::JoinHandle
+//! |-- url::Url::parse
+//! `-- url::form_urlencoded::parse
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/tests/mcp_http.rs
-//! `-- integration-adapters/tests/mcp_oauth.rs
+//! |-- integration-adapters/tests/mcp_oauth.rs
+//! `-- integration-adapters/tests/mcp_support/mod.rs
 //! Invariants: binds 127.0.0.1:0; all state in memory.
 //! Contract tests: integration-adapters/tests/mcp_http.rs
 

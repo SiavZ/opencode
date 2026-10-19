@@ -6,10 +6,18 @@
 //! rust/crates/
 //! |-- event-api/src/lib.rs
 //! |-- event-store/src/lib.rs
-//! `-- event-store/tests/support/mod.rs
+//! |-- event-store/tests/support/mod.rs
+//! `-- storage-api/src/lib.rs
 //! External:
+//! |-- futures::FutureExt
 //! |-- futures::StreamExt
-//! `-- tokio::sync::Notify
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::spawn
+//! |-- tokio::sync::Notify
+//! |-- tokio::task::yield_now
+//! |-- tokio::test
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: each test uses its own temp database.

@@ -10,7 +10,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-05, consumer runtime composition in phase-91)
+//! `-- none, entrypoint
 //! Invariants: leaves authorize before reading target content or causing side effects; tool
 //! descriptions are byte-identical to the baseline `.txt` files.
 //! Contract tests: tools/tests/

@@ -3,6 +3,7 @@
 //! Scope: pure values.
 //! Uses:
 //! rust/crates/
+//! |-- schema/src/event.rs
 //! |-- schema/src/ids.rs
 //! |-- schema/src/prompt.rs
 //! |-- schema/src/provider.rs
@@ -12,7 +13,11 @@
 //! `-- schema/src/values.rs
 //! External:
 //! |-- indexmap::IndexMap
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/crates/
 //! `-- schema/src/session_event.rs

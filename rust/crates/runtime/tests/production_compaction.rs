@@ -2,14 +2,19 @@
 //! Scope: configured automatic summary turns, cancellation, projection and continuation.
 //! Uses:
 //! rust/crates/
-//! |-- runtime/src/process.rs
-//! |-- runtime/src/execution_support.rs
+//! |-- runtime/src/lib.rs
 //! |-- runtime/tests/support/provider.rs
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- reqwest::Client
-//! |-- serde_json::{Value, json}
-//! `-- tokio::time
+//! |-- reqwest::Client::builder
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: real configuration selects the actual runner and provider transport. No injected

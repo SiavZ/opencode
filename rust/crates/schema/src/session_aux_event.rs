@@ -5,14 +5,18 @@
 //! rust/crates/
 //! |-- schema/src/event.rs
 //! |-- schema/src/ids.rs
-//! |-- schema/src/macros.rs
+//! |-- schema/src/lib.rs
 //! |-- schema/src/session_message.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::from_str
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- schema/src/lib.rs
+//! `-- session-runtime/src/todo.rs
 //! Invariants: SessionStatus is a plain union decoded by its `type` literal (tag first in every
 //! member); these events are live-only (no durable spec).
 //! Contract tests: schema/src/session_aux_event.rs (unit tests), schema/tests/schema_session.rs

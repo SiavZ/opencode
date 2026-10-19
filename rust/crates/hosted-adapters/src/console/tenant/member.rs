@@ -5,11 +5,14 @@
 //! rust/crates/
 //! |-- hosted-adapters/src/console/mail.rs
 //! |-- hosted-adapters/src/console/tenant.rs
-//! |-- hosted-adapters/src/console/tenant/keys.rs
 //! |-- hosted-domain/src/console/common.rs
 //! `-- hosted-domain/src/console/membership.rs
 //! External:
-//! `-- mysql_async::prelude::Queryable
+//! |-- mysql_async::Row
+//! |-- mysql_async::prelude::Queryable
+//! |-- serde::Serialize
+//! |-- time::PrimitiveDateTime
+//! `-- tracing::error
 //! Used by:
 //! rust/crates/
 //! `-- hosted-adapters/src/console/tenant.rs

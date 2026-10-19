@@ -7,11 +7,13 @@
 //! |-- hosted-domain/src/sharing/public.rs
 //! `-- hosted-domain/src/sharing/share.rs
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- hosted-adapters/src/sharing/mod.rs
-//! `-- hosted-domain/src/lib.rs
+//! |-- hosted-adapters/src/sharing/service.rs
+//! |-- hosted-domain/src/lib.rs
+//! |-- hosted-domain/src/sharing/share.rs
+//! `-- hosted-domain/tests/sharing_domain.rs
 //! Invariants: owned by phase-13 only. Error messages are the baseline `Share.Errors` messages
 //! (packages/enterprise/src/core/share.ts:215-231) because the support API returns them verbatim.
 //! Contract tests: hosted-domain/tests/sharing_domain.rs

@@ -4,12 +4,16 @@
 //! Uses:
 //! rust/crates/
 //! |-- config/src/legacy/compat.rs
+//! |-- config/src/schema/mod.rs
 //! `-- config/src/schema/v1.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- schema::decode
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- config/src/legacy/compat.rs
+//! |-- config/src/legacy/compat.rs
+//! `-- config/src/legacy/mod.rs
 //! Invariants: flat V1 entries win over enveloped `servers` entries with the same name; a global
 //! timeout lowers to `experimental.mcp_timeout` only when catalog == execution and no startup.
 //! Contract tests: config/tests/compat_fixtures.rs

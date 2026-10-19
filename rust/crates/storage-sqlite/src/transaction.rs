@@ -5,12 +5,32 @@
 //! rust/crates/
 //! `-- storage-api/src/lib.rs
 //! External:
-//! |-- rusqlite::{Connection, Error, ErrorCode, ffi, types}
-//! `-- std::sync::atomic::AtomicBool
+//! |-- ffi::SQLITE_CONSTRAINT_FOREIGNKEY
+//! |-- ffi::SQLITE_CONSTRAINT_PRIMARYKEY
+//! |-- ffi::SQLITE_CONSTRAINT_UNIQUE
+//! |-- rusqlite::Connection
+//! |-- rusqlite::Error
+//! |-- rusqlite::Error::FromSqlConversionFailure
+//! |-- rusqlite::Error::InvalidColumnType
+//! |-- rusqlite::Error::InvalidParameterCount
+//! |-- rusqlite::Error::InvalidParameterName
+//! |-- rusqlite::Error::MultipleStatement
+//! |-- rusqlite::Error::QueryReturnedNoRows
+//! |-- rusqlite::Error::SqliteFailure
+//! |-- rusqlite::ErrorCode
+//! |-- rusqlite::ffi
+//! |-- rusqlite::params_from_iter
+//! |-- rusqlite::types::Value
+//! |-- rusqlite::types::ValueRef
+//! |-- str::to_owned
+//! |-- usize::MAX
+//! `-- usize::try_from
 //! Used by:
 //! rust/crates/
 //! |-- storage-sqlite/src/connection.rs
-//! `-- storage-sqlite/src/migration.rs
+//! |-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/src/migration.rs
+//! `-- storage-sqlite/src/migrations/mod.rs
 //! Invariants: nested savepoints are named `effect_sql_<depth>` starting at 1 and are released on success,
 //! rolled back then released on failure (packages/effect-drizzle-sqlite/src/effect-sqlite/session.ts:144-172).
 //! Every statement first checks the cancellation flag so cancellation between statements is observed.

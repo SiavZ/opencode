@@ -9,13 +9,25 @@
 //! |-- config/src/fs.rs
 //! |-- config/src/jsonc/mod.rs
 //! |-- config/src/migrate.rs
-//! `-- config/src/schema/v2.rs
+//! `-- config/src/schema/mod.rs
 //! External:
+//! |-- fs::read_safe
+//! |-- fs::up
+//! |-- jsonc::parse
+//! |-- migrate::is_v1
+//! |-- migrate::migrate
+//! |-- schema::decode
+//! |-- schema::v1::info
+//! |-- schema::v2::info
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- config/src/lib.rs
-//! `-- config/src/plugins.rs
+//! |-- config/src/provider.rs
+//! |-- config/src/resources.rs
+//! |-- config/tests/current.rs
+//! |-- config/tests/legacy_update.rs
+//! `-- config/tests/markdown.rs
 //! Invariants: entries are lowest to highest priority: global documents, global directory,
 //! direct project files (outermost first), then each `.opencode` (outermost first) documents and
 //! directory. Invalid or unparseable files are skipped silently. Policies load in reverse.

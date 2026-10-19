@@ -5,17 +5,60 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
+//! |-- llm-api/src/options.rs
 //! |-- provider-adapters/src/auth.rs
 //! |-- provider-adapters/src/cache_policy.rs
 //! `-- provider-adapters/src/protocol.rs
 //! External:
 //! |-- async_stream::try_stream
+//! |-- fmt::Debug
+//! |-- fmt::Formatter
+//! |-- fmt::Result
+//! |-- futures::StreamExt
 //! |-- futures::stream::BoxStream
-//! `-- url::Url
+//! |-- futures::stream::iter
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- serde_json::to_string
+//! |-- str::to_owned
+//! |-- tokio::test
+//! |-- url::Url
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/auth.rs
-//! `-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/cache_policy.rs
+//! |-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/protocols/anthropic/mod.rs
+//! |-- provider-adapters/src/protocols/bedrock/mod.rs
+//! |-- provider-adapters/src/protocols/gemini/mod.rs
+//! |-- provider-adapters/src/protocols/openai/mod.rs
+//! |-- provider-adapters/src/providers/azure.rs
+//! |-- provider-adapters/src/providers/bedrock.rs
+//! |-- provider-adapters/src/providers/cloud.rs
+//! |-- provider-adapters/src/providers/compatible.rs
+//! |-- provider-adapters/src/providers/config.rs
+//! |-- provider-adapters/src/providers/gateways.rs
+//! |-- provider-adapters/src/providers/native.rs
+//! |-- provider-adapters/src/providers/openai.rs
+//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry_rules.rs
+//! |-- provider-adapters/src/transport/executor.rs
+//! |-- provider-adapters/src/transport/http.rs
+//! |-- provider-adapters/src/transport/websocket.rs
+//! |-- provider-adapters/tests/anthropic_messages.rs
+//! |-- provider-adapters/tests/bedrock_converse.rs
+//! |-- provider-adapters/tests/gemini.rs
+//! |-- provider-adapters/tests/openai_chat.rs
+//! |-- provider-adapters/tests/openai_common/mod.rs
+//! |-- provider-adapters/tests/openai_recorded.rs
+//! |-- provider-adapters/tests/openai_responses.rs
+//! |-- provider-adapters/tests/transport_executor.rs
+//! |-- provider-adapters/tests/transport_http.rs
+//! |-- provider-adapters/tests/transport_websocket.rs
+//! `-- runtime/src/execution_support.rs
 //! Invariants: one `stream` call compiles once and opens exactly one transport request; status
 //! retries live in the transport executor before the first frame. `http.body` may not overlay
 //! protocol-owned keys. Dropping the stream drops the transport future (cancellation).

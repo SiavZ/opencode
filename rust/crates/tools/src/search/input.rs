@@ -3,13 +3,16 @@
 //! Scope: pure JSON validation.
 //! Uses:
 //! rust/crates/
+//! |-- tool-api/src/lib.rs
 //! `-- tools/src/files/read_common.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/search/core.rs
 //! |-- tools/src/search/legacy.rs
+//! |-- tools/src/search/mod.rs
 //! |-- tools/src/shell/core.rs
 //! `-- tools/src/shell/legacy.rs
 //! Invariants: messages match Effect `formatUnknown` issue text with `\n  at ["key"]` paths.

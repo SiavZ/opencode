@@ -10,12 +10,26 @@
 //! `-- provider-adapters/src/route.rs
 //! External:
 //! |-- async_stream::try_stream
-//! |-- futures::{SinkExt, StreamExt}
-//! `-- tokio_tungstenite::{connect_async_with_config, tungstenite::Message}
+//! |-- fmt::Debug
+//! |-- fmt::Formatter
+//! |-- fmt::Result
+//! |-- futures::SinkExt
+//! |-- futures::StreamExt
+//! |-- serde_json::Value
+//! |-- str::to_owned
+//! |-- tokio::net::TcpStream
+//! |-- tokio_tungstenite::MaybeTlsStream
+//! |-- tokio_tungstenite::WebSocketStream
+//! |-- tokio_tungstenite::connect_async_with_config
+//! |-- tokio_tungstenite::tungstenite::Message
+//! |-- tokio_tungstenite::tungstenite::client::IntoClientRequest
+//! |-- tokio_tungstenite::tungstenite::http::HeaderName
+//! |-- tokio_tungstenite::tungstenite::http::HeaderValue
+//! |-- tokio_tungstenite::tungstenite::protocol::WebSocketConfig
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
-//! |-- provider-adapters/src/transport/mod.rs
-//! `-- provider-adapters/tests/transport_websocket.rs
+//! `-- provider-adapters/src/transport/mod.rs
 //! Invariants: errors use module `WebSocketExecutor` with `Transport` reasons and kinds
 //! `websocket` (URL), `open`, `write`, `message`, `close`, matching the baseline messages. Close
 //! codes 1000 and 1005 (no status) end the stream cleanly, any other code fails it. Binary

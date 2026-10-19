@@ -7,11 +7,13 @@
 //! |-- ui-terminal/src/theme/color.rs
 //! `-- ui-terminal/src/theme/resolve.rs
 //! External:
-//! |-- serde_json::{Map, Value}
-//! `-- thiserror::Error
+//! |-- f64::from
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- ui-terminal/src/theme/mod.rs
+//! |-- ui-terminal/src/theme/mod.rs
+//! `-- ui-terminal/src/theme/registry.rs
 //! Invariants: the generated JSON round-trips through `resolve_theme` with the same colors, the
 //! background is the terminal background with alpha 0 so transparency is respected.
 //! Contract tests: ui-terminal/tests/theme.rs

@@ -5,7 +5,8 @@
 //! rust/crates/
 //! `-- locations/src/error.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! `-- locations/src/workspace/mod.rs

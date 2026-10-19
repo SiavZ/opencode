@@ -4,15 +4,16 @@
 //! Scope: in-memory registry, no I/O except through `OutputBounder`.
 //! Uses:
 //! rust/crates/
+//! |-- permissions/src/lib.rs
 //! |-- tool-api/src/context.rs
 //! |-- tool-api/src/definition.rs
 //! `-- tool-api/src/output.rs
 //! External:
-//! `-- opencode_permissions::{Rule, wholly_disabled}
+//! |-- async_trait::async_trait
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! |-- tool-api/src/lib.rs
-//! `-- tool-api/tests/registry.rs
+//! `-- tool-api/src/lib.rs
 //! Invariants: an in-flight call keeps its captured tool even after removal; a not-yet-started call
 //! whose advertised registration was replaced or removed fails with `Stale tool call: <name>`.
 //! Contract tests: tool-api/tests/registry.rs

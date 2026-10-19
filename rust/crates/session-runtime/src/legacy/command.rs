@@ -7,16 +7,18 @@
 //! rust/crates/
 //! |-- platform-api/src/process.rs
 //! |-- session-runtime/src/legacy/mod.rs
-//! |-- session-runtime/src/legacy/prompt.rs
 //! |-- session-runtime/src/legacy/store.rs
 //! |-- session-runtime/src/legacy/template.rs
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
-//! `-- serde_json::{Value, json}
+//! |-- futures::future::join_all
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tracing::info
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
-//! |-- session-runtime/src/legacy/mod.rs
-//! `-- session-runtime/tests/legacy_command.rs
+//! `-- session-runtime/src/legacy/mod.rs
 //! Invariants: shell substitutions run concurrently and replace matches in order with stdout
 //! (`nothrow`: failing commands still contribute their stdout). Template file parts already present
 //! in `input.parts` (by file path) are dropped. Subtask commands send exactly one subtask part.

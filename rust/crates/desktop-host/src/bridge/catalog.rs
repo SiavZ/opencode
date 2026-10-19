@@ -1,15 +1,17 @@
 //! Purpose: typed catalog of every desktop IPC invoke and event channel with exact wire names and payloads.
 //! Scope: repository transaction.
 //! Uses:
-//! rust/crates/
-//! `-- desktop-host/src/bridge.rs
+//! `-- none
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/bridge.rs
 //! |-- desktop-host/src/bridge/dispatch.rs
-//! `-- desktop-host/src/bridge/subscriptions.rs
+//! |-- desktop-host/tests/bridge_catalog.rs
+//! `-- desktop-host/tests/bridge_dispatch.rs
 //! Invariants: wire channel names match packages/desktop/src/preload and main/ipc.ts exactly.
 //! Contract tests: desktop-host/tests/bridge_catalog.rs
 

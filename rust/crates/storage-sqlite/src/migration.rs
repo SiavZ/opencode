@@ -7,11 +7,24 @@
 //! |-- storage-sqlite/src/migrations/mod.rs
 //! `-- storage-sqlite/src/transaction.rs
 //! External:
-//! `-- rusqlite::{Batch, Connection}
+//! |-- i64::MAX
+//! |-- i64::try_from
+//! |-- migrations::all
+//! |-- migrations::schema
+//! |-- rusqlite::Batch::new
+//! |-- rusqlite::Connection
+//! |-- rusqlite::fallible_iterator::FallibleIterator
+//! |-- rusqlite::params
+//! |-- transaction::begin
+//! |-- transaction::commit
+//! |-- transaction::query
+//! `-- transaction::rollback
 //! Used by:
 //! rust/crates/
 //! |-- storage-sqlite/src/connection.rs
-//! `-- storage-sqlite/tests/migration.rs
+//! |-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/tests/migration.rs
+//! `-- storage-sqlite/tests/migration_data.rs
 //! Invariants: same journal table (`migration(id, time_completed)`), same order, one transaction per
 //! step with its journal row. Like bun:sqlite `query(sql).all()`, each recorded string executes only
 //! its FIRST statement (so `20260423070820_add_icon_url_override` never runs its UPDATE, matching TS).

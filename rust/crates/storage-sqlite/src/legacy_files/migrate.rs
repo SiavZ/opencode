@@ -3,13 +3,20 @@
 //! Scope: blocking file I/O on a worker thread, `git` subprocess for migration 1.
 //! Uses:
 //! rust/crates/
-//! |-- storage-sqlite/src/legacy_files.rs
-//! `-- storage-sqlite/src/legacy_files/store.rs
+//! `-- storage-sqlite/src/legacy_files.rs
 //! External:
-//! |-- serde_json::{Map, Value}
-//! `-- std::process::Command
+//! |-- i64::MAX
+//! |-- i64::try_from
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- str::trim
+//! |-- usize::MAX
+//! `-- usize::try_from
 //! Used by:
 //! rust/crates/
+//! |-- storage-sqlite/src/legacy_files.rs
 //! `-- storage-sqlite/src/legacy_files/store.rs
 //! Invariants: the journal is the text file `<data>/storage/migration` holding the count of completed
 //! steps, separate from the SQL migration journal. It is parsed like `parseInt` (invalid text or a

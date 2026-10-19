@@ -3,9 +3,11 @@
 //! Scope: integration tests through the public `V2SessionReducer` boundary.
 //! Uses:
 //! rust/crates/
-//! |-- view-model/src/reducer/mod.rs
+//! |-- view-model/src/lib.rs
 //! `-- view-model/src/source.rs
 //! External:
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
 //! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint

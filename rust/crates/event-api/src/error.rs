@@ -4,7 +4,7 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! |-- event-api/src/lib.rs

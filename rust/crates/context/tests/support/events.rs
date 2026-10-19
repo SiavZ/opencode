@@ -5,11 +5,11 @@
 //! |-- context/src/epoch.rs
 //! |-- context/tests/support/mod.rs
 //! |-- event-api/src/lib.rs
-//! |-- schema/src/identifier.rs
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! `-- context/tests/support/mod.rs

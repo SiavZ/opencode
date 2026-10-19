@@ -9,7 +9,10 @@
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/runner/mod.rs
-//! `-- session-runtime/tests/runner_messages.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/runner/turn/request.rs
+//! |-- session-runtime/tests/runner_messages.rs
+//! `-- session-runtime/tests/runner_turn_steps.rs
 //! Invariants: MAX_STEPS_PROMPT is byte-identical to the baseline template literal.
 //! Contract tests: session-runtime/tests/runner_messages.rs
 

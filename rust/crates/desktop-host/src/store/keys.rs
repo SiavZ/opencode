@@ -8,7 +8,7 @@
 //! rust/crates/
 //! |-- desktop-host/src/migrate.rs
 //! |-- desktop-host/src/store.rs
-//! `-- desktop-host/tests/store.rs
+//! `-- desktop-host/src/store/install_state.rs
 //! Invariants: string values are wire/file compatible with the Electron app and never change.
 //! Contract tests: desktop-host/tests/store.rs
 

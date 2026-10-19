@@ -9,7 +9,10 @@
 //! |-- session-runtime/src/legacy/store.rs
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- u32::from_str_radix
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/lib.rs

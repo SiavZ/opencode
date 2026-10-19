@@ -5,10 +5,12 @@
 //! rust/crates/
 //! `-- platform-native/src/vcs/format/mod.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- platform-native/src/vcs/format/mod.rs
+//! |-- platform-native/src/vcs/format/mod.rs
+//! `-- platform-native/tests/format.rs
 //! Invariants: table order matches the baseline module export order (status listing order);
 //! a probe returns the command template containing `$FILE`, or None when disabled.
 //! Contract tests: platform-native/tests/format.rs

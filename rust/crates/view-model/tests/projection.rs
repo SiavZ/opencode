@@ -2,9 +2,11 @@
 //! Scope: integration tests through `opencode_view_model::projection::project`.
 //! Uses:
 //! rust/crates/
-//! |-- view-model/src/projection/mod.rs
-//! `-- view-model/src/source.rs
+//! |-- view-model/src/lib.rs
+//! `-- view-model/src/projection/mod.rs
 //! External:
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
 //! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint

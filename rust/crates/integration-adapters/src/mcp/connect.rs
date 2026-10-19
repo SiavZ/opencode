@@ -8,6 +8,7 @@
 //! |-- integration-adapters/src/mcp/auth_store.rs
 //! |-- integration-adapters/src/mcp/catalog.rs
 //! |-- integration-adapters/src/mcp/client.rs
+//! |-- integration-adapters/src/mcp/jsonrpc.rs
 //! |-- integration-adapters/src/mcp/legacy_sse.rs
 //! |-- integration-adapters/src/mcp/oauth_provider.rs
 //! |-- integration-adapters/src/mcp/remote.rs
@@ -16,7 +17,13 @@
 //! |-- integration-adapters/src/mcp/transport.rs
 //! `-- integration-api/src/mcp.rs
 //! External:
-//! `-- tokio::time::timeout
+//! |-- catalog::defs
+//! |-- reqwest::Client
+//! |-- tokio::sync::mpsc::Receiver
+//! |-- tokio::time::timeout
+//! |-- tracing::debug
+//! |-- tracing::warn
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/mod.rs

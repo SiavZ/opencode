@@ -4,12 +4,18 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/git.rs
+//! |-- platform-api/src/snapshot.rs
 //! |-- platform-native/src/vcs/change.rs
-//! |-- platform-native/src/vcs/repo.rs
+//! |-- platform-native/src/vcs/mod.rs
 //! |-- platform-native/src/vcs/tree.rs
 //! `-- platform-native/tests/git_support.rs
 //! External:
-//! `-- tokio::test
+//! |-- change::apply
+//! |-- change::capture
+//! |-- change::discard
+//! |-- serde_json::to_value
+//! |-- tokio::test
+//! `-- tree::files
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no test touches the user's git config or data dirs.

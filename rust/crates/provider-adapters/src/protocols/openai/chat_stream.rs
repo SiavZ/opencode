@@ -6,10 +6,14 @@
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/protocol.rs
+//! |-- provider-adapters/src/protocols/openai/chat.rs
 //! |-- provider-adapters/src/protocols/openai/wire.rs
 //! `-- provider-adapters/src/shared.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value::Object
+//! `-- serde_json::to_value
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/openai/chat.rs

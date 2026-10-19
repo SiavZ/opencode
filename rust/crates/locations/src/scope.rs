@@ -7,6 +7,7 @@
 //! External:
 //! |-- futures::future::BoxFuture
 //! |-- tokio::sync::OnceCell
+//! |-- tokio::task::JoinHandle
 //! |-- tokio_util::sync::CancellationToken
 //! `-- tokio_util::task::TaskTracker
 //! Used by:

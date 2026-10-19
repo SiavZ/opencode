@@ -5,12 +5,18 @@
 //! Uses:
 //! rust/crates/
 //! |-- desktop-host/src/connections.rs
-//! |-- desktop-host/src/connections/child.rs
 //! |-- desktop-host/src/connections/sidecar.rs
-//! `-- desktop-host/src/platform/process_tree.rs
+//! `-- desktop-host/src/platform/proxy.rs
 //! External:
+//! |-- parking_lot::Mutex::new
+//! |-- reqwest::Client::builder
+//! |-- reqwest::Client::new
 //! |-- tempfile::tempdir
-//! `-- tokio
+//! |-- tokio::process::Command::new
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! |-- tokio_util::sync::CancellationToken
+//! `-- which::which
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every spawned child is stopped and reaped before the test returns; cwd and

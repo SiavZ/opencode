@@ -6,8 +6,7 @@
 //! |-- event-api/src/lib.rs
 //! |-- schema/src/event.rs
 //! |-- schema/src/session_aux_event.rs
-//! |-- session-api/src/error.rs
-//! |-- session-api/src/ids.rs
+//! |-- session-api/src/lib.rs
 //! `-- storage-api/src/lib.rs
 //! External:
 //! `-- serde_json::to_value
@@ -15,7 +14,6 @@
 //! rust/crates/
 //! |-- session-runtime/src/background.rs
 //! |-- session-runtime/src/lib.rs
-//! |-- session-runtime/src/question.rs
 //! |-- session-runtime/src/revert.rs
 //! `-- session-runtime/tests/todo.rs
 //! Invariants: the delete and the ordered insert commit together (position = array index) before

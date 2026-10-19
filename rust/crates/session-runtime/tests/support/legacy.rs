@@ -5,18 +5,35 @@
 //! Scope: test-only.
 //! Uses:
 //! rust/crates/
+//! |-- platform-api/src/error.rs
 //! |-- platform-api/src/fs.rs
 //! |-- platform-native/src/process/mod.rs
 //! |-- session-runtime/src/legacy/mod.rs
-//! `-- session-runtime/tests/support/sql.rs
+//! |-- session-runtime/src/legacy/ports.rs
+//! |-- session-runtime/src/legacy/projectors.rs
+//! |-- session-runtime/src/legacy/run_state.rs
+//! |-- session-runtime/src/legacy/store.rs
+//! |-- session-runtime/src/legacy/types.rs
+//! |-- session-runtime/tests/support/sql.rs
+//! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- sql::Harness
+//! |-- sql::open
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio::sync::Notify
 //! Used by:
 //! rust/crates/
+//! |-- session-runtime/tests/compaction_legacy.rs
 //! |-- session-runtime/tests/legacy_command.rs
 //! |-- session-runtime/tests/legacy_prompt.rs
-//! `-- session-runtime/tests/legacy_shell.rs
+//! |-- session-runtime/tests/legacy_shell.rs
+//! |-- session-runtime/tests/summary.rs
+//! `-- session-runtime/tests/title.rs
 //! Invariants: every double is labeled fixture; the database, projectors, run state, store and
 //! process runner are the real implementations.
 //! Contract tests: session-runtime/tests/legacy_*.rs

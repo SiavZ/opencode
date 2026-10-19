@@ -4,18 +4,26 @@
 //! Scope: codemode/src/openapi/index.ts and types.ts.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/openapi/naming.rs
+//! |-- codemode/src/openapi/responses.rs
 //! |-- codemode/src/openapi/runtime.rs
 //! |-- codemode/src/openapi/schema.rs
 //! |-- codemode/src/openapi/security.rs
 //! |-- codemode/src/openapi/spec.rs
-//! `-- codemode/src/tools/mod.rs
+//! |-- codemode/src/tools/mod.rs
+//! `-- codemode/src/tools/render.rs
 //! External:
 //! |-- futures::future::BoxFuture
+//! |-- serde_json::Map
 //! |-- serde_json::Value
-//! `-- url::Url
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/lib.rs
+//! |-- codemode/src/lib.rs
+//! |-- codemode/src/openapi/runtime.rs
+//! |-- codemode/src/openapi/security.rs
+//! |-- codemode/src/openapi/spec.rs
+//! `-- codemode/tests/openapi.rs
 //! Invariants: auth is resolved host-side and never model-visible; unrepresentable operations are
 //! reported in `skipped` with a reason instead of producing a tool.
 //! Contract tests: codemode/tests/openapi.rs

@@ -2,9 +2,13 @@
 //! Scope: fixture-based and baseline-source contract checks.
 //! Uses:
 //! rust/crates/
+//! |-- tools/src/files/mod.rs
 //! `-- tools/src/files/schemas.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- schemas::CORE_SCHEMAS
+//! |-- schemas::LEGACY_SCHEMAS
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no fixture can silently drift from the baseline tool description bytes.

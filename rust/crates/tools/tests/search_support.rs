@@ -3,11 +3,18 @@
 //! Scope: test support only (fixture authorizer; process runner and ripgrep are live).
 //! Uses:
 //! rust/crates/
+//! |-- permissions/src/lib.rs
 //! |-- platform-native/src/process/mod.rs
-//! |-- tool-api/src/context.rs
+//! |-- tool-api/src/lib.rs
 //! `-- tools/src/search/mod.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- str::to_string
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
 //! |-- tools/tests/search_ripgrep.rs

@@ -2,15 +2,25 @@
 //! `opencode-schema` so Session consumers have one import point. Defines no new types.
 //! Scope: pure values.
 //! Uses:
-//! `-- none
-//! External:
-//! `-- opencode_schema::{ids, location, provider, values}
-//! Used by:
 //! rust/crates/
+//! |-- schema/src/ids.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/provider.rs
+//! `-- schema/src/values.rs
+//! External:
+//! `-- none
+//! Used by:
+//! rust/bins/
+//! `-- opencode/src/cli/commands/mod.rs
+//! rust/crates/
+//! |-- server/src/handlers/session.rs
+//! |-- server/tests/support/mod.rs
 //! |-- session-api/src/admission.rs
 //! |-- session-api/src/error.rs
 //! |-- session-api/src/lib.rs
-//! `-- session-api/src/operations.rs
+//! |-- session-api/src/operations.rs
+//! |-- session-runtime/src/agents.rs
+//! `-- session-runtime/src/service.rs
 //! Invariants: schema owns the brands; `ses` IDs descending, `msg_` IDs ascending.
 //! Contract tests: session-api/tests/wire.rs
 

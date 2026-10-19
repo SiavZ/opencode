@@ -5,10 +5,14 @@
 //! rust/crates/
 //! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
+//! |-- codemode/src/interp/collections.rs
 //! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/mod.rs
 //! |-- codemode/src/interp/ops.rs
-//! |-- codemode/src/stdlib/mod.rs
-//! `-- codemode/src/value/convert.rs
+//! |-- codemode/src/stdlib/regexp.rs
+//! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
+//! `-- codemode/src/value/number.rs
 //! External:
 //! `-- none
 //! Used by:

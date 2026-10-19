@@ -2,10 +2,15 @@
 //! Scope: parse, derive and legacy shell detection on adversarial inputs, compared as JSON.
 //! Uses:
 //! rust/crates/
-//! |-- tools/src/files/common.rs
-//! `-- tools/src/files/patch.rs
+//! |-- tools/src/files/mod.rs
+//! |-- tools/src/files/patch.rs
+//! |-- tools/src/files/patch_derive.rs
+//! |-- tools/src/files/patch_parse.rs
+//! `-- tools/tests/files_patch.rs
 //! External:
-//! |-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::json
 //! `-- tempfile::tempdir
 //! Used by:
 //! rust/crates/

@@ -5,14 +5,16 @@
 //! Uses:
 //! rust/crates/
 //! |-- config/src/env.rs
-//! |-- config/src/error.rs
-//! `-- config/src/fs.rs
+//! `-- config/src/error.rs
 //! External:
 //! |-- serde_json::Value
-//! `-- std::process::Command
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- config/src/legacy/load.rs
+//! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/mod.rs
+//! |-- config/src/legacy/steps.rs
+//! `-- config/tests/legacy_remote.rs
 //! Invariants: an HTML body or `content-type: *html*` at HTTP 200 is a `ConfigRemoteAuthError`
 //! with the login origin; non-object remote payloads fail; MDM payload metadata keys are dropped.
 //! Contract tests: config/tests/legacy_remote.rs

@@ -5,14 +5,17 @@
 //! rust/crates/
 //! `-- config/src/error.rs
 //! External:
-//! `-- std::fs
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! |-- config/src/current.rs
-//! |-- config/src/legacy/load.rs
 //! |-- config/src/legacy/markdown.rs
+//! |-- config/src/legacy/parse.rs
+//! |-- config/src/legacy/plugin.rs
+//! |-- config/src/legacy/steps.rs
 //! |-- config/src/legacy/update.rs
-//! `-- config/src/plugins.rs
+//! |-- config/src/lib.rs
+//! `-- config/src/resources.rs
 //! Invariants: `up` checks targets in order per directory and stops at `stop` or the root, like
 //! `packages/core/src/fs-util.ts:168-182`. platform-api has no read/glob contract yet (phase 05
 //! notified), so this stays internal.

@@ -2,13 +2,27 @@
 //! Scope: pure values, parsing, and default definitions.
 //! Uses:
 //! rust/crates/
-//! `-- ui-terminal/src/lib.rs
+//! `-- ui-terminal/src/input.rs
 //! External:
-//! |-- serde::{Deserialize, Deserializer, Serialize}
-//! `-- std::collections::HashMap
+//! |-- de::Error
+//! |-- de::Error::custom
+//! |-- de::Error::missing_field
+//! |-- de::MapAccess
+//! |-- de::SeqAccess
+//! |-- fmt::Formatter
+//! |-- fmt::Result
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::de::IgnoredAny
+//! |-- serde::de::Visitor
+//! |-- serde::de::self
+//! |-- serde_json::Value
+//! `-- serde_json::from_value
 //! Used by:
 //! rust/crates/
-//! `-- ui-terminal/src/lib.rs
+//! |-- ui-terminal/src/lib.rs
+//! `-- ui-terminal/tests/keybind.rs
 //! Invariants: defaults match baseline keybind table, parsing handles leader and modifiers.
 //! Contract tests: tests/keybind.rs
 

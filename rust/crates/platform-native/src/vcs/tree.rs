@@ -10,12 +10,17 @@
 //! |-- platform-native/src/vcs/run.rs
 //! `-- platform-native/src/vcs/tree_restore.rs
 //! External:
+//! |-- str::to_string
+//! |-- tokio::fs::metadata
 //! `-- tokio::try_join
 //! Used by:
 //! rust/crates/
+//! |-- platform-native/src/vcs/mod.rs
 //! |-- platform-native/src/vcs/repo.rs
 //! |-- platform-native/src/vcs/snapshot.rs
 //! |-- platform-native/src/vcs/tree_restore.rs
+//! |-- platform-native/src/vcs/worktree.rs
+//! |-- platform-native/src/vcs/worktree_reset.rs
 //! `-- platform-native/tests/git.rs
 //! Invariants: refresh touches only the requested scope; ignored candidates and untracked files
 //! above the size limit are removed from the index, never staged; capture holds the git-dir lock.

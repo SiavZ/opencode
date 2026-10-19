@@ -3,15 +3,22 @@
 //! Scope: test support only (labelled fixture adapter, not a production native filesystem).
 //! Uses:
 //! rust/crates/
+//! |-- permissions/src/lib.rs
 //! |-- platform-api/src/fs.rs
-//! |-- platform-native/src/fs/location.rs
-//! |-- tool-api/src/context.rs
-//! `-- tools/src/files/common.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-native/src/fs/mod.rs
+//! |-- tool-api/src/lib.rs
+//! `-- tools/src/files/mod.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- tempfile::TempDir
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
+//! |-- tools/tests/files_read.rs
 //! |-- tools/tests/files_read/core.rs
 //! |-- tools/tests/files_read/filesystem.rs
 //! `-- tools/tests/files_read/legacy.rs

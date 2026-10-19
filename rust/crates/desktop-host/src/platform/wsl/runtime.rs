@@ -4,16 +4,28 @@
 //! Scope: logic over the `WslRunner` trait; the real process runner lives in exe.rs.
 //! Uses:
 //! rust/crates/
-//! `-- desktop-host/src/platform/wsl/mod.rs
+//! |-- desktop-host/src/platform/wsl/mod.rs
+//! `-- desktop-host/src/platform/wsl/policy.rs
 //! External:
+//! |-- char::is_whitespace
 //! |-- futures::future::BoxFuture
+//! |-- futures::future::join
+//! |-- messages::EXECUTE_DISTRO
+//! |-- messages::LIST_INSTALLED
+//! |-- messages::LIST_ONLINE
+//! |-- messages::UNAVAILABLE
+//! |-- str::to_string
+//! |-- str::trim
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/platform/wsl/controller.rs
+//! |-- desktop-host/src/platform/wsl/controller/jobs.rs
 //! |-- desktop-host/src/platform/wsl/exe.rs
+//! |-- desktop-host/src/platform/wsl/mod.rs
 //! |-- desktop-host/src/platform/wsl/sidecar.rs
-//! `-- desktop-host/tests/wsl_runtime.rs
+//! |-- desktop-host/tests/wsl_runtime.rs
+//! `-- desktop-host/tests/wsl_support/mod.rs
 //! Invariants: every runner call carries a timeout (20s default, 15min for installs) and the job's
 //! cancellation token; probe errors become typed results, list errors propagate.
 //! Contract tests: desktop-host/tests/wsl_runtime.rs

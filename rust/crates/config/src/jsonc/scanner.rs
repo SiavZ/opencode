@@ -4,10 +4,11 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- none
+//! `-- i64::from
 //! Used by:
 //! rust/crates/
 //! |-- config/src/jsonc/format.rs
+//! |-- config/src/jsonc/mod.rs
 //! `-- config/src/jsonc/visit.rs
 //! Invariants: token kinds and scan errors mirror the JS numeric enums; offsets are UTF-16 units.
 //! Contract tests: config/tests/jsonc.rs

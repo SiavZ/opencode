@@ -7,16 +7,18 @@
 //! `-- locations/src/error.rs
 //! External:
 //! |-- async_trait::async_trait
-//! |-- serde::{Deserialize, Serialize}
+//! |-- broadcast::Receiver
+//! |-- broadcast::Sender
+//! |-- broadcast::channel
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value
 //! `-- tokio::sync::broadcast
 //! Used by:
 //! rust/crates/
-//! |-- locations/src/ports.rs
 //! |-- locations/src/workspace/mod.rs
 //! |-- locations/src/workspace/sync.rs
-//! |-- locations/src/workspace/worktree.rs
-//! |-- locations/tests/workspace_lifecycle.rs
-//! `-- locations/tests/workspace_sync.rs
+//! `-- locations/src/workspace/worktree.rs
 //! Invariants: per-project adapters override built-ins with the same type; unknown types fail with
 //! `Unknown workspace adapter: <type>`; every adapter method an adapter does not implement fails
 //! with `LocationError::Unsupported` naming the adapter and method, except `list` (empty, like the

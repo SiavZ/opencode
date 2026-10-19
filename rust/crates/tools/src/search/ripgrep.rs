@@ -5,14 +5,21 @@
 //! rust/crates/
 //! |-- platform-api/src/process.rs
 //! |-- schema/src/filesystem.rs
+//! |-- schema/src/lib.rs
 //! `-- tools/src/search/binary.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- str::to_string
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc::channel
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/search/core.rs
 //! |-- tools/src/search/legacy.rs
-//! `-- tools/src/search/mod.rs
+//! |-- tools/src/search/mod.rs
+//! `-- tools/tests/search_ripgrep.rs
 //! Invariants: stops after `limit + 1` rows and kills rg; exit 1 means no rows; exit 2 with a regex
 //! parse error is `InvalidPattern`; other non-0/1/2 exits fail with bounded stderr.
 //! Contract tests: tools/tests/search_ripgrep.rs

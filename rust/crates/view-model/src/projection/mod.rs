@@ -7,12 +7,18 @@
 //! |-- view-model/src/projection/tool.rs
 //! `-- view-model/src/source.rs
 //! External:
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! |-- view-model/src/lib.rs
+//! |-- view-model/src/projection/tool.rs
+//! |-- view-model/src/session_cache.rs
 //! |-- view-model/src/timeline/mod.rs
-//! `-- view-model/tests/projection.rs
+//! |-- view-model/src/timeline/row.rs
+//! |-- view-model/tests/projection.rs
+//! |-- view-model/tests/session_cache.rs
+//! `-- view-model/tests/timeline.rs
 //! Invariants: part IDs are `${msg}:text:${n}`, `${msg}:reasoning:${n}`, `${msg}:file:${i}`,
 //! `${msg}:agent:${i}`, `${compaction}:compaction`, tool call id, `${tool}:file:${i}`; shell
 //! messages yield a user `${id}` and assistant `${id}:assistant` with tool part `${id}:tool`.

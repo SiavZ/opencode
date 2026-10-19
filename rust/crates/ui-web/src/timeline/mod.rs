@@ -1,10 +1,9 @@
 //! Purpose: virtualized session timeline: windowing, measurement cache, bottom anchoring, row rendering.
 //! Scope: timeline rendering.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

@@ -9,14 +9,25 @@
 //! |-- session-runtime/src/legacy/store.rs
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
+//! |-- async_trait::async_trait
 //! |-- futures::future::BoxFuture
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::spawn
 //! |-- tokio::sync::watch
-//! `-- tokio_util::sync::CancellationToken
+//! |-- tokio::task::AbortHandle
+//! |-- tokio_util::sync::CancellationToken
+//! |-- watch::Receiver
+//! |-- watch::Sender
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/legacy.rs
+//! |-- runtime/src/process.rs
 //! |-- session-runtime/src/legacy/mod.rs
-//! |-- session-runtime/tests/legacy_prompt.rs
-//! `-- session-runtime/tests/legacy_shell.rs
+//! |-- session-runtime/src/legacy/prompt.rs
+//! |-- session-runtime/src/legacy/shell.rs
+//! `-- session-runtime/tests/support/legacy.rs
 //! Invariants: at most one run or shell per Session. `ensure_running` joins an active run, queues
 //! behind a shell (`ShellThenRun`) and otherwise starts one. A shell while busy fails with `Busy`.
 //! `cancel` waits for the shell to become ready, signals it, joins it, fails pending runs with

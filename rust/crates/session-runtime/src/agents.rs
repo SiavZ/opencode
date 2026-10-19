@@ -7,12 +7,16 @@
 //! |-- schema/src/agent.rs
 //! `-- session-api/src/ids.rs
 //! External:
-//! |-- indexmap::IndexMap
-//! `-- std::sync::{Arc, Mutex, RwLock}
+//! `-- indexmap::IndexMap
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/location_agents.rs
+//! |-- runtime/src/location_tools.rs
 //! |-- session-runtime/src/lib.rs
-//! `-- session-runtime/tests/runner_agents.rs
+//! |-- session-runtime/src/runner/ports.rs
+//! |-- session-runtime/src/runner/turn.rs
+//! |-- session-runtime/tests/runner_agents.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: agents keep insertion order (removal keeps the order of the rest), `update` creates
 //! `Info::empty(id)` when missing and forces `info.id = id` after the callback, a reload replays
 //! every active transform in registration order onto a fresh state and commits atomically,

@@ -9,11 +9,13 @@
 //! |-- provider-adapters/src/providers/config.rs
 //! `-- provider-adapters/src/route.rs
 //! External:
-//! `-- none
+//! `-- openai::compatible_chat_route
 //! Used by:
 //! rust/crates/
+//! |-- provider-adapters/src/providers/gateways.rs
 //! |-- provider-adapters/src/providers/mod.rs
-//! `-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/native.rs
+//! `-- provider-adapters/tests/providers_facades.rs
 //! Invariants: the route id stays `openai-compatible-chat`; the provider defaults to
 //! `openai-compatible`. Profiles only change provider id and default base URL.
 //! Contract tests: provider-adapters/tests/providers_facades.rs

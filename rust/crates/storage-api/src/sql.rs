@@ -10,7 +10,8 @@
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
-//! `-- storage-api/src/lib.rs
+//! |-- storage-api/src/lib.rs
+//! `-- storage-api/src/records/crud.rs
 //! Invariants: work closures run on the storage worker, never across an await. A write transaction is
 //! committed only when the work returns Ok. Commit failure rolls back and reports the commit error.
 //! Nested `savepoint` calls map to SQLite SAVEPOINT/RELEASE/ROLLBACK TO, matching

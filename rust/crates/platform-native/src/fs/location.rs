@@ -2,10 +2,14 @@
 //! Scope: native path metadata only.
 //! Uses:
 //! rust/crates/
-//! `-- platform-api/src/fs.rs
+//! |-- platform-api/src/fs.rs
+//! `-- platform-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- tokio::fs
+//! |-- tokio::fs::canonicalize
+//! |-- tokio::fs::metadata
+//! |-- tokio::fs::read_link
+//! `-- tokio::fs::symlink_metadata
 //! Used by:
 //! rust/crates/
 //! `-- platform-native/src/fs/mod.rs

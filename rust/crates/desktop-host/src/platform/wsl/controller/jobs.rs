@@ -9,7 +9,19 @@
 //! |-- desktop-host/src/platform/wsl/policy.rs
 //! `-- desktop-host/src/platform/wsl/runtime.rs
 //! External:
-//! `-- futures::future::{join, join_all}
+//! |-- futures::future::join
+//! |-- futures::future::join_all
+//! |-- messages::INSTALL_OPENCODE
+//! |-- messages::INSTALL_WSL
+//! |-- messages::install_distro
+//! |-- runtime::install_distro
+//! |-- runtime::install_opencode
+//! |-- runtime::install_wsl_runtime_elevated
+//! |-- runtime::list_installed
+//! |-- runtime::list_online
+//! |-- runtime::open_terminal
+//! |-- runtime::probe_distro
+//! `-- runtime::probe_runtime
 //! Used by:
 //! rust/crates/
 //! `-- desktop-host/src/platform/wsl/controller.rs

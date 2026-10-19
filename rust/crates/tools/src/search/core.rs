@@ -4,16 +4,25 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/path.rs
-//! |-- tool-api/src/context.rs
-//! |-- tool-api/src/definition.rs
+//! |-- schema/src/filesystem.rs
+//! |-- schema/src/lib.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/search/input.rs
 //! |-- tools/src/search/mod.rs
 //! `-- tools/src/search/ripgrep.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- async_trait::async_trait
+//! |-- path::relative
+//! |-- path::resolve
+//! |-- schemas::core
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- tokio::fs::metadata
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/search/mod.rs
+//! |-- tools/src/search/mod.rs
+//! `-- tools/tests/search_tools.rs
 //! Invariants: baseline semantics are preserved verbatim, including the containment concern: the
 //! permission check covers only the pattern, and `path` is resolved afterwards without Location
 //! containment, so `../` or absolute paths search outside the Location (see status.md finding).

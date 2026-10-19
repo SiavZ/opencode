@@ -5,9 +5,11 @@
 //! rust/crates/
 //! `-- tools/src/files/read_common.rs
 //! External:
+//! |-- serde_json::Map
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- tools/src/files/mod.rs
 //! |-- tools/src/files/read_core.rs
 //! `-- tools/src/files/read_legacy.rs
 //! Invariants: Core `offset`/`limit` are optional safe positive integers (limit <= 2000), Legacy

@@ -4,15 +4,21 @@
 //! (lines 260-330, 1597-1740).
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
 //! |-- codemode/src/value/convert.rs
 //! |-- codemode/src/value/mod.rs
-//! `-- codemode/src/value/number.rs
+//! |-- codemode/src/value/number.rs
+//! |-- codemode/src/value/object.rs
+//! `-- codemode/src/value/text.rs
 //! External:
-//! `-- none
+//! |-- f64::NAN
+//! `-- f64::from
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/interp/console.rs
 //! |-- codemode/src/interp/expr.rs
+//! |-- codemode/src/interp/mod.rs
 //! `-- codemode/src/interp/stmt.rs
 //! Invariants: opaque references never reach arithmetic; identity comparison never coerces.
 //! Contract tests: codemode/tests/parity.rs, codemode/tests/stdlib.rs

@@ -5,21 +5,38 @@
 //! Uses:
 //! rust/crates/
 //! |-- schema/src/ids.rs
-//! |-- schema/src/macros.rs
+//! |-- schema/src/lib.rs
 //! |-- schema/src/prompt.rs
 //! |-- schema/src/provider.rs
 //! |-- schema/src/session_message/assistant.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! |-- serde_json::Value::deserialize
+//! |-- serde_json::from_str
+//! |-- serde_json::to_string
+//! `-- tagged_union
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/execution_support.rs
 //! |-- schema/src/lib.rs
 //! |-- schema/src/session.rs
 //! |-- schema/src/session_aux_event.rs
 //! |-- schema/src/session_event.rs
 //! |-- schema/src/session_event/stream.rs
-//! `-- schema/src/session_message/assistant.rs
+//! |-- schema/src/session_message/assistant.rs
+//! |-- schema/tests/schema_session.rs
+//! |-- session-api/src/message.rs
+//! |-- session-runtime/src/compaction.rs
+//! |-- session-runtime/src/projection/adapter.rs
+//! |-- session-runtime/src/projection/updater.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! |-- session-runtime/src/runner/publish/tools.rs
+//! |-- session-runtime/src/runner/turn.rs
+//! `-- session-runtime/tests/compaction.rs
 //! Invariants: the discriminator stays at its baseline struct position (it is last for `user`,
 //! first for `compaction`), spread-overridden keys (`time`) keep the base position, optional
 //! `Schema.Unknown` (`result`) keeps an explicit `null`, other optional keys reject `null`.

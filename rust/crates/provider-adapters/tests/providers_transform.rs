@@ -4,10 +4,17 @@
 //! Scope: pure functions; no I/O.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/providers/error.rs
 //! `-- provider-adapters/src/providers/transform.rs
 //! External:
-//! `-- serde_json::json
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- transform::temperature
+//! |-- transform::top_k
+//! `-- transform::top_p
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expectations come from the TS tests or TS source, not from Rust output.

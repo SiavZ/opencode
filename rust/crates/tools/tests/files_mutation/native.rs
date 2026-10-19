@@ -3,15 +3,18 @@
 //! Scope: live native adapters (no dev fixtures) through `Tool::execute`.
 //! Uses:
 //! rust/crates/
-//! |-- platform-native/src/fs/location.rs
-//! |-- platform-native/src/fs/mutation.rs
-//! |-- platform-native/src/fs/native.rs
+//! |-- platform-native/src/fs/mod.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/edit.rs
 //! |-- tools/src/files/edit_legacy.rs
+//! |-- tools/src/files/mod.rs
 //! |-- tools/src/files/write.rs
 //! `-- tools/tests/files_mutation/support.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::json
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! rust/crates/
 //! `-- tools/tests/files_write.rs

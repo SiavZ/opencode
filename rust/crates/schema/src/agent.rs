@@ -9,11 +9,19 @@
 //! |-- schema/src/provider.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- serde_json::to_value
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/location_agents.rs
 //! |-- schema/src/lib.rs
-//! `-- session-runtime/src/agents.rs
+//! |-- schema/tests/schema_domains_agent.rs
+//! |-- session-runtime/src/agents.rs
+//! |-- session-runtime/tests/runner_agents.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: field order matches the baseline struct, optional keys are omitted when absent and
 //! reject explicit `null`, colors are `#rrggbb` or one of the theme literals.
 //! Contract tests: schema/tests/schema_domains_agent.rs

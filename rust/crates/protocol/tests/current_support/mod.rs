@@ -3,9 +3,12 @@
 //! Scope: test support, fixture-based.
 //! Uses:
 //! rust/crates/
-//! `-- protocol/src/lib.rs
+//! `-- protocol/src/ir.rs
 //! External:
-//! `-- serde_json::{Map, Value, json}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! `-- protocol/tests/current_registry.rs

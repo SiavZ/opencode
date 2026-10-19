@@ -6,7 +6,7 @@
 //! |-- platform-api/src/fs.rs
 //! `-- platform-native/src/fs/encoding.rs
 //! External:
-//! `-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: none beyond test isolation.

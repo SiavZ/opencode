@@ -6,10 +6,15 @@
 //! rust/crates/
 //! `-- schema/src/session.rs
 //! External:
+//! |-- base64::Engine
 //! |-- base64::engine::general_purpose::URL_SAFE_NO_PAD
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::from_slice
+//! `-- serde_json::to_vec
 //! Used by:
 //! rust/crates/
+//! |-- server/src/handlers/mod.rs
 //! `-- server/src/handlers/session.rs
 //! Invariants: both cursors are unpadded base64url of compact JSON. Sessions cursor keys follow
 //! the schema order `workspace, order, search, directory | project, subpath, anchor` and omit

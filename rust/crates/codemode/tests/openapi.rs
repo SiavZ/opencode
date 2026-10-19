@@ -6,10 +6,21 @@
 //! Uses:
 //! rust/crates/
 //! |-- codemode/src/lib.rs
+//! |-- codemode/src/openapi/mod.rs
 //! `-- codemode/tests/common/mod.rs
 //! External:
+//! |-- futures::future::BoxFuture
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::from_str
 //! |-- serde_json::json
-//! `-- url::Url
+//! |-- serde_json::to_vec
+//! |-- str::to_string
+//! |-- tokio::test
+//! |-- tokio_util::sync::CancellationToken
+//! |-- url::Url
+//! `-- url::Url::parse
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: generated tools only reach the recording client passed in `Options::http`.

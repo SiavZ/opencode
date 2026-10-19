@@ -6,10 +6,28 @@
 //! rust/crates/
 //! |-- hosted-adapters/src/sharing/objects.rs
 //! |-- hosted-adapters/src/sharing/service.rs
-//! `-- hosted-adapters/src/sharing/sigv4.rs
+//! |-- hosted-adapters/src/sharing/sigv4.rs
+//! `-- hosted-domain/src/sharing/share.rs
 //! External:
 //! |-- axum::Router
-//! `-- tokio::net::TcpListener
+//! |-- axum::body::Bytes
+//! |-- axum::extract::Path
+//! |-- axum::extract::Query
+//! |-- axum::extract::State
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::Method
+//! |-- axum::http::StatusCode
+//! |-- axum::routing::any
+//! |-- axum::serve
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! |-- serde_json::to_value
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! `-- url::Url::parse
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the fake server records every operation so object-level traces can be compared

@@ -5,17 +5,26 @@
 //! Uses:
 //! rust/crates/
 //! |-- storage-api/src/json_store.rs
+//! |-- storage-api/src/lib.rs
 //! |-- storage-api/src/records/collation.rs
 //! |-- storage-sqlite/src/legacy_files.rs
 //! `-- storage-sqlite/src/legacy_files/migrate.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- migrate::run
 //! |-- serde_json::Value
-//! `-- tokio::sync::{OnceCell, RwLock}
+//! |-- serde_json::from_str
+//! |-- str::to_owned
+//! |-- tokio::fs::create_dir_all
+//! |-- tokio::fs::read_to_string
+//! |-- tokio::fs::remove_file
+//! |-- tokio::fs::write
+//! |-- tokio::sync::OnceCell
+//! |-- tokio::sync::RwLock
+//! `-- tokio::task::spawn_blocking
 //! Used by:
 //! rust/crates/
-//! |-- storage-sqlite/src/legacy_files.rs
-//! `-- storage-sqlite/tests/legacy_json.rs
+//! `-- storage-sqlite/src/legacy_files.rs
 //! Invariants: the file for a key is `path.join(dir, ...key) + ".json"` (lexically normalized like
 //! node `path.join`). Reads take the file's read lock, write/update/remove its write lock, so updates
 //! of one key are serialized and reads run concurrently. A missing file reads as

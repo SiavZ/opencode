@@ -8,16 +8,26 @@
 //! |-- locations/src/error.rs
 //! |-- locations/src/project.rs
 //! |-- locations/src/registry.rs
-//! `-- locations/src/workspace/mod.rs
+//! |-- locations/src/workspace/mod.rs
+//! |-- schema/src/ids.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/values.rs
+//! |-- storage-api/src/lib.rs
+//! `-- storage-api/src/records/codec.rs
 //! External:
 //! |-- async_trait::async_trait
-//! |-- opencode_schema::location::{Info, InfoProject, Ref}
-//! `-- opencode_storage_api::{Database, DatabaseExt}
+//! |-- codec::directory::decode
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- locations/src/lib.rs
+//! |-- locations/tests/project.rs
+//! |-- locations/tests/registry.rs
+//! |-- locations/tests/registry_log.rs
 //! |-- locations/tests/workspace_lifecycle.rs
-//! `-- locations/tests/workspace_sync.rs
+//! |-- runtime/src/adapters.rs
+//! |-- runtime/src/location.rs
+//! `-- runtime/src/process.rs
 //! Invariants: `Location.Info` is built exactly like `Location.layer(ref)` (packages/core/src/
 //! location.ts:21-33): the ref's directory and workspaceID plus the resolved project id and
 //! directory. Placement reads `session.directory`/`workspace_id`; missing rows are `None`.

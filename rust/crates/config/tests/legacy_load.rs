@@ -6,12 +6,18 @@
 //! Scope: integration tests, fixture-based, temp dirs only.
 //! Uses:
 //! rust/crates/
-//! |-- config/src/env.rs
-//! |-- config/src/legacy/load.rs
-//! `-- config/src/legacy/plugin.rs
+//! |-- config/src/legacy/mod.rs
+//! `-- config/src/lib.rs
 //! External:
+//! |-- legacy::LegacyState
+//! |-- legacy::load
+//! |-- legacy::plugin::file_url
+//! |-- legacy::plugin::specifier
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
 //! |-- serde_json::json
-//! `-- tempfile::TempDir
+//! |-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every test isolates HOME, global config and managed dir under its own temp dir.

@@ -12,7 +12,7 @@
 //! Used by:
 //! rust/crates/
 //! |-- view-model/src/lib.rs
-//! `-- view-model/tests/actions.rs
+//! `-- view-model/tests/identity.rs
 //! Invariants: every effect names the captured `Target`, never "the visible session"; rollback
 //! restores the draft captured at submit time; a command (`/name args`) is only recognised when
 //! `name` is in the known command list and never creates an optimistic message.

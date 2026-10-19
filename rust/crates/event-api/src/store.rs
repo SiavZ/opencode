@@ -7,7 +7,9 @@
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- futures::stream::BoxStream
+//! |-- futures::stream::BoxStream
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! `-- event-api/src/lib.rs

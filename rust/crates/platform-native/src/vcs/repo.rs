@@ -9,13 +9,18 @@
 //! |-- platform-native/src/vcs/run.rs
 //! `-- platform-native/src/vcs/tree.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- str::to_string
+//! |-- str::trim
+//! |-- tokio::fs::copy
+//! |-- tokio::fs::create_dir_all
+//! |-- tokio::fs::write
+//! |-- tree::diff
+//! `-- tree::repo_op
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/vcs/mod.rs
-//! |-- platform-native/src/vcs/snapshot.rs
-//! |-- platform-native/tests/git.rs
-//! `-- platform-native/tests/worktree.rs
+//! `-- platform-native/src/vcs/snapshot.rs
 //! Invariants: discovery never fails, it returns None; query helpers return None/empty on any
 //! git failure; worktree errors carry `force_required` when git reports a dirty worktree.
 //! Contract tests: platform-native/tests/git.rs, platform-native/tests/worktree.rs

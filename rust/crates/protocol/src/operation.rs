@@ -3,14 +3,26 @@
 //! Scope: pure data plus a fluent endpoint builder.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/errors.rs
 //! `-- protocol/src/ir.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
+//! |-- protocol/src/current/catalog.rs
+//! |-- protocol/src/current/integration.rs
 //! |-- protocol/src/current/mod.rs
+//! |-- protocol/src/current/permission.rs
+//! |-- protocol/src/current/pty.rs
+//! |-- protocol/src/current/session.rs
 //! |-- protocol/src/legacy/mod.rs
-//! `-- protocol/src/lib.rs
+//! |-- protocol/src/lib.rs
+//! |-- protocol/src/openapi.rs
+//! |-- protocol/tests/current_registry.rs
+//! |-- server/src/handlers/dispatch.rs
+//! `-- server/tests/http_proxy.rs
 //! Invariants: `Endpoint::name` is the TS `HttpApiEndpoint` name, `operation_id` the OpenAPI
 //! identifier. Path templates use `:param` (and a trailing `*` wildcard) like the baseline.
 //! Group and endpoint order is registration order.

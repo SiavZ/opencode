@@ -5,17 +5,31 @@
 //! Scope: one process-global `LegacyStore` over `SessionEvents`; ephemeral events go to the bus only.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
 //! |-- session-runtime/src/legacy/types.rs
 //! |-- session-runtime/src/projection.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! |-- opencode_event_api::{Definition, PublishOptions}
-//! `-- serde_json::{Map, Value, json}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/legacy.rs
+//! |-- runtime/src/process.rs
+//! |-- session-runtime/src/legacy/command.rs
+//! |-- session-runtime/src/legacy/compaction.rs
 //! |-- session-runtime/src/legacy/mod.rs
-//! |-- session-runtime/tests/legacy_prompt.rs
-//! `-- session-runtime/tests/legacy_shell.rs
+//! |-- session-runtime/src/legacy/parts.rs
+//! |-- session-runtime/src/legacy/projectors.rs
+//! |-- session-runtime/src/legacy/prompt.rs
+//! |-- session-runtime/src/legacy/resource.rs
+//! |-- session-runtime/src/legacy/run_state.rs
+//! |-- session-runtime/src/legacy/share.rs
+//! |-- session-runtime/src/legacy/shell.rs
+//! |-- session-runtime/src/summary.rs
+//! |-- session-runtime/src/title.rs
+//! `-- session-runtime/tests/support/legacy.rs
 //! Invariants: messages read oldest first, ordered by `(time_created, id)`, parts by `id`.
 //! `patch` merges `time`/`share` objects and removes keys patched with `null`.
 //! Contract tests: session-runtime/tests/legacy_prompt.rs

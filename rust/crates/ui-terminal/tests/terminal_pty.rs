@@ -1,11 +1,17 @@
 //! Purpose: verify real PTY terminal acquisition and restoration after lifecycle boundaries.
 //! Scope: live subprocess tests with a minimal terminal protocol responder.
 //! Uses:
-//! rust/crates/
-//! `-- ui-terminal/src/terminal.rs
+//! `-- none
 //! External:
-//! |-- portable_pty::{CommandBuilder, PtySize, native_pty_system}
-//! `-- vt100::Parser
+//! |-- mpsc::Receiver
+//! |-- mpsc::channel
+//! |-- portable_pty::Child
+//! |-- portable_pty::CommandBuilder
+//! |-- portable_pty::MasterPty
+//! |-- portable_pty::PtySize
+//! |-- portable_pty::native_pty_system
+//! |-- vt100::Parser
+//! `-- vt100::Parser::new
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests never touch the user's terminal, workers are joined, children are reaped.

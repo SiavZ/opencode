@@ -9,10 +9,16 @@
 //! |-- ecosystem/src/slack/socket.rs
 //! `-- ecosystem/src/slack/thread.rs
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- ecosystem/src/lib.rs
+//! |-- ecosystem/src/lib.rs
+//! |-- ecosystem/src/slack/api.rs
+//! |-- ecosystem/src/slack/bot.rs
+//! |-- ecosystem/src/slack/socket.rs
+//! |-- ecosystem/src/slack/thread.rs
+//! |-- ecosystem/tests/slack_bot.rs
+//! `-- ecosystem/tests/slack_socket.rs
 //! Invariants: runtime tasks have owners, credentials/content are not logged.
 //! Contract tests: ecosystem/tests/slack_bot.rs, ecosystem/tests/slack_socket.rs
 

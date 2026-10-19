@@ -6,12 +6,27 @@
 //! SqlEventStore, projectors, admission and service are real; execution and Location ports are fixtures.
 //! Uses:
 //! rust/crates/
+//! |-- schema/src/lib.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/message.rs
 //! |-- session-api/src/operations.rs
+//! |-- session-api/src/prompt.rs
 //! |-- session-runtime/src/inbox.rs
+//! |-- session-runtime/src/projection.rs
+//! |-- session-runtime/src/revert.rs
 //! |-- session-runtime/src/service.rs
-//! `-- session-runtime/tests/support/sql.rs
+//! |-- session-runtime/tests/support/sql.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! `-- tokio
+//! |-- async_trait::async_trait
+//! |-- futures::future::join_all
+//! |-- inbox::find
+//! |-- location::Ref
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: mirrors packages/core/test/session-prompt.test.ts cases by name.

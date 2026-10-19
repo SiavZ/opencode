@@ -3,13 +3,43 @@
 //! Scope: synchronous, runs inside the event publish transaction.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
+//! |-- schema/src/prompt.rs
 //! |-- schema/src/session_event.rs
 //! |-- schema/src/session_message.rs
+//! |-- schema/src/values.rs
 //! |-- session-runtime/src/projection.rs
 //! |-- session-runtime/src/projection/adapter.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json::{from_value, Map, Value}
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::from_value
+//! |-- sm::AgentSwitched
+//! |-- sm::AgentSwitchedTag
+//! |-- sm::AssistantTag
+//! |-- sm::Compaction
+//! |-- sm::CompactionTag
+//! |-- sm::CompletedTag
+//! |-- sm::ErrorTag
+//! |-- sm::ModelSwitched
+//! |-- sm::ModelSwitchedTag
+//! |-- sm::PendingTag
+//! |-- sm::ReasoningTag
+//! |-- sm::RunningTag
+//! |-- sm::Shell
+//! |-- sm::ShellTag
+//! |-- sm::Synthetic
+//! |-- sm::SyntheticTag
+//! |-- sm::System
+//! |-- sm::SystemTag
+//! |-- sm::TextTag
+//! |-- sm::ToolStateCompleted
+//! |-- sm::ToolStateError
+//! |-- sm::ToolStatePending
+//! |-- sm::ToolStateRunning
+//! |-- sm::ToolTag
+//! |-- sm::User
+//! `-- sm::UserTag
 //! Used by:
 //! rust/crates/
 //! `-- session-runtime/src/projection.rs

@@ -17,7 +17,12 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- integration-adapters/src/lib.rs
+//! |-- integration-adapters/src/lib.rs
+//! |-- integration-adapters/tests/fixtures/lsp/support.rs
+//! |-- integration-adapters/tests/lsp_client.rs
+//! |-- integration-adapters/tests/lsp_inventory.rs
+//! |-- integration-adapters/tests/lsp_live.rs
+//! `-- integration-adapters/tests/lsp_service.rs
 //! Invariants: see rust/contracts/phase-07/lsp.md.
 //! Contract tests: integration-adapters/tests/lsp_*.rs
 

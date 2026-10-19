@@ -11,7 +11,15 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-02, composed by runtime in phase 91)
+//! rust/crates/
+//! |-- event-store/tests/rows.rs
+//! |-- event-store/tests/streams.rs
+//! |-- event-store/tests/support/mod.rs
+//! |-- locations/tests/support/workspace.rs
+//! |-- locations/tests/workspace_lifecycle.rs
+//! |-- runtime/src/execution_support.rs
+//! |-- runtime/src/process.rs
+//! `-- session-runtime/tests/support/sql.rs
 //! Invariants: `SqlEventStore` implements `EventStore` over any `Database`.
 //! Contract tests: event-store/tests/
 

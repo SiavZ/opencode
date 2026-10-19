@@ -4,14 +4,29 @@
 //! Scope: per-request.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/errors.rs
 //! |-- schema/src/session.rs
+//! |-- schema/src/values.rs
 //! |-- server/src/handlers/cursor.rs
 //! |-- server/src/handlers/dispatch.rs
 //! |-- server/src/handlers/mod.rs
 //! |-- server/src/middleware/errors.rs
+//! |-- server/src/middleware/legacy_routing.rs
+//! |-- session-api/src/admission.rs
+//! |-- session-api/src/error.rs
+//! |-- session-api/src/ids.rs
+//! |-- session-api/src/info.rs
+//! |-- session-api/src/message.rs
 //! `-- session-api/src/operations.rs
 //! External:
-//! `-- serde_json::{Value, json}
+//! |-- axum::response::Response
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! |-- str::to_string
+//! `-- tracing::error
 //! Used by:
 //! rust/crates/
 //! `-- server/src/handlers/mod.rs

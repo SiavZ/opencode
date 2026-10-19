@@ -6,10 +6,12 @@
 //! rust/crates/
 //! `-- desktop-host/src/platform/proxy.rs
 //! External:
-//! `-- tokio::process::Command
+//! |-- tokio::process::Command
+//! |-- tokio::time::timeout
+//! `-- tracing::info
 //! Used by:
 //! rust/crates/
-//! |-- desktop-host/src/connections/sidecar.rs
+//! |-- desktop-host/src/platform/mod.rs
 //! `-- desktop-host/tests/platform.rs
 //! Invariants: an interactive-probe timeout does NOT fall back to `-l` (baseline), nushell is never
 //! probed, an empty or non-zero probe is `Unavailable`, the probe child is killed and reaped on timeout.

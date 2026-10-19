@@ -8,12 +8,30 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
+//! |-- provider-adapters/src/auth.rs
 //! |-- provider-adapters/src/protocols/openai/mod.rs
+//! |-- provider-adapters/src/protocols/openai/responses_body.rs
+//! |-- provider-adapters/src/route.rs
 //! |-- provider-adapters/src/transport/mod.rs
 //! `-- provider-adapters/tests/openai_common/mod.rs
 //! External:
+//! |-- futures::SinkExt
+//! |-- futures::StreamExt
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::timeout
 //! |-- tokio_tungstenite::accept_hdr_async
-//! `-- wiremock::{Mock, MockServer, ResponseTemplate}
+//! |-- tokio_tungstenite::tungstenite::Message
+//! |-- tokio_tungstenite::tungstenite::handshake::server::Request
+//! |-- tokio_tungstenite::tungstenite::handshake::server::Response
+//! |-- wiremock::Mock
+//! |-- wiremock::MockServer
+//! |-- wiremock::ResponseTemplate
+//! `-- wiremock::matchers::method
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expectations are copied from the baseline TS tests, not derived from Rust output.

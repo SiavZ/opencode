@@ -4,14 +4,29 @@
 //! invokeSetMethod/invokeURLSearchParamsMethod/invokeArrayMethod/sortArray (lines 2290-2800).
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
 //! |-- codemode/src/interp/call.rs
+//! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/mod.rs
 //! |-- codemode/src/stdlib/mod.rs
-//! `-- codemode/src/value/mod.rs
+//! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
+//! `-- codemode/src/value/text.rs
 //! External:
-//! `-- none
+//! |-- stdlib::array::plain_method
+//! |-- stdlib::collections::map_method
+//! |-- stdlib::collections::set_method
+//! |-- stdlib::object::array_keys
+//! |-- stdlib::regexp::replacer_matches
+//! |-- stdlib::url::invoke_uri
+//! |-- stdlib::url::params_method
+//! `-- stdlib::value::invoke_coercion
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/call.rs
+//! |-- codemode/src/interp/expr.rs
+//! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/interp/promise.rs
 //! `-- codemode/src/interp/stmt.rs
 //! Invariants: callbacks iterate a snapshot; insertions that would create cycles are rejected
 //! before mutation.

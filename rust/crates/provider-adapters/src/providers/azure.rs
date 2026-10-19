@@ -11,11 +11,14 @@
 //! |-- provider-adapters/src/providers/openai.rs
 //! `-- provider-adapters/src/route.rs
 //! External:
-//! `-- none
+//! |-- char::is_ascii_digit
+//! |-- openai::chat_route
+//! `-- openai::responses_route
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/providers/mod.rs
-//! `-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry_rules.rs
+//! `-- provider-adapters/tests/providers_facades.rs
 //! Invariants: Azure removes `authorization` before setting `api-key`; `baseURL` wins over
 //! `resourceName`. Copilot GPT >= 5 (except gpt-5-mini) uses Responses unless `endpoint` is set.
 //! Contract tests: provider-adapters/tests/providers_facades.rs

@@ -6,13 +6,32 @@
 //! rust/crates/
 //! `-- integration-adapters/src/mcp/transport.rs
 //! External:
-//! |-- serde_json::{Value, json}
-//! |-- tokio::sync::{Mutex, mpsc, oneshot}
-//! `-- tokio_util::sync::CancellationToken
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- oneshot::Sender
+//! |-- oneshot::channel
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_string
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::mpsc
+//! |-- tokio::sync::oneshot
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::sleep
+//! |-- tokio_util::sync::CancellationToken
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/mcp/catalog.rs
 //! |-- integration-adapters/src/mcp/client.rs
-//! `-- integration-adapters/src/mcp/mod.rs
+//! |-- integration-adapters/src/mcp/connect.rs
+//! |-- integration-adapters/src/mcp/mod.rs
+//! |-- integration-adapters/src/mcp/service.rs
+//! |-- integration-adapters/src/mcp/service_auth.rs
+//! `-- integration-adapters/tests/mcp_stdio.rs
 //! Invariants: every pending request resolves exactly once (result, error, timeout, cancel or
 //! "Connection closed"); timeouts send `notifications/cancelled`; unknown server requests get
 //! -32601; the close callback runs once.

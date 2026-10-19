@@ -5,7 +5,9 @@
 //! |-- codemode/src/lib.rs
 //! `-- codemode/tests/common/mod.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests drive the real renderer and runtime through the public API.

@@ -4,6 +4,7 @@
 //! Scope: WSL sidecar launcher. Real use requires Windows + WSL (no runner yet, see notes).
 //! Uses:
 //! rust/crates/
+//! |-- desktop-host/src/connections.rs
 //! |-- desktop-host/src/connections/child.rs
 //! |-- desktop-host/src/connections/health.rs
 //! |-- desktop-host/src/connections/sidecar.rs
@@ -12,14 +13,20 @@
 //! |-- desktop-host/src/platform/wsl/mod.rs
 //! `-- desktop-host/src/platform/wsl/runtime.rs
 //! External:
+//! |-- futures::FutureExt
 //! |-- futures::future::BoxFuture
+//! |-- messages::FAILED_PORT
+//! |-- messages::health_timeout
+//! |-- messages::opencode_not_installed
+//! |-- messages::server_exited_before_healthy
+//! |-- reqwest::Client
 //! |-- tokio_util::sync::CancellationToken
-//! `-- uuid::Uuid
+//! `-- uuid::Uuid::new_v4
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/platform/wsl/controller.rs
-//! |-- desktop-host/tests/wsl_runtime.rs
-//! `-- desktop-host/tests/wsl_support/mod.rs
+//! |-- desktop-host/src/platform/wsl/mod.rs
+//! `-- desktop-host/tests/wsl_runtime.rs
 //! Invariants: on any startup failure the `wsl` child tree is killed and joined before the error is
 //! returned; the script exports credentials but never logs them.
 //! Contract tests: desktop-host/tests/wsl_runtime.rs

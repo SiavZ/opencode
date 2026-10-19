@@ -25,7 +25,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-04, composed by runtime in phase 91)
+//! `-- none, entrypoint
 //! Invariants: no Session-ID-scoped service layers; admission never runs a provider.
 //! Contract tests: session-runtime/tests/
 // Module list is parent-owned (p04). Children add items only inside their own module files.

@@ -7,12 +7,20 @@
 //! |-- ecosystem/src/slack/mod.rs
 //! `-- ecosystem/src/slack/output.rs
 //! External:
+//! |-- output::CREATE_ERROR
+//! |-- output::PROMPT_ERROR
+//! |-- output::reply
+//! |-- output::tool_update
 //! |-- serde_json::Value
-//! |-- tokio::{sync::Mutex, time}
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::Mutex::new
+//! |-- tokio::time::timeout
 //! `-- tracing::warn
 //! Used by:
 //! rust/crates/
-//! `-- ecosystem/src/slack/bot.rs
+//! |-- ecosystem/src/slack/bot.rs
+//! |-- ecosystem/src/slack/mod.rs
+//! `-- ecosystem/tests/slack_bot.rs
 //! Invariants: one session per channel/thread, no shared-map lock spans await, per-thread
 //! gates are held only within a bounded operation timeout. Failed create remains retryable.
 //! Contract tests: ecosystem/tests/slack_bot.rs

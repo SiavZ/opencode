@@ -4,12 +4,17 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- tokio::process::{Child, Command}
+//! |-- tokio::process::Child
+//! |-- tokio::process::Command
+//! `-- tokio::time::timeout
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/connections.rs
 //! |-- desktop-host/src/connections/child.rs
-//! |-- desktop-host/src/platform/shell_env.rs
-//! `-- desktop-host/tests/connections_live.rs
+//! |-- desktop-host/src/platform/mod.rs
+//! |-- desktop-host/src/platform/wsl/exe.rs
+//! |-- desktop-host/src/platform/wsl/sidecar.rs
+//! `-- desktop-host/tests/wsl_support/mod.rs
 //! Invariants: `terminate_tree` always reaps the leader (joined wait) and finishes with a KILL sweep
 //! of the group, so descendants that ignored the graceful signal do not survive.
 //! Contract tests: desktop-host/tests/connections_live.rs

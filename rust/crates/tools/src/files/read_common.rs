@@ -4,15 +4,20 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! `-- u8::from
 //! Used by:
 //! rust/crates/
+//! |-- tools/src/files/mod.rs
+//! |-- tools/src/files/mutation_input.rs
 //! |-- tools/src/files/read_core.rs
 //! |-- tools/src/files/read_files.rs
 //! |-- tools/src/files/read_input.rs
 //! |-- tools/src/files/read_legacy.rs
 //! |-- tools/src/files/read_lines.rs
-//! `-- tools/src/files/read_pager.rs
+//! |-- tools/src/files/read_pager.rs
+//! `-- tools/src/search/input.rs
 //! Invariants: MIME table equals mime-types 3.0.2 `types` (fixtures/README.md), line lengths count
 //! UTF-16 code units like JS `String.length`, UTF-8 replacement follows WHATWG maximal subparts.
 //! Contract tests: tools/tests/files_read.rs

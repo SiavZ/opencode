@@ -4,10 +4,13 @@
 //! rust/crates/
 //! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
+//! |-- codemode/src/interp/collections.rs
 //! |-- codemode/src/interp/diagnose.rs
-//! `-- codemode/src/interp/mod.rs
+//! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/interp/ops.rs
+//! `-- codemode/src/value/mod.rs
 //! External:
-//! `-- none
+//! `-- indexmap::IndexMap
 //! Used by:
 //! rust/crates/
 //! `-- codemode/src/interp/mod.rs

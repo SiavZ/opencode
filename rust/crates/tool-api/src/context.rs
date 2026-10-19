@@ -2,9 +2,12 @@
 //! single permission service, progress/metadata updates, and cancellation.
 //! Scope: values and traits.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! `-- permissions/src/lib.rs
 //! External:
-//! |-- opencode_permissions::{AssertInput, PermissionError}
+//! |-- async_trait::async_trait
+//! |-- serde_json::Map
+//! |-- serde_json::Value
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/

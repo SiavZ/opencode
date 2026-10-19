@@ -7,18 +7,32 @@
 //! |-- schema/src/identifier.rs
 //! `-- session-runtime/src/todo.rs
 //! External:
-//! |-- futures::future::{BoxFuture, FutureExt}
+//! |-- futures::future::BoxFuture
+//! |-- futures::future::FutureExt
+//! |-- identifier::create
 //! |-- indexmap::IndexMap
-//! |-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- tokio::select
 //! |-- tokio::sync::watch
-//! `-- tokio_util::{sync::CancellationToken, task::TaskTracker}
+//! |-- tokio::time::timeout
+//! |-- tokio_util::sync::CancellationToken
+//! |-- tokio_util::task::TaskTracker
+//! |-- watch::Receiver
+//! |-- watch::Sender
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/children.rs
 //! |-- session-runtime/src/lib.rs
 //! |-- session-runtime/tests/background.rs
 //! |-- session-runtime/tests/background/helpers.rs
-//! `-- session-runtime/tests/background_control.rs
+//! |-- session-runtime/tests/background_control.rs
+//! |-- session-runtime/tests/children.rs
+//! |-- session-runtime/tests/children/fixture.rs
+//! `-- session-runtime/tests/children_background.rs
 //! Invariants: a running ID is never started twice (start returns the running snapshot). A job is
 //! published before its first run is polled. Extended runs execute sequentially after the previous
 //! tail; the newest successful output (by sequence) wins; the job completes when the last pending run

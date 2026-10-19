@@ -9,11 +9,21 @@
 //! rust/crates/
 //! `-- ecosystem/src/github/auth/mod.rs
 //! External:
-//! |-- jsonwebtoken::{encode, EncodingKey, Header}
+//! |-- jsonwebtoken::Algorithm
+//! |-- jsonwebtoken::EncodingKey
+//! |-- jsonwebtoken::Header
+//! |-- jsonwebtoken::encode
 //! |-- reqwest::Client
-//! `-- serde_json::Value
+//! |-- reqwest::Client::new
+//! |-- reqwest::RequestBuilder
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- str::to_string
+//! `-- url::form_urlencoded::byte_serialize
 //! Used by:
 //! rust/crates/
+//! |-- ecosystem/src/github/auth/client.rs
 //! |-- ecosystem/src/github/auth/handlers.rs
 //! |-- ecosystem/src/github/auth/mod.rs
 //! `-- ecosystem/tests/github_auth_exchange.rs

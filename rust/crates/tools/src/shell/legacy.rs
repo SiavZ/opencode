@@ -6,7 +6,7 @@
 //! rust/crates/
 //! |-- platform-api/src/path.rs
 //! |-- platform-api/src/process.rs
-//! |-- tool-api/src/context.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/common.rs
 //! |-- tools/src/search/input.rs
 //! |-- tools/src/shell/mod.rs
@@ -15,7 +15,17 @@
 //! |-- tools/src/shell/scan.rs
 //! `-- tools/src/shell/select.rs
 //! External:
-//! `-- tokio::sync::mpsc
+//! |-- async_trait::async_trait
+//! |-- path::resolve
+//! |-- schemas::legacy
+//! |-- select::acceptable
+//! |-- select::name
+//! |-- select::ps
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::spawn
+//! `-- tokio::sync::mpsc::channel
 //! Used by:
 //! rust/crates/
 //! `-- tools/src/shell/mod.rs

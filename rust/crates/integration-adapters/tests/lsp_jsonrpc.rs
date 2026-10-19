@@ -3,9 +3,19 @@
 //! Scope: in-memory duplex pipes, no processes.
 //! Uses:
 //! rust/crates/
-//! `-- integration-adapters/src/lsp/jsonrpc.rs
+//! |-- integration-adapters/src/lsp/jsonrpc.rs
+//! `-- integration-api/src/lib.rs
 //! External:
-//! `-- tokio::io::duplex
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::json
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::io::BufReader
+//! |-- tokio::io::duplex
+//! |-- tokio::io::split
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-only (no live server).

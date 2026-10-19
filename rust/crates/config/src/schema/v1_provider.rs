@@ -8,6 +8,7 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
+//! |-- config/src/schema/mod.rs
 //! `-- config/src/schema/v1.rs
 //! Invariants: field sets and literals match the baseline provider/model schema.
 //! Contract tests: config/tests/compat_fixtures.rs

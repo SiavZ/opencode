@@ -5,8 +5,13 @@
 //! |-- schema/src/event.rs
 //! `-- schema/src/reference.rs
 //! External:
-//! |-- serde::{Serialize, de::DeserializeOwned}
-//! `-- serde_json
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value
+//! |-- serde_json::Value::Null
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture strings are byte-identical to Bun decode/encode output.

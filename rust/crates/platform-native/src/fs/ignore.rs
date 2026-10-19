@@ -4,13 +4,13 @@
 //! Scope: pure matching plus home-directory lookup.
 //! Uses:
 //! rust/crates/
+//! |-- platform-api/src/path.rs
 //! `-- platform-native/src/fs/glob.rs
 //! External:
 //! `-- dirs::home_dir
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/fs/mod.rs
-//! |-- platform-native/src/fs/watcher.rs
 //! `-- platform-native/tests/fs_util.rs
 //! Invariants: whitelist wins over every ignore rule; any path component equal to an ignored folder
 //! name ignores the path; file patterns use minimatch `{ dot: true }` semantics; `PATTERNS` order is

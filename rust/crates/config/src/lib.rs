@@ -21,7 +21,17 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-02, consumers phases 03-07 not wired yet)
+//! rust/crates/
+//! |-- config/tests/compat_fixtures.rs
+//! |-- config/tests/current.rs
+//! |-- config/tests/legacy_load.rs
+//! |-- config/tests/legacy_remote.rs
+//! |-- config/tests/legacy_update.rs
+//! |-- config/tests/markdown.rs
+//! |-- runtime/src/location.rs
+//! |-- runtime/src/location_agents.rs
+//! |-- runtime/src/location_models.rs
+//! `-- runtime/src/location_tools.rs
 //! Invariants: no function in this crate reads the real process environment except
 //! `Environment::from_process`; tests always pass an isolated `Environment`.
 //! Contract tests: config/tests/current.rs

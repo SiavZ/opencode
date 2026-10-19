@@ -15,7 +15,17 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- platform-native/src/lib.rs
+//! |-- platform-native/src/lib.rs
+//! |-- platform-native/tests/fs_location.rs
+//! |-- platform-native/tests/fs_mutation.rs
+//! |-- platform-native/tests/fs_util.rs
+//! |-- platform-native/tests/fs_watcher.rs
+//! |-- runtime/src/location_tools.rs
+//! |-- tools/tests/files_common.rs
+//! |-- tools/tests/files_mutation/native.rs
+//! |-- tools/tests/files_mutation/support.rs
+//! |-- tools/tests/files_read/support.rs
+//! `-- tools/tests/shell_core.rs
 //! Invariants: path resolution reads metadata only, not target bytes.
 //! Contract tests: platform-native/tests/fs_mutation.rs
 

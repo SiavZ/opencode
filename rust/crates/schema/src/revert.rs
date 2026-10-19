@@ -5,12 +5,16 @@
 //! |-- schema/src/ids.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
 //! |-- schema/src/lib.rs
 //! |-- schema/src/session.rs
-//! `-- schema/src/session_event.rs
+//! |-- schema/src/session_event/stream.rs
+//! |-- session-api/src/info.rs
+//! `-- session-runtime/src/revert.rs
 //! Invariants: File.Diff counts are non-negative safe integers, SnapshotFileDiff counts are any
 //! finite number; status literal sets differ in order only (`added|modified|deleted`).
 //! Contract tests: schema/src/revert.rs (unit tests), schema/tests/schema_session.rs

@@ -5,11 +5,15 @@
 //! |-- schema/src/event.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
 //! |-- schema/src/lib.rs
-//! `-- schema/tests/schema_domains_filesystem.rs
+//! |-- schema/tests/schema_domains_filesystem.rs
+//! |-- tools/src/search/core.rs
+//! |-- tools/src/search/ripgrep.rs
+//! `-- tools/tests/search_ripgrep.rs
 //! Invariants: baseline field order, safe integer bounds and optional null rejection are retained.
 //! Contract tests: schema/tests/schema_domains_filesystem.rs
 

@@ -6,11 +6,10 @@
 //! |-- config/src/schema/mod.rs
 //! `-- config/src/schema/v1.rs
 //! External:
-//! `-- serde_json::Value
+//! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- config/src/current.rs
-//! `-- config/src/plugins.rs
+//! `-- config/src/schema/mod.rs
 //! Invariants: field names, literals and integer constraints match the baseline classes.
 //! Contract tests: config/tests/current.rs
 

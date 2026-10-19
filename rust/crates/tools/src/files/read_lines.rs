@@ -4,11 +4,13 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
+//! |-- platform-api/src/lib.rs
 //! `-- tools/src/files/read_common.rs
 //! External:
-//! `-- none
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
+//! |-- tools/src/files/mod.rs
 //! `-- tools/src/files/read_legacy.rs
 //! Invariants: `\n`, `\r\n` and lone `\r` terminate lines, a final unterminated line is kept,
 //! an incomplete trailing UTF-8 sequence is dropped (decoder never flushed), counting continues

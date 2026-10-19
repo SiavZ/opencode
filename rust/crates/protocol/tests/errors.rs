@@ -4,7 +4,7 @@
 //! rust/crates/
 //! `-- protocol/src/errors.rs
 //! External:
-//! `-- serde_json
+//! `-- none
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: bytes match `Schema.TaggedErrorClass` encoding.

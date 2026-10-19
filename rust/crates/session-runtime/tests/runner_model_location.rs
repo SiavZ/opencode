@@ -10,7 +10,10 @@
 //! `-- session-runtime/tests/support/model.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: catalog order is preserved, integration id falls back to provider id.

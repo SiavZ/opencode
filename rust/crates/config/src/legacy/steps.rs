@@ -10,14 +10,25 @@
 //! |-- config/src/legacy/load.rs
 //! |-- config/src/legacy/parse.rs
 //! |-- config/src/legacy/remote.rs
-//! |-- config/src/schema/v1.rs
+//! |-- config/src/schema/mod.rs
 //! |-- config/src/value.rs
 //! `-- config/src/variable.rs
 //! External:
-//! `-- serde_json::{Map, Value, json}
+//! |-- fs::exists
+//! |-- fs::up
+//! |-- parse::load_config
+//! |-- schema::decode
+//! |-- schema::v1::well_known
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- str::is_empty
+//! `-- variable::substitute
 //! Used by:
 //! rust/crates/
-//! `-- config/src/legacy/load.rs
+//! |-- config/src/legacy/load.rs
+//! `-- config/src/legacy/mod.rs
 //! Invariants: remote `remote_config.url`/headers substitute `{env:}` with the auth overlay only
 //! (process env never mutated); nested `config` in a remote payload wins over the payload root;
 //! `tools` lower into `permission` with explicit `permission` entries taking precedence.

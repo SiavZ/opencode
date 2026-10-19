@@ -9,7 +9,19 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-05, consumers tool-api, tools, session-runtime, server, integration-adapters)
+//! rust/crates/
+//! |-- permissions/tests/service.rs
+//! |-- runtime/src/location_tools.rs
+//! |-- session-runtime/src/runner/ports.rs
+//! |-- session-runtime/tests/support/provider.rs
+//! |-- tool-api/src/context.rs
+//! |-- tool-api/src/definition.rs
+//! |-- tool-api/src/registry.rs
+//! |-- tool-api/tests/registry.rs
+//! |-- tools/tests/files_common.rs
+//! |-- tools/tests/files_mutation/support.rs
+//! |-- tools/tests/files_read/support.rs
+//! `-- tools/tests/search_support.rs
 //! Invariants: one policy implementation. Server/UI/ACP reply through `PermissionService::reply`.
 //! Contract tests: permissions/tests/service.rs
 

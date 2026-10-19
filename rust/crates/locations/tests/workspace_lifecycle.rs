@@ -6,11 +6,17 @@
 //! Failing adapters are test doubles for Phase 05/06 hosts.
 //! Uses:
 //! rust/crates/
+//! |-- event-store/src/lib.rs
 //! |-- locations/src/lib.rs
-//! `-- locations/tests/support/mod.rs
+//! |-- locations/src/ports.rs
+//! |-- locations/src/workspace/mod.rs
+//! |-- locations/src/workspace/worktree.rs
+//! |-- locations/tests/support/mod.rs
+//! |-- locations/tests/support/workspace.rs
+//! `-- schema/src/workspace.rs
 //! External:
-//! |-- opencode_event_store::SqlEventStore
-//! `-- tokio
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every assertion names the baseline behavior it pins (control-plane/workspace.ts,

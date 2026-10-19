@@ -6,7 +6,9 @@
 //! |-- config/src/jsonc/format.rs
 //! `-- config/src/jsonc/visit.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/crates/
 //! `-- config/src/jsonc/mod.rs

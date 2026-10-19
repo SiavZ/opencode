@@ -5,11 +5,22 @@
 //! rust/crates/
 //! `-- event-api/src/lib.rs
 //! External:
-//! |-- futures::stream
-//! |-- tokio::sync::{Notify, mpsc}
-//! `-- tracing
+//! |-- futures::FutureExt
+//! |-- futures::StreamExt
+//! |-- futures::stream::unfold
+//! |-- mpsc::Sender
+//! |-- mpsc::UnboundedReceiver
+//! |-- mpsc::UnboundedSender
+//! |-- mpsc::channel
+//! |-- mpsc::error::TrySendError::Closed
+//! |-- mpsc::error::TrySendError::Full
+//! |-- mpsc::unbounded_channel
+//! |-- tokio::sync::Notify
+//! |-- tokio::sync::mpsc
+//! `-- tracing::error
 //! Used by:
 //! rust/crates/
+//! |-- event-store/src/lib.rs
 //! |-- event-store/src/read.rs
 //! `-- event-store/src/store.rs
 //! Invariants: listeners run in registration order before stream subscribers (`notify`). Durable

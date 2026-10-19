@@ -6,7 +6,9 @@
 //! |-- context/src/registry.rs
 //! `-- context/src/source/mod.rs
 //! External:
-//! `-- none
+//! |-- builtins::register
+//! |-- builtins::system_today
+//! `-- tokio::runtime::Builder::new_current_thread
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: same cases as the baseline tests; scope close is modeled by dropping the guard.

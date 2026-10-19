@@ -3,10 +3,15 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- fmt::Display
+//! |-- fmt::Formatter
+//! |-- fmt::Result
 //! |-- indexmap::IndexMap
-//! |-- serde::{Deserialize, Serialize}
-//! |-- serde_json::Value
-//! `-- thiserror::Error
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::de::Error::custom
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- context/src/source/error.rs

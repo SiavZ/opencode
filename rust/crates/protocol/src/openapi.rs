@@ -5,10 +5,12 @@
 //! rust/crates/
 //! `-- protocol/src/operation.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
-//! `-- protocol/src/lib.rs
+//! |-- protocol/src/lib.rs
+//! `-- server/src/app.rs
 //! Invariants: path templates rewritten `:p` -> `{p}`, key order follows the baseline emitter.
 //! Contract tests: protocol/tests/openapi.rs
 

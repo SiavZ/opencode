@@ -1,7 +1,10 @@
 //! Purpose: transport adapters: SSE, WebSocket, remote proxy.
 //! Scope: per-connection transports.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! |-- server/src/transport/proxy.rs
+//! |-- server/src/transport/sse.rs
+//! `-- server/src/transport/websocket.rs
 //! External:
 //! `-- none
 //! Used by:

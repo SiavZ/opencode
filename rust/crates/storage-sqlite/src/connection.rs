@@ -8,13 +8,29 @@
 //! |-- storage-sqlite/src/migration.rs
 //! `-- storage-sqlite/src/transaction.rs
 //! External:
-//! |-- rusqlite::{Connection, InterruptHandle, OpenFlags}
-//! |-- tokio::sync::{mpsc, oneshot}
-//! `-- tokio_util::sync::CancellationToken
+//! |-- async_trait::async_trait
+//! |-- migration::apply
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- oneshot::Receiver
+//! |-- oneshot::Sender
+//! |-- oneshot::channel
+//! |-- rusqlite::Connection
+//! |-- rusqlite::InterruptHandle
+//! |-- rusqlite::OpenFlags
+//! |-- tokio::select
+//! |-- tokio::sync::mpsc
+//! |-- tokio::sync::oneshot
+//! |-- tokio_util::sync::CancellationToken::is_cancelled
+//! |-- transaction::begin
+//! |-- transaction::commit
+//! |-- transaction::query
+//! |-- transaction::rollback
+//! `-- u64::from
 //! Used by:
 //! rust/crates/
-//! |-- storage-sqlite/src/lib.rs
-//! `-- storage-sqlite/tests/transactions.rs
+//! `-- storage-sqlite/src/lib.rs
 //! Invariants: PRAGMAs and order match packages/core/src/database/database.ts:26-31. A write is
 //! acknowledged only after COMMIT. Cancellation interrupts only while the work closure runs, never during
 //! COMMIT. A failed COMMIT is rolled back. A panicking closure rolls back and reports `Panicked`.

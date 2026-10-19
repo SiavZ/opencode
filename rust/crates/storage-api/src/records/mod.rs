@@ -11,14 +11,22 @@
 //! |-- storage-api/src/records/crud.rs
 //! |-- storage-api/src/records/path.rs
 //! |-- storage-api/src/records/secret.rs
-//! |-- storage-api/src/sql.rs
 //! `-- storage-api/src/value.rs
 //! External:
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- locations/src/project_store.rs
+//! |-- locations/src/workspace/mod.rs
 //! |-- storage-api/src/lib.rs
-//! `-- storage-sqlite/src/repositories/mod.rs
+//! |-- storage-api/src/records/codec.rs
+//! |-- storage-api/src/records/crud.rs
+//! |-- storage-sqlite/src/repositories/credentials.rs
+//! |-- storage-sqlite/src/repositories/domains.rs
+//! |-- storage-sqlite/src/repositories/projects.rs
+//! |-- storage-sqlite/tests/repositories.rs
+//! |-- storage-sqlite/tests/repositories_accounts.rs
+//! `-- storage-sqlite/tests/support/mod.rs
 //! Invariants: owned by the p02.repos leaf. Column names and order follow the Drizzle table definition,
 //! JSON-mode columns are compact `JSON.stringify`, boolean mode is 0/1, path columns follow
 //! database/path.ts. Secret fields use [`Secret`] so `Debug` never prints them.

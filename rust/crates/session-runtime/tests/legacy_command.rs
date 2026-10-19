@@ -4,12 +4,16 @@
 //! Scope: test-only; command shell substitution spawns `/bin/sh` in a temp directory.
 //! Uses:
 //! rust/crates/
-//! |-- session-runtime/src/legacy/command.rs
+//! |-- session-runtime/src/legacy/ports.rs
+//! |-- session-runtime/src/legacy/prompt.rs
 //! |-- session-runtime/src/legacy/template.rs
+//! |-- session-runtime/src/legacy/types.rs
 //! |-- session-runtime/tests/support/legacy.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expected strings are derived by hand from the baseline JS regex semantics.

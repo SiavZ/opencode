@@ -13,13 +13,19 @@
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- futures::try_join
-//! `-- serde_json::json
+//! |-- history::latest_compaction
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- source::initialize
+//! |-- source::reconcile
+//! `-- source::replace
 //! Used by:
 //! rust/crates/
 //! |-- context/src/lib.rs
 //! |-- context/tests/epoch.rs
 //! |-- context/tests/history.rs
-//! `-- context/tests/support/events.rs
+//! |-- context/tests/support/events.rs
+//! `-- session-runtime/src/runner/turn/attempt.rs
 //! Invariants: the snapshot advances only inside the ContextUpdated commit (event and snapshot are
 //! one transaction), the baseline text never changes outside replacement, `baseline_seq` is the
 //! aggregate's latest event seq at insert (or the compaction seq on post-compaction replacement).

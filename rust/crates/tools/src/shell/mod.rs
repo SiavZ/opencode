@@ -11,10 +11,14 @@
 //! |-- tools/src/shell/scan.rs
 //! `-- tools/src/shell/select.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/location_tools.rs
 //! |-- tools/src/lib.rs
+//! |-- tools/src/shell/core.rs
+//! |-- tools/src/shell/legacy.rs
 //! |-- tools/tests/shell_core.rs
 //! |-- tools/tests/shell_legacy.rs
 //! `-- tools/tests/shell_scan.rs

@@ -3,12 +3,15 @@
 //! Scope: pure request transform.
 //! Uses:
 //! rust/crates/
-//! `-- llm-api/src/lib.rs
+//! |-- llm-api/src/lib.rs
+//! `-- provider-adapters/src/route.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/protocols/anthropic/body.rs
+//! |-- provider-adapters/src/protocols/bedrock/body.rs
 //! `-- provider-adapters/src/route.rs
 //! Invariants: only routes `anthropic-messages` and `bedrock-converse` receive hints. Unset
 //! policy means `auto` (last tool, last system part, latest user message).

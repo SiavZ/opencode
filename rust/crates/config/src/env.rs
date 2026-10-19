@@ -5,13 +5,20 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- std::env
+//! `-- str::to_lowercase
 //! Used by:
+//! rust/bins/
+//! `-- opencode/src/serve.rs
 //! rust/crates/
 //! |-- config/src/current.rs
 //! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/parse.rs
+//! |-- config/src/legacy/remote.rs
+//! |-- config/src/legacy/steps.rs
+//! |-- config/src/legacy/update.rs
 //! |-- config/src/lib.rs
-//! `-- config/src/variable.rs
+//! |-- config/src/variable.rs
+//! `-- runtime/src/process.rs
 //! Invariants: flag parsing matches `packages/core/src/flag/flag.ts` (`truthy` = "true" | "1",
 //! case-insensitive); managed dir honours `OPENCODE_TEST_MANAGED_CONFIG_DIR` like `managed.ts:31`.
 //! Contract tests: config/tests/legacy_load.rs

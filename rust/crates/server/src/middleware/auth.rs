@@ -4,13 +4,30 @@
 //! Scope: per-request check, process-level config.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/errors.rs
 //! `-- server/src/middleware/errors.rs
 //! External:
+//! |-- axum::extract::Request
+//! |-- axum::extract::State
+//! |-- axum::http::Method::GET
+//! |-- axum::http::header::AUTHORIZATION
 //! |-- axum::middleware::Next
-//! `-- base64::Engine
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- base64::engine::general_purpose::STANDARD_NO_PAD
+//! |-- char::is_whitespace
+//! `-- form_urlencoded::parse
 //! Used by:
 //! rust/crates/
-//! `-- server/src/app.rs
+//! |-- runtime/src/process.rs
+//! |-- server/src/app.rs
+//! |-- server/src/middleware/mod.rs
+//! |-- server/tests/http_auth.rs
+//! |-- server/tests/http_cors.rs
+//! |-- server/tests/http_legacy.rs
+//! `-- server/tests/replay_baseline.rs
 //! Invariants: `auth_token` query wins over the Authorization header; malformed credentials are
 //! treated as empty; an empty or absent password disables enforcement; `/api/` rejections carry
 //! the tagged UnauthorizedError body, every other rejection is an empty 401; both carry

@@ -19,8 +19,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! rust/bins/
-//! `-- desktop/src/main.rs
+//! `-- none, entrypoint
 //! Invariants: no tauri dependency, module ownership is per child node (see contracts/phase-11/contract.md).
 //! Contract tests: desktop-host/tests/
 

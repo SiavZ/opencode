@@ -3,13 +3,16 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- std::collections::HashMap
-//! |-- std::hash::Hash
-//! |-- std::sync::{Arc, Mutex}
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- mpsc::error::TrySendError::Closed
+//! |-- mpsc::error::TrySendError::Full
 //! `-- tokio::sync::mpsc
 //! Used by:
 //! rust/crates/
-//! `-- desktop-host/src/bridge/dispatch.rs
+//! |-- desktop-host/src/bridge.rs
+//! `-- desktop-host/tests/bridge_subscriptions.rs
 //! Invariants: re-subscribing replaces previous, disposal is idempotent, window destruction disposes all sender subscriptions.
 //! Contract tests: desktop-host/tests/bridge_subscriptions.rs
 

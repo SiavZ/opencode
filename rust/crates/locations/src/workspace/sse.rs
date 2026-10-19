@@ -5,8 +5,11 @@
 //! rust/crates/
 //! `-- locations/src/error.rs
 //! External:
+//! |-- serde_json::Map::new
 //! |-- serde_json::Value
-//! `-- url::Url
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- locations/src/workspace/mod.rs

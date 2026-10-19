@@ -4,7 +4,11 @@
 //! rust/crates/
 //! `-- tools/src/files/replacers.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::json
+//! |-- serde_json::to_string
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests execute the real engine, no matching logic is duplicated in fixtures.

@@ -13,7 +13,11 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-10, consumers ui-web and ui-terminal)
+//! rust/crates/
+//! |-- view-model/tests/projection.rs
+//! |-- view-model/tests/reducer.rs
+//! |-- view-model/tests/session_cache.rs
+//! `-- view-model/tests/timeline.rs
 //! Invariants: never depends on server, runtime, session-runtime, storage or platform crates.
 //! Contract tests: view-model/tests/{reducer,projection,timeline,identity,session_cache}.rs
 //!

@@ -2,10 +2,17 @@
 //! target-neutral; native and browser adapters implement them behind cfg.
 //! Scope: request descriptor and response values only, adapters live in sibling modules.
 //! Uses:
-//! rust/crates/
-//! `-- client/src/errors.rs
+//! `-- none
 //! External:
-//! `-- url::Url
+//! |-- serde_json::Value
+//! |-- serde_json::Value::Array
+//! |-- serde_json::Value::Null
+//! |-- serde_json::Value::Object
+//! |-- serde_json::Value::String
+//! |-- url::ParseError
+//! |-- url::Url
+//! |-- url::UrlQuery
+//! `-- url::form_urlencoded::Serializer
 //! Used by:
 //! rust/crates/
 //! `-- client/src/lib.rs

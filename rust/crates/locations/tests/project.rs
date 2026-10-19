@@ -4,10 +4,15 @@
 //! Scope: live tests (real `git` in temp dirs, migrated in-memory SQLite). No fixtures.
 //! Uses:
 //! rust/crates/
+//! |-- locations/src/git.rs
 //! |-- locations/src/lib.rs
-//! `-- locations/tests/support/mod.rs
+//! |-- locations/src/ports.rs
+//! |-- locations/src/project.rs
+//! |-- locations/tests/support/mod.rs
+//! |-- schema/src/ids.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! `-- tokio
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every assertion names the baseline behavior it pins (core/src/project.ts,

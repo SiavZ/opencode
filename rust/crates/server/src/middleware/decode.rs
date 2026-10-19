@@ -4,12 +4,18 @@
 //! Uses:
 //! rust/crates/
 //! |-- protocol/src/ir.rs
-//! `-- protocol/src/operation.rs
+//! `-- protocol/src/lib.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- f64::NAN
+//! |-- form_urlencoded::parse
+//! |-- serde_json::Map
+//! |-- serde_json::Number::from_f64
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/streams.rs
+//! `-- server/src/middleware/mod.rs
 //! Invariants: unknown query keys and payload keys are ignored (Effect `onExcessProperty`
 //! default). Bracketed query keys (`location[directory]`) build nested objects for struct-typed
 //! query fields. `NumberFromString` fields decode to JSON numbers before checks run. An empty

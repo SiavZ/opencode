@@ -7,7 +7,10 @@
 //! rust/crates/
 //! |-- context/src/epoch.rs
 //! |-- llm-api/src/lib.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/provider.rs
 //! |-- schema/src/session_event.rs
+//! |-- schema/src/values.rs
 //! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/inbox.rs
 //! |-- session-runtime/src/projection.rs
@@ -16,11 +19,22 @@
 //! |-- session-runtime/src/runner/publish.rs
 //! |-- session-runtime/src/runner/turn.rs
 //! |-- session-runtime/src/runner/turn/request.rs
-//! `-- session-runtime/src/runner/turn/tools.rs
+//! |-- session-runtime/src/runner/turn/tools.rs
+//! `-- storage-api/src/lib.rs
 //! External:
+//! |-- epoch::initialize
+//! |-- epoch::latest_sequence
+//! |-- epoch::prepare
 //! |-- futures::StreamExt
+//! |-- inbox::promote_next_queued
+//! |-- inbox::promote_steers
+//! |-- request::RequestInput
+//! |-- request::build
+//! |-- request::entries
+//! |-- tokio::select
 //! |-- tokio::sync::Mutex
-//! `-- tokio_util::sync::CancellationToken
+//! |-- tokio_util::sync::CancellationToken
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
 //! `-- session-runtime/src/runner/turn.rs

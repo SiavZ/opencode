@@ -1,14 +1,16 @@
 //! Purpose: deep link validation, pending delivery and window routing.
 //! Scope: scheme validation, argv extraction, pending queue, consume_initial, routing, sink trait.
 //! Uses:
-//! rust/crates/
-//! `-- desktop-host/src/deeplinks.rs
+//! `-- none
 //! External:
-//! |-- url::Url
-//! `-- serde::{Serialize, Deserialize}
+//! |-- parking_lot::Mutex
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- url::Url
 //! Used by:
 //! rust/crates/
-//! `-- desktop-host/src/lib.rs
+//! |-- desktop-host/src/lib.rs
+//! `-- desktop-host/tests/deeplinks.rs
 //! Invariants: baseline ordering and duplicate behavior preserved exactly (pending is always appended, delivery is best-effort to focused window).
 //! Contract tests: desktop-host/tests/deeplinks.rs
 

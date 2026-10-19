@@ -14,11 +14,22 @@
 //! |-- codemode/src/run.rs
 //! |-- codemode/src/stdlib/mod.rs
 //! |-- codemode/src/tools/mod.rs
+//! |-- codemode/src/tools/schema.rs
+//! |-- codemode/src/value/convert.rs
 //! `-- codemode/src/value/mod.rs
 //! External:
-//! `-- none
+//! `-- serde_json::Value
 //! Used by:
-//! `-- none, reserved contract (owner: phase-07, consumed by integration-adapters and tools)
+//! rust/crates/
+//! |-- codemode/src/stdlib/array.rs
+//! |-- codemode/src/stdlib/regexp.rs
+//! |-- codemode/tests/codemode.rs
+//! |-- codemode/tests/common/mod.rs
+//! |-- codemode/tests/enumeration.rs
+//! |-- codemode/tests/openapi.rs
+//! |-- codemode/tests/promise.rs
+//! |-- codemode/tests/signature.rs
+//! `-- codemode/tests/stdlib.rs
 //! Invariants: portable (native + wasm32), no ambient process/network/filesystem access; host
 //! effects only flow through `ToolRun` implementations and the `openapi::HttpClient` capability.
 //! Contract tests: codemode/tests/codemode.rs, codemode/tests/parity.rs, codemode/tests/promise.rs,

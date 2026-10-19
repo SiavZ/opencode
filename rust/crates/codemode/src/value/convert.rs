@@ -4,15 +4,45 @@
 //! rust/crates/
 //! |-- codemode/src/error.rs
 //! |-- codemode/src/stdlib/date.rs
+//! |-- codemode/src/stdlib/url.rs
 //! |-- codemode/src/value/mod.rs
-//! |-- codemode/src/value/number.rs
-//! `-- codemode/src/value/object.rs
+//! `-- codemode/src/value/number.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- date::to_iso
+//! |-- f64::NAN
+//! |-- f64::from
+//! |-- number::format
+//! |-- number::parse_number
+//! |-- serde_json::Map::new
+//! |-- serde_json::Number::from_f64
+//! |-- serde_json::Value
+//! `-- u8::from
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/mod.rs
-//! `-- codemode/src/tools/runtime.rs
+//! |-- codemode/src/interp/call.rs
+//! |-- codemode/src/interp/collections.rs
+//! |-- codemode/src/interp/console.rs
+//! |-- codemode/src/interp/diagnose.rs
+//! |-- codemode/src/interp/expr.rs
+//! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/ops.rs
+//! |-- codemode/src/interp/patterns.rs
+//! |-- codemode/src/lib.rs
+//! |-- codemode/src/openapi/naming.rs
+//! |-- codemode/src/openapi/spec.rs
+//! |-- codemode/src/run.rs
+//! |-- codemode/src/stdlib/array.rs
+//! |-- codemode/src/stdlib/date.rs
+//! |-- codemode/src/stdlib/json.rs
+//! |-- codemode/src/stdlib/number.rs
+//! |-- codemode/src/stdlib/object.rs
+//! |-- codemode/src/stdlib/regexp.rs
+//! |-- codemode/src/stdlib/string.rs
+//! |-- codemode/src/stdlib/url.rs
+//! |-- codemode/src/stdlib/value.rs
+//! |-- codemode/src/tools/runtime.rs
+//! |-- codemode/src/tools/schema.rs
+//! `-- codemode/src/value/mod.rs
 //! Invariants: boundary mode never emits sandbox internals (Date/URL -> strings, other
 //! stdlib values -> {}); un-awaited promises are always rejected with an await hint.
 //! Contract tests: codemode/tests/parity.rs, codemode/tests/stdlib.rs, codemode/tests/promise.rs

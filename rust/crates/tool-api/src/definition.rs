@@ -3,10 +3,15 @@
 //! Scope: contract only.
 //! Uses:
 //! rust/crates/
+//! |-- permissions/src/lib.rs
 //! |-- tool-api/src/context.rs
 //! `-- tool-api/src/output.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- tool-api/src/lib.rs

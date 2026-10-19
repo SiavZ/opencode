@@ -4,10 +4,16 @@
 //! Scope: live tests of the real registry with a recording test bundle (no fixtures).
 //! Uses:
 //! rust/crates/
-//! `-- locations/src/lib.rs
+//! |-- locations/src/lib.rs
+//! |-- locations/src/ports.rs
+//! `-- schema/src/ids.rs
 //! External:
-//! |-- tokio
-//! `-- tracing
+//! |-- async_trait::async_trait
+//! |-- futures::FutureExt
+//! |-- futures::future::BoxFuture
+//! |-- futures::future::join_all
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every assertion names the baseline behavior (LayerMap/RcMap) it pins.

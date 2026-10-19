@@ -5,16 +5,24 @@
 //! Scope: process-level services shared by every streaming request.
 //! Uses:
 //! rust/crates/
-//! |-- event-api/src/store.rs
-//! `-- platform-api/src/pty.rs
+//! |-- event-api/src/lib.rs
+//! |-- platform-api/src/pty.rs
+//! `-- server/src/services/mod.rs
 //! External:
+//! |-- async_trait::async_trait
 //! |-- futures_util::stream::BoxStream
-//! `-- tokio_util::{sync::CancellationToken, task::TaskTracker}
+//! |-- serde_json::Value
+//! |-- tokio_util::sync::CancellationToken
+//! |-- tokio_util::task::TaskTracker
+//! |-- tokio_util::task::task_tracker::TaskTrackerToken
+//! `-- uuid::Uuid::new_v4
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/legacy.rs
 //! |-- server/src/handlers/streams.rs
 //! |-- server/src/services/mod.rs
-//! `-- server/src/transport/websocket.rs
+//! |-- server/tests/sse_events.rs
+//! `-- server/tests/ws_pty.rs
 //! Invariants: `EventSource` is blanket-implemented for every upstream `EventStore`, so hosts pass
 //! the real store. `all_bounded` overflow ends the subscriber with an error, never drops silently.
 //! `durable` registers its wake before reading history (event-api contract). Tickets expire after

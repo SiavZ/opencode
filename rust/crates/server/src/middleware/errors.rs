@@ -5,13 +5,30 @@
 //! rust/crates/
 //! `-- protocol/src/errors.rs
 //! External:
-//! |-- axum::response::{IntoResponse, Response}
-//! `-- uuid::Uuid
+//! |-- axum::http::HeaderValue
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- header::CONTENT_TYPE
+//! |-- header::WWW_AUTHENTICATE
+//! |-- serde::Serialize
+//! |-- serde_json::json
+//! |-- serde_json::to_vec
+//! |-- tracing::error
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
+//! |-- server/src/app.rs
 //! |-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/legacy.rs
+//! |-- server/src/handlers/mod.rs
 //! |-- server/src/handlers/session.rs
-//! `-- server/src/middleware/auth.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- server/src/middleware/auth.rs
+//! |-- server/src/middleware/legacy_routing.rs
+//! |-- server/src/middleware/location.rs
+//! `-- server/src/middleware/mod.rs
 //! Invariants: current routes answer `{"_tag":..}` with the declared status. Legacy schema
 //! rejections answer `{"name":"BadRequest","data":{message,kind}}`. Defects answer 500
 //! `{"name":"UnknownError","data":{"message":"Unexpected server error. Check server logs for details.","ref":"err_xxxxxxxx"}}`

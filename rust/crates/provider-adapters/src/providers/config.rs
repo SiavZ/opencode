@@ -5,15 +5,30 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
+//! |-- llm-api/src/options.rs
 //! |-- provider-adapters/src/auth.rs
-//! |-- provider-adapters/src/protocols/openai/mod.rs
+//! |-- provider-adapters/src/protocols/bedrock/mod.rs
 //! |-- provider-adapters/src/route.rs
 //! `-- provider-adapters/src/transport/mod.rs
 //! External:
+//! |-- fmt::Debug
+//! |-- fmt::Formatter
+//! |-- fmt::Result
 //! `-- futures::future::BoxFuture
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/providers/mod.rs
+//! |-- provider-adapters/src/providers/azure.rs
+//! |-- provider-adapters/src/providers/bedrock.rs
+//! |-- provider-adapters/src/providers/cloud.rs
+//! |-- provider-adapters/src/providers/compatible.rs
+//! |-- provider-adapters/src/providers/gateways.rs
+//! |-- provider-adapters/src/providers/inventory.rs
+//! |-- provider-adapters/src/providers/mod.rs
+//! |-- provider-adapters/src/providers/native.rs
+//! |-- provider-adapters/src/providers/openai.rs
+//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry_rules.rs
+//! `-- provider-adapters/tests/providers_support/mod.rs
 //! Invariants: env values are read at request time (`Auth.config`), never at configure time.
 //! Missing credentials fail with `Missing auth credential: <last source>`.
 //! Contract tests: provider-adapters/tests/providers_facades.rs

@@ -6,15 +6,30 @@
 //! rust/crates/
 //! |-- config/src/error.rs
 //! |-- config/src/fs.rs
+//! |-- config/src/jsonc/mod.rs
+//! |-- config/src/schema/mod.rs
 //! |-- config/src/schema/v1.rs
 //! `-- config/src/variable.rs
 //! External:
-//! |-- serde_json::{Map, Value}
-//! `-- yaml_rust2::{Yaml, YamlLoader}
+//! |-- char::is_whitespace
+//! |-- fs::glob
+//! |-- fs::read_safe
+//! |-- fs::relative_slash
+//! |-- schema::decode
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- str::to_string
+//! |-- v1::agent
+//! |-- v1::command
+//! |-- variable::js_trim
+//! |-- yaml_rust2::Yaml
+//! `-- yaml_rust2::YamlLoader
 //! Used by:
 //! rust/crates/
 //! |-- config/src/legacy/load.rs
-//! `-- config/src/plugins.rs
+//! |-- config/src/legacy/mod.rs
+//! |-- config/src/resources.rs
+//! `-- config/tests/markdown.rs
 //! Invariants: entry names strip the anchored `agent/`/`agents/`/`mode/`/`modes/`/`command/`/
 //! `commands/` prefix of the path relative to the scanned dir (#25713); invalid agent markdown
 //! fails with `ConfigInvalidError`, invalid modes are skipped, unparseable files are skipped.

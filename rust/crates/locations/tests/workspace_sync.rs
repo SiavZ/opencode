@@ -5,11 +5,22 @@
 //! standing in for the Phase 06 HTTP/SSE client.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
 //! |-- locations/src/lib.rs
-//! `-- locations/tests/support/mod.rs
+//! |-- locations/src/workspace/mod.rs
+//! |-- locations/tests/support/mod.rs
+//! `-- locations/tests/support/workspace.rs
 //! External:
-//! |-- opencode_event_store::SqlEventStore
-//! `-- tokio
+//! |-- async_trait::async_trait
+//! |-- futures::stream::BoxStream
+//! |-- futures::stream::iter
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- tokio::test
+//! |-- tokio::time::timeout
+//! `-- tokio_util::sync::CancellationToken::new
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every assertion names the baseline behavior it pins (control-plane/workspace.ts).

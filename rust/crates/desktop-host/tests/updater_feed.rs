@@ -4,16 +4,32 @@
 //! rust/crates/
 //! `-- desktop-host/src/updater.rs
 //! External:
-//! |-- axum::{Router, response::Response}
+//! |-- axum::Router
+//! |-- axum::body::Body
+//! |-- axum::http::StatusCode
+//! |-- axum::response::Redirect::temporary
+//! |-- axum::response::Response
+//! |-- axum::routing::get
+//! |-- axum::serve
 //! |-- base64::Engine
-//! |-- futures::stream
-//! |-- minisign::{KeyPair, sign}
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- futures::stream::iter
+//! |-- minisign::KeyPair::generate_unencrypted_keypair
+//! |-- minisign::sign
 //! |-- parking_lot::Mutex
-//! |-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
 //! |-- tempfile::TempDir
-//! |-- tokio::{net::TcpListener, task::JoinHandle}
+//! |-- tempfile::tempdir
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::test
+//! |-- tokio::time::sleep
 //! |-- tokio_util::sync::CancellationToken
-//! `-- url::Url
+//! |-- url::Url
+//! `-- url::Url::parse
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: server is shut down and joined, generated test secrets exist only in a tempdir.

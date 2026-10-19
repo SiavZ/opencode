@@ -4,14 +4,20 @@
 //! Scope: per-connection task.
 //! Uses:
 //! rust/crates/
-//! |-- platform-api/src/pty.rs
-//! `-- server/src/services/streams.rs
+//! `-- platform-api/src/pty.rs
 //! External:
-//! |-- axum::extract::ws::{Message, WebSocket}
+//! |-- axum::extract::ws::CloseFrame
+//! |-- axum::extract::ws::Message
+//! |-- axum::extract::ws::WebSocket
+//! |-- futures_util::SinkExt
+//! |-- futures_util::StreamExt
+//! |-- tokio::select
+//! |-- tokio::time::timeout
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
-//! `-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams.rs
+//! `-- server/src/transport/mod.rs
 //! Invariants: one writer keeps order replay chunks (text, 64Ki UTF-16 units each), then the
 //! binary meta frame `0x00 + {"cursor":N}`, then live output, then close 1000 on PTY end. Inbound
 //! text and valid UTF-8 binary go to the PTY; invalid UTF-8 is dropped. The attachment is always

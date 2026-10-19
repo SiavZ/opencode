@@ -13,11 +13,23 @@
 //! |-- integration-adapters/src/mcp/jsonrpc.rs
 //! |-- integration-adapters/src/mcp/oauth_callback.rs
 //! |-- integration-adapters/src/mcp/stdio.rs
+//! |-- integration-adapters/src/mcp/transport.rs
 //! |-- integration-api/src/error.rs
 //! `-- integration-api/src/mcp.rs
 //! External:
+//! |-- catalog::keyed
 //! |-- futures::future::join_all
-//! `-- tokio::sync::OnceCell
+//! |-- nix::sys::signal::Signal::SIGTERM
+//! |-- reqwest::Client
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::OnceCell
+//! |-- tokio::sync::OnceCell::new
+//! |-- tokio::task::JoinHandle
+//! |-- tracing::error
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/mod.rs

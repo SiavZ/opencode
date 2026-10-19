@@ -2,14 +2,15 @@
 //! Scope: repository transaction.
 //! Uses:
 //! rust/crates/
-//! |-- desktop-host/src/bridge/catalog.rs
-//! `-- desktop-host/src/bridge.rs
+//! `-- desktop-host/src/bridge/catalog.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! |-- serde_json::to_string
 //! `-- thiserror::Error
 //! Used by:
 //! rust/crates/
-//! `-- desktop-host/src/lib.rs
+//! |-- desktop-host/src/bridge.rs
+//! `-- desktop-host/tests/bridge_dispatch.rs
 //! Invariants: dispatcher enforces payload size and origin before decoding.
 //! Contract tests: desktop-host/tests/bridge_dispatch.rs
 

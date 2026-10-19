@@ -4,10 +4,10 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
-//! |-- storage-api/src/records/codec.rs
 //! `-- storage-api/src/records/mod.rs
 //! Invariants: `Debug` prints `Secret([REDACTED])`, never the value. Serialization is transparent so the
 //! stored bytes equal the TS encoding.

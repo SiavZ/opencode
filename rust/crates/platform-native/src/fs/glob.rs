@@ -4,14 +4,19 @@
 //! Scope: blocking directory walk, callers run it on the blocking pool.
 //! Uses:
 //! rust/crates/
+//! |-- platform-api/src/lib.rs
 //! `-- platform-native/src/fs/error.rs
 //! External:
 //! |-- globset::GlobBuilder
-//! `-- walkdir::WalkDir
+//! |-- globset::GlobMatcher
+//! |-- usize::MAX
+//! `-- walkdir::WalkDir::new
 //! Used by:
 //! rust/crates/
+//! |-- platform-native/src/fs/ignore.rs
 //! |-- platform-native/src/fs/mod.rs
-//! `-- platform-native/src/fs/native.rs
+//! |-- platform-native/src/fs/native.rs
+//! `-- platform-native/src/fs/watcher.rs
 //! Invariants: `*` never crosses `/`; without `dot`, components starting with `.` match only when
 //! the pattern component itself starts with `.`; results are sorted for determinism (node-glob
 //! order is unspecified); symlink cycles are skipped, not fatal.

@@ -4,18 +4,36 @@
 //! Scope: one (server, root) process. Diagnostic pull/wait logic lives in diagnostics.rs.
 //! Uses:
 //! rust/crates/
-//! |-- integration-adapters/src/lsp/diagnostics.rs
 //! |-- integration-adapters/src/lsp/jsonrpc.rs
 //! |-- integration-adapters/src/lsp/text.rs
-//! `-- integration-api/src/language.rs
+//! |-- integration-api/src/language.rs
+//! `-- integration-api/src/lib.rs
 //! External:
-//! |-- serde_json::{Map, Value, json}
+//! |-- broadcast::Sender
+//! |-- broadcast::channel
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- tokio::fs::read_to_string
+//! |-- tokio::io::AsyncReadExt
+//! |-- tokio::io::BufReader
 //! |-- tokio::process::Child
-//! `-- tokio::sync::{broadcast, watch}
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::Mutex::new
+//! |-- tokio::sync::broadcast
+//! |-- tokio::sync::watch
+//! |-- tokio::task::JoinSet
+//! |-- tracing::debug
+//! |-- watch::Sender
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
-//! |-- integration-adapters/src/lsp/service.rs
-//! `-- integration-adapters/tests/lsp_client.rs
+//! |-- integration-adapters/src/lsp/diagnostics.rs
+//! |-- integration-adapters/src/lsp/launch.rs
+//! |-- integration-adapters/src/lsp/mod.rs
+//! |-- integration-adapters/src/lsp/requests.rs
+//! `-- integration-adapters/src/lsp/service.rs
 //! Invariants: didOpen is version 0 and clears cached diagnostics, every re-open bumps the version
 //! by one and sends didChange, incremental sync replaces the whole previous text range in UTF-16
 //! units, shutdown kills and waits for the process and joins the reader and stderr tasks.

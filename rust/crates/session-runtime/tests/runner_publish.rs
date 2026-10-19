@@ -5,11 +5,14 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/event.rs
+//! |-- llm-api/src/ids.rs
 //! |-- session-runtime/src/runner/publish.rs
 //! |-- session-runtime/tests/support/publish.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! `-- serde_json::json
+//! |-- f64::NAN
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expectations follow packages/core/src/session/runner/publish-llm-event.ts and

@@ -9,12 +9,14 @@
 //! |-- integration-adapters/src/lsp/launch.rs
 //! |-- integration-adapters/src/lsp/resolve.rs
 //! |-- integration-adapters/src/lsp/roots.rs
-//! `-- integration-api/src/error.rs
+//! `-- integration-api/src/lib.rs
 //! External:
 //! |-- regex::Regex
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/lsp/mod.rs
 //! `-- integration-adapters/src/lsp/resolve.rs
 //! Invariants: installers run only when the prerequisite tool exists and downloads are enabled,
 //! write only into `LaunchEnv::bin_dir` (or dotnet's own global tool dir for roslyn, as baseline),

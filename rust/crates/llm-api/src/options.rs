@@ -6,13 +6,20 @@
 //! `-- llm-api/src/ids.rs
 //! External:
 //! |-- indexmap::IndexMap
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
 //! |-- llm-api/src/message.rs
-//! `-- llm-api/src/route.rs
+//! |-- llm-api/src/route.rs
+//! |-- llm-api/tests/contract.rs
+//! |-- provider-adapters/src/providers/config.rs
+//! |-- provider-adapters/src/providers/openai.rs
+//! |-- provider-adapters/src/providers/transform.rs
+//! `-- provider-adapters/src/route.rs
 //! Invariants: merge semantics mirror packages/llm/src/schema/options.ts
 //! (`mergeJsonRecords` deep-merges objects, later wins, undefined skipped, empty -> None).
 //! Contract tests: llm-api/tests/contract.rs

@@ -3,9 +3,14 @@
 //! Scope: fixture tools through the public registry API.
 //! Uses:
 //! rust/crates/
-//! `-- tool-api/src/registry.rs
+//! |-- permissions/src/lib.rs
+//! `-- tool-api/src/lib.rs
 //! External:
-//! `-- tokio
+//! |-- async_trait::async_trait
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::test
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: none.

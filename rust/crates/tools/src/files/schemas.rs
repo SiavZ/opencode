@@ -4,10 +4,17 @@
 //! rust/crates/
 //! `-- tools/src/files/common.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/files/mod.rs
+//! |-- tools/src/files/edit.rs
+//! |-- tools/src/files/edit_legacy.rs
+//! |-- tools/src/files/mod.rs
+//! |-- tools/src/files/read_core.rs
+//! |-- tools/src/files/read_legacy.rs
+//! |-- tools/src/files/write.rs
+//! `-- tools/tests/files_contract.rs
 //! Invariants: legacy descriptions are byte-identical to baseline text files.
 //! Contract tests: tools/tests/files_contract.rs
 

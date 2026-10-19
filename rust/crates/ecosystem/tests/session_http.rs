@@ -5,8 +5,19 @@
 //! rust/crates/
 //! `-- ecosystem/src/session.rs
 //! External:
-//! |-- axum::{Router, routing}
-//! `-- tokio::net::TcpListener
+//! |-- axum::Json
+//! |-- axum::Router
+//! |-- axum::extract::Path
+//! |-- axum::http::StatusCode::BAD_REQUEST
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- axum::serve
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: wire bodies match the baseline SDK shapes.

@@ -6,12 +6,20 @@
 //! rust/crates/
 //! |-- config/src/error.rs
 //! |-- config/src/legacy/compat_mcp.rs
+//! |-- config/src/schema/mod.rs
 //! `-- config/src/schema/v1.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- schema::array
+//! |-- schema::decode
+//! |-- schema::is_valid
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
-//! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/compat_mcp.rs
+//! |-- config/src/legacy/mod.rs
+//! |-- config/src/legacy/parse.rs
 //! `-- config/src/legacy/update.rs
 //! Invariants: never mutates its input; existing V1 keys win over native ones and report
 //! `conflict` diagnostics when they differ; diagnostics never include values.

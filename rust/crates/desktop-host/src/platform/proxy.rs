@@ -4,12 +4,24 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- reqwest::{Client, NoProxy, Proxy}
-//! `-- std::collections::BTreeMap
+//! |-- reqwest::Client
+//! |-- reqwest::Client::builder
+//! |-- reqwest::Error
+//! |-- reqwest::NoProxy::from_string
+//! |-- reqwest::Proxy::http
+//! |-- reqwest::Proxy::https
+//! |-- str::to_string
+//! `-- str::trim
 //! Used by:
 //! rust/crates/
-//! |-- desktop-host/src/connections/health.rs
+//! |-- desktop-host/src/connections/background_cli.rs
+//! |-- desktop-host/src/connections/child.rs
 //! |-- desktop-host/src/connections/sidecar.rs
+//! |-- desktop-host/src/platform/mod.rs
+//! |-- desktop-host/src/platform/shell_env.rs
+//! |-- desktop-host/src/platform/wsl/sidecar.rs
+//! |-- desktop-host/tests/connections.rs
+//! |-- desktop-host/tests/connections_live.rs
 //! `-- desktop-host/tests/platform.rs
 //! Invariants: loopback hosts are appended once (case-insensitive) to both NO_PROXY and no_proxy,
 //! existing entries keep their order; lowercase proxy vars win over uppercase (undici EnvHttpProxyAgent).

@@ -7,7 +7,7 @@
 //! External:
 //! `-- serde_json::json
 //! Used by:
-//! `-- none, test entrypoint
+//! `-- none, entrypoint
 //! Invariants: auth rejections, oversize rejection, args decode for representative channels.
 //! Contract tests: this file
 

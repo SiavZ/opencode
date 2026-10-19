@@ -5,14 +5,61 @@
 //! Uses:
 //! rust/crates/
 //! |-- schema/src/identifier.rs
-//! `-- schema/src/macros.rs
+//! `-- schema/src/lib.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- thiserror::Error
+//! |-- identifier::create
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::de::Error::custom
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
+//! |-- locations/src/ports.rs
+//! |-- locations/src/project.rs
+//! |-- locations/src/project_store.rs
+//! |-- locations/src/workspace/mod.rs
+//! |-- locations/src/workspace/worktree.rs
+//! |-- locations/tests/project.rs
+//! |-- locations/tests/registry.rs
+//! |-- locations/tests/registry_log.rs
+//! |-- provider-adapters/src/catalog/cache.rs
+//! |-- provider-adapters/src/catalog/mod.rs
+//! |-- provider-adapters/src/credentials/mod.rs
+//! |-- provider-adapters/tests/catalog.rs
+//! |-- provider-adapters/tests/credentials_store.rs
+//! |-- runtime/src/legacy.rs
+//! |-- runtime/src/location_agents.rs
+//! |-- runtime/src/location_models.rs
+//! |-- schema/src/agent.rs
+//! |-- schema/src/event.rs
+//! |-- schema/src/integration.rs
 //! |-- schema/src/lib.rs
-//! `-- schema/src/project.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/misc_event.rs
+//! |-- schema/src/permission.rs
+//! |-- schema/src/project.rs
+//! |-- schema/src/provider.rs
+//! |-- schema/src/pty.rs
+//! |-- schema/src/question.rs
+//! |-- schema/src/revert.rs
+//! |-- schema/src/session.rs
+//! |-- schema/src/session_aux_event.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/session_event/stream.rs
+//! |-- schema/src/session_input.rs
+//! |-- schema/src/session_message.rs
+//! |-- schema/src/workspace.rs
+//! |-- schema/tests/schema_domains_project.rs
+//! |-- schema/tests/schema_domains_pty.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- server/src/middleware/legacy_routing.rs
+//! |-- server/src/middleware/location.rs
+//! |-- session-api/src/ids.rs
+//! |-- session-runtime/src/legacy/types.rs
+//! |-- session-runtime/src/runner/model.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! `-- session-runtime/tests/runner_model_location.rs
 //! Invariants: prefix checks match `isStartsWith` exactly (some without underscore, e.g.
 //! `ses`, `per`, `que`, `pty`, `wrk`; some with, e.g. `evt_`, `msg_`). Brands without a
 //! check accept any string. Generated IDs use the baseline prefix and direction.

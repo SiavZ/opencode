@@ -9,13 +9,29 @@
 //! |-- config/src/legacy/markdown.rs
 //! |-- config/src/legacy/plugin.rs
 //! |-- config/src/migrate.rs
-//! |-- config/src/schema/v2.rs
+//! |-- config/src/schema/mod.rs
+//! |-- config/src/variable.rs
 //! `-- platform-api/src/path.rs
 //! External:
-//! `-- serde_json::{Map, Value, json}
+//! |-- char::is_whitespace
+//! |-- fs::glob
+//! |-- fs::read_safe
+//! |-- fs::relative_slash
+//! |-- markdown::parse
+//! |-- migrate::migrate_agent
+//! |-- plugin::discover
+//! |-- schema::decode
+//! |-- schema::v1::agent
+//! |-- schema::v2::info
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_string
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
-//! `-- config/src/lib.rs
+//! |-- config/src/lib.rs
+//! `-- config/tests/legacy_update.rs
 //! Invariants: directory entries expand in place (agent/command markdown documents keep their
 //! priority slot); unparseable markdown is skipped; references with invalid aliases are dropped;
 //! path permissions expand `~`/`$HOME` only for path actions.

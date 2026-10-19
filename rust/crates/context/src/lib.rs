@@ -11,7 +11,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-04, consumed by session-runtime)
+//! `-- none, entrypoint
 //! Invariants: unavailable source is not removal; duplicate keys are rejected.
 //! Contract tests: context/tests/
 // Module list is parent-owned (p04).

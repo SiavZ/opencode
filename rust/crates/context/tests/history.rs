@@ -9,9 +9,19 @@
 //! |-- event-api/src/lib.rs
 //! `-- storage-api/src/lib.rs
 //! External:
+//! |-- epoch::CONTEXT_UPDATED
+//! |-- epoch::find
+//! |-- epoch::prepare
 //! |-- futures::FutureExt
+//! |-- futures::future::pending
+//! |-- history::MessageRow
+//! |-- history::load
+//! |-- history::message_rows
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
 //! |-- serde_json::json
 //! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
 //! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint

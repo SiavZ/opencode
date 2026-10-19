@@ -15,12 +15,11 @@
 //! |-- integration-api/src/error.rs
 //! `-- integration-api/src/mcp.rs
 //! External:
-//! `-- none
+//! |-- catalog::defs
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
-//! |-- integration-adapters/src/mcp/mod.rs
-//! |-- integration-adapters/src/mcp/service.rs
-//! `-- integration-adapters/src/mcp/service_api.rs
+//! `-- integration-adapters/src/mcp/mod.rs
 //! Invariants: the oauth state is generated (32 random bytes hex) and stored before the
 //! authorization URL is built; the callback wait is registered before the browser opens; a
 //! returned code is only exchanged when the stored state still matches.

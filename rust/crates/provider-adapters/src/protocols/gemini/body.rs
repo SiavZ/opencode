@@ -11,6 +11,7 @@
 //! |-- provider-adapters/src/shared.rs
 //! `-- provider-adapters/src/tool_schema.rs
 //! External:
+//! |-- serde_json::Map
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/

@@ -4,9 +4,9 @@
 //! rust/crates/
 //! `-- desktop-host/src/deeplinks.rs
 //! External:
-//! `-- none
+//! `-- parking_lot::Mutex
 //! Used by:
-//! `-- none, contract tests for deeplinks module
+//! `-- none, entrypoint
 //! Invariants: tests exercise the real public API through fixture sinks.
 //! Contract tests: this file.
 

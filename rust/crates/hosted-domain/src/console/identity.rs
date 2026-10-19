@@ -8,10 +8,21 @@
 //! |-- hosted-domain/src/console/identity/session.rs
 //! `-- hosted-domain/src/console/identity/tests.rs
 //! External:
-//! `-- url::Url
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! |-- serde_json::Value::Null
+//! |-- serde_json::Value::String
+//! |-- str::to_string
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- hosted-adapters/src/console/auth.rs
+//! |-- hosted-adapters/src/console/auth/issuer.rs
+//! |-- hosted-adapters/src/console/tenant/account.rs
+//! |-- hosted-adapters/tests/console_identity.rs
+//! |-- hosted-adapters/tests/console_identity_auth.rs
+//! |-- hosted-domain/src/console/identity/tests.rs
 //! `-- hosted-domain/src/console/mod.rs
 //! Invariants: allowlist equals `packages/console/function/src/auth-redirect.ts:1-18`; provider
 //! match wins over email match (`function/src/auth.ts:174-176`); migrated workspaces redirect

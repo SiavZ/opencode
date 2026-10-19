@@ -5,14 +5,18 @@
 //! suites) plus an opt-in live TypeScript differential oracle.
 //! Uses:
 //! rust/crates/
-//! |-- tools/src/files/common.rs
+//! |-- tools/src/files/mod.rs
 //! |-- tools/src/files/patch.rs
+//! |-- tools/src/files/patch_derive.rs
+//! |-- tools/src/files/patch_parse.rs
 //! |-- tools/tests/files_patch/content.rs
 //! `-- tools/tests/files_patch/live.rs
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, entrypoint
+//! rust/crates/
+//! |-- tools/tests/files_patch/content.rs
+//! `-- tools/tests/files_patch/live.rs
 //! Invariants: tests execute the real engine, filesystem orchestration is out of scope here.
 //! Contract tests: this integration suite
 

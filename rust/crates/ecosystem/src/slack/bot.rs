@@ -9,11 +9,18 @@
 //! |-- ecosystem/src/slack/socket.rs
 //! `-- ecosystem/src/slack/thread.rs
 //! External:
-//! |-- tokio::{sync::mpsc, task::JoinSet}
-//! |-- tokio_util::sync::CancellationToken
-//! `-- tracing::warn
+//! |-- mpsc::channel
+//! |-- output::TEST_RESPONSE
+//! |-- socket::run
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc
+//! |-- tokio::task::JoinSet
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
-//! `-- none, reserved contract (owner: phase-14, hosted Slack composition)
+//! rust/crates/
+//! |-- ecosystem/src/slack/mod.rs
+//! `-- ecosystem/tests/slack_bot.rs
 //! Invariants: socket ACK never awaits session work, workers/queues are bounded, raw
 //! message bodies and provider responses are never logged. Caller owns SessionPort host.
 //! Contract tests: ecosystem/tests/slack_bot.rs, ecosystem/tests/slack_socket.rs

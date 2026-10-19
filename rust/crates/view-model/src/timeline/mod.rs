@@ -5,6 +5,7 @@
 //! Uses:
 //! rust/crates/
 //! |-- view-model/src/projection/mod.rs
+//! |-- view-model/src/source.rs
 //! |-- view-model/src/timeline/reconcile.rs
 //! |-- view-model/src/timeline/row.rs
 //! `-- view-model/src/timeline/text.rs
@@ -13,6 +14,8 @@
 //! Used by:
 //! rust/crates/
 //! |-- view-model/src/lib.rs
+//! |-- view-model/src/session_cache.rs
+//! |-- view-model/tests/session_cache.rs
 //! `-- view-model/tests/timeline.rs
 //! Invariants: row keys match `TimelineRow.key` byte for byte; context tools read/glob/grep/list
 //! collapse into one `context:${firstPartID}` group; `todowrite` is hidden; running/pending

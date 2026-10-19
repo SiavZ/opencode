@@ -3,10 +3,19 @@
 //! Scope: integration tests through the public crate API.
 //! Uses:
 //! rust/crates/
-//! `-- llm-api/src/lib.rs
+//! |-- llm-api/src/error.rs
+//! |-- llm-api/src/event.rs
+//! |-- llm-api/src/lib.rs
+//! `-- llm-api/src/options.rs
 //! External:
-//! |-- futures::{executor, stream}
-//! `-- serde_json::json
+//! |-- futures::executor::block_on
+//! |-- futures::stream
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- serde_json::to_string
+//! |-- serde_json::to_value
+//! `-- stream::iter
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expected JSON literals are transcribed from packages/llm/src/schema shapes.

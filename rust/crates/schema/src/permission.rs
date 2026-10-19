@@ -6,12 +6,16 @@
 //! |-- schema/src/ids.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/location_agents.rs
+//! |-- runtime/src/location_tools.rs
 //! |-- schema/src/agent.rs
 //! |-- schema/src/lib.rs
-//! `-- schema/tests/schema_domains_permission.rs
+//! |-- schema/tests/schema_domains_permission.rs
+//! `-- session-runtime/src/runner/ports.rs
 //! Invariants: declaration order matches baseline JSON, optional fields omit absence and reject null.
 //! Contract tests: schema/tests/schema_domains_permission.rs
 

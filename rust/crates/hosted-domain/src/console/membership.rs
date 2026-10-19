@@ -6,10 +6,16 @@
 //! rust/crates/
 //! `-- hosted-domain/src/console/common.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- char::is_whitespace
+//! |-- i64::MAX
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- str::trim
 //! Used by:
 //! rust/crates/
-//! |-- hosted-adapters/src/console/tenant.rs
+//! |-- hosted-adapters/src/console/tenant/member.rs
+//! |-- hosted-adapters/src/console/tenant/workspace.rs
+//! |-- hosted-adapters/tests/console_identity.rs
 //! `-- hosted-domain/src/console/mod.rs
 //! Invariants: messages equal the baseline thrown errors (`core/src/user.ts:18-21`,
 //! `core/src/actor.ts:70-73`); regions are `us|eu|sg|cn`, CN country adds `cn`

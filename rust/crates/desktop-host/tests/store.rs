@@ -2,10 +2,12 @@
 //! Scope: integration test through `opencode_desktop_host::store::StoreRegistry`.
 //! Uses:
 //! rust/crates/
-//! |-- desktop-host/src/store.rs
-//! `-- desktop-host/src/store/keys.rs
+//! `-- desktop-host/src/store.rs
 //! External:
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
 //! |-- serde_json::json
+//! |-- tempfile::TempDir
 //! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint

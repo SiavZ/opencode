@@ -4,9 +4,14 @@
 //! Uses:
 //! rust/crates/
 //! |-- server/src/app.rs
+//! |-- server/src/lifecycle.rs
+//! |-- server/src/middleware/auth.rs
+//! |-- server/src/middleware/cors.rs
 //! `-- server/tests/support/mod.rs
 //! External:
-//! `-- reqwest::Client
+//! |-- app::router
+//! |-- reqwest::Method::OPTIONS
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: preflight answers 204 before auth; disallowed origins get no allow-origin.

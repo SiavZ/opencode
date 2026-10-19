@@ -7,11 +7,43 @@
 //! |-- schema/src/location.rs
 //! `-- schema/src/values.rs
 //! External:
+//! |-- de::Error::custom
 //! |-- indexmap::IndexMap
-//! `-- serde::{Deserialize, Serialize}
+//! |-- location::Ref
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::Serializer
+//! |-- serde::de::DeserializeOwned
+//! |-- serde::de::self
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- schema/src/filesystem.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/misc_event.rs
+//! |-- schema/src/permission.rs
+//! |-- schema/src/project.rs
+//! |-- schema/src/pty.rs
+//! |-- schema/src/question.rs
+//! |-- schema/src/reference.rs
+//! |-- schema/src/session_aux_event.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/session_event/stream.rs
+//! |-- schema/src/workspace.rs
+//! |-- schema/tests/schema_domains_filesystem.rs
+//! |-- schema/tests/schema_domains_misc.rs
+//! |-- schema/tests/schema_domains_permission.rs
+//! |-- schema/tests/schema_domains_project.rs
+//! |-- schema/tests/schema_domains_pty.rs
+//! |-- schema/tests/schema_domains_question.rs
+//! |-- schema/tests/schema_domains_reference.rs
+//! |-- schema/tests/schema_domains_workspace.rs
+//! |-- schema/tests/schema_session.rs
+//! |-- session-runtime/src/projection.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! |-- session-runtime/src/service.rs
+//! `-- session-runtime/src/todo.rs
 //! Invariants: envelope key order is `id, metadata, type, durable, location, data` (the
 //! baseline Struct order); optional keys are omitted; `type` must equal the definition type.
 //! `latest` keeps the highest durable version and errors on duplicate non-versioned types;

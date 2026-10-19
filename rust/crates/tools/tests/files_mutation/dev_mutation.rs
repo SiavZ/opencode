@@ -4,9 +4,11 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
+//! |-- platform-api/src/lib.rs
 //! `-- tools/tests/files_mutation/support.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! `-- tokio::sync::Mutex
 //! Used by:
 //! rust/crates/
 //! `-- tools/tests/files_mutation/support.rs

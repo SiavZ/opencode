@@ -8,9 +8,13 @@
 //! |-- desktop-host/src/platform/proxy.rs
 //! `-- desktop-host/src/platform/shell_env.rs
 //! External:
-//! |-- axum::Router
+//! |-- axum::Router::new
+//! |-- axum::http::StatusCode::from_u16
+//! |-- axum::serve
 //! |-- tempfile::tempdir
-//! `-- tokio
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never opens real user-visible apps or files; probes run against temp scripts.

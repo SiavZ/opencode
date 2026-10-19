@@ -3,10 +3,12 @@
 //! and `packages/app/src/utils/comment-note.ts:65-90` (`parseCommentNote`).
 //! Scope: pure string functions.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- str::to_owned
+//! `-- str::trim_start
 //! Used by:
 //! rust/crates/
 //! |-- view-model/src/timeline/mod.rs

@@ -5,7 +5,10 @@
 //! `-- none
 //! External:
 //! |-- async_trait::async_trait
-//! `-- tokio::process::Command
+//! |-- tokio::process::Command::new
+//! |-- tokio::spawn
+//! |-- tokio::time::timeout
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/mod.rs

@@ -8,11 +8,16 @@
 //! |-- codemode/src/tools/render.rs
 //! `-- codemode/src/value/convert.rs
 //! External:
-//! |-- serde_json::{Map, Value}
-//! `-- url::Url
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/openapi/mod.rs
+//! |-- codemode/src/openapi/mod.rs
+//! |-- codemode/src/openapi/naming.rs
+//! |-- codemode/src/openapi/responses.rs
+//! `-- codemode/src/openapi/security.rs
 //! Invariants: lookups keyed by spec- or model-controlled names never read inherited values;
 //! unrepresentable operations produce a reason instead of a tool.
 //! Contract tests: codemode/tests/openapi.rs

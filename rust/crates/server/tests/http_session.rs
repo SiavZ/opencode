@@ -3,10 +3,12 @@
 //! Scope: live local listener, fixture `SessionService` (not a production adapter).
 //! Uses:
 //! rust/crates/
-//! |-- server/src/app.rs
+//! |-- server/src/lifecycle.rs
 //! `-- server/tests/support/mod.rs
 //! External:
-//! `-- reqwest::Client
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-based; real Session behavior is covered by Phase 04 tests.

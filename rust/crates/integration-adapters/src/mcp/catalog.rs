@@ -9,11 +9,18 @@
 //! |-- integration-adapters/src/mcp/jsonrpc.rs
 //! `-- integration-api/src/mcp.rs
 //! External:
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/mcp/connect.rs
 //! |-- integration-adapters/src/mcp/mod.rs
-//! `-- integration-adapters/src/mcp/service.rs
+//! |-- integration-adapters/src/mcp/service.rs
+//! |-- integration-adapters/src/mcp/service_api.rs
+//! |-- integration-adapters/src/mcp/service_auth.rs
+//! `-- integration-adapters/tests/mcp_stdio.rs
 //! Invariants: `tool_name` = sanitize(client) + "_" + sanitize(tool); resource keys escape `%`
 //! and `:` in the client name; tool output validators only apply to tools whose outputSchema
 //! survived listing (SDK behavior).

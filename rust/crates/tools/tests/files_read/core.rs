@@ -3,10 +3,17 @@
 //! Scope: live temp-directory files through `CoreReadTool::execute`.
 //! Uses:
 //! rust/crates/
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/read_core.rs
+//! |-- tools/src/files/read_files.rs
 //! `-- tools/tests/files_read/support.rs
 //! External:
-//! `-- serde_json::json
+//! |-- async_trait::async_trait
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! rust/crates/
 //! `-- tools/tests/files_read.rs

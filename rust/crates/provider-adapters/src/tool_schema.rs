@@ -4,12 +4,19 @@
 //! Scope: pure JSON transforms.
 //! Uses:
 //! rust/crates/
-//! `-- llm-api/src/lib.rs
+//! |-- llm-api/src/lib.rs
+//! `-- provider-adapters/src/shared.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/protocols/anthropic/body.rs
+//! |-- provider-adapters/src/protocols/bedrock/body.rs
+//! |-- provider-adapters/src/protocols/gemini/body.rs
+//! `-- provider-adapters/src/protocols/openai/wire.rs
 //! Invariants: key order follows the baseline object construction order. Inputs are never mutated.
 //! Contract tests: provider-adapters/src/tool_schema.rs (unit tests, cases from packages/llm/test/tool-schema-projection.test.ts)
 

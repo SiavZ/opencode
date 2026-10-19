@@ -6,10 +6,14 @@
 //! `-- none
 //! External:
 //! |-- getrandom::fill
-//! `-- std::sync::Mutex
+//! |-- str::len
+//! `-- u64::from_str_radix
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- context/src/epoch.rs
+//! |-- schema/src/ids.rs
+//! |-- schema/src/lib.rs
+//! `-- session-runtime/src/background.rs
 //! Invariants: 12 lowercase hex chars encode the low 48 bits of `timestamp * 0x1000 + counter`
 //! (bitwise NOT for descending), followed by 14 base62 chars chosen as `byte % 62`.
 //! The counter resets whenever the millisecond timestamp changes, like the baseline.

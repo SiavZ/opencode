@@ -5,16 +5,25 @@
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
 //! |-- platform-api/src/path.rs
-//! |-- tool-api/src/context.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/common.rs
 //! |-- tools/src/search/input.rs
 //! |-- tools/src/search/mod.rs
 //! `-- tools/src/search/ripgrep.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- async_trait::async_trait
+//! |-- path::normalize
+//! |-- path::relative
+//! |-- path::resolve
+//! |-- schemas::legacy
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::fs::metadata
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/search/mod.rs
+//! |-- tools/src/search/mod.rs
+//! `-- tools/tests/search_tools.rs
 //! Invariants: `truncated` is `count == 100` (exactly 100 results reads as truncated, as in the
 //! baseline). Legacy grep never passes `file` to ripgrep: an exact file path searches its whole
 //! parent directory, preserved from the baseline (grep.ts:58-66).

@@ -4,10 +4,32 @@
 //! rust/crates/
 //! `-- ecosystem/src/slack/api.rs
 //! External:
-//! |-- axum::{Router, extract::ws, Json}
+//! |-- axum::Json
+//! |-- axum::Router
+//! |-- axum::extract::Path
+//! |-- axum::extract::State
+//! |-- axum::extract::WebSocketUpgrade
+//! |-- axum::extract::ws::Message
+//! |-- axum::extract::ws::WebSocket
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- axum::serve
 //! |-- futures_util::SinkExt
-//! |-- serde_json::{Value, json}
-//! |-- tokio::{net::TcpListener, sync::mpsc, task, time}
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::sleep
+//! |-- tokio::time::timeout
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/

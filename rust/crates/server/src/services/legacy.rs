@@ -5,10 +5,13 @@
 //! `-- server/src/middleware/legacy_routing.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- server/src/handlers/legacy.rs
+//! |-- runtime/src/legacy.rs
+//! |-- server/src/handlers/legacy.rs
+//! `-- server/src/services/mod.rs
 //! Invariants: implementations use real Session persistence and event projectors; no fabricated replies.
 //! Contract tests: runtime/tests/process.rs
 

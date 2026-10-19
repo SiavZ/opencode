@@ -6,10 +6,21 @@
 //! process, local script), not live.
 //! Uses:
 //! rust/crates/
-//! |-- integration-adapters/src/mcp/mod.rs
-//! `-- integration-adapters/tests/mcp_support/mod.rs
+//! |-- integration-adapters/src/mcp/catalog.rs
+//! |-- integration-adapters/src/mcp/jsonrpc.rs
+//! |-- integration-adapters/tests/mcp_support/mod.rs
+//! |-- integration-api/src/error.rs
+//! `-- integration-api/src/mcp.rs
 //! External:
-//! `-- tokio::test
+//! |-- nix::sys::signal::kill
+//! |-- nix::unistd::Pid::from_raw
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! `-- url::Url::from_file_path
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every service is shut down at the end of its test.

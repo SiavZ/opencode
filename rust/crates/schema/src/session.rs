@@ -9,10 +9,19 @@
 //! |-- schema/src/session_message.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- location::Ref
+//! |-- revert::State
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- schema/src/lib.rs
+//! |-- server/src/handlers/cursor.rs
+//! |-- server/src/handlers/session.rs
+//! |-- session-api/src/info.rs
+//! |-- session-runtime/src/runner/model.rs
+//! `-- session-runtime/tests/support/model.rs
 //! Invariants: key order `id, parentID, projectID, agent, model, cost, tokens, time, title,
 //! location, subpath, revert`; optional keys omitted and `null` rejected.
 //! Contract tests: schema/src/session.rs (unit tests), schema/tests/schema_session.rs

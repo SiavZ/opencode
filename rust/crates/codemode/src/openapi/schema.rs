@@ -5,9 +5,11 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/openapi/mod.rs
 //! `-- codemode/src/openapi/spec.rs
 //! Invariants: output schemas reference definitions only through `#/$defs/<name>`.
 //! Contract tests: codemode/tests/openapi.rs

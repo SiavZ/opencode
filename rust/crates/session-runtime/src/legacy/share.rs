@@ -8,11 +8,11 @@
 //! |-- session-runtime/src/legacy/store.rs
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
-//! `-- none
+//! |-- tokio::spawn
+//! `-- tokio::task::JoinHandle
 //! Used by:
 //! rust/crates/
-//! |-- session-runtime/src/legacy/mod.rs
-//! `-- session-runtime/tests/legacy_prompt.rs
+//! `-- session-runtime/src/legacy/mod.rs
 //! Invariants: `share` fails with "Sharing is disabled in configuration" before any remote call when
 //! `share = "disabled"`; the URL is persisted only after the remote create succeeded; `unshare`
 //! removes remotely first, then clears the URL. `auto_share` targets only root Sessions.

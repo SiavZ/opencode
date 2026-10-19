@@ -12,9 +12,23 @@
 //! |-- platform-api/src/snapshot.rs
 //! `-- platform-api/src/watcher.rs
 //! External:
-//! `-- none
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
-//! `-- none, reserved contract (owner: phase-05, consumers platform-native, tools, permissions, config, storage-sqlite)
+//! rust/crates/
+//! |-- platform-native/src/fs/error.rs
+//! |-- platform-native/src/fs/glob.rs
+//! |-- platform-native/src/fs/location.rs
+//! |-- platform-native/src/fs/mutation.rs
+//! |-- platform-native/src/fs/native.rs
+//! |-- platform-native/src/fs/watcher.rs
+//! |-- platform-native/tests/fs_location.rs
+//! |-- platform-native/tests/fs_util.rs
+//! |-- tools/src/files/read_files.rs
+//! |-- tools/src/files/read_legacy.rs
+//! |-- tools/src/files/read_lines.rs
+//! |-- tools/tests/files_mutation/dev_mutation.rs
+//! |-- tools/tests/files_mutation/support.rs
+//! `-- tools/tests/files_read/support.rs
 //! Invariants: compiles for wasm32-unknown-unknown, never depends on native-only crates.
 //! Contract tests: platform-api/src/path.rs
 

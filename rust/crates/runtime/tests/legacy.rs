@@ -1,4 +1,23 @@
-//! Real production HTTP coverage for persisted legacy sessions and placed event streams.
+//! Purpose: real production HTTP coverage for persisted legacy sessions and placed event streams.
+//! Scope: loopback Process persistence, directory/global SSE, authorization, errors and restart.
+//! Uses:
+//! rust/crates/
+//! `-- runtime/src/lib.rs
+//! External:
+//! |-- reqwest::Client::builder
+//! |-- reqwest::Response
+//! |-- reqwest::Url::parse
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
+//! |-- tokio::test
+//! `-- tokio::time::timeout
+//! Used by:
+//! `-- none, entrypoint
+//! Invariants: actual SQLite projectors, Git identity and TCP HTTP; no injected service/event source.
+//! Contract tests: this integration target, including canonical Git and nongit locations.
+
 use std::time::Duration;
 
 use opencode_runtime::{ListenOptions, Process, ProcessOptions};

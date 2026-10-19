@@ -3,13 +3,21 @@
 //! Uses:
 //! rust/crates/
 //! |-- schema/src/event.rs
-//! |-- schema/src/macros.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::Serializer
+//! |-- serde::de::Error
+//! |-- serde::de::Error::custom
+//! |-- serde_json::Value::as_str
+//! |-- serde_json::Value::deserialize
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- schema/src/lib.rs
+//! `-- schema/tests/schema_domains_reference.rs
 //! Invariants: byte-identical JSON with the baseline module (owner: phase-01 child node, in progress).
 //! Contract tests: schema/tests/schema_domains_reference.rs
 

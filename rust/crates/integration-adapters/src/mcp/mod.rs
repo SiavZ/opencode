@@ -27,7 +27,9 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- integration-adapters/src/lib.rs
+//! |-- integration-adapters/src/lib.rs
+//! |-- integration-adapters/tests/mcp_oauth.rs
+//! `-- integration-adapters/tests/mcp_support/mod.rs
 //! Invariants: see rust/contracts/phase-07/mcp.md.
 //! Contract tests: integration-adapters/tests/mcp_stdio.rs, integration-adapters/tests/mcp_http.rs,
 //! integration-adapters/tests/mcp_oauth.rs

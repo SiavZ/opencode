@@ -4,9 +4,14 @@
 //! rust/crates/
 //! `-- desktop-host/src/store/debug_logs.rs
 //! External:
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- str::to_string
 //! |-- tempfile::tempdir
+//! |-- time::OffsetDateTime::now_utc
 //! |-- time::macros::datetime
-//! `-- zip::ZipArchive
+//! `-- zip::ZipArchive::new
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches real user data or the real Downloads folder.

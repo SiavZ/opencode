@@ -8,11 +8,17 @@
 //! |-- tools/src/shell/arity.rs
 //! `-- tools/src/shell/select.rs
 //! External:
-//! `-- tree_sitter::{Node, Parser}
+//! |-- path::contains
+//! |-- path::resolve
+//! |-- tree_sitter::Node
+//! |-- tree_sitter::Parser
+//! |-- tree_sitter::Tree
+//! `-- tree_sitter_bash::LANGUAGE
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/shell/legacy.rs
-//! `-- tools/src/shell/mod.rs
+//! |-- tools/src/shell/mod.rs
+//! `-- tools/tests/shell_scan.rs
 //! Invariants: every `command` node (including nested substitutions) contributes; cd-like commands
 //! never produce bash patterns; dynamic or glob-leading arguments are skipped.
 //! Contract tests: tools/tests/shell_scan.rs

@@ -4,16 +4,44 @@
 //! Scope: one notify watcher plus one owned tokio task per `watch` call.
 //! Uses:
 //! rust/crates/
+//! |-- platform-api/src/lib.rs
 //! |-- platform-api/src/watcher.rs
 //! |-- platform-native/src/fs/error.rs
 //! `-- platform-native/src/fs/glob.rs
 //! External:
-//! |-- notify::{RecommendedWatcher, RecursiveMode}
-//! `-- tokio::sync::mpsc
+//! |-- async_trait::async_trait
+//! |-- globset::GlobMatcher
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- mpsc::error::TrySendError::Closed
+//! |-- mpsc::error::TrySendError::Full
+//! |-- notify::Error
+//! |-- notify::ErrorKind::Io
+//! |-- notify::ErrorKind::MaxFilesWatch
+//! |-- notify::ErrorKind::PathNotFound
+//! |-- notify::Event
+//! |-- notify::RecommendedWatcher
+//! |-- notify::RecursiveMode
+//! |-- notify::Result
+//! |-- notify::Watcher
+//! |-- notify::event::EventKind
+//! |-- notify::event::ModifyKind
+//! |-- notify::event::RenameMode
+//! |-- notify::recommended_watcher
+//! |-- tokio::fs::canonicalize
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::Mutex::new
+//! |-- tokio::sync::mpsc
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::Instant
+//! |-- tokio::time::sleep_until
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
-//! |-- platform-native/src/fs/mod.rs
-//! `-- platform-native/tests/fs_watcher.rs
+//! `-- platform-native/src/fs/mod.rs
 //! Invariants: paths are reported under the canonical root (FSEvents/parcel report real paths);
 //! repeated events for one path within `coalesce` merge into one event settled against the
 //! filesystem at flush (existing paths are add/change, missing paths unlink, create+delete inside

@@ -4,11 +4,19 @@
 //! Uses:
 //! rust/crates/
 //! |-- storage-api/src/lib.rs
-//! `-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/src/legacy_files.rs
+//! |-- storage-sqlite/src/lib.rs
+//! `-- storage-sqlite/src/repositories/credentials.rs
 //! External:
-//! |-- serde_json
-//! |-- tempfile
-//! `-- tokio
+//! |-- credentials::all
+//! |-- credentials::create
+//! |-- credentials::get
+//! |-- credentials::list
+//! |-- credentials::remove
+//! |-- credentials::update
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never reads the real user data dir or the process `OPENCODE_AUTH_CONTENT`.

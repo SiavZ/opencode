@@ -7,7 +7,8 @@
 //! |-- schema/src/session_message.rs
 //! `-- schema/src/values.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/

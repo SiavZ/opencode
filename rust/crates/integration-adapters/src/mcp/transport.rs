@@ -8,9 +8,12 @@
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/client.rs
+//! |-- integration-adapters/src/mcp/connect.rs
 //! |-- integration-adapters/src/mcp/jsonrpc.rs
 //! |-- integration-adapters/src/mcp/legacy_sse.rs
 //! |-- integration-adapters/src/mcp/mod.rs
+//! |-- integration-adapters/src/mcp/remote.rs
+//! |-- integration-adapters/src/mcp/service.rs
 //! |-- integration-adapters/src/mcp/stdio.rs
 //! `-- integration-adapters/src/mcp/streamable.rs
 //! Invariants: a transport delivers inbound JSON-RPC messages on its bounded channel and sends

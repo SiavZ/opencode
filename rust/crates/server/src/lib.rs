@@ -11,9 +11,9 @@
 //! |-- server/src/services/mod.rs
 //! `-- server/src/transport/mod.rs
 //! External:
-//! `-- axum::Router
+//! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-06, consumers: runtime p91, sdk-embedded p08)
+//! `-- none, entrypoint
 //! Invariants: listener bound before readiness is reported, every spawned task is tracked and
 //! joined on shutdown, no session-ID-scoped layers.
 //! Contract tests: server/tests (added by p06 children)

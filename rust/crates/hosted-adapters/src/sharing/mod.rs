@@ -10,8 +10,6 @@
 //! External:
 //! `-- none
 //! Used by:
-//! rust/bins/
-//! `-- hosted/src/sharing/mod.rs
 //! rust/crates/
 //! `-- hosted-adapters/src/lib.rs
 //! Invariants: owned by phase-13 only, see rust/contracts/phase-90/execution-map.md.

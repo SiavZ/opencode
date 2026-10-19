@@ -2,17 +2,43 @@
 //! Scope: Location-scoped execution adapters, with configuration supplied by the Location builder.
 //! Uses:
 //! rust/crates/
+//! |-- event-store/src/lib.rs
 //! |-- llm-api/src/lib.rs
 //! |-- platform-api/src/snapshot.rs
+//! |-- platform-native/src/vcs/mod.rs
 //! |-- platform-native/src/vcs/snapshot.rs
+//! |-- provider-adapters/src/protocols/openai/chat.rs
+//! |-- provider-adapters/src/route.rs
+//! |-- provider-adapters/src/transport/executor.rs
+//! |-- provider-adapters/src/transport/http.rs
+//! |-- runtime/tests/support/provider.rs
+//! |-- schema/src/session_message.rs
 //! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/compaction.rs
 //! |-- session-runtime/src/projection.rs
-//! `-- session-runtime/src/runner/ports.rs
+//! |-- session-runtime/src/runner/ports.rs
+//! |-- storage-api/src/lib.rs
+//! `-- storage-sqlite/src/lib.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- compaction::Compaction
+//! |-- compaction::Settings
+//! |-- ports::Compaction
+//! |-- ports::CompactionInput
+//! |-- ports::Snapshots
+//! |-- provider::Provider::start
+//! |-- reqwest::Client::builder
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- snapshot::Snapshots::capture
+//! |-- snapshot::Snapshots::files
+//! |-- tempfile::tempdir
+//! |-- tokio::test
+//! `-- tokio::time::timeout
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/lib.rs
 //! `-- runtime/src/location.rs
 //! Invariants: compaction publishes through the real Session event projector; snapshot capture
 //! and file comparison use the native Git implementation. Snapshot failures remain best effort.

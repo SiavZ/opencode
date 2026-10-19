@@ -6,10 +6,28 @@
 //! `-- integration-api/src/error.rs
 //! External:
 //! |-- async_trait::async_trait
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- bool::deserialize
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::Serializer
+//! |-- serde::de::Error::custom
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/mcp/catalog.rs
+//! |-- integration-adapters/src/mcp/connect.rs
+//! |-- integration-adapters/src/mcp/oauth_provider.rs
+//! |-- integration-adapters/src/mcp/service.rs
+//! |-- integration-adapters/src/mcp/service_api.rs
+//! |-- integration-adapters/src/mcp/service_auth.rs
+//! |-- integration-adapters/tests/mcp_http.rs
+//! |-- integration-adapters/tests/mcp_oauth.rs
+//! |-- integration-adapters/tests/mcp_stdio.rs
+//! |-- integration-adapters/tests/mcp_support/mod.rs
 //! `-- integration-api/src/lib.rs
 //! Invariants: JSON shapes match packages/core/src/v1/config/mcp.ts and the MCPStatus union in
 //! packages/opencode/src/mcp/index.ts:83-107 (discriminator `status`, optional keys omitted).

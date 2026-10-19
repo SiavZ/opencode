@@ -5,13 +5,16 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
-//! |-- provider-adapters/src/providers/inventory.rs
+//! |-- provider-adapters/src/auth.rs
 //! |-- provider-adapters/src/providers/loaders.rs
-//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/mod.rs
 //! `-- provider-adapters/tests/providers_support/mod.rs
 //! External:
+//! |-- pretty_assertions::assert_eq
 //! |-- serde_json::json
-//! `-- wiremock::MockServer
+//! |-- tokio::test
+//! |-- wiremock::MockServer
+//! `-- wiremock::Request
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the id list below is copied from the baseline file, not from `PLUGINS`.

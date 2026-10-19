@@ -7,7 +7,9 @@
 //! |-- view-model/src/projection/mod.rs
 //! `-- view-model/src/source.rs
 //! External:
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! `-- view-model/src/projection/mod.rs

@@ -3,15 +3,34 @@
 //! readiness line, and joined graceful shutdown of in-flight requests.
 //! Scope: process-level listener ownership.
 //! Uses:
-//! rust/crates/
-//! `-- server/src/app.rs
+//! `-- none
 //! External:
+//! |-- auto::Builder::new
+//! |-- axum::Router
+//! |-- hyper_util::rt::TokioExecutor
+//! |-- hyper_util::rt::TokioIo
 //! |-- hyper_util::server::conn::auto
+//! |-- hyper_util::service::TowerToHyperService::new
 //! |-- tokio::net::TcpListener
-//! `-- tokio_util::{sync::CancellationToken, task::TaskTracker}
+//! |-- tokio::pin
+//! |-- tokio::select
+//! |-- tokio_util::sync::CancellationToken
+//! `-- tokio_util::task::TaskTracker
 //! Used by:
 //! rust/crates/
-//! `-- server/src/lib.rs
+//! |-- runtime/src/lib.rs
+//! |-- runtime/src/process.rs
+//! |-- runtime/tests/process.rs
+//! |-- server/src/lib.rs
+//! |-- server/tests/http_auth.rs
+//! |-- server/tests/http_cors.rs
+//! |-- server/tests/http_legacy.rs
+//! |-- server/tests/http_lifecycle.rs
+//! |-- server/tests/http_proxy.rs
+//! |-- server/tests/http_session.rs
+//! |-- server/tests/sse_events.rs
+//! |-- server/tests/support/mod.rs
+//! `-- server/tests/ws_pty.rs
 //! Invariants: `listen` returns only after `bind` succeeded, so `url()` is connectable. Explicit
 //! non-zero ports never fall back. `stop(false)` stops accepting and waits for in-flight
 //! requests (graceful); `stop(true)` additionally cancels them after a 1 second grace period

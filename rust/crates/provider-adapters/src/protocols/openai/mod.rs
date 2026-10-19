@@ -15,10 +15,22 @@
 //! |-- provider-adapters/src/route.rs
 //! `-- provider-adapters/src/transport/mod.rs
 //! External:
-//! `-- none
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/protocols/mod.rs
+//! |-- provider-adapters/src/protocols/mod.rs
+//! |-- provider-adapters/src/providers/azure.rs
+//! |-- provider-adapters/src/providers/cloud.rs
+//! |-- provider-adapters/src/providers/compatible.rs
+//! |-- provider-adapters/src/providers/gateways.rs
+//! |-- provider-adapters/src/providers/native.rs
+//! |-- provider-adapters/src/providers/openai.rs
+//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry_rules.rs
+//! |-- provider-adapters/tests/openai_chat.rs
+//! |-- provider-adapters/tests/openai_recorded.rs
+//! |-- provider-adapters/tests/openai_responses.rs
+//! `-- runtime/src/location_routes.rs
 //! Invariants: owned by phase-03 leaf p03.openai. Routes start with `NoAuth`; providers attach
 //! auth, base URL overrides and headers. Responses routes default `providerOptions.openai.store`
 //! to `false`. The WebSocket route shares the Responses protocol and differs only in transport.

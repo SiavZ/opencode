@@ -3,18 +3,21 @@
 //! Scope: module exports and the shared `SearchServices` dependency bundle.
 //! Uses:
 //! rust/crates/
-//! |-- platform-api/src/process.rs
 //! |-- tools/src/search/binary.rs
 //! |-- tools/src/search/core.rs
 //! |-- tools/src/search/input.rs
 //! |-- tools/src/search/legacy.rs
 //! `-- tools/src/search/ripgrep.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/lib.rs
+//! |-- tools/src/search/core.rs
+//! |-- tools/src/search/legacy.rs
 //! |-- tools/tests/search_ripgrep.rs
+//! |-- tools/tests/search_support.rs
 //! `-- tools/tests/search_tools.rs
 //! Invariants: schemas are captured baseline producer output (fixtures/README.md); legacy
 //! descriptions are byte-identical copies of packages/opencode/src/tool/{glob,grep}.txt.

@@ -14,7 +14,12 @@
 //! |-- protocol/src/ir.rs
 //! `-- protocol/src/operation.rs
 //! External:
-//! `-- none
+//! |-- ir::Checks
+//! |-- ir::Checks::default
+//! |-- ir::def
+//! |-- ir::object
+//! |-- ir::r
+//! `-- ir::unknown
 //! Used by:
 //! rust/crates/
 //! |-- protocol/src/current/catalog.rs
@@ -22,7 +27,11 @@
 //! |-- protocol/src/current/permission.rs
 //! |-- protocol/src/current/pty.rs
 //! |-- protocol/src/current/session.rs
-//! `-- protocol/src/lib.rs
+//! |-- protocol/src/lib.rs
+//! |-- protocol/tests/current_registry.rs
+//! |-- server/src/app.rs
+//! |-- server/src/handlers/streams.rs
+//! `-- server/tests/http_errors.rs
 //! Invariants: group order health, location, agent, session, message, model, provider,
 //! integration, credential, permission, fs, command, skill, event, pty, question, reference,
 //! projectCopy. Group middleware (`Location`/`SessionLocation`) precedes `Auth` then

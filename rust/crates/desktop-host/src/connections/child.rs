@@ -9,13 +9,34 @@
 //! |-- desktop-host/src/platform/process_tree.rs
 //! `-- desktop-host/src/platform/proxy.rs
 //! External:
-//! |-- tokio::{process, sync::{oneshot, watch}, task::JoinHandle}
-//! `-- tokio_util::sync::CancellationToken
+//! |-- oneshot::Sender
+//! |-- oneshot::channel
+//! |-- parking_lot::Mutex
+//! |-- parking_lot::Mutex::new
+//! |-- process_tree::isolate
+//! |-- reqwest::Client
+//! |-- tokio::io::AsyncBufReadExt
+//! |-- tokio::io::AsyncRead
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::io::BufReader
+//! |-- tokio::process::Command
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::Mutex::new
+//! |-- tokio::sync::oneshot
+//! |-- tokio::sync::watch
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::sleep
+//! |-- tokio::time::timeout
+//! |-- tokio_util::sync::CancellationToken
+//! |-- watch::Receiver
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/connections.rs
 //! |-- desktop-host/src/connections/sidecar.rs
-//! |-- desktop-host/src/platform/wsl/sidecar.rs
-//! `-- desktop-host/tests/connections_live.rs
+//! `-- desktop-host/src/platform/wsl/sidecar.rs
 //! Invariants: one monitor task owns the `Child`; `stop` is idempotent, signals the tree, waits up to
 //! the grace period, kills, and joins the monitor (which joins the output readers) before returning.
 //! Contract tests: desktop-host/tests/connections_live.rs

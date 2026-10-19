@@ -20,9 +20,25 @@
 //! |-- provider-adapters/src/route.rs
 //! `-- provider-adapters/src/unsupported.rs
 //! External:
-//! `-- regex::Regex
+//! |-- bedrock_facade::DEFAULT_REGION
+//! |-- bedrock_facade::configure
+//! |-- gemini::route
+//! |-- loaders::snowflake
+//! |-- loaders::vertex_anthropic_location
+//! |-- loaders::vertex_anthropic_project
+//! |-- loaders::vertex_location
+//! |-- loaders::vertex_project
+//! |-- messages::AnthropicMessages
+//! |-- openai::CHAT_PATH
+//! |-- openai::OpenAIChatProtocol
+//! |-- openai::chat_route
+//! |-- openai::responses_route
+//! |-- regex::Regex
+//! |-- serde_json::Value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
+//! |-- provider-adapters/src/providers/mod.rs
 //! `-- provider-adapters/src/providers/registry.rs
 //! Invariants: Vertex Anthropic bodies drop `model` and carry `anthropic_version:
 //! vertex-2023-10-16`; Snowflake sends `max_completion_tokens` and repairs `"role":""`.

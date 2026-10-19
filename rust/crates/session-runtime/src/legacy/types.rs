@@ -3,19 +3,41 @@
 //! prompt input values of packages/opencode/src/session/prompt.ts:1494-1562.
 //! Scope: pure values.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! |-- event-api/src/lib.rs
+//! |-- schema/src/ids.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/legacy.rs
 //! |-- session-runtime/src/legacy/command.rs
 //! |-- session-runtime/src/legacy/compaction.rs
 //! |-- session-runtime/src/legacy/mod.rs
+//! |-- session-runtime/src/legacy/parts.rs
+//! |-- session-runtime/src/legacy/ports.rs
+//! |-- session-runtime/src/legacy/projectors.rs
 //! |-- session-runtime/src/legacy/prompt.rs
+//! |-- session-runtime/src/legacy/resource.rs
 //! |-- session-runtime/src/legacy/run_state.rs
+//! |-- session-runtime/src/legacy/share.rs
 //! |-- session-runtime/src/legacy/shell.rs
-//! `-- session-runtime/src/legacy/store.rs
+//! |-- session-runtime/src/legacy/store.rs
+//! |-- session-runtime/src/summary.rs
+//! |-- session-runtime/src/title.rs
+//! |-- session-runtime/tests/compaction_legacy.rs
+//! |-- session-runtime/tests/legacy_command.rs
+//! |-- session-runtime/tests/legacy_prompt.rs
+//! |-- session-runtime/tests/legacy_shell.rs
+//! |-- session-runtime/tests/support/legacy.rs
+//! `-- session-runtime/tests/title.rs
 //! Invariants: objects keep insertion order (serde_json `preserve_order`), matching the key order of
 //! the baseline object literals. `LegacyError` keeps busy/not-found/cancelled/not-yet-ported distinct.
 //! Contract tests: session-runtime/tests/legacy_prompt.rs

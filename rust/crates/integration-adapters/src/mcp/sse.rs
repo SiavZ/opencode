@@ -5,10 +5,12 @@
 //! `-- none
 //! External:
 //! |-- bytes::Bytes
-//! `-- futures::{Stream, StreamExt}
+//! |-- futures::Stream
+//! `-- futures::StreamExt
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/legacy_sse.rs
+//! |-- integration-adapters/src/mcp/mod.rs
 //! `-- integration-adapters/src/mcp/streamable.rs
 //! Invariants: follows the WHATWG event-stream rules: `\n`, `\r\n` and `\r` line endings, a
 //! single leading space after `:` is stripped, comments ignored, events dispatch on blank lines,

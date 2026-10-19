@@ -8,11 +8,16 @@
 //! |-- storage-api/src/sql.rs
 //! `-- storage-api/src/value.rs
 //! External:
-//! `-- none
+//! |-- i64::MAX
+//! `-- i64::try_from
 //! Used by:
 //! rust/crates/
+//! |-- locations/src/project_store.rs
+//! |-- locations/src/workspace/mod.rs
 //! |-- storage-api/src/records/mod.rs
-//! `-- storage-sqlite/src/repositories/mod.rs
+//! |-- storage-sqlite/src/repositories/credentials.rs
+//! |-- storage-sqlite/src/repositories/domains.rs
+//! `-- storage-sqlite/src/repositories/projects.rs
 //! Invariants: mirrors drizzle-orm 1.0.0-rc.2 sqlite-core `buildUpdateSet`: every UPDATE and every
 //! `onConflictDoUpdate` SET also assigns `time_updated = Date.now()` when the table has a
 //! `$onUpdate` timestamp and the caller did not set it explicitly. Identifiers are always quoted.

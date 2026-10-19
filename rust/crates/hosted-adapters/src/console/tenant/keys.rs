@@ -7,13 +7,12 @@
 //! |-- hosted-domain/src/console/common.rs
 //! `-- hosted-domain/src/console/credentials.rs
 //! External:
-//! `-- mysql_async::prelude::Queryable
+//! |-- mysql_async::prelude::Queryable
+//! |-- serde::Serialize
+//! `-- time::PrimitiveDateTime
 //! Used by:
 //! rust/crates/
-//! |-- hosted-adapters/src/console/tenant.rs
-//! |-- hosted-adapters/src/console/tenant/account.rs
-//! |-- hosted-adapters/src/console/tenant/member.rs
-//! `-- hosted-adapters/src/console/tenant/workspace.rs
+//! `-- hosted-adapters/src/console/tenant.rs
 //! Invariants: keys are workspace filtered, list joins the owner's email auth row and orders by
 //! name DESC (`core/src/key.ts:11-40`); members only see/remove their own keys; provider list
 //! returns full rows including credentials, matching the baseline (recorded as a blocker).

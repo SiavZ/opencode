@@ -4,9 +4,12 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
+//! |-- config/src/lib.rs
 //! `-- config/src/migrate.rs
 //! Invariants: package-to-lowerer table and key handling match the baseline exactly; unknown
 //! packages use the raw lowerer (`{ body: options }`).

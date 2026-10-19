@@ -9,7 +9,12 @@
 //! |-- codemode/src/lib.rs
 //! `-- codemode/tests/common/mod.rs
 //! External:
+//! |-- f64::INFINITY
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
 //! |-- serde_json::json
+//! |-- serde_json::to_string
+//! |-- tokio::test
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint

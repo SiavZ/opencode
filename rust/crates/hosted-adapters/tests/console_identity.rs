@@ -11,7 +11,9 @@
 //! |-- hosted-domain/src/console/identity.rs
 //! `-- hosted-domain/src/console/membership.rs
 //! External:
-//! `-- mysql_async::prelude::Queryable
+//! |-- async_trait::async_trait
+//! |-- mysql_async::prelude::Queryable
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches a non-local database or real mail.

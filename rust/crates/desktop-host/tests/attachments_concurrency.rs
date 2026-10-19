@@ -5,7 +5,10 @@
 //! `-- desktop-host/src/attachments.rs
 //! External:
 //! |-- parking_lot::Mutex
-//! `-- tokio::sync::Semaphore
+//! |-- tokio::join
+//! |-- tokio::select
+//! |-- tokio::sync::Semaphore
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no real user paths or data are read.

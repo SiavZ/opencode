@@ -12,14 +12,23 @@
 //! |-- session-runtime/src/children/store.rs
 //! `-- session-runtime/src/children/types.rs
 //! External:
-//! |-- futures::future::{BoxFuture, FutureExt}
-//! |-- serde_json::{Map, Value}
+//! |-- futures::FutureExt
+//! |-- futures::future::BoxFuture
+//! |-- futures::future::join_all
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- tokio::select
 //! |-- tokio_util::sync::CancellationToken
 //! `-- tokio_util::task::TaskTracker
 //! Used by:
 //! rust/crates/
+//! |-- session-runtime/src/legacy/prompt.rs
+//! |-- session-runtime/src/legacy/run_state.rs
 //! |-- session-runtime/src/lib.rs
 //! |-- session-runtime/tests/children.rs
+//! |-- session-runtime/tests/children/fixture.rs
 //! `-- session-runtime/tests/children_background.rs
 //! Invariants: the depth gate counts ancestors of the calling Session and fails before any permission
 //! ask or child creation. A child job ID is the child Session ID. Foreground runs join the job and are

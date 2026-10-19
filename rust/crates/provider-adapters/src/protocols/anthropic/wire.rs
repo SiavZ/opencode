@@ -3,19 +3,25 @@
 //! provider-metadata string lookup, tool-choice matching and stream-event decode errors.
 //! Scope: pure helpers, crate-private.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! |-- llm-api/src/lib.rs
+//! `-- provider-adapters/src/protocol.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Map
+//! |-- serde_json::Number::from_f64
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/anthropic/body.rs
 //! |-- provider-adapters/src/protocols/anthropic/mod.rs
 //! |-- provider-adapters/src/protocols/anthropic/stream.rs
 //! |-- provider-adapters/src/protocols/bedrock/body.rs
-//! |-- provider-adapters/src/protocols/bedrock/mod.rs
 //! |-- provider-adapters/src/protocols/bedrock/stream.rs
 //! |-- provider-adapters/src/protocols/gemini/body.rs
-//! |-- provider-adapters/src/protocols/gemini/mod.rs
 //! `-- provider-adapters/src/protocols/gemini/stream.rs
 //! Invariants: object keys keep insertion order (the TS object-literal order); `None` values
 //! are omitted exactly like `undefined` in `JSON.stringify`.

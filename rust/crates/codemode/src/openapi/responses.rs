@@ -7,7 +7,9 @@
 //! |-- codemode/src/tools/render.rs
 //! `-- codemode/src/value/text.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! `-- codemode/src/openapi/mod.rs

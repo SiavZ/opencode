@@ -4,8 +4,9 @@
 //! real parse plus derive path.
 //! Uses:
 //! rust/crates/
-//! |-- tools/src/files/common.rs
+//! |-- tools/src/files/mod.rs
 //! |-- tools/src/files/patch.rs
+//! |-- tools/src/files/patch_derive.rs
 //! `-- tools/tests/files_patch.rs
 //! External:
 //! `-- none

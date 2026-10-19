@@ -4,8 +4,11 @@
 //! rust/crates/
 //! `-- desktop-host/src/lifecycle/quit.rs
 //! External:
-//! |-- tokio
-//! `-- tokio_util::sync::CancellationToken
+//! |-- parking_lot::Mutex
+//! |-- tokio::spawn
+//! |-- tokio::task::yield_now
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: failed or cancelled attempts never strand the quitting flag.

@@ -5,7 +5,8 @@
 //! rust/crates/
 //! `-- hosted-adapters/src/console/db.rs
 //! External:
-//! `-- mysql_async::prelude::Queryable
+//! |-- mysql_async::prelude::Queryable
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: label fixture, never touches a non-local database.

@@ -16,7 +16,11 @@
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/mod.rs
-//! `-- provider-adapters/tests/anthropic_messages.rs
+//! |-- provider-adapters/src/providers/cloud.rs
+//! |-- provider-adapters/src/providers/native.rs
+//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/tests/anthropic_messages.rs
+//! `-- runtime/src/location_routes.rs
 //! Invariants: owned by phase-03 leaf p03.messages; the protocol owns no URL, header or auth,
 //! the route constructor supplies them; the transport is always caller-supplied.
 //! Contract tests: provider-adapters/tests/anthropic_messages.rs

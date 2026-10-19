@@ -8,15 +8,28 @@
 //! |-- integration-adapters/src/mcp/jsonrpc.rs
 //! `-- integration-adapters/src/mcp/transport.rs
 //! External:
-//! |-- serde_json::{Value, json}
-//! |-- tokio::sync::{mpsc, watch}
-//! `-- url::Url
+//! |-- mpsc::Receiver
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_string
+//! |-- tokio::sync::mpsc
+//! |-- tokio::sync::watch
+//! |-- tokio_util::sync::CancellationToken
+//! |-- tracing::debug
+//! |-- tracing::error
+//! |-- tracing::info
+//! |-- tracing::warn
+//! |-- url::Url::from_file_path
+//! |-- watch::Receiver
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/catalog.rs
 //! |-- integration-adapters/src/mcp/connect.rs
 //! |-- integration-adapters/src/mcp/mod.rs
-//! `-- integration-adapters/src/mcp/service.rs
+//! |-- integration-adapters/src/mcp/service.rs
+//! |-- integration-adapters/src/mcp/service_api.rs
+//! `-- integration-adapters/src/mcp/service_auth.rs
 //! Invariants: roots/list answers exactly one root (file URL of the Location directory); ping
 //! answers `{}`; a failed handshake closes the transport; list_changed signals coalesce.
 //! Contract tests: integration-adapters/tests/mcp_stdio.rs

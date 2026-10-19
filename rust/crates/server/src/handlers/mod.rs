@@ -4,7 +4,7 @@
 //! Scope: per-request handlers.
 //! Uses:
 //! rust/crates/
-//! |-- protocol/src/operation.rs
+//! |-- protocol/src/lib.rs
 //! |-- server/src/app.rs
 //! |-- server/src/handlers/cursor.rs
 //! |-- server/src/handlers/dispatch.rs
@@ -15,11 +15,20 @@
 //! |-- server/src/middleware/legacy_routing.rs
 //! `-- server/src/services/mod.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- axum::http::StatusCode
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
-//! |-- server/src/app.rs
-//! `-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/legacy.rs
+//! |-- server/src/handlers/session.rs
+//! `-- server/src/lib.rs
 //! Invariants: handlers see already-decoded params/query/payload; location-scoped handlers read
 //! the resolved `LocationInfo` from the context, never re-resolve it.
 //! Contract tests: server/tests/http_errors.rs, server/tests/http_session.rs

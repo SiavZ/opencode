@@ -6,6 +6,11 @@
 //! `-- thiserror::Error
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/mcp/service.rs
+//! |-- integration-adapters/src/mcp/service_api.rs
+//! |-- integration-adapters/src/mcp/service_auth.rs
+//! |-- integration-adapters/tests/mcp_oauth.rs
+//! |-- integration-adapters/tests/mcp_stdio.rs
 //! |-- integration-api/src/language.rs
 //! |-- integration-api/src/lib.rs
 //! |-- integration-api/src/mcp.rs

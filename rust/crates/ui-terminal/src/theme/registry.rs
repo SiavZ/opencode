@@ -9,8 +9,10 @@
 //! |-- ui-terminal/src/theme/resolve.rs
 //! `-- ui-terminal/src/theme/system.rs
 //! External:
-//! |-- serde_json::{Map, Value}
-//! `-- thiserror::Error
+//! |-- serde_json::Error
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
 //! `-- ui-terminal/src/theme/mod.rs

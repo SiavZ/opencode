@@ -7,10 +7,18 @@
 //! |-- config/src/current.rs
 //! `-- schema/src/provider.rs
 //! External:
-//! `-- serde_json::{Map, Value, json}
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
-//! `-- config/src/lib.rs
+//! |-- config/src/lib.rs
+//! `-- config/tests/markdown.rs
 //! Invariants: documents apply lowest to highest priority; header/body maps merge with
 //! `Object.assign` semantics; `api` on models shallow-merges; cache costs default to 0; edits
 //! that would produce an invalid `ProviderInfo`/`ModelInfo` are dropped rather than corrupting it.

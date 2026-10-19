@@ -5,8 +5,9 @@
 //! rust/crates/
 //! `-- desktop-host/src/lifecycle/onboarding.rs
 //! External:
-//! |-- serde_json
-//! `-- tempfile
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches real user data.

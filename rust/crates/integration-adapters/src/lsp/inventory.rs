@@ -8,12 +8,13 @@
 //! |-- integration-adapters/src/lsp/roots.rs
 //! `-- integration-api/src/language.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/lsp/mod.rs
 //! |-- integration-adapters/src/lsp/resolve.rs
-//! |-- integration-adapters/src/lsp/service.rs
-//! `-- integration-adapters/tests/lsp_inventory.rs
+//! `-- integration-adapters/src/lsp/service.rs
 //! Invariants: ids and order equal `BUILTIN_SERVER_IDS`, an override keeps the builtin's position
 //! and root, custom ids are appended, a custom entry without extensions matches every file.
 //! Contract tests: integration-adapters/tests/lsp_inventory.rs

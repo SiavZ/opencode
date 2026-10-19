@@ -4,7 +4,9 @@
 //! rust/crates/
 //! `-- ui-terminal/src/theme/mod.rs
 //! External:
-//! `-- serde_json::{Map, Value, json}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: optional tokens and null defs follow TypeScript fallback rules.

@@ -7,13 +7,16 @@
 //! |-- integration-adapters/src/mcp/oauth_provider.rs
 //! `-- integration-adapters/src/mcp/oauth_token.rs
 //! External:
-//! `-- reqwest::Client
+//! |-- reqwest::Client
+//! |-- serde_json::Value
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/mod.rs
 //! |-- integration-adapters/src/mcp/oauth_discovery.rs
 //! |-- integration-adapters/src/mcp/oauth_token.rs
-//! `-- integration-adapters/src/mcp/remote.rs
+//! |-- integration-adapters/src/mcp/remote.rs
+//! `-- integration-adapters/src/mcp/streamable.rs
 //! Invariants: error messages match the SDK strings the baseline classifies on ("registration",
 //! "client_id", "OAuth"); invalid_client/unauthorized_client retry once after invalidating all,
 //! invalid_grant retries once after invalidating tokens.

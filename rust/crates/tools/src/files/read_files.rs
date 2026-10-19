@@ -4,14 +4,20 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
+//! |-- platform-api/src/lib.rs
 //! |-- tools/src/files/read_common.rs
 //! `-- tools/src/files/read_pager.rs
 //! External:
-//! `-- base64::engine::general_purpose::STANDARD
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
+//! |-- tools/src/files/mod.rs
 //! |-- tools/src/files/read_core.rs
-//! `-- tools/src/files/read_pager.rs
+//! |-- tools/src/files/read_pager.rs
+//! |-- tools/tests/files_read/core.rs
+//! `-- tools/tests/files_read/filesystem.rs
 //! Invariants: reads stop once the page is complete (bytes past the page are never decoded),
 //! media is capped at 20 MiB before encoding, directory entries never escape the listed root.
 //! Contract tests: tools/tests/files_read.rs

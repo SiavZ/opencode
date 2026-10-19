@@ -6,10 +6,30 @@
 //! `-- none
 //! External:
 //! |-- axum::body::Body
-//! `-- reqwest::Client
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::HeaderName
+//! |-- axum::http::HeaderValue
+//! |-- axum::http::Method
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- bytes::Bytes::new
+//! |-- form_urlencoded::parse
+//! |-- futures_util::TryStreamExt
+//! |-- header::ACCEPT_ENCODING
+//! |-- header::CONTENT_ENCODING
+//! |-- header::CONTENT_LENGTH
+//! |-- header::CONTENT_TYPE
+//! |-- reqwest::Body::wrap_stream
+//! |-- reqwest::Client
+//! |-- reqwest::Url
+//! |-- reqwest::Url::parse
+//! `-- tracing::error
 //! Used by:
 //! rust/crates/
-//! `-- server/src/middleware/legacy_routing.rs
+//! |-- server/src/middleware/legacy_routing.rs
+//! `-- server/src/transport/mod.rs
 //! Invariants: request headers lose hop headers, `host`, `accept-encoding`,
 //! `x-opencode-directory`, `x-opencode-workspace`, then extra target headers are set. Response
 //! headers lose `content-encoding` and `content-length`. 5xx bodies keep their content type

@@ -6,11 +6,22 @@
 //! rust/crates/
 //! `-- llm-api/src/lib.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- hex::encode
+//! |-- i16::from_be_bytes
+//! |-- i32::from_be_bytes
+//! |-- i64::from_be_bytes
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- u16::from_be_bytes
+//! `-- u32::from_be_bytes
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/transport/http.rs
-//! `-- provider-adapters/src/transport/mod.rs
+//! |-- provider-adapters/src/transport/mod.rs
+//! |-- provider-adapters/tests/bedrock_converse.rs
+//! |-- provider-adapters/tests/transport_framing.rs
+//! `-- provider-adapters/tests/transport_http.rs
 //! Invariants: frame = `[total:4][headers:4][prelude crc:4][headers][payload][message crc:4]`,
 //! big-endian. Prelude and message CRC32 (IEEE) are verified before headers are parsed. Only
 //! `:message-type == "event"` frames with a string `:event-type` and a non-empty payload are

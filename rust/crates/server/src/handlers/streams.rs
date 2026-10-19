@@ -5,8 +5,10 @@
 //! Scope: per-connection handlers.
 //! Uses:
 //! rust/crates/
-//! |-- protocol/src/operation.rs
+//! |-- platform-api/src/pty.rs
+//! |-- protocol/src/current/mod.rs
 //! |-- protocol/src/sse.rs
+//! |-- schema/src/ids.rs
 //! |-- schema/src/session_event.rs
 //! |-- server/src/app.rs
 //! |-- server/src/middleware/cors.rs
@@ -18,8 +20,48 @@
 //! |-- server/src/transport/sse.rs
 //! `-- server/src/transport/websocket.rs
 //! External:
+//! |-- axum::Router
+//! |-- axum::body::Body
+//! |-- axum::extract::Path
+//! |-- axum::extract::Request
+//! |-- axum::extract::State
 //! |-- axum::extract::ws::WebSocketUpgrade
-//! `-- futures_util::stream::StreamExt
+//! |-- axum::extract::ws::rejection::WebSocketUpgradeRejection
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- axum::routing::get
+//! |-- decode::query
+//! |-- form_urlencoded::parse
+//! |-- futures_util::future::ready
+//! |-- futures_util::stream::BoxStream
+//! |-- futures_util::stream::StreamExt
+//! |-- futures_util::stream::self
+//! |-- header::HOST
+//! |-- header::ORIGIN
+//! |-- legacy_routing::RouteContext
+//! |-- legacy_routing::instance
+//! |-- legacy_routing::route
+//! |-- location::reference
+//! |-- location::resolve
+//! |-- location::session
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_string
+//! |-- sse::data
+//! |-- sse::fallible_response
+//! |-- sse::halt_left
+//! |-- sse::halt_left_fallible
+//! |-- sse::response
+//! |-- sse::ticks
+//! |-- str::to_string
+//! |-- stream::once
+//! |-- stream::pending
+//! |-- stream::select
+//! |-- websocket::close_with
+//! `-- websocket::run
 //! Used by:
 //! rust/crates/
 //! |-- server/src/app.rs

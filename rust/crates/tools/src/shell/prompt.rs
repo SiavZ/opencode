@@ -8,7 +8,8 @@
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/shell/legacy.rs
-//! `-- tools/src/shell/mod.rs
+//! |-- tools/src/shell/mod.rs
+//! `-- tools/tests/shell_scan.rs
 //! Invariants: output is byte-identical to the baseline `ShellPrompt.render` (fixtures/prompts.json).
 //! Section templates are extracted verbatim from prompt.ts.
 //! Contract tests: tools/tests/shell_scan.rs

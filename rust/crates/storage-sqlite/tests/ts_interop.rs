@@ -9,7 +9,11 @@
 //! `-- storage-sqlite/src/lib.rs
 //! External:
 //! |-- rusqlite::Connection
-//! `-- tempfile
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches the real user data directory.

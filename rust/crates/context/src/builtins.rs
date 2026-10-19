@@ -7,11 +7,12 @@
 //! |-- context/src/registry.rs
 //! `-- context/src/source/mod.rs
 //! External:
-//! `-- jiff::Zoned
+//! `-- jiff::Zoned::now
 //! Used by:
 //! rust/crates/
 //! |-- context/src/lib.rs
-//! `-- context/tests/registry.rs
+//! |-- context/tests/registry.rs
+//! `-- runtime/src/location.rs
 //! Invariants: environment text is computed once per registration (baseline computes it once per
 //! Location layer), the date is re-read on every load so a new local day produces one update.
 //! Contract tests: context/tests/registry.rs

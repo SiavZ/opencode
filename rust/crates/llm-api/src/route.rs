@@ -9,7 +9,12 @@
 //! |-- llm-api/src/message.rs
 //! `-- llm-api/src/options.rs
 //! External:
-//! |-- futures::{future::BoxFuture, stream::BoxStream}
+//! |-- fmt::Debug
+//! |-- fmt::Formatter
+//! |-- fmt::Result
+//! |-- futures::future::BoxFuture
+//! |-- futures::stream::BoxStream
+//! |-- indexmap::IndexMap
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/

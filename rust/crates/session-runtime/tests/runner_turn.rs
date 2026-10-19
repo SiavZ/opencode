@@ -7,11 +7,17 @@
 //! -> `LlmSessionRunner` with the scripted `LlmClient` from tests/support/provider.rs.
 //! Uses:
 //! rust/crates/
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/operations.rs
+//! |-- session-runtime/src/runner/mod.rs
 //! |-- session-runtime/src/runner/turn.rs
 //! |-- session-runtime/tests/support/provider.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! `-- tokio
+//! |-- serde_json::json
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-only provider; durable state is the real projected `session_message` rows.

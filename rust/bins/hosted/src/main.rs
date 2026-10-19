@@ -4,10 +4,16 @@
 //! Uses:
 //! rust/bins/
 //! |-- hosted/src/console/mod.rs
+//! |-- hosted/src/console/state.rs
 //! `-- hosted/src/sharing/mod.rs
+//! rust/crates/
+//! `-- hosted-adapters/src/console/db.rs
 //! External:
+//! |-- anyhow::Context
+//! |-- anyhow::Result
 //! |-- axum::serve
-//! `-- tokio::net::TcpListener
+//! |-- tokio::main
+//! `-- tokio::net::TcpListener::bind
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never deploys; binds only the address given in OPENCODE_HOSTED_ADDR

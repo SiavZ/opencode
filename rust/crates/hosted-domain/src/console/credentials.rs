@@ -5,10 +5,13 @@
 //! rust/crates/
 //! `-- hosted-domain/src/console/common.rs
 //! External:
-//! `-- serde::Serialize
+//! |-- getrandom::fill
+//! |-- serde::Serialize
+//! |-- serde_json::to_string
+//! `-- u32::from_le_bytes
 //! Used by:
 //! rust/crates/
-//! |-- hosted-adapters/src/console/tenant.rs
+//! |-- hosted-adapters/src/console/tenant/keys.rs
 //! `-- hosted-domain/src/console/mod.rs
 //! Invariants: secrets are `sk-` + 64 chars of `[A-Za-z0-9]` chosen as `u32 % 62`
 //! (`core/src/key.ts:47-55`); only the owner sees `key`, everyone sees `keyDisplay`

@@ -4,21 +4,28 @@
 //! Scope: Location-scoped operation over the shared database, snapshot service and event store.
 //! Uses:
 //! rust/crates/
-//! |-- event-api/src/lib.rs
 //! |-- platform-api/src/snapshot.rs
 //! |-- schema/src/revert.rs
 //! |-- schema/src/session_event.rs
-//! |-- session-api/src/error.rs
-//! |-- session-api/src/info.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-api/src/message.rs
-//! |-- storage-api/src/lib.rs
-//! `-- session-runtime/src/todo.rs
+//! |-- session-runtime/src/todo.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- i64::MAX
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/adapters.rs
 //! |-- session-runtime/src/lib.rs
-//! `-- session-runtime/tests/revert.rs
+//! |-- session-runtime/src/service.rs
+//! |-- session-runtime/tests/admission.rs
+//! |-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/tests/admission_inbox.rs
+//! |-- session-runtime/tests/admission_projection.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: a missing boundary fails with `MessageNotFound` before any snapshot side effect. The
 //! earliest assistant snapshot after the boundary wins per file. An existing staged revert keeps its
 //! original snapshot and restores its previously staged files to it first. `files: Some(false)` stages

@@ -18,10 +18,30 @@
 //! |-- provider-adapters/src/shared.rs
 //! `-- provider-adapters/src/unsupported.rs
 //! External:
-//! `-- url::Url
+//! |-- gateways::AI_GATEWAY_ENV
+//! |-- gateways::WORKERS_AI_ID
+//! |-- gateways::ai_gateway
+//! |-- gateways::is_workers_ai_model
+//! |-- gateways::workers_ai_base_url
+//! |-- loaders::AZURE_RESOURCE_MISSING
+//! |-- loaders::CLOUDFLARE_ACCOUNT_MISSING
+//! |-- loaders::CLOUDFLARE_TOKEN_MISSING
+//! |-- loaders::azure_cognitive_base_url
+//! |-- loaders::azure_resource_name
+//! |-- loaders::cloudflare_account
+//! |-- loaders::cloudflare_gateway
+//! |-- loaders::cloudflare_gateway_missing
+//! |-- loaders::expand_account_id
+//! |-- loaders::replace_vertex_vars
+//! |-- loaders::vertex_location
+//! |-- loaders::vertex_project
+//! |-- openai::chat_route
+//! |-- openai::responses_route
+//! |-- str::to_owned
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/providers/registry.rs
+//! `-- provider-adapters/src/providers/mod.rs
 //! Invariants: Azure adds `api-version` only for `*.openai.azure.com` or deployment URLs;
 //! Cloudflare upstream bearer is sent only for Workers AI model ids.
 //! Contract tests: provider-adapters/tests/providers_registry.rs

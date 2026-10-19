@@ -5,11 +5,15 @@
 //! Scope: real child processes (python3 fake server), temp dirs, empty PATH for builtins.
 //! Uses:
 //! rust/crates/
-//! |-- integration-adapters/src/lsp/requests.rs
-//! |-- integration-adapters/src/lsp/service.rs
-//! `-- integration-adapters/tests/fixtures/lsp/support.rs
+//! |-- integration-adapters/src/lsp/mod.rs
+//! |-- integration-adapters/tests/fixtures/lsp/support.rs
+//! `-- integration-api/src/language.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- tokio::join
+//! |-- tokio::test
+//! `-- which::which
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-only, builtins resolve against an empty PATH with downloads disabled so no

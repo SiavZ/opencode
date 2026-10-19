@@ -3,14 +3,18 @@
 //! Scope: `tool-schema.ts` key/JSON/JSDoc formatting helpers.
 //! Uses:
 //! rust/crates/
-//! |-- codemode/src/tools/render.rs
 //! |-- codemode/src/value/number.rs
 //! |-- codemode/src/value/object.rs
 //! `-- codemode/src/value/text.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- f64::NAN
+//! |-- number::format
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/tools/mod.rs
 //! `-- codemode/src/tools/render.rs
 //! Invariants: JSDoc output never contains a raw `*/` terminator from user text.
 //! Contract tests: codemode/tests/signature.rs

@@ -2,13 +2,19 @@
 //! use) plus their JSON Schema emission for signature rendering.
 //! Scope: schema construction, decode/validate, JSON Schema document emission.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! |-- codemode/src/value/convert.rs
+//! `-- codemode/src/value/number.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/tools/mod.rs
-//! `-- codemode/src/tools/render.rs
+//! |-- codemode/src/lib.rs
+//! |-- codemode/src/tools/discovery.rs
+//! `-- codemode/src/tools/mod.rs
 //! Invariants: decode returns the decoded (Type-side) value; `json_schema(false)` describes the
 //! encoded side and `json_schema(true)` the decoded side, like `Schema.toType`.
 //! Contract tests: codemode/tests/codemode.rs, codemode/tests/signature.rs

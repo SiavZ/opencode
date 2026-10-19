@@ -8,7 +8,8 @@
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/shell/mod.rs
-//! `-- tools/src/shell/scan.rs
+//! |-- tools/src/shell/scan.rs
+//! `-- tools/tests/shell_scan.rs
 //! Invariants: longest matching prefix wins; unknown commands keep only their first token.
 //! Contract tests: tools/tests/shell_scan.rs
 

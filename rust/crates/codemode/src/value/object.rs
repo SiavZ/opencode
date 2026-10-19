@@ -4,10 +4,12 @@
 //! rust/crates/
 //! `-- codemode/src/value/mod.rs
 //! External:
-//! `-- indexmap::IndexMap
+//! |-- indexmap::IndexMap
+//! `-- u32::MAX
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/ops.rs
+//! |-- codemode/src/tools/text.rs
 //! `-- codemode/src/value/mod.rs
 //! Invariants: enumeration follows JS own-key order (array-index keys ascending, then insertion).
 //! Contract tests: codemode/tests/parity.rs

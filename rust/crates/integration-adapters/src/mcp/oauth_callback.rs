@@ -5,11 +5,29 @@
 //! an `Arc<OAuthCallback>`). The axum serve task is owned and joined on stop.
 //! Uses:
 //! rust/crates/
-//! |-- integration-adapters/src/mcp/oauth_provider.rs
-//! `-- integration-api/src/mcp.rs
+//! `-- integration-adapters/src/mcp/oauth_provider.rs
 //! External:
-//! |-- axum::{Router, extract::Query, response::Html}
-//! `-- tokio::sync::oneshot
+//! |-- axum::Router::new
+//! |-- axum::extract::Query
+//! |-- axum::extract::State
+//! |-- axum::http::StatusCode
+//! |-- axum::http::Uri
+//! |-- axum::response::Html
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- axum::serve
+//! |-- oneshot::Receiver
+//! |-- oneshot::Sender
+//! |-- oneshot::channel
+//! |-- str::to_string
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::net::TcpStream::connect
+//! |-- tokio::spawn
+//! |-- tokio::sync::oneshot
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::timeout
+//! |-- tokio_util::sync::CancellationToken
+//! `-- tokio_util::sync::CancellationToken::new
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/mod.rs

@@ -4,10 +4,13 @@
 //! Scope: integration tests through `McpService`. Label: fixture (local loopback peers), not live.
 //! Uses:
 //! rust/crates/
-//! |-- integration-adapters/src/mcp/mod.rs
-//! `-- integration-adapters/tests/mcp_support/mod.rs
+//! |-- integration-adapters/tests/mcp_support/http.rs
+//! |-- integration-adapters/tests/mcp_support/mod.rs
+//! `-- integration-api/src/mcp.rs
 //! External:
-//! `-- tokio::test
+//! |-- serde_json::Map
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: peers bind 127.0.0.1:0 and are aborted at test end.

@@ -5,11 +5,14 @@
 //! rust/crates/
 //! `-- session-api/src/ids.rs
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
+//! |-- server/src/handlers/session.rs
+//! |-- server/tests/support/mod.rs
 //! |-- session-api/src/lib.rs
-//! `-- session-api/src/operations.rs
+//! |-- session-api/src/operations.rs
+//! `-- session-runtime/src/service.rs
 //! Invariants: not-found, conflict, unavailable, decode, cancelled and retryable storage
 //! failures stay distinguishable. `_tag` strings match the baseline for wire mapping.
 //! Contract tests: session-api/tests/wire.rs

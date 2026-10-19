@@ -18,7 +18,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-03, consumers: runtime, hosted-adapters)
+//! `-- none, entrypoint
 //! Invariants: no dependency on session/server/UI crates. Live provider calls only in
 //! explicitly labelled live tests (none today).
 //! Contract tests: provider-adapters/src/route.rs, provider-adapters/tests/

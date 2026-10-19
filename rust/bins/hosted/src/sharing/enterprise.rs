@@ -6,9 +6,37 @@
 //! `-- hosted/src/sharing/validate.rs
 //! rust/crates/
 //! |-- hosted-adapters/src/sharing/objects.rs
-//! `-- hosted-adapters/src/sharing/service.rs
+//! |-- hosted-adapters/src/sharing/service.rs
+//! `-- hosted-domain/src/sharing/share.rs
 //! External:
-//! `-- axum::{Router, routing}
+//! |-- axum::Router
+//! |-- axum::body::Body::from
+//! |-- axum::body::Bytes
+//! |-- axum::extract::Path
+//! |-- axum::extract::State
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::HeaderValue
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- axum::routing::delete
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- header::AUTHORIZATION
+//! |-- header::CACHE_CONTROL
+//! |-- header::CONTENT_TYPE
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- serde_json::to_string
+//! |-- serde_json::to_value
+//! |-- str::to_string
+//! |-- validate::failure
+//! |-- validate::strings
+//! |-- validate::support_body
+//! `-- validate::sync_body
 //! Used by:
 //! rust/bins/
 //! |-- hosted/src/sharing/mod.rs

@@ -1,10 +1,9 @@
 //! Purpose: design primitives, tokens and themes from packages/ui CSS assets.
 //! Scope: design system.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

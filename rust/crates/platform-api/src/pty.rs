@@ -5,10 +5,16 @@
 //! rust/crates/
 //! `-- platform-api/src/error.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
-//! `-- platform-api/src/lib.rs
+//! |-- platform-api/src/lib.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- server/src/services/streams.rs
+//! |-- server/src/transport/websocket.rs
+//! `-- server/tests/ws_pty.rs
 //! Invariants: cursor units are UTF-16 code units of decoded output, like the baseline JS string
 //! `length` (pty.ts:205). Replay buffer is bounded to BUFFER_LIMIT, exited sessions retained up to
 //! EXITED_LIMIT. Live delivery starts only after `activate`.

@@ -11,11 +11,19 @@
 //! |-- hosted-domain/src/console/common.rs
 //! `-- hosted-domain/src/console/identity.rs
 //! External:
+//! |-- base64::Engine
 //! |-- base64::engine::general_purpose::URL_SAFE_NO_PAD
-//! `-- reqwest::Client
+//! |-- form_urlencoded::Serializer::new
+//! |-- reqwest::Client
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- time::OffsetDateTime
+//! |-- time::OffsetDateTime::UNIX_EPOCH
+//! |-- time::OffsetDateTime::from_unix_timestamp_nanos
+//! |-- url::Url::parse
+//! `-- uuid::Uuid::new_v4
 //! Used by:
-//! rust/bins/
-//! `-- hosted/src/console/auth.rs
 //! rust/crates/
 //! |-- hosted-adapters/src/console/mod.rs
 //! `-- hosted-adapters/tests/console_identity_auth.rs

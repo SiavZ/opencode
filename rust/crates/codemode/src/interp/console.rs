@@ -3,14 +3,23 @@
 //! Scope: `runtime.ts` invokeConsole/formatConsole* (lines 1960-2075) and stdlib/console.ts.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
 //! |-- codemode/src/interp/diagnose.rs
+//! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/interp/ops.rs
+//! |-- codemode/src/tools/render.rs
 //! |-- codemode/src/value/convert.rs
-//! `-- codemode/src/value/mod.rs
+//! |-- codemode/src/value/mod.rs
+//! |-- codemode/src/value/number.rs
+//! `-- codemode/src/value/text.rs
 //! External:
-//! `-- none
+//! |-- number::format
+//! |-- serde_json::Value::Array
+//! `-- serde_json::Value::String
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/interp/call.rs
+//! `-- codemode/src/interp/mod.rs
 //! Invariants: formatting never fails the program; cycles render `[Circular]`, opaque references
 //! render `[CodeMode reference]`; host paths are redacted.
 //! Contract tests: codemode/tests/codemode.rs

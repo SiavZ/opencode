@@ -8,13 +8,15 @@
 //! `-- desktop-host/src/updater/state.rs
 //! External:
 //! |-- parking_lot::Mutex
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- serde_json::to_string_pretty
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
-//! |-- desktop-host/src/updater.rs
-//! `-- desktop-host/tests/updater_store.rs
-//! rust/bins/
-//! `-- desktop/src/updater.rs
+//! `-- desktop-host/src/updater.rs
 //! Invariants: unknown keys are preserved, a malformed `ready` value reads as absent
 //! (`updater.ts:51-55`), writes go through a temp file + rename, the file is removed when the
 //! store becomes empty.

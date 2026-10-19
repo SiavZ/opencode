@@ -8,6 +8,7 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
+//! |-- protocol/src/current/mod.rs
 //! `-- protocol/src/lib.rs
 //! Invariants: current envelope `{id, type, data, metadata?, durable?, location?}`, legacy
 //! `{id, type, properties}`. `server.connected` is appended when absent.

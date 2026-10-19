@@ -6,7 +6,11 @@
 //! |-- tools/src/files/read_files.rs
 //! `-- tools/tests/files_read/support.rs
 //! External:
-//! `-- serde_json::json
+//! |-- read_files::read
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- tokio::test
 //! Used by:
 //! rust/crates/
 //! `-- tools/tests/files_read.rs

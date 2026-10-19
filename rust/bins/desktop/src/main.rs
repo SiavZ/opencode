@@ -2,13 +2,23 @@
 //! windows/menus, single-instance arbitration, deep links, and the desktop-host bridge.
 //! Scope: process entrypoint. Only binary that depends on tauri.
 //! Uses:
-//! rust/crates/
-//! `-- desktop-host/src/lib.rs
+//! `-- none
 //! External:
-//! |-- anyhow
-//! |-- tauri
-//! |-- tauri_plugin_deep_link
-//! `-- tauri_plugin_single_instance
+//! |-- anyhow::Result
+//! |-- anyhow::anyhow
+//! |-- env::args
+//! |-- tauri::Builder::default
+//! |-- tauri::Manager
+//! |-- tauri::WebviewUrl::App
+//! |-- tauri::WebviewWindowBuilder::new
+//! |-- tauri::async_runtime::spawn
+//! |-- tauri::generate_context
+//! |-- tauri_plugin_deep_link::init
+//! |-- tauri_plugin_single_instance::init
+//! |-- tokio::main
+//! |-- tokio::time::sleep
+//! |-- tracing::info
+//! `-- tracing_subscriber::fmt::init
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tauri is only a dependency of this binary, never of wasm-compiled crates.

@@ -5,10 +5,36 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- axum::middleware::Next
+//! |-- axum::extract::Request
+//! |-- axum::extract::State
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::HeaderValue
+//! |-- axum::http::Method
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::middleware::Next
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- header::ACCESS_CONTROL_ALLOW_HEADERS
+//! |-- header::ACCESS_CONTROL_ALLOW_METHODS
+//! |-- header::ACCESS_CONTROL_ALLOW_ORIGIN
+//! |-- header::ACCESS_CONTROL_MAX_AGE
+//! |-- header::ACCESS_CONTROL_REQUEST_HEADERS
+//! |-- header::HeaderName
+//! |-- header::ORIGIN
+//! |-- header::VARY
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
-//! `-- server/src/app.rs
+//! |-- runtime/src/process.rs
+//! |-- server/src/app.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- server/src/middleware/mod.rs
+//! |-- server/tests/http_auth.rs
+//! |-- server/tests/http_cors.rs
+//! |-- server/tests/http_legacy.rs
+//! |-- server/tests/replay_baseline.rs
+//! `-- server/tests/ws_pty.rs
 //! Invariants: OPTIONS always answers 204 with allow-methods `GET, HEAD, PUT, PATCH, POST, DELETE`,
 //! echoed request headers (`vary: Access-Control-Request-Headers`), max-age 86400, and for
 //! allowed origins `access-control-allow-origin: <origin>` with `Vary` merged to include

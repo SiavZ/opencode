@@ -3,16 +3,22 @@
 //! Scope: async file I/O on the given data dir. The env override is passed in explicitly.
 //! Uses:
 //! rust/crates/
-//! |-- storage-api/src/error.rs
-//! |-- storage-sqlite/src/legacy_files.rs
-//! `-- storage-sqlite/src/legacy_files/store.rs
+//! |-- storage-api/src/lib.rs
+//! `-- storage-sqlite/src/legacy_files.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! |-- serde_json::to_value
+//! |-- tokio::fs::read_to_string
+//! |-- tokio::fs::set_permissions
+//! `-- tokio::fs::write
 //! Used by:
 //! rust/crates/
-//! |-- storage-sqlite/src/legacy_files.rs
-//! `-- storage-sqlite/tests/credentials.rs
+//! `-- storage-sqlite/src/legacy_files.rs
 //! Invariants: when the env content is non-empty and parses as JSON it is returned unvalidated (TS
 //! `JSON.parse` result). Otherwise the file is read, a missing or invalid file is `{}`, and entries that
 //! fail the `Auth.Info` union are dropped, valid ones are re-encoded (excess keys stripped). `set`

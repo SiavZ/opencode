@@ -13,6 +13,11 @@
 //! `-- axum::Router
 //! Used by:
 //! rust/bins/
+//! |-- hosted/src/console/auth.rs
+//! |-- hosted/src/console/billing.rs
+//! |-- hosted/src/console/support.rs
+//! |-- hosted/src/console/workspace.rs
+//! |-- hosted/src/console/zen.rs
 //! `-- hosted/src/main.rs
 //! Invariants: owned by phase-12; route modules call hosted-domain/hosted-adapters, never raw SQL.
 //! Contract tests: route unit tests in each module (tower oneshot).

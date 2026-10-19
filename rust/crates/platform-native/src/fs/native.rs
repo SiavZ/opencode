@@ -4,15 +4,29 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
+//! |-- platform-api/src/lib.rs
 //! |-- platform-native/src/fs/error.rs
 //! `-- platform-native/src/fs/glob.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- tokio::fs
+//! |-- tokio::fs::File::open
+//! |-- tokio::fs::canonicalize
+//! |-- tokio::fs::create_dir_all
+//! |-- tokio::fs::metadata
+//! |-- tokio::fs::read
+//! |-- tokio::fs::read_dir
+//! |-- tokio::fs::remove_dir_all
+//! |-- tokio::fs::remove_file
+//! |-- tokio::fs::rename
+//! |-- tokio::fs::symlink_metadata
+//! |-- tokio::fs::write
+//! |-- tokio::io::AsyncReadExt
+//! |-- tokio::io::AsyncSeekExt
+//! `-- tokio::task::spawn_blocking
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/fs/mod.rs
-//! `-- platform-native/tests/fs_util.rs
+//! `-- platform-native/src/fs/mutation.rs
 //! Invariants: `read_to_string` decodes like `TextDecoder("utf-8")` (leading BOM dropped, invalid
 //! sequences replaced); `exists` is false only on NotFound; `write_with_dirs` creates the parent
 //! only after a NotFound write failure; walks stop at `stop` or the filesystem root

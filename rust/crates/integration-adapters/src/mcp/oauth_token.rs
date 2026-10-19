@@ -8,15 +8,25 @@
 //! |-- integration-adapters/src/mcp/oauth_discovery.rs
 //! `-- integration-adapters/src/mcp/oauth_provider.rs
 //! External:
-//! |-- base64::engine::general_purpose::{STANDARD, URL_SAFE_NO_PAD}
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- base64::engine::general_purpose::URL_SAFE_NO_PAD
+//! |-- regex::Regex::new
 //! |-- reqwest::Response
-//! |-- sha2::{Digest, Sha256}
-//! `-- url::Url
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- sha2::Digest
+//! |-- sha2::Sha256::digest
+//! |-- str::is_empty
+//! |-- str::to_string
+//! |-- u8::from_str_radix
+//! |-- url::Url
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
-//! |-- integration-adapters/src/mcp/oauth.rs
-//! |-- integration-adapters/src/mcp/remote.rs
-//! `-- integration-adapters/src/mcp/streamable.rs
+//! |-- integration-adapters/src/mcp/mod.rs
+//! `-- integration-adapters/src/mcp/oauth.rs
 //! Invariants: registration without a registration_endpoint fails with the SDK message that the
 //! service classifies as needs_client_registration; PKCE uses S256 with a 43-char verifier.
 //! Contract tests: integration-adapters/tests/mcp_oauth.rs

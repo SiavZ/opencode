@@ -3,16 +3,18 @@
 //! Scope: stateless functions over `&dyn Sql`.
 //! Uses:
 //! rust/crates/
+//! |-- storage-api/src/lib.rs
 //! |-- storage-api/src/records/codec.rs
 //! |-- storage-api/src/records/crud.rs
-//! |-- storage-api/src/records/mod.rs
-//! `-- storage-api/src/sql.rs
+//! `-- storage-api/src/records/mod.rs
 //! External:
+//! |-- codec::absolute::encode
+//! |-- codec::absolute_array::encode
+//! |-- codec::directory::encode
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! |-- storage-sqlite/src/repositories/mod.rs
-//! `-- storage-sqlite/tests/repositories.rs
+//! `-- storage-sqlite/src/repositories/mod.rs
 //! Invariants: drizzle drops `undefined` from `set`, so `None` inputs leave the stored column alone on
 //! update and upsert, while plain inserts write NULL. Every UPDATE of project or session bumps
 //! `time_updated` (drizzle `$onUpdate`) unless the caller sets it.

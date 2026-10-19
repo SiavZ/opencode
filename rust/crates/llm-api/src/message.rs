@@ -7,14 +7,21 @@
 //! |-- llm-api/src/options.rs
 //! `-- llm-api/src/route.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- llm-api/src/client.rs
 //! |-- llm-api/src/event.rs
 //! |-- llm-api/src/lib.rs
 //! |-- llm-api/src/response.rs
-//! `-- llm-api/src/route.rs
+//! |-- llm-api/src/route.rs
+//! |-- provider-adapters/src/providers/transform_message.rs
+//! |-- provider-adapters/src/providers/transform_message/media.rs
+//! |-- session-runtime/src/runner/publish/tools.rs
+//! |-- session-runtime/tests/runner_publish_tools.rs
+//! `-- session-runtime/tests/support/publish.rs
 //! Invariants: tagged unions use `type` with baseline spellings (`text`, `media`,
 //! `tool-call`, `tool-result`, `reasoning`); optional keys are omitted when absent.
 //! Contract tests: llm-api/tests/contract.rs

@@ -5,11 +5,29 @@
 //! rust/crates/
 //! `-- llm-api/src/lib.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/lib.rs
-//! `-- provider-adapters/src/route.rs
+//! |-- provider-adapters/src/protocols/anthropic/mod.rs
+//! |-- provider-adapters/src/protocols/anthropic/stream.rs
+//! |-- provider-adapters/src/protocols/anthropic/wire.rs
+//! |-- provider-adapters/src/protocols/bedrock/mod.rs
+//! |-- provider-adapters/src/protocols/bedrock/stream.rs
+//! |-- provider-adapters/src/protocols/gemini/mod.rs
+//! |-- provider-adapters/src/protocols/gemini/stream.rs
+//! |-- provider-adapters/src/protocols/openai/chat.rs
+//! |-- provider-adapters/src/protocols/openai/chat_stream.rs
+//! |-- provider-adapters/src/protocols/openai/responses_stream.rs
+//! |-- provider-adapters/src/protocols/openai/wire.rs
+//! |-- provider-adapters/src/providers/wrap.rs
+//! |-- provider-adapters/src/route.rs
+//! |-- provider-adapters/src/transport/http.rs
+//! |-- provider-adapters/src/transport/websocket.rs
+//! |-- provider-adapters/tests/openai_common/mod.rs
+//! |-- provider-adapters/tests/transport_http.rs
+//! `-- provider-adapters/tests/transport_websocket.rs
 //! Invariants: `step` is pure over (state, frame) and emits events in provider order.
 //! `on_halt` runs once when the framed stream ends without a terminal frame.
 //! Contract tests: provider-adapters/tests/route_http.rs

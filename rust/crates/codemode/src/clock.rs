@@ -4,12 +4,14 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- std::time::{Instant, SystemTime}
+//! |-- f64::NAN
 //! `-- tokio::time::sleep
 //! Used by:
 //! rust/crates/
 //! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/lib.rs
 //! |-- codemode/src/run.rs
+//! |-- codemode/src/stdlib/date.rs
 //! `-- codemode/src/tools/runtime.rs
 //! Invariants: no ambient time access on wasm; native time uses the system clock.
 //! Contract tests: codemode/tests/codemode.rs

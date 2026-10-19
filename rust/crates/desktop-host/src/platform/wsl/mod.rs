@@ -10,12 +10,26 @@
 //! |-- desktop-host/src/platform/wsl/runtime.rs
 //! `-- desktop-host/src/platform/wsl/sidecar.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::Serializer
+//! |-- serde::de::MapAccess
+//! |-- serde::de::Visitor
+//! `-- serde::ser::SerializeMap
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/platform/mod.rs
+//! |-- desktop-host/src/platform/wsl/controller.rs
+//! |-- desktop-host/src/platform/wsl/controller/jobs.rs
+//! |-- desktop-host/src/platform/wsl/exe.rs
+//! |-- desktop-host/src/platform/wsl/policy.rs
+//! |-- desktop-host/src/platform/wsl/runtime.rs
+//! |-- desktop-host/src/platform/wsl/sidecar.rs
 //! |-- desktop-host/tests/wsl_policy.rs
-//! `-- desktop-host/tests/wsl_servers.rs
+//! |-- desktop-host/tests/wsl_runtime.rs
+//! |-- desktop-host/tests/wsl_servers.rs
+//! `-- desktop-host/tests/wsl_support/mod.rs
 //! Invariants: JSON field names/casing and record key order match `packages/app/src/wsl/types.ts`.
 //! Contract tests: desktop-host/tests/wsl_policy.rs, desktop-host/tests/wsl_runtime.rs, desktop-host/tests/wsl_servers.rs
 

@@ -4,12 +4,17 @@
 //! Scope: live ripgrep in temp dirs with a fixture authorizer.
 //! Uses:
 //! rust/crates/
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/search/core.rs
 //! |-- tools/src/search/legacy.rs
 //! |-- tools/src/search/mod.rs
 //! `-- tools/tests/search_support.rs
 //! External:
-//! `-- serde_json::json
+//! |-- legacy::GLOB_DESCRIPTION
+//! |-- legacy::GREP_DESCRIPTION
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: permission is asked before any search; legacy external paths ask external_directory.

@@ -11,11 +11,16 @@
 //! |-- ecosystem/src/github/auth/mod.rs
 //! `-- ecosystem/src/github/auth/oidc.rs
 //! External:
-//! `-- serde_json::{json, Value}
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- ecosystem/src/bridge.rs
 //! |-- ecosystem/src/github/auth/mod.rs
+//! |-- ecosystem/tests/bridge_feishu.rs
 //! `-- ecosystem/tests/github_auth_exchange.rs
 //! Invariants: verification failures never reveal why (baseline 403 body is fixed), tokens
 //! and request bodies are never logged.

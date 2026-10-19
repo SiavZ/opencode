@@ -4,12 +4,37 @@
 //! Scope: live local listener with an in-memory `EventSource`/`GlobalBus` (fixture, not adapter).
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
 //! |-- protocol/src/sse.rs
 //! |-- server/src/app.rs
+//! |-- server/src/lifecycle.rs
+//! |-- server/src/services/mod.rs
 //! |-- server/src/services/streams.rs
 //! `-- server/tests/support/mod.rs
 //! External:
-//! `-- reqwest::Client
+//! |-- app::router
+//! |-- axum::body::Body::empty
+//! |-- axum::http::Request::get
+//! |-- futures_util::stream::BoxStream
+//! |-- futures_util::stream::StreamExt
+//! |-- futures_util::stream::poll_fn
+//! |-- futures_util::stream::unfold
+//! |-- reqwest::Response
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- str::to_string
+//! |-- tokio::pin
+//! |-- tokio::spawn
+//! |-- tokio::sync::Notify
+//! |-- tokio::sync::mpsc::UnboundedReceiver
+//! |-- tokio::sync::mpsc::UnboundedSender
+//! |-- tokio::sync::mpsc::unbounded_channel
+//! |-- tokio::test
+//! |-- tokio::time::Instant::now
+//! |-- tokio::time::sleep
+//! |-- tokio::time::timeout
+//! `-- tower::ServiceExt
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-based; real durable wake/replay semantics are tested in event-store.

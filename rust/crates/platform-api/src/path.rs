@@ -4,10 +4,21 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- std::path::{Component, Path, PathBuf}
+//! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- platform-api/src/lib.rs
+//! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/plugin.rs
+//! |-- config/src/resources.rs
+//! |-- config/src/variable.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-native/src/fs/ignore.rs
+//! |-- tools/src/files/common.rs
+//! |-- tools/src/search/core.rs
+//! |-- tools/src/search/legacy.rs
+//! |-- tools/src/shell/core.rs
+//! |-- tools/src/shell/legacy.rs
+//! `-- tools/src/shell/scan.rs
 //! Invariants: `contains` matches baseline `FSUtil.contains` (lexical, relative path does not start
 //! with `..` and is not absolute).
 //! Contract tests: platform-api/src/path.rs

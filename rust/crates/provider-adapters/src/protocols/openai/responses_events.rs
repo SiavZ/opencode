@@ -10,7 +10,12 @@
 //! |-- provider-adapters/src/shared.rs
 //! `-- provider-adapters/src/transport/overflow.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- serde_json::to_value
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/openai/mod.rs

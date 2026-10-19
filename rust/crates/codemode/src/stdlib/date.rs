@@ -2,14 +2,18 @@
 //! Scope: stdlib/date.ts and runtime.ts constructDate (lines 1510-1522).
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
 //! |-- codemode/src/clock.rs
-//! `-- codemode/src/value/convert.rs
+//! |-- codemode/src/error.rs
+//! |-- codemode/src/value/convert.rs
+//! `-- codemode/src/value/mod.rs
 //! External:
-//! `-- none
+//! |-- f64::NAN
+//! `-- i64::from
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/call.rs
 //! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/stdlib/mod.rs
 //! `-- codemode/src/value/convert.rs
 //! Invariants: time values are epoch milliseconds clipped to +-8.64e15; local time is UTC (the
 //! confined runtime has no ambient timezone, see codemode.md blockers).

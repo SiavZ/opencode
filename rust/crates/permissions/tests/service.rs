@@ -4,9 +4,13 @@
 //! Scope: in-memory test ports (fixture-only, no storage).
 //! Uses:
 //! rust/crates/
-//! `-- permissions/src/service.rs
+//! `-- permissions/src/lib.rs
 //! External:
-//! `-- tokio
+//! |-- async_trait::async_trait
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: none.

@@ -3,9 +3,9 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- tauri_build
+//! `-- tauri_build::build
 //! Used by:
-//! `-- none, build script
+//! `-- none, entrypoint
 //! Invariants: only runs during cargo build.
 //! Contract tests: no dedicated test; desktop cargo build executes Tauri code generation.
 

@@ -5,11 +5,24 @@
 //! (p06.legacy-registry) and a fixture `LegacyWorkspaces` for Phase 02.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/lib.rs
+//! |-- protocol/src/operation.rs
 //! |-- server/src/app.rs
-//! |-- server/src/transport/proxy.rs
+//! |-- server/src/lifecycle.rs
+//! |-- server/src/services/mod.rs
 //! `-- server/tests/support/mod.rs
 //! External:
-//! `-- axum::Router
+//! |-- app::router_with
+//! |-- async_trait::async_trait
+//! |-- axum::Router
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::http::Uri
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- serde_json::Value
+//! |-- tokio::net::TcpListener::bind
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: mirrors httpapi/middleware/workspace-routing.ts and proxy.ts.

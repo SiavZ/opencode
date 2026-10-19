@@ -6,13 +6,21 @@
 //! |-- integration-adapters/src/mcp/auth_store.rs
 //! `-- integration-api/src/mcp.rs
 //! External:
-//! |-- serde_json::{Value, json}
-//! `-- url::Url
+//! |-- getrandom::fill
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- url::Url
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/connect.rs
+//! |-- integration-adapters/src/mcp/mod.rs
 //! |-- integration-adapters/src/mcp/oauth.rs
-//! `-- integration-adapters/src/mcp/service.rs
+//! |-- integration-adapters/src/mcp/oauth_callback.rs
+//! |-- integration-adapters/src/mcp/oauth_discovery.rs
+//! |-- integration-adapters/src/mcp/oauth_token.rs
+//! |-- integration-adapters/src/mcp/remote.rs
+//! `-- integration-adapters/src/mcp/service_auth.rs
 //! Invariants: persistent mode reads credentials only via exact-URL lookup; pending mode keeps
 //! tokens and registered client in memory until `commit`; config clientId always wins.
 //! Contract tests: integration-adapters/tests/mcp_oauth.rs

@@ -12,7 +12,9 @@
 //! |-- provider-adapters/src/shared.rs
 //! `-- provider-adapters/src/tool_schema.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! |-- serde_json::to_value
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! `-- provider-adapters/src/protocols/anthropic/mod.rs

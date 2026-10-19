@@ -4,11 +4,18 @@
 //! rust/crates/
 //! `-- storage-api/src/error.rs
 //! External:
-//! |-- serde::{Serialize, de::DeserializeOwned}
-//! `-- serde_json
+//! |-- i64::from
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/crates/
 //! |-- storage-api/src/lib.rs
+//! |-- storage-api/src/records/codec.rs
+//! |-- storage-api/src/records/crud.rs
+//! |-- storage-api/src/records/mod.rs
 //! `-- storage-api/src/sql.rs
 //! Invariants: JSON columns (Drizzle `text({ mode: "json" })`) are stored as `JSON.stringify` text; booleans as 0/1 integers.
 //! Contract tests: storage-api/src/value.rs

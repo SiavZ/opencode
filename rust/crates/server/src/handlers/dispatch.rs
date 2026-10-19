@@ -4,6 +4,7 @@
 //! Scope: per-request.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/lib.rs
 //! |-- protocol/src/operation.rs
 //! |-- server/src/app.rs
 //! |-- server/src/handlers/mod.rs
@@ -12,11 +13,34 @@
 //! |-- server/src/middleware/legacy_routing.rs
 //! `-- server/src/middleware/location.rs
 //! External:
+//! |-- axum::body::Body
+//! |-- axum::body::to_bytes
+//! |-- axum::extract::Path
 //! |-- axum::extract::Request
-//! `-- serde_json::{Map, Value}
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- decode::params
+//! |-- decode::payload
+//! |-- decode::query
+//! |-- header::CONTENT_TYPE
+//! |-- legacy_routing::instance
+//! |-- legacy_routing::route
+//! |-- location::reference
+//! |-- location::resolve
+//! |-- location::session
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::from_value
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
-//! `-- server/src/app.rs
+//! |-- server/src/app.rs
+//! |-- server/src/handlers/mod.rs
+//! `-- server/src/handlers/session.rs
 //! Invariants: middleware runs before decoding (Effect `applyMiddleware` wraps the decoder), decode
 //! order is Params, Query, Payload. Current (`/api/`) rejections use the tagged
 //! InvalidRequestError, legacy ones the NamedError BadRequest body. A JSON payload with another

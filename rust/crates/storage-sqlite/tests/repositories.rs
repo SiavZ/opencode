@@ -6,11 +6,38 @@
 //! Uses:
 //! rust/crates/
 //! |-- storage-api/src/lib.rs
-//! |-- storage-sqlite/src/lib.rs
+//! |-- storage-api/src/records/mod.rs
+//! |-- storage-sqlite/src/repositories/mod.rs
 //! `-- storage-sqlite/tests/support/mod.rs
 //! External:
-//! |-- serde_json
-//! `-- tokio
+//! |-- permission::add
+//! |-- permission::list
+//! |-- permission::remove
+//! |-- project::Update
+//! |-- project::Update::default
+//! |-- project::Upsert
+//! |-- project::add_sandbox
+//! |-- project::adopt_global_sessions
+//! |-- project::get
+//! |-- project::insert
+//! |-- project::list
+//! |-- project::migrate_id
+//! |-- project::remove_sandbox
+//! |-- project::set_initialized
+//! |-- project::update
+//! |-- project::upsert
+//! |-- project_directory::Behavior::Ignore
+//! |-- project_directory::Behavior::Replace
+//! |-- project_directory::contains
+//! |-- project_directory::create
+//! |-- project_directory::list
+//! |-- project_directory::remove
+//! |-- serde_json::json
+//! |-- tokio::test
+//! |-- workspace::get
+//! |-- workspace::insert
+//! |-- workspace::list
+//! `-- workspace::remove
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every assertion names the TS behavior it pins.

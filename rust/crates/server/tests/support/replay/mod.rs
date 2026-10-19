@@ -6,10 +6,14 @@
 //! |-- server/tests/support/replay/matcher.rs
 //! `-- server/tests/support/replay/run.rs
 //! External:
-//! `-- serde::Deserialize
+//! |-- serde::Deserialize
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- server/tests/replay_baseline.rs
+//! |-- server/tests/replay_baseline.rs
+//! |-- server/tests/support/mod.rs
+//! `-- server/tests/support/replay/run.rs
 //! Invariants: cases replay in capture order (`seq`), because later cases reuse ids bound by
 //! earlier ones. The ledger maps case id -> mismatch category; every non-passing case must be
 //! ledgered and every ledgered case must still fail (stale entries are errors).

@@ -6,13 +6,17 @@
 //! rust/crates/
 //! `-- provider-adapters/src/auth.rs
 //! External:
+//! |-- char::len_utf16
 //! |-- regex::Regex
-//! `-- url::Url
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
+//! |-- provider-adapters/src/protocols/bedrock/mod.rs
+//! |-- provider-adapters/src/providers/gateways.rs
 //! |-- provider-adapters/src/transport/executor.rs
 //! |-- provider-adapters/src/transport/mod.rs
-//! `-- provider-adapters/src/transport/websocket.rs
+//! |-- provider-adapters/src/transport/status.rs
+//! `-- provider-adapters/tests/transport_executor.rs
 //! Invariants: one sensitive-name source drives headers, query keys and body fields. Values
 //! shorter than 4 characters are never treated as literal secrets. Bodies are truncated to
 //! `BODY_LIMIT` UTF-16 code units (JS `String.length`) after redaction, never before.

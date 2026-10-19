@@ -4,7 +4,17 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::Serializer
+//! |-- serde::de::Error::custom
+//! |-- serde_json::Map
+//! |-- serde_json::Map::deserialize
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::to_value
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
 //! `-- hosted-domain/src/console/identity.rs

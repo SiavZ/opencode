@@ -3,10 +3,11 @@
 //! Scope: `Worktrees` over real temp repos with isolated git config. Live.
 //! Uses:
 //! rust/crates/
+//! |-- platform-native/src/vcs/mod.rs
 //! |-- platform-native/src/vcs/worktree.rs
-//! |-- platform-native/src/vcs/worktree_reset.rs
 //! `-- platform-native/tests/git_support.rs
 //! External:
+//! |-- serde_json::to_value
 //! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint

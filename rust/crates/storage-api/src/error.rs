@@ -3,11 +3,14 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! |-- storage-api/src/json_store.rs
 //! |-- storage-api/src/lib.rs
+//! |-- storage-api/src/records/codec.rs
+//! |-- storage-api/src/records/crud.rs
+//! |-- storage-api/src/records/mod.rs
 //! |-- storage-api/src/sql.rs
 //! `-- storage-api/src/value.rs
 //! Invariants: `Busy` and `Locked` are the only retryable variants. Constraint failures are never retryable.

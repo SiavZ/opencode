@@ -8,19 +8,29 @@
 //! |-- context/src/registry.rs
 //! |-- context/src/source/mod.rs
 //! |-- llm-api/src/lib.rs
-//! |-- permissions/src/rule.rs
+//! |-- permissions/src/lib.rs
 //! |-- schema/src/permission.rs
+//! |-- schema/src/values.rs
 //! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/agents.rs
 //! `-- tool-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::to_value
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/execution_support.rs
+//! |-- runtime/src/location.rs
+//! |-- runtime/src/location_tools.rs
 //! |-- session-runtime/src/runner/mod.rs
 //! |-- session-runtime/src/runner/turn.rs
 //! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/runner/turn/tools.rs
 //! `-- session-runtime/tests/support/provider.rs
 //! Invariants: a materialization is an immutable advertisement; settle never re-materializes.
 //! Tool failures are model-facing `Settlement`s; only output-store failures (`Failed`) and user

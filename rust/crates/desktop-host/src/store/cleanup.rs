@@ -5,7 +5,8 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/store.rs

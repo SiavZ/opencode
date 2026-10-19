@@ -7,13 +7,20 @@
 //! rewriting are not here (see providers-blockers.md).
 //! Uses:
 //! rust/crates/
-//! `-- llm-api/src/lib.rs
+//! |-- llm-api/src/lib.rs
+//! `-- llm-api/src/options.rs
 //! External:
+//! |-- char::decode_utf16
 //! |-- regex::Regex
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/providers/mod.rs
+//! |-- provider-adapters/src/providers/mod.rs
+//! |-- provider-adapters/src/providers/transform_message.rs
+//! |-- provider-adapters/src/providers/transform_message/media.rs
+//! |-- provider-adapters/tests/providers_transform.rs
+//! `-- provider-adapters/tests/providers_transform_messages.rs
 //! Invariants: outputs match the baseline object shapes and key order.
 //! Contract tests: provider-adapters/tests/providers_transform.rs
 

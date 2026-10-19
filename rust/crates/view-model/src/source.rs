@@ -4,17 +4,24 @@
 //! Scope: serde data types only. Phase 06 `opencode-protocol` will own the wire DTOs, at
 //! which point these become re-exports or thin conversions.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- view-model/src/lib.rs
+//! |-- view-model/src/projection/mod.rs
+//! |-- view-model/src/projection/tool.rs
 //! |-- view-model/src/reducer/assistant.rs
 //! |-- view-model/src/reducer/mod.rs
-//! `-- view-model/tests/reducer.rs
+//! |-- view-model/src/session_cache.rs
+//! |-- view-model/src/timeline/mod.rs
+//! |-- view-model/tests/reducer.rs
+//! |-- view-model/tests/session_cache.rs
+//! `-- view-model/tests/timeline.rs
 //! Invariants: optional keys are omitted when absent (never serialized as null), times are
 //! integer milliseconds, tagged unions use the baseline `type`/`status` discriminators.
 //! Contract tests: view-model/tests/reducer.rs

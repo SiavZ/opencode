@@ -4,12 +4,20 @@
 //! Scope: test-only; real SQLite + legacy projectors, fixture agents and title model.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
+//! |-- session-runtime/src/legacy/ports.rs
+//! |-- session-runtime/src/legacy/types.rs
 //! |-- session-runtime/src/title.rs
 //! |-- session-runtime/tests/support/legacy.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::json
+//! |-- futures::stream::iter
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: `ScriptedTitle` is a labeled fixture stream; no network.

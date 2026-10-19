@@ -1,13 +1,14 @@
 //! Purpose: window registry with focus, close and quit semantics.
 //! Scope: tracks open windows and persisted window IDs across app launches.
 //! Uses:
-//! rust/crates/
-//! `-- desktop-host/src/windows.rs
+//! `-- none
 //! External:
-//! `-- std::collections::HashMap
+//! |-- serde_json::Value
+//! `-- serde_json::Value::Array
 //! Used by:
 //! rust/crates/
-//! `-- desktop-host/src/windows.rs
+//! |-- desktop-host/src/windows.rs
+//! `-- desktop-host/tests/windows_registry.rs
 //! Invariants: quitting flag prevents cleanup of last window, focus fallback works.
 //! Contract tests: desktop-host/tests/windows_registry.rs
 

@@ -4,21 +4,28 @@
 //! Scope: one read, then either one reconciliation write transaction or one `prompt.admitted` publish.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
 //! |-- schema/src/session_event.rs
-//! |-- session-api/src/admission.rs
-//! |-- session-api/src/error.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-api/src/prompt.rs
 //! |-- session-runtime/src/inbox.rs
 //! |-- session-runtime/src/projection.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! |-- mime_guess::from_path
-//! `-- url::Url
+//! |-- inbox::find
+//! |-- inbox::insert_promoted
+//! |-- mime_guess::from_ext
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value
+//! |-- serde_json::Value::as_str
+//! |-- serde_json::from_value
+//! |-- serde_json::to_string
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
-//! |-- session-runtime/src/service.rs
-//! |-- session-runtime/tests/admission.rs
-//! `-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/src/lib.rs
+//! `-- session-runtime/src/service.rs
 //! Invariants: admission commits the `session_input` row before returning (the caller wakes only
 //! afterwards). An existing inbox row is returned unchanged (exact-retry equivalence is checked by
 //! the caller). A visible `user` message without an inbox row is reconciled by inserting a promoted

@@ -16,6 +16,9 @@
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/mod.rs
+//! |-- provider-adapters/src/providers/bedrock.rs
+//! |-- provider-adapters/src/providers/cloud.rs
+//! |-- provider-adapters/src/providers/config.rs
 //! `-- provider-adapters/tests/bedrock_converse.rs
 //! Invariants: owned by phase-03 leaf p03.messages; the URL path is computed from the built body's
 //! `modelId` so it matches the signed bytes; default auth is SigV4 without credentials (fails

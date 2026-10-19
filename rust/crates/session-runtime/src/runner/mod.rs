@@ -3,6 +3,7 @@
 //! Scope: module root.
 //! Uses:
 //! rust/crates/
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/runner/max_steps.rs
 //! |-- session-runtime/src/runner/model.rs
 //! |-- session-runtime/src/runner/ports.rs
@@ -11,11 +12,18 @@
 //! `-- session-runtime/src/runner/turn.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- tokio::select
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/location.rs
 //! |-- session-runtime/src/execution.rs
-//! `-- session-runtime/src/lib.rs
+//! |-- session-runtime/src/lib.rs
+//! |-- session-runtime/src/runner/turn.rs
+//! |-- session-runtime/tests/coordinator_execution.rs
+//! |-- session-runtime/tests/runner_turn.rs
+//! |-- session-runtime/tests/runner_turn_tools.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: module list owned by p04.execution; children edit only their own submodule.
 //! The `SessionRunner` trait below is the binding seam between execution.rs and runner/turn.rs.
 //! Contract tests: session-runtime/tests/runner*.rs

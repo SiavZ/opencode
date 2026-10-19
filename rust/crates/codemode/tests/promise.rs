@@ -5,7 +5,9 @@
 //! |-- codemode/src/lib.rs
 //! `-- codemode/tests/common/mod.rs
 //! External:
+//! |-- serde_json::Value
 //! |-- serde_json::json
+//! |-- tokio::test
 //! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint

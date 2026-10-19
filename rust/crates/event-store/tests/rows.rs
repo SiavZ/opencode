@@ -12,8 +12,12 @@
 //! |-- storage-api/src/lib.rs
 //! `-- storage-sqlite/src/lib.rs
 //! External:
-//! |-- rusqlite::Connection
-//! `-- tempfile
+//! |-- futures::StreamExt
+//! |-- rusqlite::Connection::open
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches the real user data directory.

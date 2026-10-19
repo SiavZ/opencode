@@ -4,10 +4,14 @@
 //! Scope: fixture-based (reads the committed baseline OpenAPI JSON), no I/O beyond that file.
 //! Uses:
 //! rust/crates/
-//! |-- protocol/src/lib.rs
+//! |-- protocol/src/current/mod.rs
+//! |-- protocol/src/ir.rs
+//! |-- protocol/src/operation.rs
 //! `-- protocol/tests/current_support/mod.rs
 //! External:
-//! `-- serde_json::{Map, Value, json}
+//! |-- current::api
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the IR is compared through a minimal Effect-style JSON Schema rendering

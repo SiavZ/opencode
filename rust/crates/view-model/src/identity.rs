@@ -6,9 +6,9 @@
 //! Scope: pure values. The browser root keys transport/cache by `ServerKey`; the terminal keys by
 //! session. Both share these types, neither erases the other's remount boundary.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
+//! |-- base64::Engine
 //! `-- base64::engine::general_purpose::URL_SAFE_NO_PAD
 //! Used by:
 //! rust/crates/

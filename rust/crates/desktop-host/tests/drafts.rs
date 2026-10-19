@@ -6,7 +6,9 @@
 //! External:
 //! |-- rusqlite::Connection
 //! |-- tempfile::tempdir
-//! `-- tokio
+//! |-- tokio::task::yield_now
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches real user data.

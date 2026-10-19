@@ -7,10 +7,23 @@
 //! `-- integration-api/src/error.rs
 //! External:
 //! |-- async_trait::async_trait
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::Value
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/lsp/client.rs
+//! |-- integration-adapters/src/lsp/diagnostics.rs
+//! |-- integration-adapters/src/lsp/inventory.rs
+//! |-- integration-adapters/src/lsp/requests.rs
+//! |-- integration-adapters/src/lsp/service.rs
+//! |-- integration-adapters/tests/lsp_client.rs
+//! |-- integration-adapters/tests/lsp_inventory.rs
+//! |-- integration-adapters/tests/lsp_live.rs
+//! |-- integration-adapters/tests/lsp_service.rs
 //! `-- integration-api/src/lib.rs
 //! Invariants: positions are zero-based UTF-16 code units (LSP), `report` matches
 //! packages/opencode/src/lsp/diagnostic.ts byte for byte (20 errors per file, severity 1 only).

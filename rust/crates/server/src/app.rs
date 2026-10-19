@@ -4,6 +4,7 @@
 //! Scope: process-level router construction.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/current/mod.rs
 //! |-- protocol/src/lib.rs
 //! |-- protocol/src/openapi.rs
 //! |-- server/src/handlers/dispatch.rs
@@ -14,12 +15,49 @@
 //! |-- server/src/middleware/errors.rs
 //! `-- server/src/services/mod.rs
 //! External:
-//! `-- axum::Router
+//! |-- auth::layer
+//! |-- axum::Router
+//! |-- axum::extract::Path
+//! |-- axum::extract::Request
+//! |-- axum::extract::State
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::middleware::from_fn
+//! |-- axum::middleware::from_fn_with_state
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- axum::routing::MethodFilter
+//! |-- axum::routing::MethodRouter
+//! |-- axum::routing::get
+//! |-- axum::routing::on
+//! |-- compression::layer
+//! |-- cors::layer
+//! |-- dispatch::path_params
+//! |-- dispatch::run
+//! |-- futures_util::FutureExt
+//! |-- futures_util::future::BoxFuture
+//! |-- header::CONTENT_SECURITY_POLICY
+//! |-- header::CONTENT_TYPE
+//! |-- reqwest::Client
+//! |-- reqwest::Client::new
+//! |-- streams::owns
+//! `-- streams::routes
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/process.rs
 //! |-- server/src/handlers/dispatch.rs
 //! |-- server/src/handlers/mod.rs
-//! `-- server/src/lib.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- server/src/lib.rs
+//! |-- server/tests/http_auth.rs
+//! |-- server/tests/http_cors.rs
+//! |-- server/tests/http_errors.rs
+//! |-- server/tests/http_legacy.rs
+//! |-- server/tests/http_proxy.rs
+//! |-- server/tests/replay_baseline.rs
+//! |-- server/tests/sse_events.rs
+//! |-- server/tests/support/mod.rs
+//! `-- server/tests/ws_pty.rs
 //! Invariants: path templates `:p` become `{p}` and a trailing `*` becomes `{*wildcard}` (exposed to
 //! handlers as param `*`). Same-path operations share one method router. Layer order, outermost
 //! first: CORS, compression, auth, routes (OPTIONS is answered by CORS before auth, like the

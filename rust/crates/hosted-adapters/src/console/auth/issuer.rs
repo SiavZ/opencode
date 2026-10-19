@@ -6,9 +6,15 @@
 //! Uses:
 //! rust/crates/
 //! |-- hosted-adapters/src/console/tenant.rs
+//! |-- hosted-domain/src/console/common.rs
 //! `-- hosted-domain/src/console/identity.rs
 //! External:
-//! `-- reqwest::Client
+//! |-- reqwest::Client
+//! |-- reqwest::Error
+//! |-- serde_json::Value
+//! |-- serde_json::Value::Null
+//! |-- serde_json::json
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
 //! |-- hosted-adapters/src/console/auth.rs

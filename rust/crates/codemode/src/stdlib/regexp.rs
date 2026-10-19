@@ -3,15 +3,20 @@
 //! Scope: stdlib/regexp.ts plus the regex paths of runtime.ts invokeStringMethod/replacers.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
+//! |-- codemode/src/lib.rs
 //! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
 //! `-- codemode/src/value/text.rs
 //! External:
-//! `-- regress::{Flags, Regex}
+//! |-- regress::Flags::from
+//! `-- regress::Regex::with_flags
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/collections.rs
+//! |-- codemode/src/interp/expr.rs
 //! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/stdlib/mod.rs
 //! `-- codemode/src/stdlib/string.rs
 //! Invariants: all offsets are UTF-16 code units; named groups never expose blocked keys.
 //! Contract tests: codemode/tests/stdlib.rs, codemode/tests/parity.rs

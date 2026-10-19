@@ -5,15 +5,41 @@
 //! Uses:
 //! rust/crates/
 //! |-- codemode/src/ast.rs
-//! |-- codemode/src/error.rs
-//! `-- codemode/src/parse/expr.rs
+//! |-- codemode/src/parse/expr.rs
+//! `-- codemode/src/value/number.rs
 //! External:
+//! |-- ast::BindingPattern
+//! |-- ast::BindingPattern::ArrayPattern
+//! |-- ast::BindingPattern::AssignmentPattern
+//! |-- ast::BindingPattern::BindingIdentifier
+//! |-- ast::BindingPattern::ObjectPattern
+//! |-- ast::ForStatementInit::VariableDeclaration
+//! |-- ast::ForStatementLeft
+//! |-- ast::ForStatementLeft::AssignmentTargetIdentifier
+//! |-- ast::ForStatementLeft::VariableDeclaration
+//! |-- ast::FormalParameters
+//! |-- ast::Function
+//! |-- ast::PropertyKey
+//! |-- ast::PropertyKey::NumericLiteral
+//! |-- ast::PropertyKey::StaticIdentifier
+//! |-- ast::PropertyKey::StringLiteral
+//! |-- ast::Statement
+//! |-- ast::VariableDeclaration
+//! |-- ast::VariableDeclarationKind::Const
+//! |-- ast::VariableDeclarationKind::Let
+//! |-- ast::VariableDeclarationKind::Var
 //! |-- oxc_allocator::Allocator
 //! |-- oxc_ast::ast
-//! `-- oxc_parser::{ParseOptions, Parser}
+//! |-- oxc_parser::ParseOptions
+//! |-- oxc_parser::Parser
+//! |-- oxc_span::GetSpan::span
+//! |-- oxc_span::SourceType
+//! `-- oxc_span::Span
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/interp/run.rs
+//! |-- codemode/src/lib.rs
+//! |-- codemode/src/parse/expr.rs
+//! `-- codemode/src/run.rs
 //! Invariants: no oxc lifetimes escape this module; parse failures are `ParseError` diagnostics.
 //! Contract tests: codemode/tests/codemode.rs
 

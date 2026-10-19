@@ -4,14 +4,40 @@
 //! Scope: async trait objects. No credential persistence (Phase 02) and no OAuth flows here.
 //! Uses:
 //! rust/crates/
-//! `-- llm-api/src/lib.rs
+//! |-- llm-api/src/lib.rs
+//! `-- provider-adapters/src/route.rs
 //! External:
+//! |-- fmt::Debug
+//! |-- fmt::Formatter
+//! |-- fmt::Result
 //! |-- futures::future::BoxFuture
-//! `-- indexmap::IndexMap
+//! |-- indexmap::IndexMap
+//! `-- tokio::test
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/lib.rs
-//! `-- provider-adapters/src/route.rs
+//! |-- provider-adapters/src/protocols/anthropic/mod.rs
+//! |-- provider-adapters/src/protocols/bedrock/auth.rs
+//! |-- provider-adapters/src/providers/azure.rs
+//! |-- provider-adapters/src/providers/bedrock.rs
+//! |-- provider-adapters/src/providers/cloud.rs
+//! |-- provider-adapters/src/providers/config.rs
+//! |-- provider-adapters/src/providers/gateways.rs
+//! |-- provider-adapters/src/providers/inventory.rs
+//! |-- provider-adapters/src/providers/loaders.rs
+//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry_rules.rs
+//! |-- provider-adapters/src/route.rs
+//! |-- provider-adapters/src/transport/redact.rs
+//! |-- provider-adapters/src/transport/status.rs
+//! |-- provider-adapters/tests/anthropic_messages.rs
+//! |-- provider-adapters/tests/bedrock_converse.rs
+//! |-- provider-adapters/tests/gemini.rs
+//! |-- provider-adapters/tests/openai_chat.rs
+//! |-- provider-adapters/tests/openai_responses.rs
+//! |-- provider-adapters/tests/providers_cloud.rs
+//! |-- provider-adapters/tests/providers_registry.rs
+//! `-- runtime/src/location_routes.rs
 //! Invariants: header names are lowercased (effect `Headers` semantics). A missing or empty
 //! secret is `Authentication { kind: missing }` with message `Missing auth credential: <source>`.
 //! Secrets never appear in `Debug` output.

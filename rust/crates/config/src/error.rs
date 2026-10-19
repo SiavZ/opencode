@@ -5,11 +5,21 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- serde_json::{Value, json}
-//! `-- thiserror::Error
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- config/src/current.rs
+//! |-- config/src/fs.rs
+//! |-- config/src/legacy/compat.rs
+//! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/markdown.rs
+//! |-- config/src/legacy/parse.rs
+//! |-- config/src/legacy/remote.rs
+//! |-- config/src/legacy/steps.rs
+//! |-- config/src/legacy/update.rs
 //! |-- config/src/lib.rs
+//! |-- config/src/schema/mod.rs
 //! `-- config/src/variable.rs
 //! Invariants: `to_named_json` matches the `{ name, data }` wire shape of `NamedError.toObject`;
 //! issue lists never embed config values (secrets stay out of errors).

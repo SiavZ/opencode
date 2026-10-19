@@ -6,7 +6,7 @@
 //! |-- event-api/src/lib.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! `-- context/src/source/mod.rs

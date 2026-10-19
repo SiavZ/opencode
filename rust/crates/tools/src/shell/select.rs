@@ -6,12 +6,16 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- serde_json::to_string
+//! |-- str::to_string
 //! `-- which::which
 //! Used by:
 //! rust/crates/
+//! |-- tools/src/shell/core.rs
 //! |-- tools/src/shell/legacy.rs
 //! |-- tools/src/shell/mod.rs
-//! `-- tools/src/shell/prompt.rs
+//! |-- tools/src/shell/scan.rs
+//! `-- tools/tests/shell_scan.rs
 //! Invariants: fish and nu are never "acceptable"; fallback is /bin/zsh on macOS, else bash on
 //! PATH, else /bin/sh.
 //! Contract tests: tools/tests/shell_scan.rs

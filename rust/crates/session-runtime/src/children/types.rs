@@ -5,11 +5,14 @@
 //! `-- none
 //! External:
 //! |-- async_trait::async_trait
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- session-runtime/src/children.rs
+//! |-- session-runtime/src/children.rs
+//! `-- session-runtime/src/children/store.rs
 //! Invariants: permission rules keep the legacy `PermissionV1.Rule` wire shape
 //! (`permission`, `pattern`, `action`). `render_output` is byte-identical to task.ts `renderOutput`.
 //! Contract tests: session-runtime/tests/children.rs

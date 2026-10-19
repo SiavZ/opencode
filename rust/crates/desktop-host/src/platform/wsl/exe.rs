@@ -4,12 +4,18 @@
 //! Scope: process adapter. Compiles everywhere; only meaningful on Windows (no runner yet, see notes).
 //! Uses:
 //! rust/crates/
+//! |-- desktop-host/src/platform/process_tree.rs
+//! |-- desktop-host/src/platform/wsl/mod.rs
 //! `-- desktop-host/src/platform/wsl/runtime.rs
 //! External:
+//! |-- futures::FutureExt
 //! |-- futures::future::BoxFuture
-//! `-- tokio::process::Command
+//! |-- tokio::process::Command
+//! |-- tokio::select
+//! `-- u16::from_le_bytes
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/platform/wsl/mod.rs
 //! `-- desktop-host/tests/wsl_runtime.rs
 //! Invariants: a timed-out or cancelled command is killed and reaped before the error resolves.
 //! `run_interactive` uses piped stdio, not ConPTY: parity for installers that need a console is a

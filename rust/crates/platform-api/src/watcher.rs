@@ -4,10 +4,14 @@
 //! rust/crates/
 //! `-- platform-api/src/error.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
-//! `-- platform-api/src/lib.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-native/src/fs/watcher.rs
+//! `-- platform-native/tests/fs_watcher.rs
 //! Invariants: bounded queue; when it fills, events are dropped and one `Overflow` is delivered so
 //! consumers rescan instead of trusting a partial stream.
 //! Contract tests: platform-native/tests/watcher.rs

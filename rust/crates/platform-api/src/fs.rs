@@ -5,10 +5,40 @@
 //! rust/crates/
 //! `-- platform-api/src/error.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- usize::MAX
+//! `-- usize::try_from
 //! Used by:
 //! rust/crates/
-//! `-- platform-api/src/lib.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-native/src/fs/encoding.rs
+//! |-- platform-native/src/fs/location.rs
+//! |-- platform-native/src/fs/mutation.rs
+//! |-- platform-native/src/fs/native.rs
+//! |-- platform-native/tests/fs_encoding.rs
+//! |-- platform-native/tests/fs_location.rs
+//! |-- platform-native/tests/fs_mutation.rs
+//! |-- platform-native/tests/fs_util.rs
+//! |-- session-runtime/src/legacy/mod.rs
+//! |-- session-runtime/src/legacy/parts.rs
+//! |-- session-runtime/tests/support/legacy.rs
+//! |-- tools/src/files/common.rs
+//! |-- tools/src/files/edit.rs
+//! |-- tools/src/files/edit_legacy.rs
+//! |-- tools/src/files/read_core.rs
+//! |-- tools/src/files/read_files.rs
+//! |-- tools/src/files/read_legacy.rs
+//! |-- tools/src/files/read_lines.rs
+//! |-- tools/src/files/read_pager.rs
+//! |-- tools/src/files/write.rs
+//! |-- tools/src/search/legacy.rs
+//! |-- tools/src/shell/core.rs
+//! |-- tools/tests/files_common.rs
+//! |-- tools/tests/files_mutation/dev_mutation.rs
+//! |-- tools/tests/files_mutation/support.rs
+//! `-- tools/tests/files_read/support.rs
 //! Invariants: mutations serialize per canonical target, conditional writes compare and write under
 //! the same lock (baseline packages/core/src/file-mutation.ts:69-82).
 //! Contract tests: platform-native/tests/mutation.rs

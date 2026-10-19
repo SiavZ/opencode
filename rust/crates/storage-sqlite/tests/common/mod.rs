@@ -2,10 +2,20 @@
 //! Scope: test support module, included with `mod common;`.
 //! Uses:
 //! rust/crates/
-//! `-- storage-sqlite/src/lib.rs
+//! `-- storage-sqlite/src/migrations/mod.rs
 //! External:
 //! |-- rusqlite::Connection
-//! `-- serde_json
+//! |-- rusqlite::types::ValueRef::Blob
+//! |-- rusqlite::types::ValueRef::Integer
+//! |-- rusqlite::types::ValueRef::Null
+//! |-- rusqlite::types::ValueRef::Real
+//! |-- rusqlite::types::ValueRef::Text
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::Value::Array
+//! |-- serde_json::Value::Null
+//! |-- serde_json::Value::Object
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
 //! |-- storage-sqlite/tests/migration.rs

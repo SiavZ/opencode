@@ -4,7 +4,7 @@
 //! rust/crates/
 //! `-- desktop-host/src/windows/registry.rs
 //! External:
-//! `-- serde_json
+//! `-- serde_json::Value
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests cover all registry edge cases exactly as TypeScript baseline.

@@ -4,7 +4,8 @@
 //! rust/crates/
 //! `-- permissions/src/service.rs
 //! External:
-//! `-- futures::channel::oneshot
+//! |-- futures::channel::oneshot
+//! `-- oneshot::Sender
 //! Used by:
 //! rust/crates/
 //! `-- permissions/src/service.rs

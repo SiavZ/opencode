@@ -4,11 +4,31 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- mysql_async::{Pool, Conn, Opts}
-//! `-- sha2::Sha256
+//! |-- hex::encode
+//! |-- mysql_async::Conn
+//! |-- mysql_async::Error
+//! |-- mysql_async::Opts
+//! |-- mysql_async::OptsBuilder
+//! |-- mysql_async::Pool
+//! |-- mysql_async::prelude::Queryable
+//! |-- sha2::Digest
+//! |-- sha2::Sha256
+//! |-- str::to_string
+//! |-- str::trim
+//! |-- time::Date::from_calendar_date
+//! |-- time::Month::try_from
+//! |-- time::PrimitiveDateTime::new
+//! `-- time::Time::from_hms
 //! Used by:
+//! rust/bins/
+//! |-- hosted/src/console/state.rs
+//! `-- hosted/src/main.rs
 //! rust/crates/
-//! `-- hosted-adapters/src/console/mod.rs
+//! |-- hosted-adapters/src/console/mod.rs
+//! |-- hosted-adapters/src/console/tenant.rs
+//! |-- hosted-adapters/tests/console_db.rs
+//! |-- hosted-adapters/tests/console_identity.rs
+//! `-- hosted-adapters/tests/console_identity_auth.rs
 //! Invariants: migrations are read verbatim from `packages/console/core/migrations/*/migration.sql`,
 //! split on `--> statement-breakpoint`, applied in folder order and journaled in
 //! `__drizzle_migrations` (hash = sha256 hex of the file, created_at = folder timestamp millis,

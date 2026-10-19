@@ -7,11 +7,18 @@
 //! |-- config/src/fs.rs
 //! `-- platform-api/src/path.rs
 //! External:
+//! |-- fs::exists
+//! |-- fs::glob
 //! |-- serde_json::Value
-//! `-- url::Url
+//! |-- url::Url::from_file_path
+//! |-- url::Url::parse
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
-//! `-- config/src/legacy/load.rs
+//! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/mod.rs
+//! |-- config/src/legacy/parse.rs
+//! `-- config/src/resources.rs
 //! Invariants: dedupe keeps the last (highest priority) origin per identity (package name for npm
 //! specs, exact file URL for local specs) and preserves the relative order of survivors.
 //! Contract tests: config/tests/legacy_load.rs

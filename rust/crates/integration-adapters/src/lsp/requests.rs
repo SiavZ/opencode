@@ -8,13 +8,19 @@
 //! |-- integration-adapters/src/lsp/client.rs
 //! |-- integration-adapters/src/lsp/service.rs
 //! |-- integration-adapters/src/lsp/text.rs
-//! `-- integration-api/src/language.rs
+//! |-- integration-api/src/language.rs
+//! `-- integration-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::{Value, json}
+//! |-- futures::future::join_all
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- tracing::debug
+//! `-- tracing::info
 //! Used by:
 //! rust/crates/
-//! `-- integration-adapters/tests/lsp_service.rs
+//! `-- integration-adapters/src/lsp/mod.rs
 //! Invariants: per-client request failures never fail the call, null results are dropped after
 //! flattening, workspace symbols keep the 8 baseline kinds and at most 10 per client, touchFile
 //! never returns an error for server-side failures (baseline `.catch(() => {})`).

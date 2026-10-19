@@ -9,7 +9,17 @@
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- rusqlite::Connection
+//! |-- rusqlite::Connection
+//! |-- rusqlite::Error
+//! |-- rusqlite::params_from_iter
+//! |-- rusqlite::types::Value
+//! |-- rusqlite::types::Value::Blob
+//! |-- rusqlite::types::Value::Integer
+//! |-- rusqlite::types::Value::Null
+//! |-- rusqlite::types::Value::Real
+//! |-- rusqlite::types::Value::Text
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! |-- context/tests/epoch.rs

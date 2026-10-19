@@ -12,7 +12,6 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- desktop-host/src/connections.rs
 //! `-- desktop-host/src/lib.rs
 //! Invariants: every adapter that spawns a process owns and joins it, or documents why it is detached.
 //! Contract tests: desktop-host/tests/platform.rs, desktop-host/tests/wsl_servers.rs

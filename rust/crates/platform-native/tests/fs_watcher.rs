@@ -5,10 +5,14 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/watcher.rs
-//! `-- platform-native/src/fs/watcher.rs
+//! `-- platform-native/src/fs/mod.rs
 //! External:
 //! |-- tempfile::TempDir
-//! `-- tokio::time
+//! |-- tempfile::tempdir
+//! |-- tokio::test
+//! |-- tokio::time::Instant::now
+//! |-- tokio::time::sleep
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every test waits for watcher readiness with a probe file before asserting.

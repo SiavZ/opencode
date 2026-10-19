@@ -4,11 +4,13 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde_json::{json, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/bins/
 //! |-- hosted/src/sharing/enterprise.rs
-//! `-- hosted/src/sharing/tests.rs
+//! `-- hosted/src/sharing/mod.rs
 //! Invariants: issue key order and messages are the captured zod output
 //! (crates/hosted-adapters/tests/fixtures/sharing/http.json). Object checks report every field
 //! issue in schema order, array checks report every element issue in index order.

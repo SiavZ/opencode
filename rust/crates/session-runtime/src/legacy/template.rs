@@ -7,11 +7,16 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- base64::Engine
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- base64::engine::general_purpose::STANDARD_NO_PAD
+//! |-- u8::from_str_radix
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/legacy/command.rs
-//! |-- session-runtime/src/legacy/prompt.rs
+//! |-- session-runtime/src/legacy/mod.rs
+//! |-- session-runtime/src/legacy/parts.rs
 //! |-- session-runtime/src/title.rs
 //! `-- session-runtime/tests/legacy_command.rs
 //! Invariants: matchers reproduce the JS regexes exactly, including the `(?<![\w`])` lookbehind of

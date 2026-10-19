@@ -8,7 +8,21 @@
 //! |-- ecosystem/src/github/auth/oidc.rs
 //! `-- ecosystem/tests/github_auth_support/mod.rs
 //! External:
-//! `-- axum::{Router, routing}
+//! |-- axum::Json
+//! |-- axum::Router
+//! |-- axum::extract::Path
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::response::IntoResponse
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- jsonwebtoken::Algorithm::RS256
+//! |-- jsonwebtoken::DecodingKey::from_jwk
+//! |-- jsonwebtoken::Validation::new
+//! |-- jsonwebtoken::decode
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no network beyond 127.0.0.1.

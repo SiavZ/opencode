@@ -6,14 +6,20 @@
 //! |-- llm-api/src/ids.rs
 //! `-- llm-api/src/message.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! |-- llm-api/src/client.rs
 //! |-- llm-api/src/lib.rs
 //! |-- llm-api/src/response.rs
-//! `-- llm-api/src/route.rs
+//! |-- llm-api/src/route.rs
+//! |-- llm-api/tests/contract.rs
+//! |-- provider-adapters/src/shared.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! |-- session-runtime/tests/runner_publish.rs
+//! |-- session-runtime/tests/runner_publish_tools.rs
+//! `-- session-runtime/tests/support/publish.rs
 //! Invariants: `type` tags and camelCase fields match packages/llm/src/schema/events.ts.
 //! A well-formed stream ends with exactly one `finish` or `provider-error` terminal event.
 //! Provider-executed tool calls carry `providerExecuted: true` and must never be dispatched

@@ -7,9 +7,10 @@
 //! |-- tools/src/files/read_common.rs
 //! `-- tools/src/files/read_files.rs
 //! External:
-//! `-- none
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
+//! |-- tools/src/files/mod.rs
 //! `-- tools/src/files/read_files.rs
 //! Invariants: reading stops as soon as the page is complete, so bytes past it are never decoded
 //! or binary-checked, only `\n` terminates lines and one trailing `\r` is trimmed.

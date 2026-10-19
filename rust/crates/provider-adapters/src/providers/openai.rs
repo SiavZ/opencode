@@ -5,16 +5,21 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
+//! |-- llm-api/src/options.rs
 //! |-- provider-adapters/src/protocols/openai/mod.rs
 //! |-- provider-adapters/src/providers/config.rs
 //! `-- provider-adapters/src/route.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- openai::chat_route
+//! |-- openai::responses_route
+//! |-- openai::responses_websocket_route
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/providers/azure.rs
-//! |-- provider-adapters/src/providers/copilot.rs
-//! `-- provider-adapters/src/providers/mod.rs
+//! |-- provider-adapters/src/providers/mod.rs
+//! `-- provider-adapters/tests/providers_facades.rs
 //! Invariants: user provider options merge over the computed defaults (`mergeProviderOptions`).
 //! Contract tests: provider-adapters/tests/providers_facades.rs
 //!

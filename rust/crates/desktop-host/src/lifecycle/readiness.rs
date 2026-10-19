@@ -5,9 +5,11 @@
 //! `-- none
 //! External:
 //! |-- futures::FutureExt
-//! |-- serde::{Deserialize, Serialize}
-//! |-- thiserror::Error
-//! `-- tokio::sync::watch
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- tokio::sync::watch
+//! |-- watch::Sender
+//! `-- watch::Sender::new
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/lifecycle.rs

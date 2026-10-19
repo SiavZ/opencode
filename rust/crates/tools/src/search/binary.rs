@@ -4,11 +4,14 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- async_trait::async_trait
+//! |-- tokio::sync::OnceCell
 //! `-- which::which_in
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/search/mod.rs
-//! `-- tools/src/search/ripgrep.rs
+//! |-- tools/src/search/ripgrep.rs
+//! `-- tools/tests/search_ripgrep.rs
 //! Invariants: resolution order matches the baseline; the first success is cached for the process.
 //! Contract tests: tools/tests/search_ripgrep.rs
 

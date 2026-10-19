@@ -7,7 +7,9 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/files/patch.rs
+//! |-- tools/src/files/patch.rs
+//! |-- tools/tests/files_patch.rs
+//! `-- tools/tests/files_patch/live.rs
 //! Invariants: Core throws on unknown lines, empty paths, `+`-less add lines and chunk-less updates.
 //! Legacy skips unknown lines, keeps empty move targets, stops chunk bodies at any `***` line (so
 //! `*** End of File` is never recorded) and ignores unprefixed chunk lines.

@@ -14,6 +14,9 @@
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/mod.rs
+//! |-- provider-adapters/src/providers/cloud.rs
+//! |-- provider-adapters/src/providers/native.rs
+//! |-- provider-adapters/src/providers/registry.rs
 //! `-- provider-adapters/tests/gemini.rs
 //! Invariants: owned by phase-03 leaf p03.messages; the path embeds the model id and pins SSE
 //! via `alt=sse`; auth (`x-goog-api-key`) is supplied by the provider registration.

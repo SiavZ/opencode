@@ -5,12 +5,17 @@
 //! Scope: integration test over real SQLite through `LocalSessionExecution`.
 //! Uses:
 //! rust/crates/
-//! |-- session-runtime/src/execution.rs
-//! |-- session-runtime/src/runner/turn.rs
+//! |-- llm-api/src/lib.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/operations.rs
+//! |-- session-runtime/src/runner/mod.rs
 //! |-- session-runtime/tests/support/provider.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! `-- tokio
+//! |-- tokio::spawn
+//! |-- tokio::sync::Barrier
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-only provider; tools run through the real opencode-tool-api registry.

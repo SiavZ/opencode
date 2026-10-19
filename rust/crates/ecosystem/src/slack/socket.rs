@@ -6,16 +6,32 @@
 //! |-- ecosystem/src/slack/api.rs
 //! `-- ecosystem/src/slack/mod.rs
 //! External:
-//! |-- futures_util::{SinkExt, StreamExt}
+//! |-- futures_util::SinkExt
+//! |-- futures_util::StreamExt
+//! |-- mpsc::Sender
+//! |-- mpsc::error::TrySendError::Closed
+//! |-- mpsc::error::TrySendError::Full
 //! |-- serde::Deserialize
-//! |-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- tokio::net::TcpStream
+//! |-- tokio::select
 //! |-- tokio::sync::mpsc
-//! |-- tokio_tungstenite::{connect_async_with_config, tungstenite::Message}
+//! |-- tokio::time::MissedTickBehavior::Delay
+//! |-- tokio::time::interval
+//! |-- tokio::time::timeout
+//! |-- tokio_tungstenite::MaybeTlsStream
+//! |-- tokio_tungstenite::WebSocketStream
+//! |-- tokio_tungstenite::tungstenite::Message
 //! |-- tokio_util::sync::CancellationToken
 //! `-- tracing::warn
 //! Used by:
 //! rust/crates/
-//! `-- ecosystem/src/slack/bot.rs
+//! |-- ecosystem/src/slack/bot.rs
+//! |-- ecosystem/src/slack/mod.rs
+//! `-- ecosystem/tests/slack_socket.rs
 //! Invariants: ACK precedes handler work, duplicate ACKs never rerun handlers, saturation
 //! leaves the new envelope unacknowledged and returns QueueFull rather than dropping it.
 //! Contract tests: ecosystem/tests/slack_socket.rs

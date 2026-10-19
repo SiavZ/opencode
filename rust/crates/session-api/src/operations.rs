@@ -10,10 +10,32 @@
 //! |-- session-api/src/info.rs
 //! `-- session-api/src/message.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! `-- serde_json::Value
 //! Used by:
+//! rust/bins/
+//! |-- opencode/src/cli/commands/mod.rs
+//! |-- opencode/src/cli/commands/terminal.rs
+//! `-- opencode/src/cli/commands/turn.rs
 //! rust/crates/
-//! `-- session-api/src/lib.rs
+//! |-- runtime/tests/process.rs
+//! |-- runtime/tests/production.rs
+//! |-- server/src/handlers/session.rs
+//! |-- server/src/services/mod.rs
+//! |-- server/tests/support/mod.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-runtime/src/execution.rs
+//! |-- session-runtime/src/service.rs
+//! |-- session-runtime/src/store.rs
+//! |-- session-runtime/tests/admission.rs
+//! |-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/tests/admission_inbox.rs
+//! |-- session-runtime/tests/admission_projection.rs
+//! |-- session-runtime/tests/coordinator_execution.rs
+//! |-- session-runtime/tests/runner_turn.rs
+//! |-- session-runtime/tests/runner_turn_tools.rs
+//! |-- session-runtime/tests/support/provider.rs
+//! `-- session-runtime/tests/support/sql.rs
 //! Invariants: no trait method takes a Session-scoped service; execution is keyed by Session ID.
 //! `prompt` commits admission before any wake; `interrupt` on idle is a no-op.
 //! Contract tests: session-runtime/tests/admission.rs, session-runtime/tests/coordinator.rs

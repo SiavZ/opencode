@@ -7,21 +7,48 @@
 //! |-- event-api/src/lib.rs
 //! |-- schema/src/event.rs
 //! |-- schema/src/session_event.rs
-//! |-- session-api/src/error.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/inbox.rs
 //! |-- session-runtime/src/projection/adapter.rs
 //! |-- session-runtime/src/projection/legacy.rs
 //! |-- session-runtime/src/projection/updater.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json::from_value
+//! |-- inbox::project_admitted
+//! |-- inbox::project_prompted
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value::as_f64
+//! |-- serde_json::Value::as_str
+//! |-- serde_json::from_value
+//! |-- serde_json::to_value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/execution_support.rs
+//! |-- runtime/src/location.rs
+//! |-- runtime/src/process.rs
 //! |-- session-runtime/src/admission.rs
+//! |-- session-runtime/src/children/store.rs
+//! |-- session-runtime/src/compaction.rs
 //! |-- session-runtime/src/inbox.rs
+//! |-- session-runtime/src/legacy/store.rs
 //! |-- session-runtime/src/lib.rs
+//! |-- session-runtime/src/projection/adapter.rs
+//! |-- session-runtime/src/projection/legacy.rs
+//! |-- session-runtime/src/projection/updater.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! |-- session-runtime/src/runner/turn.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/runner/turn/request.rs
 //! |-- session-runtime/src/service.rs
-//! `-- session-runtime/tests/admission_projection.rs
+//! |-- session-runtime/src/store.rs
+//! |-- session-runtime/tests/admission.rs
+//! |-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/tests/admission_inbox.rs
+//! |-- session-runtime/tests/admission_projection.rs
+//! |-- session-runtime/tests/support/publish.rs
+//! `-- session-runtime/tests/support/sql.rs
 //! Invariants: every projector write commits or rolls back with its event. Typed projector failures
 //! (`ProjectionError`) roll the publish back and are recovered with `EventError::projector_source`.
 //! `session.created` for an existing row fails with `SessionAlreadyProjected` (concurrent create).

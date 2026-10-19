@@ -13,8 +13,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! rust/bins/
-//! `-- opencode/src/main.rs
+//! `-- none, entrypoint
 //! Invariants: no module performs live network calls in tests. Every external host is an
 //! injected base URL so fixture servers stand in for GitHub, Slack, Discord and opencode.
 //! Contract tests: ecosystem/tests/

@@ -4,16 +4,20 @@
 //! Scope: `tool-runtime.ts` resolve/namespaceKeys/make (lines 645-806).
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/clock.rs
 //! |-- codemode/src/error.rs
 //! |-- codemode/src/tools/discovery.rs
 //! |-- codemode/src/tools/mod.rs
-//! `-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/convert.rs
+//! `-- codemode/src/value/mod.rs
 //! External:
 //! |-- serde_json::Value
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/interp/pool.rs
+//! |-- codemode/src/interp/pool.rs
+//! |-- codemode/src/run.rs
+//! `-- codemode/src/tools/mod.rs
 //! Invariants: host failure detail never reaches the program; admission errors reject the call's
 //! promise rather than the call expression.
 //! Contract tests: codemode/tests/codemode.rs, codemode/tests/promise.rs, codemode/tests/enumeration.rs

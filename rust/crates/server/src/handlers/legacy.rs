@@ -6,7 +6,9 @@
 //! |-- server/src/middleware/errors.rs
 //! `-- server/src/services/legacy.rs
 //! External:
+//! |-- axum::http::StatusCode
 //! |-- axum::response::Response
+//! |-- serde_json::Value::as_str
 //! `-- serde_json::json
 //! Used by:
 //! rust/crates/

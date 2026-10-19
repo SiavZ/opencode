@@ -3,11 +3,13 @@
 //! Scope: live tests on in-memory and temp-file SQLite databases.
 //! Uses:
 //! rust/crates/
-//! |-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/src/migration.rs
+//! |-- storage-sqlite/src/migrations/mod.rs
 //! `-- storage-sqlite/tests/common/mod.rs
 //! External:
-//! |-- rusqlite::Connection
-//! `-- serde_json
+//! |-- migrations::all
+//! |-- migrations::ids
+//! `-- rusqlite::Connection
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: each test names the TS test it mirrors.

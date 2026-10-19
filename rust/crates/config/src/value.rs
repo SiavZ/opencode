@@ -4,10 +4,14 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::to_string_pretty
 //! Used by:
 //! rust/crates/
 //! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/parse.rs
+//! |-- config/src/legacy/steps.rs
 //! |-- config/src/legacy/update.rs
 //! `-- config/src/lib.rs
 //! Invariants: plain objects merge recursively, everything else (arrays included) is replaced;

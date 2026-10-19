@@ -6,10 +6,28 @@
 //! rust/crates/
 //! |-- platform-api/src/pty.rs
 //! |-- server/src/app.rs
+//! |-- server/src/lifecycle.rs
+//! |-- server/src/middleware/cors.rs
+//! |-- server/src/services/mod.rs
 //! |-- server/src/services/streams.rs
 //! `-- server/tests/support/mod.rs
 //! External:
-//! `-- tokio_tungstenite::connect_async
+//! |-- app::router
+//! |-- async_trait::async_trait
+//! |-- futures_util::SinkExt
+//! |-- futures_util::StreamExt
+//! |-- mpsc::UnboundedReceiver
+//! |-- mpsc::UnboundedSender
+//! |-- mpsc::unbounded_channel
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::Mutex::new
+//! |-- tokio::sync::mpsc
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! |-- tokio::time::timeout
+//! |-- tokio_tungstenite::connect_async
+//! |-- tokio_tungstenite::tungstenite::Message
+//! `-- tokio_tungstenite::tungstenite::client::IntoClientRequest
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-based; the native PTY backend is tested in platform-native.

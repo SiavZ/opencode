@@ -4,12 +4,27 @@
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
 //! |-- platform-api/src/path.rs
-//! `-- tool-api/src/context.rs
+//! `-- tool-api/src/lib.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- path::contains
+//! |-- path::relative
+//! |-- path::resolve
+//! |-- path::slash
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/files/mod.rs
+//! |-- tools/src/files/edit.rs
+//! |-- tools/src/files/edit_legacy.rs
+//! |-- tools/src/files/mod.rs
+//! |-- tools/src/files/read_core.rs
+//! |-- tools/src/files/read_legacy.rs
+//! |-- tools/src/files/schemas.rs
+//! |-- tools/src/files/write.rs
+//! |-- tools/src/search/legacy.rs
+//! |-- tools/src/shell/legacy.rs
+//! `-- tools/tests/files_common.rs
 //! Invariants: helpers perform no content reads, external approval precedes operation approval.
 //! Contract tests: tools/tests/files_common.rs
 

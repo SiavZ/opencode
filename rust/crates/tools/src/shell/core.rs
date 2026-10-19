@@ -8,14 +8,25 @@
 //! |-- platform-api/src/fs.rs
 //! |-- platform-api/src/path.rs
 //! |-- platform-api/src/process.rs
-//! |-- tool-api/src/context.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/search/input.rs
-//! `-- tools/src/shell/mod.rs
+//! |-- tools/src/shell/mod.rs
+//! `-- tools/src/shell/select.rs
 //! External:
-//! `-- regex::Regex
+//! |-- async_trait::async_trait
+//! |-- path::contains
+//! |-- path::normalize
+//! |-- regex::Regex
+//! |-- regex::Regex::new
+//! |-- schemas::core
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::fs::metadata
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/shell/mod.rs
+//! |-- tools/src/shell/mod.rs
+//! `-- tools/tests/shell_core.rs
 //! Invariants: approvals run in order external_directory, bash; nothing spawns after a denial or
 //! when the workdir is not a directory at spawn time. Every failure maps to
 //! `Unable to execute command: <command>` (baseline Effect.mapError over the whole body).

@@ -6,10 +6,20 @@
 //! |-- platform-api/src/process.rs
 //! `-- platform-api/src/snapshot.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
-//! `-- platform-api/src/lib.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-native/src/vcs/change.rs
+//! |-- platform-native/src/vcs/error.rs
+//! |-- platform-native/src/vcs/repo.rs
+//! |-- platform-native/src/vcs/run.rs
+//! |-- platform-native/src/vcs/snapshot.rs
+//! |-- platform-native/src/vcs/tree.rs
+//! |-- platform-native/src/vcs/tree_restore.rs
+//! `-- platform-native/tests/git.rs
 //! Invariants: every git invocation goes through ProcessRunner with bounded capture.
 //! Contract tests: platform-native/tests/git.rs
 

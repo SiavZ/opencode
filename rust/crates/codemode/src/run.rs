@@ -5,17 +5,34 @@
 //! rust/crates/
 //! |-- codemode/src/clock.rs
 //! |-- codemode/src/error.rs
+//! |-- codemode/src/interp/diagnose.rs
 //! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/interp/pool.rs
+//! |-- codemode/src/output.rs
 //! |-- codemode/src/parse/mod.rs
 //! |-- codemode/src/tools/discovery.rs
 //! |-- codemode/src/tools/mod.rs
-//! `-- codemode/src/tools/runtime.rs
+//! |-- codemode/src/tools/runtime.rs
+//! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
+//! `-- codemode/src/value/number.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
+//! |-- convert::to_json
+//! |-- f64::from
+//! |-- futures::FutureExt
+//! |-- futures::future::pending
+//! |-- futures::pin_mut
+//! |-- futures::select_biased
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde_json::Value
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/lib.rs
+//! |-- codemode/src/interp/diagnose.rs
+//! |-- codemode/src/lib.rs
+//! `-- codemode/src/output.rs
 //! Invariants: program failures are data (`Result::Failure`); only host interruption surfaces as
 //! `Err(Interrupted)`; output never exceeds `max_output_bytes` (plus markers) when set.
 //! Contract tests: codemode/tests/codemode.rs, codemode/tests/promise.rs

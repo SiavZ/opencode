@@ -1,13 +1,25 @@
 //! Purpose: snapshot contract (content-addressed trees of a Location) and the shared file diff value.
 //! Scope: trait and values, baseline packages/core/src/snapshot.ts:15-82.
 //! Uses:
-//! rust/crates/
-//! `-- platform-api/src/error.rs
+//! `-- none
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
-//! `-- platform-api/src/lib.rs
+//! |-- platform-api/src/git.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-native/src/vcs/repo.rs
+//! |-- platform-native/src/vcs/snapshot.rs
+//! |-- platform-native/src/vcs/tree.rs
+//! |-- platform-native/src/vcs/tree_restore.rs
+//! |-- platform-native/tests/git.rs
+//! |-- platform-native/tests/snapshot.rs
+//! |-- runtime/src/execution_support.rs
+//! |-- session-runtime/src/revert.rs
+//! |-- session-runtime/src/summary.rs
+//! `-- session-runtime/tests/summary.rs
 //! Invariants: `capture` is best effort and returns None when disabled/unsupported/failed.
 //! Contract tests: platform-native/tests/snapshot.rs
 

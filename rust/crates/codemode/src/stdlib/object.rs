@@ -2,12 +2,14 @@
 //! Scope: stdlib/object.ts.
 //! Uses:
 //! rust/crates/
-//! `-- codemode/src/value/convert.rs
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
+//! |-- codemode/src/value/convert.rs
+//! `-- codemode/src/value/mod.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/collections.rs
 //! `-- codemode/src/stdlib/mod.rs
 //! Invariants: sandbox values read as empty objects; blocked keys are never written.
 //! Contract tests: codemode/tests/stdlib.rs, codemode/tests/enumeration.rs

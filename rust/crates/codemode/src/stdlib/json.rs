@@ -2,10 +2,15 @@
 //! Scope: stdlib/json.ts.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
 //! |-- codemode/src/tools/render.rs
-//! `-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
+//! `-- codemode/src/value/text.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
 //! `-- codemode/src/stdlib/mod.rs

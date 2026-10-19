@@ -10,11 +10,16 @@
 //! |-- desktop-host/src/connections/health.rs
 //! `-- desktop-host/src/platform/proxy.rs
 //! External:
-//! |-- tokio::net::TcpListener
+//! |-- char::is_ascii_digit
+//! |-- reqwest::Client
+//! |-- tokio::net::TcpListener::bind
 //! |-- tokio_util::sync::CancellationToken
-//! `-- uuid::Uuid
+//! |-- u16::try_from
+//! `-- uuid::Uuid::new_v4
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/connections.rs
+//! |-- desktop-host/src/platform/wsl/sidecar.rs
 //! |-- desktop-host/tests/connections.rs
 //! `-- desktop-host/tests/connections_live.rs
 //! Invariants: a sidecar that fails, exits, times out or is cancelled before healthy is stopped and

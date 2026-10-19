@@ -4,15 +4,18 @@
 //! Uses:
 //! rust/crates/
 //! |-- storage-api/src/error.rs
+//! |-- storage-api/src/records/mod.rs
 //! |-- storage-api/src/records/path.rs
-//! |-- storage-api/src/records/secret.rs
 //! `-- storage-api/src/value.rs
 //! External:
-//! |-- serde::{Serialize, de::DeserializeOwned}
-//! `-- serde_json
+//! |-- i64::from
+//! |-- serde::Serialize
+//! `-- serde::de::DeserializeOwned
 //! Used by:
 //! rust/crates/
-//! `-- storage-api/src/records/mod.rs
+//! |-- locations/src/ports.rs
+//! |-- storage-api/src/records/mod.rs
+//! `-- storage-sqlite/src/repositories/projects.rs
 //! Invariants: JSON mode is compact `JSON.stringify`, boolean mode writes 0/1 and reads `Number(v) === 1`,
 //! path columns follow packages/core/src/database/path.ts (posix: absolute means a leading `/`; windows:
 //! backslashes are stored as `/` and drive or UNC paths are converted back on read).

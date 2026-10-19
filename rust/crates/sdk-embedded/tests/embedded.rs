@@ -3,9 +3,10 @@
 //! Scope: `OpenCode::create` behind the `embedded` feature.
 //! Uses:
 //! rust/crates/
-//! `-- sdk-embedded/src/embedded.rs
+//! |-- sdk-embedded/src/embedded.rs
+//! `-- sdk-embedded/src/lib.rs
 //! External:
-//! `-- tokio
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: live test of the real facade, no fakes.

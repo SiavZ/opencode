@@ -6,10 +6,12 @@
 //! |-- schema/src/ids.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- schema/src/lib.rs
+//! `-- schema/tests/schema_domains_question.rs
 //! Invariants: byte-identical JSON with the baseline module. Field order matches baseline,
 //! absent optional keys omit and explicit null fails.
 //! Contract tests: schema/tests/schema_domains_question.rs

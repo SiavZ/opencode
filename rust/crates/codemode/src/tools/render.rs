@@ -4,12 +4,23 @@
 //! Uses:
 //! rust/crates/
 //! |-- codemode/src/tools/mod.rs
-//! |-- codemode/src/value/number.rs
-//! `-- codemode/src/value/object.rs
+//! |-- codemode/src/tools/text.rs
+//! `-- codemode/src/value/text.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/interp/console.rs
+//! |-- codemode/src/interp/diagnose.rs
+//! |-- codemode/src/openapi/mod.rs
+//! |-- codemode/src/openapi/responses.rs
+//! |-- codemode/src/openapi/runtime.rs
+//! |-- codemode/src/openapi/security.rs
+//! |-- codemode/src/openapi/spec.rs
+//! |-- codemode/src/output.rs
+//! |-- codemode/src/stdlib/json.rs
 //! |-- codemode/src/tools/discovery.rs
 //! `-- codemode/src/tools/mod.rs
 //! Invariants: rendering is total (never panics or errors); unresolvable shapes render `unknown`.

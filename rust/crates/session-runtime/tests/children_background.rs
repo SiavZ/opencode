@@ -10,7 +10,10 @@
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
 //! |-- serde_json::json
-//! |-- tokio
+//! |-- tokio::spawn
+//! |-- tokio::sync::Semaphore
+//! |-- tokio::test
+//! |-- tokio::time::sleep
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint

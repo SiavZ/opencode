@@ -1,12 +1,12 @@
 //! Purpose: contract tests for windows policy state machine.
 //! Scope: tests for external URL, navigation, permissions, and recovery.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! `-- desktop-host/src/windows/policy.rs
 //! External:
-//! `-- opencode_desktop_host::windows::policy::*
 //! `-- tokio::test
 //! Used by:
-//! `-- none, contract tests
+//! `-- none, entrypoint
 //! Invariants: tests cover all TS baseline cases exactly.
 //! Contract tests: this file
 

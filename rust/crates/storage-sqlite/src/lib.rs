@@ -10,9 +10,21 @@
 //! |-- storage-sqlite/src/repositories/mod.rs
 //! `-- storage-sqlite/src/transaction.rs
 //! External:
-//! `-- rusqlite
+//! `-- rusqlite::version
 //! Used by:
-//! `-- none, reserved contract (owner: phase-02, consumers event-store/locations/runtime)
+//! rust/crates/
+//! |-- event-store/tests/rows.rs
+//! |-- event-store/tests/support/mod.rs
+//! |-- locations/tests/support/mod.rs
+//! |-- runtime/src/execution_support.rs
+//! |-- runtime/src/process.rs
+//! |-- session-runtime/tests/support/sql.rs
+//! |-- session-runtime/tests/todo.rs
+//! |-- storage-sqlite/tests/credentials.rs
+//! |-- storage-sqlite/tests/repositories_interop.rs
+//! |-- storage-sqlite/tests/support/mod.rs
+//! |-- storage-sqlite/tests/transactions.rs
+//! `-- storage-sqlite/tests/ts_interop.rs
 //! Invariants: same schema and file as the TypeScript baseline, no schema fork (decision D5).
 //! Contract tests: storage-sqlite/tests/
 //! Ownership: p02.repos owns legacy_files.rs and repositories/**, p02.sqlite every other module.

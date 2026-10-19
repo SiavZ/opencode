@@ -7,7 +7,18 @@
 //! |-- ecosystem/src/bridge.rs
 //! `-- ecosystem/src/github/auth/handlers.rs
 //! External:
-//! `-- axum::{Router, routing::post}
+//! |-- axum::Router
+//! |-- axum::extract::Path
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::routing::post
+//! |-- axum::serve
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no network beyond 127.0.0.1, bot token is a fixture string.

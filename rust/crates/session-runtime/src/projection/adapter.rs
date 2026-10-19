@@ -3,11 +3,18 @@
 //! Scope: synchronous, runs inside the event publish transaction.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/session_message.rs
 //! |-- session-api/src/message.rs
 //! |-- session-runtime/src/projection.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Error
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::Value::as_str
+//! `-- sm::Shell
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/projection.rs

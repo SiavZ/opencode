@@ -10,11 +10,12 @@
 //! |-- session-runtime/src/legacy/store.rs
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- u64::from
 //! Used by:
 //! rust/crates/
-//! |-- session-runtime/src/legacy/mod.rs
-//! `-- session-runtime/src/legacy/parts.rs
+//! `-- session-runtime/src/legacy/mod.rs
 //! Invariants: a failed read degrades to a synthetic failure text; a missing resource fails the
 //! prompt; an unwired MCP adapter fails typed `NotYetPorted`.
 //! Contract tests: session-runtime/tests/legacy_prompt.rs

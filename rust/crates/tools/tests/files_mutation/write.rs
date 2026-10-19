@@ -3,10 +3,14 @@
 //! Scope: `CoreWriteTool`/`LegacyWriteTool::execute` through the public tool boundary.
 //! Uses:
 //! rust/crates/
+//! |-- tool-api/src/lib.rs
+//! |-- tools/src/files/edit_legacy.rs
 //! |-- tools/src/files/write.rs
 //! `-- tools/tests/files_mutation/support.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! rust/crates/
 //! `-- tools/tests/files_write.rs

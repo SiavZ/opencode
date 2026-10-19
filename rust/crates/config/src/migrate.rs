@@ -3,13 +3,20 @@
 //! Scope: pure transforms over decoded V1 JSON.
 //! Uses:
 //! rust/crates/
+//! |-- config/src/jsonc/mod.rs
 //! `-- config/src/provider_options.rs
 //! External:
-//! `-- serde_json::{Map, Value, json}
+//! |-- provider_options::get
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- str::to_string
 //! Used by:
 //! rust/crates/
 //! |-- config/src/current.rs
-//! `-- config/src/plugins.rs
+//! |-- config/src/lib.rs
+//! |-- config/src/resources.rs
+//! `-- config/tests/current.rs
 //! Invariants: `undefined` fields are omitted (never `null`), key order follows the baseline
 //! object literals, limits are truncated and clamped to the JS safe-integer range.
 //! Contract tests: config/tests/current.rs

@@ -4,10 +4,19 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::URL_SAFE_NO_PAD
+//! |-- percent_encoding::NON_ALPHANUMERIC
+//! |-- percent_encoding::utf8_percent_encode
+//! |-- regex::Captures
 //! |-- regex::Regex
-//! `-- serde_json::Value
+//! |-- regex::escape
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
+//! |-- server/tests/replay_baseline.rs
 //! |-- server/tests/support/replay/mod.rs
 //! `-- server/tests/support/replay/run.rs
 //! Invariants: placeholder vocabulary equals rust/contracts/phase-06/fixtures/README.md. An id

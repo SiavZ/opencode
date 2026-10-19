@@ -5,12 +5,21 @@
 //! rust/crates/
 //! |-- desktop-host/src/connections.rs
 //! |-- desktop-host/src/connections/background_cli.rs
-//! |-- desktop-host/src/connections/health.rs
-//! `-- desktop-host/src/connections/sidecar.rs
+//! |-- desktop-host/src/connections/sidecar.rs
+//! `-- desktop-host/src/platform/proxy.rs
 //! External:
-//! |-- axum::Router
+//! |-- axum::Router::new
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::routing::get
+//! |-- axum::serve
+//! |-- reqwest::Client::new
+//! |-- serde_json::to_string
+//! |-- str::to_string
 //! |-- tempfile::tempdir
-//! `-- tokio
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches real user data; fake CLI is a real executable shell script (unix).

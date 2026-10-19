@@ -10,10 +10,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! rust/crates/
-//! `-- hosted-adapters/src/lib.rs
-//! rust/bins/
-//! `-- hosted/src/main.rs
+//! `-- none, entrypoint
 //! Invariants: depends only on `schema` (contracts/crate-edges.toml), portable to wasm32.
 //! Contract tests: none yet.
 

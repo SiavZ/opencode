@@ -10,6 +10,7 @@
 //! rust/crates/
 //! |-- codemode/tests/codemode.rs
 //! |-- codemode/tests/enumeration.rs
+//! |-- codemode/tests/openapi.rs
 //! |-- codemode/tests/parity.rs
 //! |-- codemode/tests/promise.rs
 //! |-- codemode/tests/signature.rs

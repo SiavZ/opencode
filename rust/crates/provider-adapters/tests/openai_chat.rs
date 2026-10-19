@@ -7,11 +7,25 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
+//! |-- provider-adapters/src/auth.rs
 //! |-- provider-adapters/src/protocols/openai/mod.rs
+//! |-- provider-adapters/src/route.rs
 //! |-- provider-adapters/src/transport/mod.rs
 //! `-- provider-adapters/tests/openai_common/mod.rs
 //! External:
-//! `-- wiremock::{Mock, MockServer, ResponseTemplate}
+//! |-- futures::StreamExt
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::test
+//! |-- wiremock::Mock
+//! |-- wiremock::MockServer
+//! |-- wiremock::ResponseTemplate
+//! |-- wiremock::matchers::body_json
+//! |-- wiremock::matchers::header
+//! |-- wiremock::matchers::method
+//! |-- wiremock::matchers::path
+//! `-- wiremock::matchers::query_param
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expectations are copied from the baseline TS tests, not derived from Rust output.

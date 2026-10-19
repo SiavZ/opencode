@@ -4,19 +4,30 @@
 //! Scope: transport trait with a typed `Unsupported` default and owned sync loops.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
 //! |-- locations/src/error.rs
 //! |-- locations/src/workspace/adapter.rs
 //! |-- locations/src/workspace/mod.rs
-//! `-- locations/src/workspace/sse.rs
+//! |-- locations/src/workspace/sse.rs
+//! |-- schema/src/workspace.rs
+//! `-- storage-api/src/lib.rs
 //! External:
+//! |-- async_trait::async_trait
+//! |-- futures::StreamExt
 //! |-- futures::stream::BoxStream
-//! |-- opencode_event_api::{EventStore, ReplayOptions, SerializedEvent}
-//! `-- tokio_util::sync::CancellationToken
+//! |-- serde::Deserialize
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- str::to_owned
+//! |-- tokio::fs::try_exists
+//! |-- tokio::select
+//! |-- tokio::sync::broadcast::error::RecvError::Closed
+//! |-- tokio::sync::broadcast::error::RecvError::Lagged
+//! |-- tokio_util::sync::CancellationToken
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
-//! |-- locations/src/workspace/mod.rs
-//! |-- locations/tests/workspace_lifecycle.rs
-//! `-- locations/tests/workspace_sync.rs
+//! `-- locations/src/workspace/mod.rs
 //! Invariants: one live loop per workspace (starting again replaces it); a loop reconnects with
 //! backoff `min(120s, 1s * 2^attempt)` reset on every successful connect; history is replayed with
 //! `publish: true` and `ownerID = workspace id`, contiguous same-aggregate runs through

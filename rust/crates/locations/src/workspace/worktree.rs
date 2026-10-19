@@ -8,16 +8,29 @@
 //! |-- locations/src/git.rs
 //! |-- locations/src/project_store.rs
 //! |-- locations/src/workspace/adapter.rs
-//! `-- locations/src/workspace/slug.rs
+//! |-- locations/src/workspace/slug.rs
+//! `-- schema/src/ids.rs
 //! External:
 //! |-- async_trait::async_trait
 //! |-- futures::future::BoxFuture
-//! `-- tokio_util::task::TaskTracker
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- slug::create
+//! |-- str::to_owned
+//! |-- str::trim
+//! |-- tokio::fs::canonicalize
+//! |-- tokio::fs::create_dir_all
+//! |-- tokio::fs::remove_dir_all
+//! |-- tokio::fs::try_exists
+//! |-- tokio::time::sleep
+//! |-- tokio_util::task::TaskTracker
+//! `-- tracing::error
 //! Used by:
 //! rust/crates/
 //! |-- locations/src/workspace/mod.rs
 //! |-- locations/tests/workspace_lifecycle.rs
-//! `-- locations/tests/workspace_sync.rs
+//! `-- runtime/src/process.rs
 //! Invariants: every method needs an instance context (`Worktree adapter requires an instance
 //! context`) and a git project (`Worktrees are only supported for git projects`, except `list`, which
 //! returns empty); worktrees live in `<data>/worktree/<projectID>/<name>`; creation is

@@ -5,19 +5,21 @@
 //! Uses:
 //! rust/crates/
 //! |-- event-api/src/lib.rs
-//! |-- schema/src/ids.rs
+//! |-- schema/src/lib.rs
 //! |-- session-runtime/src/children/types.rs
 //! |-- session-runtime/src/projection.rs
-//! |-- session-runtime/src/service/util.rs
+//! |-- session-runtime/src/service.rs
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::{json, Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
-//! |-- session-runtime/src/children.rs
-//! |-- session-runtime/tests/children.rs
-//! `-- session-runtime/tests/children_background.rs
+//! `-- session-runtime/src/children.rs
 //! Invariants: child Sessions are written only by the legacy `session.created` projector (no direct
 //! row writes). `get` fails with `Session not found: <id>` like legacy `Session.get`. Seams not wired
 //! yet fail with `ChildError::NotYetPorted` through `UnwiredChildOps`, never a silent success.

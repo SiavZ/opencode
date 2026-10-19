@@ -2,17 +2,30 @@
 //! Scope: process-scoped adapters over ProjectStore, LegacyStore, RunState and EventStore.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
+//! |-- locations/src/lib.rs
 //! |-- locations/src/project_store.rs
+//! |-- schema/src/ids.rs
+//! |-- server/src/middleware/legacy_routing.rs
 //! |-- server/src/services/legacy.rs
 //! |-- server/src/services/streams.rs
 //! |-- session-runtime/src/legacy/run_state.rs
 //! |-- session-runtime/src/legacy/store.rs
-//! `-- session-runtime/src/service/util.rs
+//! |-- session-runtime/src/legacy/types.rs
+//! |-- session-runtime/src/service.rs
+//! `-- storage-api/src/lib.rs
 //! External:
+//! |-- async_trait::async_trait
 //! |-- futures::StreamExt
-//! `-- serde_json::{Map, Value}
+//! |-- futures::stream::BoxStream
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/lib.rs
 //! `-- runtime/src/process.rs
 //! Invariants: creation commits one real placed event through the existing projector. Reads use
 //! persisted rows and SQL filtering, with no fabricated sessions or duplicate event publication.

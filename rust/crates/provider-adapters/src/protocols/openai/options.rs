@@ -6,7 +6,8 @@
 //! rust/crates/
 //! `-- llm-api/src/lib.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/openai/chat.rs

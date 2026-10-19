@@ -5,11 +5,21 @@
 //! Scope: test support, fixture-based, no live provider calls.
 //! Uses:
 //! rust/crates/
-//! |-- provider-adapters/src/route.rs
-//! `-- provider-adapters/src/transport/http.rs
+//! `-- provider-adapters/src/transport/mod.rs
 //! External:
+//! |-- base64::Engine
 //! |-- base64::engine::general_purpose::STANDARD
-//! `-- wiremock::{Mock, MockServer, Request, Respond, ResponseTemplate}
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- url::Url
+//! |-- url::Url::parse
+//! |-- wiremock::Mock
+//! |-- wiremock::MockServer
+//! |-- wiremock::Request
+//! |-- wiremock::Respond
+//! |-- wiremock::ResponseTemplate
+//! `-- wiremock::matchers::any
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/tests/anthropic_messages.rs

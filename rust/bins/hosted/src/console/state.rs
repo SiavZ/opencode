@@ -10,10 +10,11 @@
 //! rust/crates/
 //! `-- hosted-adapters/src/console/db.rs
 //! External:
-//! `-- std::sync::Arc
+//! `-- anyhow::Result
 //! Used by:
 //! rust/bins/
-//! `-- hosted/src/console/mod.rs
+//! |-- hosted/src/console/mod.rs
+//! `-- hosted/src/main.rs
 //! Invariants: owned by the phase-12 parent. Each route module owns its own `Config` type, so
 //! children never edit this file. Secrets never appear in Debug output.
 //! Contract tests: none yet.

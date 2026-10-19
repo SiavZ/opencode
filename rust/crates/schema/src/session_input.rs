@@ -7,11 +7,14 @@
 //! |-- schema/src/prompt.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
 //! |-- schema/src/lib.rs
-//! `-- schema/src/session_event.rs
+//! |-- schema/src/session_event.rs
+//! `-- session-api/src/admission.rs
 //! Invariants: `delivery` is exactly `"steer"` or `"queue"`; sequence numbers are non-negative
 //! safe integers; `timeCreated` is epoch millis.
 //! Contract tests: schema/src/session_input.rs (unit tests), schema/tests/schema_session.rs

@@ -7,12 +7,15 @@
 //! |-- codemode/src/tools/runtime.rs
 //! `-- codemode/src/value/mod.rs
 //! External:
+//! |-- futures::FutureExt
 //! |-- futures::future::BoxFuture
-//! `-- indexmap::{IndexMap, IndexSet}
+//! |-- futures::future::poll_fn
+//! |-- indexmap::IndexMap
+//! `-- indexmap::IndexSet
 //! Used by:
 //! rust/crates/
 //! |-- codemode/src/interp/mod.rs
-//! `-- codemode/src/interp/promise.rs
+//! `-- codemode/src/run.rs
 //! Invariants: at most `TOOL_CALL_CONCURRENCY` host calls run at once; dropping the pool drops
 //! (interrupts) every in-flight host future; a settled task is never re-run.
 //! Contract tests: codemode/tests/promise.rs

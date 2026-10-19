@@ -9,11 +9,18 @@
 //! `-- permissions/src/wildcard.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- futures::channel::oneshot
+//! |-- futures::channel::oneshot
+//! |-- oneshot::Receiver
+//! |-- oneshot::channel
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- wildcard::matches
 //! Used by:
 //! rust/crates/
 //! |-- permissions/src/lib.rs
-//! `-- permissions/tests/service.rs
+//! `-- permissions/src/service/pending.rs
 //! Invariants: a dropped/cancelled `assert` removes its pending request; `shutdown` declines every
 //! pending request; duplicate pending IDs are rejected.
 //! Contract tests: permissions/tests/service.rs

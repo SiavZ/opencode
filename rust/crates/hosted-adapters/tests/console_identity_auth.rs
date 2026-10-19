@@ -7,10 +7,22 @@
 //! |-- hosted-adapters/src/console/auth/issuer.rs
 //! |-- hosted-adapters/src/console/db.rs
 //! |-- hosted-adapters/src/console/tenant.rs
+//! |-- hosted-domain/src/console/common.rs
 //! `-- hosted-domain/src/console/identity.rs
 //! External:
+//! |-- axum::Json
 //! |-- axum::Router
-//! `-- mysql_async::prelude::Queryable
+//! |-- axum::http::StatusCode::BAD_REQUEST
+//! |-- axum::http::StatusCode::OK
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- axum::serve
+//! |-- mysql_async::prelude::Queryable
+//! |-- reqwest::Client::new
+//! |-- serde_json::json
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: servers bind 127.0.0.1:0 and are dropped with the test.

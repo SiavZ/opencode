@@ -8,18 +8,42 @@
 //! rust/crates/
 //! |-- context/src/registry.rs
 //! |-- llm-api/src/lib.rs
+//! |-- permissions/src/lib.rs
+//! |-- schema/src/agent.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/agents.rs
 //! |-- session-runtime/src/execution.rs
+//! |-- session-runtime/src/revert.rs
+//! |-- session-runtime/src/runner/mod.rs
 //! |-- session-runtime/src/runner/model.rs
 //! |-- session-runtime/src/runner/ports.rs
 //! |-- session-runtime/src/runner/turn.rs
 //! |-- session-runtime/src/service.rs
+//! |-- session-runtime/src/store.rs
 //! |-- session-runtime/tests/support/sql.rs
 //! `-- tool-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- futures::StreamExt
 //! |-- futures::stream
-//! `-- tokio::sync::{Barrier, watch}
+//! |-- location::Ref
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! |-- sql::Harness
+//! |-- sql::open
+//! |-- stream::empty
+//! |-- stream::iter
+//! |-- stream::once
+//! |-- stream::pending
+//! |-- tokio::sync::Barrier
+//! |-- tokio::sync::watch
+//! |-- tokio::time::timeout
+//! |-- watch::Sender
+//! `-- watch::channel
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/tests/runner_turn.rs

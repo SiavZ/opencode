@@ -9,7 +9,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-07, composed by runtime)
+//! `-- none, entrypoint
 //! Invariants: no dependency on server or UI crates.
 //! Contract tests: integration-adapters/tests/
 

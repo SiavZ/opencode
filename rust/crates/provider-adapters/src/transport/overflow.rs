@@ -7,8 +7,9 @@
 //! `-- regex::Regex
 //! Used by:
 //! rust/crates/
-//! |-- provider-adapters/src/transport/executor.rs
-//! `-- provider-adapters/src/transport/mod.rs
+//! |-- provider-adapters/src/protocols/openai/responses_events.rs
+//! |-- provider-adapters/src/transport/mod.rs
+//! `-- provider-adapters/src/transport/status.rs
 //! Invariants: pattern list, exclusion list and the `4xx (no body)` fallback match the baseline
 //! order and case-insensitivity exactly. Exclusions (rate limits, throttling, service
 //! unavailable) always win.

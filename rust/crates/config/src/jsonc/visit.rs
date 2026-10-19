@@ -5,7 +5,11 @@
 //! rust/crates/
 //! `-- config/src/jsonc/scanner.rs
 //! External:
-//! `-- serde_json::{Map, Number, Value}
+//! |-- i64::MAX
+//! |-- serde_json::Map
+//! |-- serde_json::Number
+//! |-- serde_json::Value
+//! `-- u64::MAX
 //! Used by:
 //! rust/crates/
 //! |-- config/src/jsonc/edit.rs

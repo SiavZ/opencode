@@ -5,7 +5,9 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- ratatui::style::Color
+//! |-- f64::from
+//! |-- ratatui::style::Color
+//! `-- u8::from_str_radix
 //! Used by:
 //! rust/crates/
 //! |-- ui-terminal/src/theme/mod.rs

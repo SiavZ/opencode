@@ -1,10 +1,9 @@
 //! Purpose: keyboard command catalog and command palette dialog.
 //! Scope: commands.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

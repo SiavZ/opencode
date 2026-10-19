@@ -10,7 +10,8 @@
 //! |-- schema/src/values.rs
 //! `-- session-runtime/src/runner/publish.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::to_value
 //! Used by:
 //! rust/crates/
 //! `-- session-runtime/src/runner/publish.rs

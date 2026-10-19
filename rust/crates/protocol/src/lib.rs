@@ -15,7 +15,14 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-06, consumers: client p08, view-model p10, server p06)
+//! rust/crates/
+//! |-- protocol/tests/registry.rs
+//! |-- server/src/app.rs
+//! |-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/mod.rs
+//! |-- server/src/lib.rs
+//! |-- server/src/middleware/decode.rs
+//! `-- server/tests/http_proxy.rs
 //! Invariants: depends only on opencode-schema, no tokio/axum, compiles for wasm32-unknown-unknown.
 //! Contract tests: protocol/tests/registry.rs
 

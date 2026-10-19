@@ -6,15 +6,30 @@
 //! rust/crates/
 //! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
-//! |-- codemode/src/interp/collections.rs
-//! |-- codemode/src/interp/console.rs
-//! |-- codemode/src/interp/promise.rs
-//! `-- codemode/src/stdlib/mod.rs
+//! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/stdlib/mod.rs
+//! |-- codemode/src/value/convert.rs
+//! `-- codemode/src/value/mod.rs
 //! External:
-//! `-- none
+//! |-- futures::future::poll_fn
+//! |-- stdlib::collections::construct_map
+//! |-- stdlib::collections::construct_set
+//! |-- stdlib::date::construct
+//! |-- stdlib::date::invoke_method
+//! |-- stdlib::invoke_global
+//! |-- stdlib::number::invoke_method
+//! |-- stdlib::regexp::construct
+//! |-- stdlib::regexp::invoke_method
+//! |-- stdlib::string::invoke_method
+//! |-- stdlib::url::construct_params
+//! |-- stdlib::url::construct_url
+//! |-- stdlib::url::invoke_uri
+//! |-- stdlib::url::invoke_url_method
+//! `-- stdlib::value::invoke_coercion
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/interp/expr.rs
+//! |-- codemode/src/interp/collections.rs
+//! `-- codemode/src/interp/mod.rs
 //! Invariants: only tools, functions and allowlisted builtins are callable; tool calls start at
 //! the call site, before any await.
 //! Contract tests: codemode/tests/codemode.rs, codemode/tests/promise.rs, codemode/tests/enumeration.rs

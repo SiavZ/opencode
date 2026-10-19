@@ -9,10 +9,16 @@
 //! `-- session-api/src/prompt.rs
 //! External:
 //! |-- serde::Serialize
-//! `-- serde_json::{Map, Value}
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- serde_json::to_value
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/runner/mod.rs
+//! |-- session-runtime/src/runner/turn/request.rs
 //! `-- session-runtime/tests/runner_messages.rs
 //! Invariants: switch markers produce nothing; assistant turns with no meaningful content emit
 //! only their local tool results; provider metadata is reused only for the same provider/model

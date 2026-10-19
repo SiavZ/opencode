@@ -6,9 +6,13 @@
 //! |-- schema/src/ids.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
+//! |-- locations/src/workspace/mod.rs
+//! |-- locations/src/workspace/sync.rs
+//! |-- locations/tests/workspace_lifecycle.rs
 //! |-- schema/src/lib.rs
 //! `-- schema/tests/schema_domains_workspace.rs
 //! Invariants: field order, closed status literals and inventory order match baseline.

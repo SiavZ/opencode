@@ -25,10 +25,15 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
+//! |-- session-runtime/src/legacy/command.rs
+//! |-- session-runtime/src/legacy/parts.rs
+//! |-- session-runtime/src/legacy/prompt.rs
+//! |-- session-runtime/src/legacy/resource.rs
+//! |-- session-runtime/src/legacy/share.rs
+//! |-- session-runtime/src/legacy/shell.rs
 //! |-- session-runtime/src/lib.rs
-//! |-- session-runtime/tests/legacy_command.rs
 //! |-- session-runtime/tests/legacy_prompt.rs
-//! `-- session-runtime/tests/legacy_shell.rs
+//! `-- session-runtime/tests/support/legacy.rs
 //! Invariants: every capability without a ported upstream adapter fails with typed
 //! `LegacyError::NotYetPorted`; nothing silently succeeds. One run or shell per Session.
 //! Contract tests: session-runtime/tests/legacy_prompt.rs, legacy_shell.rs, legacy_command.rs

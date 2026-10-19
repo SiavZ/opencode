@@ -4,6 +4,7 @@
 //! Scope: one legacy prompt; the model loop is the `LegacyLoop` port, run under `RunState`.
 //! Uses:
 //! rust/crates/
+//! |-- session-runtime/src/children.rs
 //! |-- session-runtime/src/legacy/mod.rs
 //! |-- session-runtime/src/legacy/parts.rs
 //! |-- session-runtime/src/legacy/run_state.rs
@@ -11,12 +12,16 @@
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
 //! |-- futures::FutureExt
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- tracing::info
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
-//! |-- session-runtime/src/legacy/command.rs
 //! |-- session-runtime/src/legacy/mod.rs
-//! `-- session-runtime/tests/legacy_prompt.rs
+//! `-- session-runtime/tests/legacy_command.rs
 //! Invariants: revert cleanup runs before the user message is written; the user message and its
 //! parts are durable before `touch`, the `tools` permission override and the loop. `noReply` returns
 //! the user message without running the loop. Agent/model changes publish `session.updated` only when

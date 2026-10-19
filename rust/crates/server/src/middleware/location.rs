@@ -4,14 +4,24 @@
 //! Scope: per-request resolution over process-level ports.
 //! Uses:
 //! rust/crates/
-//! |-- schema/src/location.rs
+//! |-- protocol/src/errors.rs
+//! |-- schema/src/ids.rs
+//! |-- schema/src/values.rs
 //! |-- server/src/middleware/errors.rs
+//! |-- server/src/middleware/legacy_routing.rs
 //! `-- server/src/services/mod.rs
 //! External:
-//! `-- axum::http::HeaderMap
+//! |-- axum::http::HeaderMap
+//! |-- form_urlencoded::parse
+//! |-- percent_encoding::percent_decode_str
+//! |-- str::to_string
+//! `-- u8::is_ascii_hexdigit
 //! Used by:
 //! rust/crates/
-//! `-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- server/src/middleware/legacy_routing.rs
+//! `-- server/src/middleware/mod.rs
 //! Invariants: an empty query hint falls back to the header, then to `process.cwd()`. The
 //! directory header is percent-decoded with the raw value kept on malformed escapes. Session
 //! placement: an ID without the `ses` prefix answers InvalidRequestError (field sessionID), a

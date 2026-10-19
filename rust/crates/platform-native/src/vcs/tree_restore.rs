@@ -9,10 +9,12 @@
 //! |-- platform-native/src/vcs/run.rs
 //! `-- platform-native/src/vcs/tree.rs
 //! External:
-//! `-- uuid::Uuid
+//! |-- tokio::fs::remove_dir_all
+//! |-- tokio::fs::remove_file
+//! `-- tokio::fs::symlink_metadata
 //! Used by:
 //! rust/crates/
-//! |-- platform-native/src/vcs/snapshot.rs
+//! |-- platform-native/src/vcs/mod.rs
 //! `-- platform-native/src/vcs/tree.rs
 //! Invariants: preview never writes the shared index (it uses a throwaway GIT_INDEX_FILE that is
 //! always deleted); restore removes paths absent from their tree; checkout leaves files absent

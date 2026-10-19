@@ -13,15 +13,21 @@
 //! |-- schema/src/session_event.rs
 //! |-- schema/src/session_message.rs
 //! |-- schema/src/values.rs
-//! |-- session-api/src/error.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/projection.rs
 //! `-- session-runtime/src/runner/publish/tools.rs
 //! External:
-//! `-- indexmap::IndexMap
+//! |-- indexmap::IndexMap
+//! |-- projection::event_error
+//! |-- projection::publish
+//! |-- serde_json::to_value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/runner/mod.rs
 //! |-- session-runtime/src/runner/publish/tools.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/runner/turn/tools.rs
 //! |-- session-runtime/tests/runner_publish.rs
 //! |-- session-runtime/tests/runner_publish_tools.rs
 //! `-- session-runtime/tests/support/publish.rs

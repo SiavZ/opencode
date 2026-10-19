@@ -6,13 +6,13 @@
 //! |-- platform-api/src/git.rs
 //! `-- platform-api/src/process.rs
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/vcs/change.rs
+//! |-- platform-native/src/vcs/mod.rs
 //! |-- platform-native/src/vcs/repo.rs
 //! |-- platform-native/src/vcs/snapshot.rs
-//! |-- platform-native/tests/git.rs
 //! |-- platform-native/src/vcs/tree.rs
 //! `-- platform-native/src/vcs/tree_restore.rs
 //! Invariants: the message is the git stderr (trimmed) or stdout or a fixed fallback, never empty.

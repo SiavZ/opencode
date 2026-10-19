@@ -2,13 +2,30 @@
 //! row split/rebuild used by projectors and history reads.
 //! Scope: pure values.
 //! Uses:
-//! `-- none
-//! External:
-//! |-- opencode_schema::session_message
-//! `-- serde_json::{Map, Value}
-//! Used by:
 //! rust/crates/
-//! `-- session-api/src/lib.rs
+//! `-- schema/src/session_message.rs
+//! External:
+//! |-- serde_json::Error
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! `-- serde_json::to_value
+//! Used by:
+//! rust/bins/
+//! |-- opencode/src/cli/commands/terminal.rs
+//! `-- opencode/src/cli/commands/turn.rs
+//! rust/crates/
+//! |-- server/src/handlers/session.rs
+//! |-- server/tests/support/mod.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/operations.rs
+//! |-- session-api/tests/wire.rs
+//! |-- session-runtime/src/projection/adapter.rs
+//! |-- session-runtime/src/revert.rs
+//! |-- session-runtime/src/runner/to_llm_message.rs
+//! |-- session-runtime/src/runner/turn/request.rs
+//! |-- session-runtime/src/store.rs
+//! `-- session-runtime/tests/admission.rs
 //! Invariants: the row `data` column is the encoded message minus `id` and `type`, key order kept,
 //! like the projector's `const { id, type, ...data } = encodeMessage(message)`.
 //! Contract tests: session-api/tests/wire.rs

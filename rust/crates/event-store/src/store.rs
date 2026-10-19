@@ -7,15 +7,15 @@
 //! |-- event-store/src/commit.rs
 //! |-- event-store/src/hub.rs
 //! |-- event-store/src/read.rs
-//! |-- schema/src/identifier.rs
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
 //! |-- futures::future::BoxFuture
-//! `-- serde_json
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- event-store/src/lib.rs
+//! |-- event-store/src/lib.rs
+//! `-- event-store/src/read.rs
 //! Invariants: durable commits use one IMMEDIATE transaction; wakes and notifications happen only
 //! after commit. Projectors run in registration order. The stored-type registry contains every
 //! durable definition passed to `register`, `project` or `publish`; replay of an unregistered

@@ -5,6 +5,11 @@
 //! `-- session-runtime/src/background.rs
 //! External:
 //! |-- futures::future::FutureExt
+//! |-- oneshot::Sender
+//! |-- oneshot::channel
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- str::to_owned
 //! `-- tokio::sync::oneshot
 //! Used by:
 //! rust/crates/

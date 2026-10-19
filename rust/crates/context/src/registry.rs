@@ -12,7 +12,10 @@
 //! rust/crates/
 //! |-- context/src/builtins.rs
 //! |-- context/src/lib.rs
-//! `-- context/tests/registry.rs
+//! |-- context/tests/registry.rs
+//! |-- runtime/src/location.rs
+//! |-- session-runtime/src/runner/ports.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: entries are removed exactly when their `Registration` drops (baseline scope close),
 //! load order is key order regardless of registration order, producer failures propagate,
 //! duplicate source keys across entries fail with `DuplicateKey`.

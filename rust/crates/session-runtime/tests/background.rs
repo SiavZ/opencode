@@ -7,8 +7,16 @@
 //! `-- session-runtime/tests/background/helpers.rs
 //! External:
 //! |-- futures::future::FutureExt
+//! |-- oneshot::Receiver
+//! |-- oneshot::channel
+//! |-- serde_json::from_value
 //! |-- serde_json::json
-//! `-- tokio
+//! |-- serde_json::to_string
+//! |-- tokio::spawn
+//! |-- tokio::sync::oneshot
+//! |-- tokio::task::yield_now
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests observe behavior only through the public API and side effects of the submitted

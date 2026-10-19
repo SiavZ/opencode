@@ -11,12 +11,22 @@
 //! |-- desktop-host/src/platform/wsl/runtime.rs
 //! `-- desktop-host/src/platform/wsl/sidecar.rs
 //! External:
+//! |-- futures::future::join_all
+//! |-- messages::already_added
+//! |-- messages::server_exited
 //! |-- parking_lot::Mutex
+//! |-- runtime::read_command_version
+//! |-- runtime::resolve_opencode
 //! |-- tokio::task::JoinSet
-//! `-- tokio_util::sync::CancellationToken
+//! |-- tokio::time::timeout
+//! |-- tokio_util::sync::CancellationToken
+//! |-- tracing::error
+//! `-- tracing::info
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/platform/wsl/controller/jobs.rs
+//! |-- desktop-host/src/platform/wsl/mod.rs
+//! |-- desktop-host/tests/wsl_runtime.rs
 //! |-- desktop-host/tests/wsl_servers.rs
 //! `-- desktop-host/tests/wsl_support/mod.rs
 //! Invariants: a start whose generation is no longer current never publishes `ready`/`failed` and

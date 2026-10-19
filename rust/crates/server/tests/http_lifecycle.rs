@@ -6,7 +6,12 @@
 //! |-- server/src/lifecycle.rs
 //! `-- server/tests/support/mod.rs
 //! External:
-//! `-- tokio::net::TcpListener
+//! |-- axum::Router
+//! |-- axum::routing::get
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: `listen` returns a connectable listener; `stop` joins every task.

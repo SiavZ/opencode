@@ -4,8 +4,15 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- nix::sys::signal::{killpg, kill, Signal}
-//! `-- tokio::process::Child
+//! |-- i32::try_from
+//! |-- nix::sys::signal::Signal
+//! |-- nix::sys::signal::Signal::SIGKILL
+//! |-- nix::sys::signal::kill
+//! |-- nix::sys::signal::killpg
+//! |-- nix::unistd::Pid
+//! |-- tokio::process::Child
+//! |-- tokio::time::Instant::now
+//! `-- tokio::time::sleep
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/process/mod.rs

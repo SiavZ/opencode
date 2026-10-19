@@ -12,10 +12,11 @@
 //! |-- ui-web/src/routes.rs
 //! |-- ui-web/src/session.rs
 //! |-- ui-web/src/settings.rs
-//! |-- ui-web/src/timeline/mod.rs
-//! `-- view-model/src/lib.rs
+//! `-- ui-web/src/timeline/mod.rs
 //! External:
-//! |-- leptos::prelude
+//! |-- console_error_panic_hook::set_once
+//! |-- leptos::mount::mount_to_body
+//! |-- leptos::prelude::*
 //! `-- wasm_bindgen::prelude::wasm_bindgen
 //! Used by:
 //! `-- none, entrypoint

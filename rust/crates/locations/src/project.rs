@@ -4,13 +4,18 @@
 //! Uses:
 //! rust/crates/
 //! |-- locations/src/error.rs
-//! `-- locations/src/git.rs
+//! |-- locations/src/git.rs
+//! `-- schema/src/ids.rs
 //! External:
 //! |-- async_trait::async_trait
-//! |-- opencode_schema::ids::ProjectID
+//! |-- hex::encode
 //! |-- regex::Regex
+//! |-- regex::Regex::new
+//! |-- sha1::Digest
 //! |-- sha1::Sha1
-//! `-- url::Url
+//! |-- tokio::fs::read_to_string
+//! |-- tokio::fs::write
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- locations/src/lib.rs

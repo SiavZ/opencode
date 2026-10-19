@@ -4,14 +4,38 @@
 //! Uses:
 //! rust/crates/
 //! |-- schema/src/ids.rs
-//! |-- schema/src/macros.rs
+//! |-- schema/src/lib.rs
 //! `-- schema/src/values.rs
 //! External:
 //! |-- indexmap::IndexMap
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- config/src/provider.rs
+//! |-- config/tests/markdown.rs
+//! |-- provider-adapters/src/catalog/cache.rs
+//! |-- provider-adapters/src/catalog/mod.rs
+//! |-- provider-adapters/tests/catalog.rs
+//! |-- runtime/src/location.rs
+//! |-- runtime/src/location_agents.rs
+//! |-- runtime/src/location_models.rs
+//! |-- runtime/src/process.rs
+//! |-- schema/src/agent.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/session.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/session_event/stream.rs
+//! |-- schema/src/session_message.rs
+//! |-- session-api/src/ids.rs
+//! |-- session-runtime/src/runner/model.rs
+//! |-- session-runtime/src/runner/publish.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/store.rs
+//! |-- session-runtime/tests/runner_model_location.rs
+//! |-- session-runtime/tests/support/model.rs
+//! `-- session-runtime/tests/support/publish.rs
 //! Invariants: Provider.Api is tagged by `type` (tag first); Model.Api puts `id` before the
 //! spread provider api fields; `settings` is required for `native` and optional for `aisdk`.
 //! Contract tests: schema/src/provider.rs (unit tests), schema/tests/baseline_fixtures.rs

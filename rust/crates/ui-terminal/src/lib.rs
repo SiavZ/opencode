@@ -15,8 +15,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! rust/bins/
-//! `-- opencode/src/main.rs
+//! `-- none, entrypoint
 //! Invariants: library never writes to the real terminal except through terminal.rs guards.
 //! Contract tests: ui-terminal/tests/
 pub mod app;

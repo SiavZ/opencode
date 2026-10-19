@@ -8,7 +8,24 @@
 //! |-- platform-native/src/process/kill.rs
 //! `-- platform-native/src/process/mod.rs
 //! External:
-//! `-- tokio::sync::mpsc
+//! |-- capture::pump
+//! |-- capture::shared
+//! |-- capture::take
+//! |-- futures::stream::BoxStream
+//! |-- futures::stream::StreamExt
+//! |-- futures::stream::unfold
+//! |-- kill::GroupGuard::new
+//! |-- kill::Target
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- tokio::io::AsyncBufReadExt
+//! |-- tokio::io::AsyncRead
+//! |-- tokio::io::BufReader
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc
+//! `-- tokio::task::JoinHandle
 //! Used by:
 //! rust/crates/
 //! `-- platform-native/src/process/mod.rs

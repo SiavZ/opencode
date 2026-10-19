@@ -8,7 +8,8 @@
 //! |-- protocol/src/definitions/mod.rs
 //! `-- protocol/src/ir.rs
 //! External:
-//! `-- none
+//! |-- ir::branded
+//! `-- ir::record
 //! Used by:
 //! rust/crates/
 //! `-- protocol/src/definitions/mod.rs

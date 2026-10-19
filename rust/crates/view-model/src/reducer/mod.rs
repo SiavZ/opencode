@@ -7,12 +7,14 @@
 //! |-- view-model/src/reducer/assistant.rs
 //! `-- view-model/src/source.rs
 //! External:
-//! `-- serde_json::{Value, from_value}
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value
+//! `-- serde_json::from_value
 //! Used by:
 //! rust/crates/
 //! |-- view-model/src/lib.rs
 //! |-- view-model/src/reducer/assistant.rs
-//! `-- view-model/tests/reducer.rs
+//! `-- view-model/src/session_cache.rs
 //! Invariants: events without a string `data.sessionID` or with unknown types return `None`.
 //! Appends are idempotent by message id. Updates to unknown targets touch nothing. A promotion
 //! without a recorded admission reports `missing` so the caller hydrates from the server.

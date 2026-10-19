@@ -3,11 +3,13 @@
 //! Scope: real `rg` processes in temp dirs.
 //! Uses:
 //! rust/crates/
+//! |-- schema/src/filesystem.rs
 //! |-- tools/src/search/binary.rs
+//! |-- tools/src/search/mod.rs
 //! |-- tools/src/search/ripgrep.rs
 //! `-- tools/tests/search_support.rs
 //! External:
-//! `-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: `.git` metadata never appears; ignored files stay out of catch-all results.

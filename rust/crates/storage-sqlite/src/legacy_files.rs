@@ -7,10 +7,19 @@
 //! |-- storage-sqlite/src/legacy_files/migrate.rs
 //! `-- storage-sqlite/src/legacy_files/store.rs
 //! External:
-//! `-- serde_json
+//! |-- serde_json::Number
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::to_string_pretty
+//! `-- u32::MAX
 //! Used by:
 //! rust/crates/
-//! `-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/src/legacy_files/auth.rs
+//! |-- storage-sqlite/src/legacy_files/migrate.rs
+//! |-- storage-sqlite/src/legacy_files/store.rs
+//! |-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/tests/credentials.rs
+//! `-- storage-sqlite/tests/legacy_json.rs
 //! Invariants: files are written as `JSON.stringify(value, null, 2)`: two-space indent and JS number
 //! text (integral floats print without `.0`). Never touches anything outside the given data dir.
 //! Contract tests: storage-sqlite/tests/legacy_json.rs, storage-sqlite/tests/credentials.rs

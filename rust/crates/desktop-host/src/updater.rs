@@ -13,13 +13,13 @@
 //! External:
 //! `-- none
 //! Used by:
-//! rust/bins/
-//! `-- desktop/src/updater.rs
 //! rust/crates/
 //! |-- desktop-host/src/lib.rs
+//! |-- desktop-host/src/updater/feed.rs
 //! |-- desktop-host/tests/updater_controller.rs
 //! |-- desktop-host/tests/updater_feed.rs
-//! `-- desktop-host/tests/updater_store.rs
+//! |-- desktop-host/tests/updater_store.rs
+//! `-- desktop-host/tests/updater_subscriptions.rs
 //! Invariants: one authoritative state per controller, at most one check in flight, failed
 //! checks and failed installs recover (error / ready) instead of wedging the state machine.
 //! Contract tests: desktop-host/tests/updater_controller.rs, desktop-host/tests/updater_feed.rs,

@@ -1,13 +1,12 @@
 //! Purpose: typed localStorage access for drafts, settings and layout persistence.
 //! Scope: browser storage.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- web_sys::window
 //! Used by:
 //! rust/crates/
-//! `-- ui-web/src/lib.rs
+//! `-- ui-web/src/host/mod.rs
 //! Invariants: skeleton owned by child node p10.shell; replace this header when implementing.
 //! Contract tests: ui-web/tests (owner p10.shell)
 

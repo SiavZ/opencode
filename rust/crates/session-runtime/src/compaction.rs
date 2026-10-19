@@ -8,14 +8,21 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
-//! |-- schema/src/session_event/stream.rs
+//! |-- schema/src/prompt.rs
+//! |-- schema/src/session_event.rs
 //! |-- schema/src/session_message.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
 //! `-- session-runtime/src/projection.rs
 //! External:
 //! |-- futures::StreamExt
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/execution_support.rs
+//! |-- runtime/src/location.rs
+//! |-- session-runtime/src/legacy/compaction.rs
 //! |-- session-runtime/src/lib.rs
 //! `-- session-runtime/tests/compaction.rs
 //! Invariants: no events are published unless a non-empty summary prompt fits the context window;

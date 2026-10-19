@@ -2,13 +2,17 @@
 //! Scope: live temp-directory paths and fixture authorization recorder.
 //! Uses:
 //! rust/crates/
+//! |-- permissions/src/lib.rs
 //! |-- platform-api/src/fs.rs
-//! |-- platform-native/src/fs/location.rs
-//! |-- tool-api/src/context.rs
+//! |-- platform-native/src/fs/mod.rs
+//! |-- tool-api/src/lib.rs
 //! `-- tools/src/files/common.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- tempfile::tempdir
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
+//! |-- tokio::test
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no path resolution or approval helper reads target content.

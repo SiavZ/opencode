@@ -9,10 +9,14 @@
 //! |-- event-store/src/store.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! |-- futures::stream
-//! `-- serde_json
+//! |-- futures::StreamExt
+//! |-- futures::stream::unfold
+//! |-- i64::MAX
+//! |-- i64::try_from
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- event-store/src/lib.rs
 //! `-- event-store/src/store.rs
 //! Invariants: the durable wake is registered before the historical read, so a commit landing
 //! during catch-up leaves a permit and is read on the next pass (no gap, no duplicate because the

@@ -4,11 +4,24 @@
 //! Scope: fixture-based (local WebSocket server), no live provider calls.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/protocol.rs
 //! |-- provider-adapters/src/route.rs
-//! `-- provider-adapters/src/transport/websocket.rs
+//! `-- provider-adapters/src/transport/mod.rs
 //! External:
-//! `-- tokio_tungstenite::{accept_hdr_async, tungstenite::Message}
+//! |-- futures::SinkExt
+//! |-- futures::StreamExt
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio_tungstenite::accept_hdr_async
+//! |-- tokio_tungstenite::tungstenite::Message
+//! |-- tokio_tungstenite::tungstenite::handshake::server::Request
+//! |-- tokio_tungstenite::tungstenite::handshake::server::Response
+//! |-- tokio_tungstenite::tungstenite::protocol::CloseFrame
+//! `-- tokio_tungstenite::tungstenite::protocol::frame::coding::CloseCode
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: mirrors packages/llm/src/route/transport/websocket.ts behavior.

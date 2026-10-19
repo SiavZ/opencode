@@ -3,15 +3,17 @@
 //! Scope: test support module, included with `mod support;`.
 //! Uses:
 //! rust/crates/
-//! |-- locations/src/lib.rs
+//! |-- locations/src/git.rs
 //! |-- locations/tests/support/workspace.rs
+//! |-- storage-api/src/lib.rs
 //! `-- storage-sqlite/src/lib.rs
 //! External:
-//! |-- tempfile
-//! `-- tokio
+//! |-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! rust/crates/
 //! |-- locations/tests/project.rs
+//! |-- locations/tests/support/workspace.rs
 //! |-- locations/tests/workspace_lifecycle.rs
 //! `-- locations/tests/workspace_sync.rs
 //! Invariants: git never reads the user's global or system config; nothing touches real user data.

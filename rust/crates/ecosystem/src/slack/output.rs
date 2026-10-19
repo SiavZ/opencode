@@ -8,7 +8,9 @@
 //! Used by:
 //! rust/crates/
 //! |-- ecosystem/src/slack/bot.rs
-//! `-- ecosystem/src/slack/thread.rs
+//! |-- ecosystem/src/slack/mod.rs
+//! |-- ecosystem/src/slack/thread.rs
+//! `-- ecosystem/tests/slack_bot.rs
 //! Invariants: only completed tools produce updates, info.content precedes text parts.
 //! Contract tests: ecosystem/tests/slack_bot.rs
 

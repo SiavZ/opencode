@@ -4,11 +4,18 @@
 //! Scope: test-only; real SQLite + event store + Session projectors, fixture LLM client and route.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
+//! |-- schema/src/session_message.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/compaction.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! |-- futures::stream
-//! `-- serde_json::json
+//! |-- futures::stream::empty
+//! |-- futures::stream::iter
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the provider stream is a labeled fixture (`ScriptedLlm`); no network.

@@ -10,8 +10,13 @@
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! |-- serde_json::{json, Map, Value}
-//! `-- tokio::sync::Semaphore
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- sql::Harness
+//! |-- sql::open
+//! |-- tokio::sync::Semaphore
+//! `-- tokio::time::sleep
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/tests/children.rs

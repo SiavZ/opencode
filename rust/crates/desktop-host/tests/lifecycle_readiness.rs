@@ -4,7 +4,10 @@
 //! rust/crates/
 //! `-- desktop-host/src/lifecycle/readiness.rs
 //! External:
-//! `-- tokio
+//! |-- serde_json::to_value
+//! |-- tokio::spawn
+//! |-- tokio::task::yield_now
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every waiter resolves on success and failure.

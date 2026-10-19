@@ -4,15 +4,36 @@
 //! Scope: per-request routing plan over process-level workspace services.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/errors.rs
+//! |-- schema/src/ids.rs
 //! |-- server/src/middleware/errors.rs
 //! |-- server/src/middleware/location.rs
 //! |-- server/src/services/mod.rs
 //! `-- server/src/transport/proxy.rs
 //! External:
-//! `-- axum::http::Request
+//! |-- axum::body::Body
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::Method
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header::UPGRADE
+//! |-- axum::response::Response
+//! |-- form_urlencoded::parse
+//! |-- proxy::http
+//! |-- proxy::proxy_url
+//! |-- reqwest::Client
+//! |-- str::to_string
+//! `-- tokio::task::spawn_blocking
 //! Used by:
 //! rust/crates/
-//! `-- server/src/handlers/dispatch.rs
+//! |-- runtime/src/legacy.rs
+//! |-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/mod.rs
+//! |-- server/src/handlers/session.rs
+//! |-- server/src/handlers/streams.rs
+//! |-- server/src/middleware/location.rs
+//! |-- server/src/middleware/mod.rs
+//! |-- server/src/services/legacy.rs
+//! `-- server/tests/legacy_location.rs
 //! Invariants: session placement wins over `workspace` query; `/api/` paths reject malformed
 //! workspace IDs with InvalidRequestError (kind Query, field workspace); unknown workspaces
 //! answer 500 text `Workspace not found: <id>`; remote targets require an active sync

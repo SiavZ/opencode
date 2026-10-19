@@ -8,10 +8,13 @@
 //! |-- session-runtime/src/runner/ports.rs
 //! `-- session-runtime/src/runner/publish.rs
 //! External:
-//! |-- tokio::{sync::Mutex, task::JoinSet}
+//! |-- tokio::select
+//! |-- tokio::sync::Mutex
+//! |-- tokio::task::JoinSet
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
+//! |-- session-runtime/src/runner/turn.rs
 //! `-- session-runtime/src/runner/turn/attempt.rs
 //! Invariants: cancellation only interrupts the settle future, never a publication in progress
 //! (baseline `uninterruptibleMask` around settle + publish); the first failure cancels the remaining

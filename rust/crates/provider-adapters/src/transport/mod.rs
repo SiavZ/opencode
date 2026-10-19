@@ -15,7 +15,20 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/protocols/anthropic/stream.rs
+//! |-- provider-adapters/src/protocols/bedrock/stream.rs
+//! |-- provider-adapters/src/protocols/openai/mod.rs
+//! |-- provider-adapters/src/providers/config.rs
+//! |-- provider-adapters/src/providers/error.rs
+//! |-- provider-adapters/tests/fixtures/anthropic-support/cassette.rs
+//! |-- provider-adapters/tests/openai_chat.rs
+//! |-- provider-adapters/tests/openai_responses.rs
+//! |-- provider-adapters/tests/providers_support/mod.rs
+//! |-- provider-adapters/tests/transport_executor.rs
+//! |-- provider-adapters/tests/transport_http.rs
+//! |-- provider-adapters/tests/transport_websocket.rs
+//! `-- runtime/src/location_routes.rs
 //! Invariants: owned by phase-03 leaf p03.transport; other leaves do not edit files under this
 //! directory. Transports implement `route::Transport` and never spawn detached tasks.
 //! Contract tests: provider-adapters/tests/transport_executor.rs, provider-adapters/tests/transport_http.rs, provider-adapters/tests/transport_framing.rs, provider-adapters/tests/transport_websocket.rs

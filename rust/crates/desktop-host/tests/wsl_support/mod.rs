@@ -6,11 +6,18 @@
 //! |-- desktop-host/src/connections.rs
 //! |-- desktop-host/src/platform/process_tree.rs
 //! |-- desktop-host/src/platform/wsl/controller.rs
-//! |-- desktop-host/src/platform/wsl/runtime.rs
-//! `-- desktop-host/src/platform/wsl/sidecar.rs
+//! |-- desktop-host/src/platform/wsl/mod.rs
+//! `-- desktop-host/src/platform/wsl/runtime.rs
 //! External:
+//! |-- futures::FutureExt
 //! |-- futures::future::BoxFuture
-//! `-- tokio::sync::Semaphore
+//! |-- parking_lot::Mutex
+//! |-- tokio::select
+//! |-- tokio::sync::Semaphore
+//! |-- tokio::sync::watch::Sender
+//! |-- tokio::sync::watch::channel
+//! |-- tokio::time::sleep
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
 //! `-- desktop-host/tests/wsl_servers.rs

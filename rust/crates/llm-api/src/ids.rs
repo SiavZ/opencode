@@ -4,15 +4,25 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- indexmap::IndexMap
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::Serializer
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! |-- llm-api/src/error.rs
 //! |-- llm-api/src/event.rs
 //! |-- llm-api/src/lib.rs
 //! |-- llm-api/src/message.rs
-//! `-- llm-api/src/route.rs
+//! |-- llm-api/src/options.rs
+//! |-- llm-api/src/response.rs
+//! |-- llm-api/src/route.rs
+//! |-- provider-adapters/src/providers/transform_message.rs
+//! |-- provider-adapters/src/providers/transform_message/media.rs
+//! `-- session-runtime/tests/runner_publish.rs
 //! Invariants: literal spellings match packages/llm/src/schema/ids.ts exactly.
 //! Contract tests: llm-api/tests/contract.rs
 

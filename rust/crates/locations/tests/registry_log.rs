@@ -4,10 +4,21 @@
 //! Scope: live test of the real registry with a capturing subscriber.
 //! Uses:
 //! rust/crates/
-//! `-- locations/src/lib.rs
+//! |-- locations/src/lib.rs
+//! |-- locations/src/ports.rs
+//! `-- schema/src/ids.rs
 //! External:
-//! |-- tokio
-//! `-- tracing
+//! |-- tokio::test
+//! |-- tracing::Event
+//! |-- tracing::Metadata
+//! |-- tracing::Subscriber
+//! |-- tracing::field::Field
+//! |-- tracing::field::Visit
+//! |-- tracing::span::Attributes
+//! |-- tracing::span::Id
+//! |-- tracing::span::Id::from_u64
+//! |-- tracing::span::Record
+//! `-- tracing::subscriber::set_default
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: exactly one boot line per successful build.

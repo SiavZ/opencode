@@ -33,7 +33,24 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-01, consumers added as crates land)
+//! rust/crates/
+//! |-- config/tests/markdown.rs
+//! |-- schema/src/ids.rs
+//! |-- schema/src/project.rs
+//! |-- schema/src/provider.rs
+//! |-- schema/src/session_aux_event.rs
+//! |-- schema/src/session_message.rs
+//! |-- schema/src/values.rs
+//! |-- session-runtime/src/children/store.rs
+//! |-- session-runtime/src/projection/adapter.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/service.rs
+//! |-- session-runtime/src/store.rs
+//! |-- session-runtime/tests/admission.rs
+//! |-- storage-sqlite/src/repositories/credentials.rs
+//! |-- storage-sqlite/src/repositories/domains.rs
+//! |-- tools/src/search/core.rs
+//! `-- tools/src/search/ripgrep.rs
 //! Invariants: no dependency on any other first-party crate (see contracts/crate-edges.toml).
 //! Module map (baseline file -> Rust module) lives in rust/contracts/phase-01/contract.md.
 //! Contract tests: schema/tests/baseline_fixtures.rs

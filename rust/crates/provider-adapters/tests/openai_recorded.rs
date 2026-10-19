@@ -8,9 +8,16 @@
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/protocols/openai/mod.rs
+//! |-- provider-adapters/src/route.rs
 //! `-- provider-adapters/tests/openai_common/mod.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: multi-turn cassettes are driven like packages/llm/test/recorded-scenarios.ts: the

@@ -9,18 +9,28 @@
 //! |-- integration-adapters/src/lsp/client.rs
 //! |-- integration-adapters/src/lsp/inventory.rs
 //! |-- integration-adapters/src/lsp/launch.rs
-//! |-- integration-adapters/src/lsp/requests.rs
 //! |-- integration-adapters/src/lsp/resolve.rs
 //! |-- integration-adapters/src/lsp/roots.rs
 //! |-- integration-adapters/src/lsp/text.rs
 //! `-- integration-api/src/language.rs
 //! External:
+//! |-- broadcast::Receiver
+//! |-- broadcast::Sender
+//! |-- broadcast::channel
+//! |-- futures::FutureExt
+//! |-- futures::future::BoxFuture
 //! |-- futures::future::Shared
-//! `-- tokio::sync::{broadcast, oneshot}
+//! |-- futures::future::join_all
+//! |-- tokio::spawn
+//! |-- tokio::sync::broadcast
+//! |-- tokio::sync::oneshot::channel
+//! |-- tokio::task::JoinHandle
+//! |-- tracing::info
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
-//! |-- integration-adapters/src/lsp/requests.rs
-//! `-- integration-adapters/tests/lsp_service.rs
+//! |-- integration-adapters/src/lsp/mod.rs
+//! `-- integration-adapters/src/lsp/requests.rs
 //! Invariants: at most one client per (server id, root), a key in the broken set is never retried
 //! until restart, concurrent lookups for the same key share one spawn, no lock is held across an
 //! await, shutdown stops every client and joins every spawn task.

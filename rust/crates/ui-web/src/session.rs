@@ -1,10 +1,9 @@
 //! Purpose: session page composition: timeline, composer, side panels for one scoped session.
 //! Scope: session view.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- leptos::prelude::*
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

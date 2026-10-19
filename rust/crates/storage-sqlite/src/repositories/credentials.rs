@@ -4,18 +4,24 @@
 //! is atomic inside any caller transaction, like the TS `db.transaction`.
 //! Uses:
 //! rust/crates/
-//! |-- schema/src/ids.rs
+//! |-- schema/src/lib.rs
+//! |-- storage-api/src/lib.rs
 //! |-- storage-api/src/records/crud.rs
-//! |-- storage-api/src/records/mod.rs
-//! |-- storage-api/src/records/secret.rs
-//! `-- storage-api/src/sql.rs
+//! `-- storage-api/src/records/mod.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::to_value
+//! `-- str::is_empty
 //! Used by:
 //! rust/crates/
+//! |-- runtime/tests/production.rs
 //! |-- storage-sqlite/src/repositories/mod.rs
-//! `-- storage-sqlite/tests/credentials.rs
+//! |-- storage-sqlite/tests/credentials.rs
+//! `-- storage-sqlite/tests/repositories_interop.rs
 //! Invariants: rows without `integration_id` are invisible (all/list/get skip them), lists are ordered
 //! by `time_created` ascending, `create` replaces every credential of the integration ("rotation"),
 //! new labels default to "default", `update` with neither label nor value is a no-op (an empty label

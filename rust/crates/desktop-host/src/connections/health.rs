@@ -2,15 +2,17 @@
 //! 3s per-request timeout and optional basic auth; any 2xx is healthy.
 //! Scope: single probe over a caller-supplied reqwest client (proxy/CA policy lives in platform/proxy).
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! `-- desktop-host/src/connections.rs
 //! External:
 //! |-- reqwest::Client
-//! `-- url::Url
+//! `-- url::Url::parse
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/connections.rs
 //! |-- desktop-host/src/connections/child.rs
-//! `-- desktop-host/tests/connections_live.rs
+//! |-- desktop-host/src/connections/sidecar.rs
+//! `-- desktop-host/src/platform/wsl/sidecar.rs
 //! Invariants: an unparsable base URL is unhealthy (no request), network errors are unhealthy, never panics.
 //! Contract tests: desktop-host/tests/connections_live.rs
 

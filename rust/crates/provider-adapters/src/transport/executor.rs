@@ -10,13 +10,25 @@
 //! `-- provider-adapters/src/transport/status.rs
 //! External:
 //! |-- rand::random_range
-//! |-- reqwest::{Client, Response}
-//! `-- tokio::time::{sleep, timeout}
+//! |-- reqwest::Client
+//! |-- reqwest::Client::builder
+//! |-- reqwest::Error
+//! |-- reqwest::Method::from_bytes
+//! |-- reqwest::RequestBuilder
+//! |-- reqwest::Response
+//! |-- reqwest::Url::parse
+//! |-- reqwest::header::HeaderMap
+//! |-- reqwest::header::HeaderMap::new
+//! |-- reqwest::header::HeaderName::from_bytes
+//! |-- reqwest::header::HeaderValue::from_str
+//! |-- str::to_owned
+//! |-- tokio::time::sleep
+//! `-- tokio::time::timeout
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/transport/http.rs
 //! |-- provider-adapters/src/transport/mod.rs
-//! `-- provider-adapters/tests/transport_executor.rs
+//! `-- runtime/src/execution_support.rs
 //! Invariants: at most `max_retries + 1` requests, and retries happen only for retryable
 //! (`RateLimit`/`ProviderInternal`) status errors, before any body byte reaches the caller.
 //! Transport errors are never retried. Delay is `min(retryAfterMs, 10s)` or a uniform jitter in

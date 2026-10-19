@@ -5,13 +5,18 @@
 //! `-- ecosystem/src/slack/mod.rs
 //! External:
 //! |-- reqwest::Client
-//! |-- serde_json::{Value, json}
-//! `-- tokio::time
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_string
+//! `-- tokio::time::sleep
 //! Used by:
 //! rust/crates/
 //! |-- ecosystem/src/slack/bot.rs
+//! |-- ecosystem/src/slack/mod.rs
 //! |-- ecosystem/src/slack/socket.rs
-//! `-- ecosystem/src/slack/thread.rs
+//! |-- ecosystem/src/slack/thread.rs
+//! `-- ecosystem/tests/slack_support.rs
 //! Invariants: credentials are sent only as authorization headers, never logged.
 //! Contract tests: ecosystem/tests/slack_bot.rs, ecosystem/tests/slack_socket.rs
 

@@ -4,9 +4,7 @@
 //! Scope: native, tokio. Owns one `RunCoordinator<SessionID, SessionError>`.
 //! Uses:
 //! rust/crates/
-//! |-- session-api/src/error.rs
-//! |-- session-api/src/ids.rs
-//! |-- session-api/src/info.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/coordinator.rs
 //! |-- session-runtime/src/runner/mod.rs
@@ -14,12 +12,16 @@
 //! External:
 //! |-- async_trait::async_trait
 //! |-- futures::future::FutureExt
+//! |-- tokio::select
 //! |-- tokio_util::sync::CancellationToken
 //! `-- tracing::error
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/location.rs
+//! |-- runtime/src/process.rs
 //! |-- session-runtime/src/lib.rs
-//! `-- session-runtime/tests/coordinator_execution.rs
+//! |-- session-runtime/tests/coordinator_execution.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: placement (store lookup + runner selection) happens per drain, never at
 //! construction. A missing Session fails the drain with `NotFound` instead of panicking.
 //! Interruption drops the runner future and is not logged; every other failure is logged with

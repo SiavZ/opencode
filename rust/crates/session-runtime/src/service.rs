@@ -5,7 +5,16 @@
 //! Uses:
 //! rust/crates/
 //! |-- event-api/src/lib.rs
+//! |-- schema/src/event.rs
+//! |-- schema/src/lib.rs
+//! |-- schema/src/location.rs
 //! |-- schema/src/session_event.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/admission.rs
+//! |-- session-api/src/error.rs
+//! |-- session-api/src/ids.rs
+//! |-- session-api/src/info.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/admission.rs
 //! |-- session-runtime/src/projection.rs
@@ -15,11 +24,23 @@
 //! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::json
+//! |-- futures::StreamExt::filter
+//! |-- location::Ref
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- tokio::spawn
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/adapters.rs
+//! |-- runtime/src/legacy.rs
+//! |-- runtime/src/process.rs
+//! |-- session-runtime/src/children/store.rs
+//! |-- session-runtime/src/lib.rs
 //! |-- session-runtime/tests/admission.rs
-//! `-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/tests/admission_historical.rs
+//! |-- session-runtime/tests/admission_inbox.rs
+//! |-- session-runtime/tests/admission_projection.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: `prompt` commits admission before the advisory wake, wakes only when `resume` is not
 //! `Some(false)`, and rejects non-equivalent reuse with `PromptConflict`. `create` adopts an existing
 //! Session ID, including when a concurrent create wins the projection race.

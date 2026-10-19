@@ -9,11 +9,23 @@
 //! |-- provider-adapters/src/protocols/openai/wire.rs
 //! `-- provider-adapters/src/shared.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- options::include
+//! |-- options::instructions
+//! |-- options::is_openai_reasoning_effort
+//! |-- options::prompt_cache_key
+//! |-- options::reasoning_effort
+//! |-- options::reasoning_summary
+//! |-- options::service_tier
+//! |-- options::store
+//! |-- options::text_verbosity
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/openai/mod.rs
-//! `-- provider-adapters/src/protocols/openai/responses_stream.rs
+//! |-- provider-adapters/src/protocols/openai/responses_stream.rs
+//! `-- provider-adapters/tests/openai_responses.rs
 //! Invariants: body keys follow the baseline encode order (model, input, instructions, tools,
 //! tool_choice, store, service_tier, prompt_cache_key, include, reasoning, text,
 //! max_output_tokens, temperature, top_p, stream). With `store !== false` reasoning and hosted

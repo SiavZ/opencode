@@ -8,12 +8,22 @@
 //! |-- hosted-adapters/src/sharing/objects.rs
 //! `-- hosted-domain/src/sharing/public.rs
 //! External:
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
 //! |-- serde_json::Value
-//! `-- tokio::sync::{mpsc, Mutex}
+//! |-- serde_json::to_string
+//! |-- str::to_string
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::mpsc
+//! `-- uuid::Uuid::new_v4
 //! Used by:
+//! rust/bins/
+//! |-- hosted/src/sharing/mod.rs
+//! |-- hosted/src/sharing/public.rs
+//! `-- hosted/src/sharing/tests.rs
 //! rust/crates/
-//! |-- hosted-adapters/src/sharing/mod.rs
-//! `-- hosted-adapters/tests/sharing_public.rs
+//! `-- hosted-adapters/src/sharing/mod.rs
 //! Invariants: each object processes one call at a time (DO input gate), publish order is
 //! bucket put -> storage put -> broadcast, subscribe replays storage `session/*` entries before
 //! live frames, subscriber queues are bounded (256) and a full or closed queue drops that

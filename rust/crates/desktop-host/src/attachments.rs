@@ -8,12 +8,16 @@
 //! `-- desktop-host/src/attachments/authorization.rs
 //! External:
 //! |-- parking_lot::Mutex
-//! |-- serde::{Deserialize, Serialize}
-//! |-- thiserror::Error
-//! |-- tokio::{fs, io::AsyncReadExt}
-//! `-- uuid::Uuid
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- tokio::fs::File::open
+//! |-- tokio::fs::metadata
+//! |-- tokio::io::AsyncReadExt
+//! |-- u64::saturating_add
+//! `-- uuid::Uuid::new_v4
 //! Used by:
 //! rust/crates/
+//! |-- desktop-host/src/attachments/authorization.rs
 //! |-- desktop-host/src/lib.rs
 //! |-- desktop-host/tests/attachments.rs
 //! `-- desktop-host/tests/attachments_concurrency.rs

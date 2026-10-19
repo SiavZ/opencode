@@ -1,10 +1,9 @@
 //! Purpose: settings dialog and persisted settings model.
 //! Scope: settings.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

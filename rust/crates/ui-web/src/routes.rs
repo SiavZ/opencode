@@ -1,10 +1,9 @@
 //! Purpose: route table, server-key root ownership, legacy redirects and history integration.
 //! Scope: navigation.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- leptos::prelude::*
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

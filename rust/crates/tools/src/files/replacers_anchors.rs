@@ -4,7 +4,7 @@
 //! rust/crates/
 //! `-- tools/src/files/replacers.rs
 //! External:
-//! `-- none
+//! `-- usize::from
 //! Used by:
 //! rust/crates/
 //! `-- tools/src/files/replacers.rs

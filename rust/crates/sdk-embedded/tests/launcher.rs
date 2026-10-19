@@ -4,10 +4,15 @@
 //! Uses:
 //! rust/crates/
 //! |-- sdk-embedded/src/launcher.rs
-//! `-- sdk-embedded/src/process.rs
+//! `-- sdk-embedded/src/lib.rs
 //! External:
+//! |-- serde_json::json
 //! |-- tempfile::TempDir
-//! `-- tokio
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! |-- tokio::time::timeout
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: live processes, no mocks. Unix only (scripts use /bin/sh).

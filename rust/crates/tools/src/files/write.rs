@@ -6,9 +6,7 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
-//! |-- tool-api/src/context.rs
-//! |-- tool-api/src/definition.rs
-//! |-- tool-api/src/output.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/common.rs
 //! |-- tools/src/files/edit_legacy.rs
 //! |-- tools/src/files/jsdiff.rs
@@ -17,10 +15,19 @@
 //! |-- tools/src/files/replacers.rs
 //! `-- tools/src/files/schemas.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- schemas::description
+//! |-- schemas::input_schema
+//! |-- schemas::output_schema
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/files/mod.rs
+//! |-- runtime/src/location_tools.rs
+//! |-- tools/src/files/mod.rs
+//! |-- tools/tests/files_mutation/native.rs
+//! `-- tools/tests/files_mutation/write.rs
 //! Invariants: core maps every failure after decoding to `Unable to write <path>` and reads no
 //! content before approval, legacy reads the old content before approval only to build the diff
 //! shown in the permission request (baseline order) and preserves an existing BOM.

@@ -1,10 +1,9 @@
 //! Purpose: side panels: file tree, diff viewer, terminal panel.
 //! Scope: panels.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

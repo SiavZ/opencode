@@ -5,11 +5,15 @@
 //! Uses:
 //! rust/crates/
 //! |-- config/src/current.rs
-//! |-- config/src/env.rs
+//! |-- config/src/lib.rs
 //! `-- config/src/migrate.rs
 //! External:
+//! |-- migrate::migrate
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
 //! |-- serde_json::json
-//! `-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches the real HOME; each test owns its temp tree.

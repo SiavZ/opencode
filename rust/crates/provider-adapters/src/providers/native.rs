@@ -12,11 +12,16 @@
 //! |-- provider-adapters/src/providers/config.rs
 //! `-- provider-adapters/src/route.rs
 //! External:
-//! `-- none
+//! |-- compatible::profile
+//! |-- gemini::route
+//! |-- messages::route
+//! |-- openai::compatible_chat_route
+//! `-- openai::responses_route
 //! Used by:
 //! rust/crates/
+//! |-- provider-adapters/src/providers/gateways.rs
 //! |-- provider-adapters/src/providers/mod.rs
-//! `-- provider-adapters/src/providers/registry.rs
+//! `-- provider-adapters/tests/providers_facades.rs
 //! Invariants: Anthropic sends `x-api-key` plus `anthropic-version`; Google sends
 //! `x-goog-api-key`; xAI sends bearer. Explicit `auth` overrides win.
 //! Contract tests: provider-adapters/tests/providers_facades.rs

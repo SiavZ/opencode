@@ -10,15 +10,25 @@
 //! |-- provider-adapters/src/protocols/openai/mod.rs
 //! |-- provider-adapters/src/providers/compatible.rs
 //! |-- provider-adapters/src/providers/config.rs
+//! |-- provider-adapters/src/providers/native.rs
 //! |-- provider-adapters/src/providers/wrap.rs
 //! |-- provider-adapters/src/route.rs
 //! `-- provider-adapters/src/transport/redact.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- compatible::profile
+//! |-- openai::CHAT_PATH
+//! |-- openai::compatible_chat_route
+//! |-- serde_json::Map
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- str::trim
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/providers/mod.rs
-//! `-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry_rules.rs
+//! `-- provider-adapters/tests/providers_gateways.rs
 //! Invariants: OpenRouter options are spread after the Chat body (they may overwrite Chat
 //! keys). Gateway id defaults to `default` when blank. An explicit `apiKey` on the gateway
 //! sends upstream bearer auth, plus `cf-aig-authorization` only when `gatewayApiKey` is set.

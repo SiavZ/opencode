@@ -4,19 +4,39 @@
 //! Uses:
 //! rust/crates/
 //! |-- event-store/src/lib.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/projection.rs
 //! |-- storage-api/src/lib.rs
 //! `-- storage-sqlite/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- tempfile::TempDir
+//! |-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/tests/admission.rs
 //! |-- session-runtime/tests/admission_historical.rs
 //! |-- session-runtime/tests/admission_inbox.rs
-//! `-- session-runtime/tests/admission_projection.rs
+//! |-- session-runtime/tests/admission_projection.rs
+//! |-- session-runtime/tests/children.rs
+//! |-- session-runtime/tests/children/fixture.rs
+//! |-- session-runtime/tests/children_background.rs
+//! |-- session-runtime/tests/compaction.rs
+//! |-- session-runtime/tests/compaction_legacy.rs
+//! |-- session-runtime/tests/legacy_command.rs
+//! |-- session-runtime/tests/legacy_prompt.rs
+//! |-- session-runtime/tests/legacy_shell.rs
+//! |-- session-runtime/tests/runner_publish.rs
+//! |-- session-runtime/tests/runner_publish_tools.rs
+//! |-- session-runtime/tests/runner_turn.rs
+//! |-- session-runtime/tests/runner_turn_steps.rs
+//! |-- session-runtime/tests/runner_turn_tools.rs
+//! |-- session-runtime/tests/summary.rs
+//! |-- session-runtime/tests/support/legacy.rs
+//! |-- session-runtime/tests/support/provider.rs
+//! |-- session-runtime/tests/support/publish.rs
+//! `-- session-runtime/tests/title.rs
 //! Invariants: every handle opens the same file with baseline PRAGMAs and migrations; `connect`
 //! gives an independent handle (own connection, store and projector registry) like a second process.
 //! `RecordingExecution` is a fixture standing in for SessionExecution (as in the baseline test layer).

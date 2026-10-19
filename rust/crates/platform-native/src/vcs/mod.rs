@@ -16,7 +16,13 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- platform-native/src/lib.rs
+//! |-- platform-native/src/lib.rs
+//! |-- platform-native/tests/git.rs
+//! |-- platform-native/tests/git_support.rs
+//! |-- platform-native/tests/snapshot.rs
+//! |-- platform-native/tests/worktree.rs
+//! |-- runtime/src/execution_support.rs
+//! `-- runtime/src/location.rs
 //! Invariants: every git child process goes through `platform_api::process::ProcessRunner`.
 //! Contract tests: platform-native/tests/git.rs, platform-native/tests/snapshot.rs,
 //! platform-native/tests/worktree.rs, platform-native/tests/format.rs

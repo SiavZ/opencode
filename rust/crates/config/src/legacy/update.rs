@@ -11,9 +11,22 @@
 //! |-- config/src/jsonc/mod.rs
 //! |-- config/src/legacy/compat.rs
 //! |-- config/src/legacy/parse.rs
+//! |-- config/src/schema/mod.rs
 //! `-- config/src/value.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- compat::lower
+//! |-- fs::read_safe
+//! |-- jsonc::EditError
+//! |-- jsonc::modify
+//! |-- parse::decode_config
+//! |-- parse::global_config_file
+//! |-- parse::load_file
+//! |-- parse::normalize_loaded
+//! |-- parse::parse_jsonc
+//! |-- schema::decode
+//! |-- schema::v1::info
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! `-- config/src/legacy/mod.rs

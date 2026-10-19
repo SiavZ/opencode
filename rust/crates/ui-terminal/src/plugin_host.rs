@@ -5,11 +5,16 @@
 //! External:
 //! |-- ratatui::buffer::Buffer
 //! |-- ratatui::layout::Rect
-//! |-- ratatui::style::{Color, Style}
-//! `-- ratatui::text::{Line, Span, Text}
+//! |-- ratatui::prelude::Widget
+//! |-- ratatui::style::Color
+//! |-- ratatui::style::Style
+//! |-- ratatui::text::Line
+//! |-- ratatui::text::Span
+//! `-- ratatui::text::Text
 //! Used by:
 //! rust/crates/
-//! `-- ui-terminal/src/lib.rs
+//! |-- ui-terminal/src/lib.rs
+//! `-- ui-terminal/tests/plugin_host.rs
 //! Invariants: each registration is disposed exactly once; panics in render callbacks are isolated and rendered as errors.
 //! Contract tests: ui-terminal/tests/plugin_host.rs
 

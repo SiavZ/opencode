@@ -5,12 +5,13 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- none
+//! `-- u8::from
 //! Used by:
 //! rust/crates/
+//! |-- locations/src/workspace/mod.rs
 //! |-- storage-api/src/records/mod.rs
-//! |-- storage-sqlite/src/legacy_files.rs
-//! `-- storage-sqlite/src/repositories/workspace.rs
+//! |-- storage-sqlite/src/legacy_files/store.rs
+//! `-- storage-sqlite/src/repositories/domains.rs
 //! Invariants: printable ASCII follows the primary order captured from bun 1.3 (`ASCII_ORDER`), letters
 //! compare case-insensitively at the primary level and lowercase sorts first at the tertiary level.
 //! Control characters are ignorable. Non-ASCII code points sort after all ASCII by code point, a

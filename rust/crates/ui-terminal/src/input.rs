@@ -3,10 +3,25 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- crossterm::event::{Event, KeyEvent, MouseEvent, KeyCode, KeyModifiers, KeyEventKind, KeyEventState, MouseEventKind, MouseButton, MediaKeyCode, ModifierKeyCode}
+//! |-- crossterm::event::Event
+//! |-- crossterm::event::KeyCode
+//! |-- crossterm::event::KeyEvent
+//! |-- crossterm::event::KeyEventKind
+//! |-- crossterm::event::KeyEventState
+//! |-- crossterm::event::KeyModifiers
+//! |-- crossterm::event::MediaKeyCode
+//! |-- crossterm::event::ModifierKeyCode
+//! |-- crossterm::event::MouseButton
+//! |-- crossterm::event::MouseEvent
+//! `-- crossterm::event::MouseEventKind
 //! Used by:
+//! rust/bins/
+//! `-- opencode/src/cli/commands/terminal.rs
 //! rust/crates/
-//! `-- ui-terminal/src/terminal.rs
+//! |-- ui-terminal/src/keybind.rs
+//! |-- ui-terminal/src/lib.rs
+//! |-- ui-terminal/tests/input.rs
+//! `-- ui-terminal/tests/keybind.rs
 //! Invariants: no input is dropped silently, all crossterm events map to a UiEvent variant.
 //! Contract tests: ui-terminal/tests/input.rs
 

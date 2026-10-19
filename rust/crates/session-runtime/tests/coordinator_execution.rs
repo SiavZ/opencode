@@ -5,13 +5,20 @@
 //! recording fixtures; the execution and coordinator are the real implementations.
 //! Uses:
 //! rust/crates/
+//! |-- session-api/src/lib.rs
 //! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/execution.rs
 //! `-- session-runtime/src/runner/mod.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- serde_json::from_value
 //! |-- serde_json::json
-//! `-- tokio::sync::watch
+//! |-- tokio::join
+//! |-- tokio::spawn
+//! |-- tokio::sync::watch
+//! |-- tokio::test
+//! |-- watch::Sender
+//! `-- watch::channel
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: gates are latches, no sleeps decide outcomes. Every test lets its drains settle.

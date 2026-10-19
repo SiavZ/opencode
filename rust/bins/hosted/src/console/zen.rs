@@ -2,12 +2,14 @@
 //! Scope: stub created by the phase-12 parent, filled by child node p12.gateway.
 //! Uses:
 //! rust/bins/
-//! `-- hosted/src/console/state.rs
+//! `-- hosted/src/console/mod.rs
 //! External:
+//! |-- anyhow::Result
 //! `-- axum::Router
 //! Used by:
 //! rust/bins/
-//! `-- hosted/src/console/mod.rs
+//! |-- hosted/src/console/mod.rs
+//! `-- hosted/src/console/state.rs
 //! Invariants: owned by p12.gateway. Child modules may live in a sibling directory of the same name.
 //! Contract tests: none yet.
 

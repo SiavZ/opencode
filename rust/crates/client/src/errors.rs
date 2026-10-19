@@ -7,8 +7,7 @@
 //! `-- thiserror::Error
 //! Used by:
 //! rust/crates/
-//! |-- client/src/lib.rs
-//! `-- client/src/transport/mod.rs
+//! `-- client/src/lib.rs
 //! Invariants: a declared error status yields `ApiError::Declared` with the decoded wire
 //! body, never a `ClientError`. Reasons match packages/client/src/generated/client-error.ts.
 //! Contract tests: client/tests (Phase 08)

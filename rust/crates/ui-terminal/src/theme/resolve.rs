@@ -6,11 +6,13 @@
 //! |-- ui-terminal/src/theme/color.rs
 //! `-- ui-terminal/src/theme/mod.rs
 //! External:
-//! |-- serde_json::Value
-//! `-- thiserror::Error
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- ui-terminal/src/theme/mod.rs
+//! |-- ui-terminal/src/theme/mod.rs
+//! |-- ui-terminal/src/theme/registry.rs
+//! `-- ui-terminal/src/theme/system.rs
 //! Invariants: circular and missing references fail with the baseline messages, optional keys fall back
 //! (`selectedListItemText` -> background, `backgroundMenu` -> backgroundElement, `thinkingOpacity` -> 0.6).
 //! Contract tests: ui-terminal/tests/theme.rs

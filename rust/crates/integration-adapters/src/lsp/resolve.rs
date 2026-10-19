@@ -9,11 +9,24 @@
 //! |-- integration-adapters/src/lsp/launch.rs
 //! |-- integration-adapters/src/lsp/resolve_extra.rs
 //! |-- integration-adapters/src/lsp/roots.rs
-//! `-- integration-api/src/error.rs
+//! `-- integration-api/src/lib.rs
 //! External:
+//! |-- extra::clangd
+//! |-- extra::fsharp
+//! |-- extra::gopls
+//! |-- extra::jdtls
+//! |-- extra::oxlint
+//! |-- extra::python_init
+//! |-- extra::razor
+//! |-- extra::roslyn
+//! |-- extra::rubocop
+//! |-- extra::sourcekit
+//! |-- extra::ty
 //! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/lsp/mod.rs
+//! |-- integration-adapters/src/lsp/resolve_extra.rs
 //! |-- integration-adapters/src/lsp/service.rs
 //! `-- integration-adapters/tests/lsp_inventory.rs
 //! Invariants: `Ok(None)` is the baseline `undefined` (server unavailable, goes to the broken

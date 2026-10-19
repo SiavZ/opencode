@@ -6,13 +6,39 @@
 //! rust/crates/
 //! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
+//! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/stdlib/date.rs
+//! |-- codemode/src/stdlib/math.rs
 //! |-- codemode/src/stdlib/mod.rs
-//! `-- codemode/src/value/mod.rs
+//! |-- codemode/src/stdlib/number.rs
+//! |-- codemode/src/stdlib/regexp.rs
+//! |-- codemode/src/stdlib/string.rs
+//! |-- codemode/src/stdlib/url.rs
+//! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
+//! |-- codemode/src/value/number.rs
+//! `-- codemode/src/value/text.rs
 //! External:
-//! `-- none
+//! |-- date::METHODS
+//! |-- math::constant
+//! |-- number::METHODS
+//! |-- number::STATICS
+//! |-- number::constant
+//! |-- regexp::METHODS
+//! |-- regexp::property
+//! |-- str::to_string
+//! |-- string::METHODS
+//! |-- string::STATICS
+//! |-- url::PARAMS_METHODS
+//! |-- url::URL_METHODS
+//! |-- url::URL_PROPERTIES
+//! |-- url::get_property
+//! `-- url::set_property
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/interp/expr.rs
+//! |-- codemode/src/interp/collections.rs
+//! |-- codemode/src/interp/expr.rs
+//! `-- codemode/src/interp/mod.rs
 //! Invariants: blocked keys never resolve; promises and runtime references expose no properties;
 //! each member object/key expression is evaluated exactly once per access.
 //! Contract tests: codemode/tests/parity.rs, codemode/tests/promise.rs, codemode/tests/stdlib.rs

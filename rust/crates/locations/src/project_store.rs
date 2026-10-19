@@ -4,16 +4,26 @@
 //! Uses:
 //! rust/crates/
 //! |-- locations/src/error.rs
-//! `-- locations/src/project.rs
+//! |-- locations/src/git.rs
+//! |-- locations/src/project.rs
+//! |-- schema/src/ids.rs
+//! |-- schema/src/project.rs
+//! |-- schema/src/values.rs
+//! |-- storage-api/src/lib.rs
+//! |-- storage-api/src/records/crud.rs
+//! `-- storage-api/src/records/mod.rs
 //! External:
-//! |-- opencode_schema::project::Info
-//! |-- opencode_storage_api::records::{Crud, ProjectRow}
-//! `-- opencode_storage_api::{Database, DatabaseExt, Sql}
+//! |-- serde_json::from_value
+//! |-- serde_json::to_value
+//! |-- tokio::fs::canonicalize
+//! |-- tokio::fs::try_exists
+//! |-- tracing::info
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- locations/src/lib.rs
 //! |-- locations/src/workspace/worktree.rs
-//! `-- locations/tests/project.rs
+//! `-- runtime/src/legacy.rs
 //! Invariants: migration runs in one IMMEDIATE transaction and is a no-op for missing, `global` or
 //! unchanged previous ids; it copies the old row only when the new one is absent, clears the old
 //! project's directory list, moves sessions (keeping `time_updated`) and workspaces, then deletes

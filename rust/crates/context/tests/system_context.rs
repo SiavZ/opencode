@@ -4,7 +4,12 @@
 //! rust/crates/
 //! `-- context/src/source/mod.rs
 //! External:
-//! `-- serde_json::json
+//! |-- futures::FutureExt
+//! |-- futures::future::pending
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::runtime::Builder::new_current_thread
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: same cases and expected values as the baseline test file.

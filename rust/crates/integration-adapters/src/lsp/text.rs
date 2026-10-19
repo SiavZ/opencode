@@ -9,6 +9,9 @@
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/lsp/client.rs
+//! |-- integration-adapters/src/lsp/diagnostics.rs
+//! |-- integration-adapters/src/lsp/mod.rs
+//! |-- integration-adapters/src/lsp/requests.rs
 //! |-- integration-adapters/src/lsp/roots.rs
 //! `-- integration-adapters/src/lsp/service.rs
 //! Invariants: `end_position` counts UTF-16 code units and splits on `\r\n|\r|\n` like the baseline.

@@ -6,12 +6,13 @@
 //! rust/crates/
 //! |-- protocol/src/current/mod.rs
 //! |-- protocol/src/definitions/mod.rs
-//! |-- protocol/src/definitions/session.rs
 //! |-- protocol/src/errors.rs
 //! |-- protocol/src/ir.rs
 //! `-- protocol/src/operation.rs
 //! External:
-//! `-- none
+//! |-- ir::branded
+//! |-- ir::int_from_string
+//! `-- ir::record
 //! Used by:
 //! rust/crates/
 //! `-- protocol/src/current/mod.rs

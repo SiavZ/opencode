@@ -3,13 +3,16 @@
 //! invokeArrayMethod (lines 2560-2660).
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
+//! |-- codemode/src/lib.rs
 //! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
 //! `-- codemode/src/value/text.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/collections.rs
 //! `-- codemode/src/stdlib/mod.rs
 //! Invariants: mutators act in place; non-mutating methods return fresh arrays.
 //! Contract tests: codemode/tests/parity.rs, codemode/tests/stdlib.rs

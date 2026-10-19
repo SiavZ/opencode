@@ -11,7 +11,9 @@
 //! |-- session-runtime/src/legacy/store.rs
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- str::trim
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/legacy/mod.rs

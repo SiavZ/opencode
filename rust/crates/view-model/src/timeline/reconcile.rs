@@ -7,11 +7,10 @@
 //! rust/crates/
 //! `-- view-model/src/timeline/row.rs
 //! External:
-//! `-- none
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
-//! |-- view-model/src/timeline/mod.rs
-//! `-- view-model/tests/timeline.rs
+//! `-- view-model/src/timeline/mod.rs
 //! Invariants: each previous context key is claimed by at most one next row; a next row whose own
 //! key already existed reserves it; `unchanged` is true only when the result equals `previous`.
 //! Contract tests: view-model/tests/timeline.rs

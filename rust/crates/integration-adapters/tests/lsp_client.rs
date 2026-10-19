@@ -5,11 +5,14 @@
 //! Scope: real child process (python3 fake server), temp dirs only.
 //! Uses:
 //! rust/crates/
-//! |-- integration-adapters/src/lsp/client.rs
-//! |-- integration-adapters/src/lsp/diagnostics.rs
-//! `-- integration-adapters/tests/fixtures/lsp/support.rs
+//! |-- integration-adapters/src/lsp/mod.rs
+//! |-- integration-adapters/tests/fixtures/lsp/support.rs
+//! |-- integration-api/src/language.rs
+//! `-- integration-api/src/lib.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::json
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-only (fake server), no network, no writes outside the TempDir.

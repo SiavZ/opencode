@@ -4,18 +4,31 @@
 //! Scope: test support only (labelled dev adapters, not the production native filesystem).
 //! Uses:
 //! rust/crates/
+//! |-- permissions/src/lib.rs
 //! |-- platform-api/src/fs.rs
-//! |-- platform-native/src/fs/location.rs
-//! |-- tool-api/src/context.rs
-//! |-- tools/src/files/common.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-native/src/fs/mod.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/edit_legacy.rs
+//! |-- tools/src/files/mod.rs
 //! `-- tools/tests/files_mutation/dev_mutation.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- tempfile::TempDir
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! |-- tokio::time::sleep
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
 //! |-- tools/tests/files_edit.rs
+//! |-- tools/tests/files_mutation/core_edit.rs
+//! |-- tools/tests/files_mutation/dev_mutation.rs
+//! |-- tools/tests/files_mutation/legacy_edit.rs
+//! |-- tools/tests/files_mutation/legacy_edit_lines.rs
+//! |-- tools/tests/files_mutation/native.rs
+//! |-- tools/tests/files_mutation/write.rs
 //! `-- tools/tests/files_write.rs
 //! Invariants: every content byte goes through `Disk::read`, every write through
 //! `Disk::write_with_dirs`, mutation compare-and-write holds the target lock (file-mutation.ts).

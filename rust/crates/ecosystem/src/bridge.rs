@@ -12,7 +12,12 @@
 //! External:
 //! |-- regex::Regex
 //! |-- reqwest::Client
-//! `-- serde_json::{json, Value}
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! `-- tracing::error
 //! Used by:
 //! rust/crates/
 //! |-- ecosystem/src/lib.rs

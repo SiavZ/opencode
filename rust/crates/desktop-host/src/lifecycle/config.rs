@@ -6,8 +6,14 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! `-- uuid::Uuid
+//! |-- io::ErrorKind::NotFound
+//! |-- io::Result
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- str::to_string
+//! |-- str::trim
+//! |-- u32::from
+//! `-- u8::is_ascii_digit
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/lifecycle.rs

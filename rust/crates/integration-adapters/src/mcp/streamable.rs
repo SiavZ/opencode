@@ -4,16 +4,32 @@
 //! Scope: one remote server URL. Response/listen stream tasks are owned and joined on close.
 //! Uses:
 //! rust/crates/
+//! |-- integration-adapters/src/mcp/oauth.rs
 //! |-- integration-adapters/src/mcp/remote.rs
 //! |-- integration-adapters/src/mcp/sse.rs
 //! `-- integration-adapters/src/mcp/transport.rs
 //! External:
-//! |-- reqwest::{Response, StatusCode}
-//! `-- serde_json::Value
+//! |-- async_trait::async_trait
+//! |-- i64::from
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- reqwest::Error
+//! |-- reqwest::RequestBuilder
+//! |-- reqwest::Response
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- str::to_string
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc
+//! |-- tracing::debug
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/connect.rs
-//! `-- integration-adapters/src/mcp/mod.rs
+//! |-- integration-adapters/src/mcp/legacy_sse.rs
+//! |-- integration-adapters/src/mcp/mod.rs
+//! `-- integration-adapters/src/mcp/service_auth.rs
 //! Invariants: error text matches SDK `StreamableHTTPError` ("Streamable HTTP error: ...");
 //! one auth attempt per send (circuit breaker on 401 after auth, 403 upscoping once per header);
 //! a 405 on the GET listen stream is not an error.

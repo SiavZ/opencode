@@ -9,6 +9,7 @@
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/lib.rs
 //! `-- codemode/src/run.rs
 //! Invariants: truncation never fails the execution and never splits a code point.
 //! Contract tests: codemode/tests/codemode.rs

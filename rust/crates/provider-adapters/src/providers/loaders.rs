@@ -10,11 +10,14 @@
 //! |-- provider-adapters/src/auth.rs
 //! `-- provider-adapters/src/providers/inventory.rs
 //! External:
-//! `-- none
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
+//! |-- provider-adapters/src/providers/cloud.rs
 //! |-- provider-adapters/src/providers/mod.rs
-//! `-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry_rules.rs
+//! `-- provider-adapters/tests/providers_registry.rs
 //! Invariants: `set` rules overwrite, `??=` rules keep any existing value (case-insensitive).
 //! Error messages are byte-identical to the baseline loaders.
 //! Contract tests: provider-adapters/tests/providers_registry.rs

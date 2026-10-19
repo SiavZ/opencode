@@ -8,7 +8,9 @@
 //! |-- session-runtime/src/runner/model.rs
 //! `-- session-runtime/tests/support/model.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- serde_json::to_string
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixtures are built from baseline-shaped JSON, never from production helpers.

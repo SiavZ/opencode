@@ -3,6 +3,8 @@
 //! Scope: allowlists and routing; behavior lives in the per-type modules.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
 //! |-- codemode/src/stdlib/array.rs
 //! |-- codemode/src/stdlib/collections.rs
 //! |-- codemode/src/stdlib/date.rs
@@ -13,13 +15,16 @@
 //! |-- codemode/src/stdlib/regexp.rs
 //! |-- codemode/src/stdlib/string.rs
 //! |-- codemode/src/stdlib/url.rs
-//! `-- codemode/src/stdlib/value.rs
+//! |-- codemode/src/stdlib/value.rs
+//! `-- codemode/src/value/mod.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
 //! |-- codemode/src/interp/call.rs
-//! `-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/collections.rs
+//! |-- codemode/src/interp/members.rs
+//! `-- codemode/src/lib.rs
 //! Invariants: only allowlisted names are callable; everything else is a clear diagnostic.
 //! Contract tests: codemode/tests/stdlib.rs, codemode/tests/parity.rs
 

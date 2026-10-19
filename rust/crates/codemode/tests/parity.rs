@@ -2,10 +2,11 @@
 //! Scope: one Rust test per TS `test(...)`, same programs and expected values.
 //! Uses:
 //! rust/crates/
-//! |-- codemode/src/lib.rs
 //! `-- codemode/tests/common/mod.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests drive the real interpreter through `opencode_codemode::execute`.

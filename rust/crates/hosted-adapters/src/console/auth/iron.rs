@@ -6,10 +6,28 @@
 //! `-- none
 //! External:
 //! |-- aes::Aes256
-//! |-- cbc::{Decryptor, Encryptor}
+//! |-- aes::cipher::BlockModeDecrypt
+//! |-- aes::cipher::BlockModeEncrypt
+//! |-- aes::cipher::KeyIvInit
+//! |-- aes::cipher::block_padding::Pkcs7
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::URL_SAFE_NO_PAD
+//! |-- cbc::Decryptor::new
+//! |-- cbc::Encryptor::new
+//! |-- getrandom::fill
+//! |-- hex::encode
 //! |-- hmac::Hmac
+//! |-- hmac::KeyInit
+//! |-- hmac::Mac
 //! |-- pbkdf2::pbkdf2_hmac
-//! `-- sha1::Sha1
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- serde_json::to_string
+//! |-- sha1::Sha1
+//! `-- sha2::Sha256
 //! Used by:
 //! rust/crates/
 //! `-- hosted-adapters/src/console/auth.rs

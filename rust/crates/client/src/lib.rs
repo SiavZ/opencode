@@ -8,7 +8,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-08, consumers 09/10/11/14 and sdk-embedded)
+//! `-- none, entrypoint
 //! Invariants: never depends on server, runtime, session-runtime, storage-sqlite or
 //! platform-native (contracts/crate-edges.toml), compiles for wasm32-unknown-unknown.
 //! Contract tests: client/tests (Phase 08)

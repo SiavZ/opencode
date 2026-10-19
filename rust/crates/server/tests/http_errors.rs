@@ -3,10 +3,16 @@
 //! Scope: live local listener.
 //! Uses:
 //! rust/crates/
+//! |-- protocol/src/current/mod.rs
 //! |-- server/src/app.rs
+//! |-- server/src/services/mod.rs
 //! `-- server/tests/support/mod.rs
 //! External:
-//! `-- reqwest::Client
+//! |-- app::embedded_router
+//! |-- reqwest::Method::from_bytes
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every registry operation is reachable at its method and path.

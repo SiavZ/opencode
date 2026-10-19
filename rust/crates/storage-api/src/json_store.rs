@@ -8,7 +8,9 @@
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! `-- storage-api/src/lib.rs
+//! |-- storage-api/src/lib.rs
+//! |-- storage-sqlite/src/legacy_files/store.rs
+//! `-- storage-sqlite/tests/legacy_json.rs
 //! Invariants: reads take a per-file read lock, update/write/remove a per-file write lock. Missing files
 //! read as `NotFound("<absolute path>")`, missing removes succeed, list of a missing prefix is empty and
 //! sorted by joined key.

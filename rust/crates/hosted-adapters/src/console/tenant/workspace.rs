@@ -4,11 +4,14 @@
 //! Uses:
 //! rust/crates/
 //! |-- hosted-adapters/src/console/tenant.rs
-//! |-- hosted-adapters/src/console/tenant/keys.rs
 //! |-- hosted-domain/src/console/common.rs
 //! `-- hosted-domain/src/console/membership.rs
 //! External:
-//! `-- mysql_async::{TxOpts, prelude::Queryable}
+//! |-- mysql_async::TxOpts
+//! |-- mysql_async::Value
+//! |-- mysql_async::prelude::Queryable
+//! |-- serde::Serialize
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/crates/
 //! `-- hosted-adapters/src/console/tenant.rs

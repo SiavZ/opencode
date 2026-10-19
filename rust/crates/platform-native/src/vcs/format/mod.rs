@@ -6,6 +6,15 @@
 //! |-- platform-api/src/process.rs
 //! `-- platform-native/src/vcs/format/table.rs
 //! External:
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! |-- serde_json::Value::Bool
+//! |-- serde_json::Value::Object
+//! |-- serde_json::Value::String
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! |-- tracing::error
 //! `-- which::which_in
 //! Used by:
 //! rust/crates/

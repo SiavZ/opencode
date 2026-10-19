@@ -4,25 +4,42 @@
 //! Scope: `WorkspaceService` over the `workspace`/`session` tables, adapters and the sync supervisor.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
 //! |-- locations/src/error.rs
 //! |-- locations/src/workspace/adapter.rs
 //! |-- locations/src/workspace/host.rs
 //! |-- locations/src/workspace/slug.rs
 //! |-- locations/src/workspace/sse.rs
 //! |-- locations/src/workspace/sync.rs
-//! `-- locations/src/workspace/worktree.rs
+//! |-- locations/src/workspace/worktree.rs
+//! |-- schema/src/ids.rs
+//! |-- schema/src/workspace.rs
+//! |-- storage-api/src/lib.rs
+//! |-- storage-api/src/records/collation.rs
+//! |-- storage-api/src/records/crud.rs
+//! `-- storage-api/src/records/mod.rs
 //! External:
-//! |-- opencode_event_api::EventStore
-//! |-- opencode_schema::ids::WorkspaceID
-//! |-- opencode_storage_api::records::{Crud, WorkspaceRow}
-//! |-- opencode_storage_api::{Database, DatabaseExt}
-//! `-- tokio_util::task::TaskTracker
+//! |-- futures::future::join_all
+//! |-- futures::future::pending
+//! |-- serde_json::json
+//! |-- tokio::join
+//! |-- tokio::sync::broadcast::error::RecvError::Closed
+//! |-- tokio::sync::broadcast::error::RecvError::Lagged
+//! |-- tokio::task::JoinHandle
+//! |-- tokio_util::sync::CancellationToken
+//! |-- tokio_util::task::TaskTracker
+//! |-- tracing::error
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- locations/src/lib.rs
 //! |-- locations/src/ports.rs
+//! |-- locations/src/workspace/sync.rs
+//! |-- locations/tests/support/workspace.rs
 //! |-- locations/tests/workspace_lifecycle.rs
-//! `-- locations/tests/workspace_sync.rs
+//! |-- locations/tests/workspace_sync.rs
+//! |-- runtime/src/adapters.rs
+//! `-- runtime/src/process.rs
 //! Invariants: `create` is not atomic, like the baseline: the row is inserted before the adapter
 //! creates the host, and a host failure returns `CreateFailed { workspace_id }` with the row left in
 //! place for `remove` to clean up. `remove` deletes top-level sessions first, stops sync, tolerates

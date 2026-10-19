@@ -6,7 +6,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, test entrypoint
+//! `-- none, entrypoint
 //! Invariants: every catalog channel name round-trips; set of names equals the baseline list.
 //! Contract tests: this file
 

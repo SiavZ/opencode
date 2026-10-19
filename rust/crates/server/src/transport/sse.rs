@@ -6,10 +6,29 @@
 //! `-- protocol/src/sse.rs
 //! External:
 //! |-- axum::body::Body
-//! `-- futures_util::stream::{BoxStream, StreamExt}
+//! |-- axum::body::Bytes
+//! |-- axum::http::HeaderName
+//! |-- axum::http::HeaderValue
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::response::Response
+//! |-- futures_util::future::ready
+//! |-- futures_util::stream::BoxStream
+//! |-- futures_util::stream::StreamExt
+//! |-- futures_util::stream::self
+//! |-- header::CONTENT_TYPE
+//! |-- stream::empty
+//! |-- stream::iter
+//! |-- stream::once
+//! |-- stream::select
+//! |-- stream::unfold
+//! |-- tokio::test
+//! |-- tokio::time::Instant::now
+//! `-- tokio::time::sleep_until
 //! Used by:
 //! rust/crates/
-//! `-- server/src/handlers/streams.rs
+//! |-- server/src/handlers/streams.rs
+//! `-- server/src/transport/mod.rs
 //! Invariants: the body ends when the source ends (`haltStrategy: "left"`), heartbeats never
 //! keep a finished stream alive. `Stream.tick` semantics: the first tick fires immediately; legacy
 //! streams drop it. Headers: `content-type: text/event-stream` then the protocol `HEADERS`.

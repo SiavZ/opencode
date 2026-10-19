@@ -4,10 +4,14 @@
 //! Uses:
 //! rust/crates/
 //! |-- hosted-domain/src/sharing/collation.rs
+//! |-- hosted-domain/src/sharing/mod.rs
 //! |-- hosted-domain/src/sharing/public.rs
 //! `-- hosted-domain/src/sharing/share.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- serde_json::to_string
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no I/O.

@@ -8,12 +8,15 @@
 //! |-- provider-adapters/src/auth.rs
 //! `-- provider-adapters/src/providers/config.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
+//! |-- provider-adapters/src/providers/cloud.rs
 //! |-- provider-adapters/src/providers/loaders.rs
 //! |-- provider-adapters/src/providers/mod.rs
-//! `-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/registry.rs
+//! `-- provider-adapters/src/providers/registry_rules.rs
 //! Invariants: `PLUGINS` lists every `ProviderPlugins` entry, in baseline order (34 ids).
 //! Contract tests: provider-adapters/tests/providers_registry.rs
 

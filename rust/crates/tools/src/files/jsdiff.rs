@@ -4,12 +4,15 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- none
+//! |-- i64::MAX
+//! `-- i64::MIN
 //! Used by:
 //! rust/crates/
 //! |-- tools/src/files/edit.rs
 //! |-- tools/src/files/edit_legacy.rs
-//! `-- tools/src/files/write.rs
+//! |-- tools/src/files/mod.rs
+//! |-- tools/src/files/write.rs
+//! `-- tools/tests/files_edit.rs
 //! Invariants: identical edit-path selection to jsdiff's Myers variant (diagonal pruning, add
 //! preferred only when strictly farther), 4 context lines, `\ No newline at end of file` markers.
 //! Contract tests: tools/tests/files_edit.rs (live_jsdiff_differential)

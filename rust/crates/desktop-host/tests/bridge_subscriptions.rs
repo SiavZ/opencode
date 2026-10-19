@@ -4,7 +4,10 @@
 //! rust/crates/
 //! `-- desktop-host/src/bridge/subscriptions.rs
 //! External:
-//! `-- tokio::test
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::Duration::from_millis
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests cover all documented overflow behaviors and lifecycle edge cases.

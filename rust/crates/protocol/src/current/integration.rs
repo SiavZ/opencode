@@ -8,7 +8,7 @@
 //! |-- protocol/src/ir.rs
 //! `-- protocol/src/operation.rs
 //! External:
-//! `-- none
+//! `-- ir::Field
 //! Used by:
 //! rust/crates/
 //! `-- protocol/src/current/mod.rs

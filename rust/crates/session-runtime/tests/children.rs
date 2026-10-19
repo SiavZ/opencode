@@ -11,8 +11,10 @@
 //! |-- session-runtime/tests/children/fixture.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! |-- serde_json::{json, Value}
-//! |-- tokio
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- tokio::test
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint

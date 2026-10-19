@@ -3,11 +3,14 @@
 //! Uses:
 //! rust/crates/
 //! |-- schema/src/event.rs
-//! |-- schema/src/ids.rs
 //! `-- schema/src/question.rs
 //! External:
-//! |-- serde::{Serialize, de::DeserializeOwned}
-//! `-- serde_json
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Value
+//! |-- serde_json::Value::Null
+//! |-- serde_json::from_str
+//! `-- serde_json::from_value
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixtures are Bun output, JS trim and optional null rejection are preserved.

@@ -9,10 +9,24 @@
 //! |-- protocol/src/definitions/session.rs
 //! `-- protocol/src/ir.rs
 //! External:
-//! `-- none
+//! |-- ir::branded
+//! |-- ir::id
+//! |-- ir::number
+//! |-- ir::record
+//! |-- ir::string
+//! |-- ir::union
+//! `-- ir::unknown
 //! Used by:
 //! rust/crates/
+//! |-- protocol/src/current/catalog.rs
 //! |-- protocol/src/current/mod.rs
+//! |-- protocol/src/current/permission.rs
+//! |-- protocol/src/current/pty.rs
+//! |-- protocol/src/current/session.rs
+//! |-- protocol/src/definitions/catalog.rs
+//! |-- protocol/src/definitions/integration.rs
+//! |-- protocol/src/definitions/message.rs
+//! |-- protocol/src/definitions/session.rs
 //! `-- protocol/src/lib.rs
 //! Invariants: `Definition::name` is the OpenAPI component key (Effect `identifier` with dots
 //! removed), `Definition::identifier` keeps the dotted Effect identifier when it differs. Field

@@ -5,10 +5,28 @@
 //! `-- none
 //! External:
 //! |-- getrandom::fill
+//! |-- i64::MAX
+//! |-- i64::MIN
+//! |-- i64::try_from
 //! |-- rust_decimal::Decimal
-//! `-- thiserror::Error
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::to_string
+//! `-- u128::from_le_bytes
 //! Used by:
 //! rust/crates/
+//! |-- hosted-adapters/src/console/auth.rs
+//! |-- hosted-adapters/src/console/auth/issuer.rs
+//! |-- hosted-adapters/src/console/tenant.rs
+//! |-- hosted-adapters/src/console/tenant/account.rs
+//! |-- hosted-adapters/src/console/tenant/keys.rs
+//! |-- hosted-adapters/src/console/tenant/member.rs
+//! |-- hosted-adapters/src/console/tenant/workspace.rs
+//! |-- hosted-adapters/tests/console_identity.rs
+//! |-- hosted-adapters/tests/console_identity_auth.rs
+//! |-- hosted-domain/src/console/credentials.rs
+//! |-- hosted-domain/src/console/identity.rs
+//! |-- hosted-domain/src/console/membership.rs
 //! `-- hosted-domain/src/console/mod.rs
 //! Invariants: ids are `<prefix>_<26 char Crockford ULID>` like `packages/console/core/src/identifier.ts`;
 //! money is integer microcents (1 cent = 1_000_000) and conversions round half away from zero

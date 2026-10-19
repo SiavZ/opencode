@@ -9,12 +9,17 @@
 //! |-- integration-adapters/src/lsp/text.rs
 //! `-- integration-api/src/language.rs
 //! External:
+//! |-- futures::StreamExt
+//! |-- futures::future::BoxFuture
+//! |-- futures::future::join_all
 //! |-- futures::stream::FuturesUnordered
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::pin
+//! `-- tokio::select
 //! Used by:
 //! rust/crates/
-//! |-- integration-adapters/src/lsp/service.rs
-//! `-- integration-adapters/tests/lsp_client.rs
+//! `-- integration-adapters/src/lsp/mod.rs
 //! Invariants: document mode unblocks as soon as one pull batch has items for the file (remaining
 //! pulls keep merging in the background, joined at shutdown), full mode waits for all pulls,
 //! push waits require matching version or a publish newer than `after`, then debounce 150ms.

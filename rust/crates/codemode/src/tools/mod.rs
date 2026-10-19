@@ -6,15 +6,22 @@
 //! |-- codemode/src/tools/discovery.rs
 //! |-- codemode/src/tools/render.rs
 //! |-- codemode/src/tools/runtime.rs
-//! `-- codemode/src/tools/schema.rs
+//! |-- codemode/src/tools/schema.rs
+//! `-- codemode/src/tools/text.rs
 //! External:
 //! |-- futures::future::BoxFuture
+//! |-- indexmap::IndexMap
 //! |-- serde_json::Value
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
 //! |-- codemode/src/lib.rs
-//! `-- codemode/src/openapi/mod.rs
+//! |-- codemode/src/openapi/mod.rs
+//! |-- codemode/src/openapi/runtime.rs
+//! |-- codemode/src/run.rs
+//! |-- codemode/src/tools/discovery.rs
+//! |-- codemode/src/tools/render.rs
+//! `-- codemode/src/tools/runtime.rs
 //! Invariants: `ToolError::Refused` messages are model-visible; every other host failure is
 //! reported as "Tool execution failed" with its detail dropped.
 //! Contract tests: codemode/tests/codemode.rs

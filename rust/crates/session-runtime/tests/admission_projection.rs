@@ -5,12 +5,25 @@
 //! Scope: integration test over real migrated SQLite and the real p02 SqlEventStore.
 //! Uses:
 //! rust/crates/
+//! |-- event-api/src/lib.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/info.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/projection.rs
+//! |-- session-runtime/src/revert.rs
 //! |-- session-runtime/src/service.rs
-//! |-- session-runtime/src/store.rs
-//! `-- session-runtime/tests/support/sql.rs
+//! |-- session-runtime/tests/support/sql.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json::json
+//! |-- async_trait::async_trait
+//! |-- location::Ref
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expected JSON follows packages/core/src/session/message-updater.ts semantics.

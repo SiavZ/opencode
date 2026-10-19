@@ -1,10 +1,11 @@
 //! Purpose: Markdown to sanitized HTML (pulldown-cmark + ammonia), syntax highlighting (syntect), streaming-safe incremental rendering.
 //! Scope: pure render functions, native-testable.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! |-- ammonia::clean
+//! |-- pulldown_cmark::Parser::new
+//! `-- pulldown_cmark::html::push_html
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

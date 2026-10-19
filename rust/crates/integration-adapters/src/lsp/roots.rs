@@ -10,7 +10,11 @@
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/lsp/inventory.rs
-//! `-- integration-adapters/tests/lsp_roots.rs
+//! |-- integration-adapters/src/lsp/mod.rs
+//! |-- integration-adapters/src/lsp/resolve.rs
+//! |-- integration-adapters/src/lsp/resolve_extra.rs
+//! |-- integration-adapters/src/lsp/service.rs
+//! `-- integration-adapters/tests/lsp_inventory.rs
 //! Invariants: walks from dirname(file) up to and including `directory`, targets are checked
 //! per directory in declaration order, targets are literal names (baseline `fs.stat(join(dir,t))`,
 //! so `*.tf` style patterns only match a file literally named that way).

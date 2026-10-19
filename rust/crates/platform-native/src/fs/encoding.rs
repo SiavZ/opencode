@@ -7,7 +7,10 @@
 //! rust/crates/
 //! `-- platform-api/src/fs.rs
 //! External:
-//! `-- encoding_rs::{UTF_16BE, UTF_16LE}
+//! |-- encoding_rs::UTF_16BE
+//! |-- encoding_rs::UTF_16LE
+//! |-- u16::to_be_bytes
+//! `-- u16::to_le_bytes
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/fs/mod.rs

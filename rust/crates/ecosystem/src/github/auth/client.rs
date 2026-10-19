@@ -13,7 +13,15 @@
 //! `-- ecosystem/src/github/auth/mod.rs
 //! External:
 //! |-- reqwest::Client
-//! `-- serde_json::{json, Value}
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- str::to_string
+//! |-- tokio::time::sleep
+//! |-- tracing::error
+//! |-- tracing::warn
+//! `-- url::form_urlencoded::byte_serialize
 //! Used by:
 //! rust/crates/
 //! |-- ecosystem/src/github/auth/mod.rs

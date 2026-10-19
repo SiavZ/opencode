@@ -8,13 +8,42 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- serde::{Deserialize, Serialize}
-//! |-- serde_json
-//! |-- thiserror::Error
-//! |-- tokio::net::{UnixListener, UnixStream}
-//! |-- tokio::net::windows::named_pipe
+//! |-- io::Error
+//! |-- io::ErrorKind::AlreadyExists
+//! |-- io::ErrorKind::NotFound
+//! |-- io::ErrorKind::TimedOut
+//! |-- io::ErrorKind::UnexpectedEof
+//! |-- io::Result
+//! |-- mpsc::Receiver
+//! |-- mpsc::Sender
+//! |-- mpsc::channel
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Error
+//! |-- serde_json::from_str
+//! |-- serde_json::to_vec
+//! |-- tokio::io::AsyncBufReadExt
+//! |-- tokio::io::AsyncRead
+//! |-- tokio::io::AsyncReadExt
+//! |-- tokio::io::AsyncWrite
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::io::BufReader
+//! |-- tokio::net::UnixListener
+//! |-- tokio::net::UnixStream
+//! |-- tokio::net::windows::named_pipe::ClientOptions
+//! |-- tokio::net::windows::named_pipe::NamedPipeClient
+//! |-- tokio::net::windows::named_pipe::NamedPipeServer
+//! |-- tokio::net::windows::named_pipe::ServerOptions
+//! |-- tokio::select
+//! |-- tokio::spawn
 //! |-- tokio::sync::mpsc
-//! `-- tokio_util::sync::CancellationToken
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::sleep
+//! |-- tokio::time::timeout
+//! |-- tokio_util::sync::CancellationToken
+//! |-- tracing::warn
+//! |-- transport::Endpoint::new
+//! `-- transport::Listener
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/lifecycle.rs

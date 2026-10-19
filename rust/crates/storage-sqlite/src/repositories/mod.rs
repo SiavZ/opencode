@@ -12,7 +12,10 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/tests/repositories.rs
+//! |-- storage-sqlite/tests/repositories_accounts.rs
+//! `-- storage-sqlite/tests/repositories_interop.rs
 //! Invariants: each function issues the same statements, filters, ordering and conflict behavior as the
 //! TS call site named in its doc comment. Session-table semantics are Phase 04's.
 //! Contract tests: storage-sqlite/tests/repositories.rs, storage-sqlite/tests/credentials.rs

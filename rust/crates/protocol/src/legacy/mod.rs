@@ -6,7 +6,18 @@
 //! |-- protocol/src/legacy/schema.rs
 //! `-- protocol/src/operation.rs
 //! External:
-//! `-- std::sync::OnceLock
+//! |-- ir::array
+//! |-- ir::boolean
+//! |-- ir::id
+//! |-- ir::int_from_string
+//! |-- ir::lit
+//! |-- ir::lits
+//! |-- ir::object
+//! |-- ir::opt
+//! |-- ir::r
+//! |-- ir::req
+//! |-- ir::string
+//! `-- ir::unknown
 //! Used by:
 //! rust/crates/
 //! `-- protocol/src/lib.rs

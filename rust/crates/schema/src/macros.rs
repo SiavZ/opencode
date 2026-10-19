@@ -4,12 +4,10 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- schema/src/ids.rs
-//! |-- schema/src/lib.rs
-//! `-- schema/src/values.rs
+//! `-- schema/src/lib.rs
 //! Invariants: a branded value serializes as a bare JSON string. Prefix-checked brands fail
 //! decoding with `Expected a string starting with "<prefix>", got "<value>"` like the baseline.
 //! Contract tests: schema/src/ids.rs (unit tests)

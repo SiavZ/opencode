@@ -8,13 +8,30 @@
 //! |-- provider-adapters/src/providers/azure.rs
 //! |-- provider-adapters/src/providers/bedrock.rs
 //! |-- provider-adapters/src/providers/compatible.rs
-//! |-- provider-adapters/src/providers/config.rs
+//! |-- provider-adapters/src/providers/mod.rs
 //! |-- provider-adapters/src/providers/native.rs
 //! |-- provider-adapters/src/providers/openai.rs
 //! `-- provider-adapters/tests/providers_support/mod.rs
 //! External:
+//! |-- azure::azure
+//! |-- azure::copilot
+//! |-- bedrock::configure
+//! |-- compatible::configure
+//! |-- compatible::configure_profile
+//! |-- compatible::profile
+//! |-- native::anthropic
+//! |-- native::google
+//! |-- native::xai
+//! |-- openai::configure
+//! |-- openai::gpt5_default_options
+//! |-- openai::with_openai_options
+//! |-- pretty_assertions::assert_eq
 //! |-- serde_json::json
-//! `-- wiremock::MockServer
+//! |-- tokio::test
+//! |-- wiremock::Mock::given
+//! |-- wiremock::MockServer
+//! |-- wiremock::ResponseTemplate::new
+//! `-- wiremock::matchers::method
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expectations mirror packages/llm/src/providers/*.ts and their TS tests.

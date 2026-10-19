@@ -6,10 +6,16 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-native/src/vcs/run.rs
-//! |-- platform-native/src/vcs/tree.rs
-//! `-- platform-native/src/vcs/worktree_reset.rs
+//! `-- platform-native/src/vcs/tree.rs
 //! External:
-//! `-- uuid::Uuid
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- str::trim
+//! |-- tokio::fs::create_dir_all
+//! |-- tokio::fs::try_exists
+//! |-- tokio::time::sleep
+//! |-- usize::from
+//! `-- uuid::Uuid::new_v4
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/vcs/mod.rs

@@ -5,11 +5,16 @@
 //! Scope: integration tests, fixture-based (no network).
 //! Uses:
 //! rust/crates/
-//! |-- config/src/legacy/load.rs
-//! `-- config/src/legacy/remote.rs
+//! |-- config/src/legacy/mod.rs
+//! |-- config/src/legacy/remote.rs
+//! `-- config/src/lib.rs
 //! External:
+//! |-- legacy::load
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
 //! |-- serde_json::json
-//! `-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the fixture transport records requested URLs and Authorization headers only.

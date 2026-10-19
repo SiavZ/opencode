@@ -7,6 +7,7 @@
 //! |-- codemode/src/clock.rs
 //! |-- codemode/src/error.rs
 //! |-- codemode/src/interp/call.rs
+//! |-- codemode/src/interp/collections.rs
 //! |-- codemode/src/interp/console.rs
 //! |-- codemode/src/interp/diagnose.rs
 //! |-- codemode/src/interp/expr.rs
@@ -18,9 +19,22 @@
 //! |-- codemode/src/interp/stmt.rs
 //! `-- codemode/src/value/mod.rs
 //! External:
-//! `-- futures::future::BoxFuture
+//! |-- f64::INFINITY
+//! |-- f64::NAN
+//! |-- futures::future::BoxFuture
+//! |-- futures::future::poll_fn
+//! `-- indexmap::IndexMap
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/interp/call.rs
+//! |-- codemode/src/interp/collections.rs
+//! |-- codemode/src/interp/console.rs
+//! |-- codemode/src/interp/expr.rs
+//! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/patterns.rs
+//! |-- codemode/src/interp/promise.rs
+//! |-- codemode/src/interp/stmt.rs
+//! |-- codemode/src/lib.rs
 //! `-- codemode/src/run.rs
 //! Invariants: scopes are restored on every exit path; no ambient host access exists in globals.
 //! Contract tests: codemode/tests/parity.rs, codemode/tests/promise.rs

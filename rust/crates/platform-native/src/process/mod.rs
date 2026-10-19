@@ -10,11 +10,28 @@
 //! |-- platform-native/src/process/kill.rs
 //! `-- platform-native/src/process/stream.rs
 //! External:
-//! `-- tokio::process::Command
+//! |-- async_trait::async_trait
+//! |-- futures::stream::BoxStream
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::join
+//! |-- tokio::process::Command
+//! |-- tokio::process::Command::new
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::task::JoinHandle
+//! `-- tokio::time::timeout
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/lib.rs
-//! `-- platform-native/tests/process.rs
+//! |-- platform-native/src/process/stream.rs
+//! |-- platform-native/src/vcs/run.rs
+//! |-- platform-native/tests/format.rs
+//! |-- platform-native/tests/process.rs
+//! |-- runtime/src/location_tools.rs
+//! |-- session-runtime/tests/support/legacy.rs
+//! |-- tools/tests/search_support.rs
+//! |-- tools/tests/shell_core.rs
+//! `-- tools/tests/shell_legacy.rs
 //! Invariants: `run` returns only after the leader is reaped and reader tasks are joined. Timeout,
 //! cancellation, drop and non-zero exit terminate the whole group, mirroring the baseline spawner
 //! finalizer; a zero exit leaves detached background jobs that no longer hold the pipes alone.

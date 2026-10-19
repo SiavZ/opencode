@@ -4,7 +4,9 @@
 //! rust/crates/
 //! `-- schema/src/integration.rs
 //! External:
-//! `-- serde_json
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! `-- serde_json::from_str
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: all tagged unions have exact type and field order.

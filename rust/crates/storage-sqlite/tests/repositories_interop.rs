@@ -7,11 +7,23 @@
 //! rust/crates/
 //! |-- storage-api/src/lib.rs
 //! |-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/src/repositories/credentials.rs
+//! |-- storage-sqlite/src/repositories/mod.rs
 //! `-- storage-sqlite/tests/support/mod.rs
 //! External:
-//! |-- serde_json
-//! |-- tempfile
-//! `-- tokio
+//! |-- credentials::create
+//! |-- credentials::list
+//! |-- permission::add
+//! |-- permission::list
+//! |-- project::insert
+//! |-- project_directory::Behavior::Ignore
+//! |-- project_directory::create
+//! |-- project_directory::list
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches the real user data directory.

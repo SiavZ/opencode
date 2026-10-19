@@ -5,8 +5,10 @@
 //! |-- schema/src/event.rs
 //! `-- schema/src/workspace.rs
 //! External:
-//! |-- serde::{Serialize, de::DeserializeOwned}
-//! `-- serde_json
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::from_str
+//! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: all five event definitions have exact type and field order.

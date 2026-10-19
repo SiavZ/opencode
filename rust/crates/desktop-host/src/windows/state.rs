@@ -1,13 +1,13 @@
 //! Purpose: safe window URL state retrieval and window creation options.
 //! Scope: provides fallback for destroyed windows and platform-independent window options.
 //! Uses:
-//! rust/crates/
-//! `-- desktop-host/src/windows.rs
+//! `-- none
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- desktop-host/src/windows.rs
+//! |-- desktop-host/src/windows.rs
+//! `-- desktop-host/tests/windows_state.rs
 //! Invariants: safe functions never panic, return constant on error or destroyed state.
 //! Contract tests: desktop-host/tests/windows_state.rs
 

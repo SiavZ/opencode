@@ -2,13 +2,16 @@
 //! Scope: stdlib/value.ts invokeCoercion.
 //! Uses:
 //! rust/crates/
-//! `-- codemode/src/value/convert.rs
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
+//! |-- codemode/src/value/convert.rs
+//! |-- codemode/src/value/mod.rs
+//! `-- codemode/src/value/number.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/call.rs
-//! `-- codemode/src/interp/collections.rs
+//! `-- codemode/src/stdlib/mod.rs
 //! Invariants: inputs pass the intra-sandbox data checkpoint (promises are rejected).
 //! Contract tests: codemode/tests/parity.rs
 

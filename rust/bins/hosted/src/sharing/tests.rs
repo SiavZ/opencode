@@ -8,9 +8,20 @@
 //! |-- hosted/src/sharing/mod.rs
 //! `-- hosted/src/sharing/public.rs
 //! rust/crates/
-//! `-- hosted-adapters/src/sharing/objects.rs
+//! |-- hosted-adapters/src/sharing/objects.rs
+//! `-- hosted-adapters/src/sharing/public.rs
 //! External:
-//! `-- tower::ServiceExt
+//! |-- async_trait::async_trait
+//! |-- axum::Router
+//! |-- axum::body::Body
+//! |-- axum::body::to_bytes
+//! |-- axum::http::Request
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- tokio::test
+//! |-- tower::ServiceExt
+//! `-- usize::MAX
 //! Used by:
 //! rust/bins/
 //! `-- hosted/src/sharing/mod.rs

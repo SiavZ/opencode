@@ -4,19 +4,28 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-api/src/fs.rs
-//! |-- tool-api/src/context.rs
-//! |-- tool-api/src/definition.rs
-//! |-- tool-api/src/output.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/common.rs
 //! |-- tools/src/files/read_common.rs
 //! |-- tools/src/files/read_files.rs
 //! |-- tools/src/files/read_input.rs
 //! `-- tools/src/files/schemas.rs
 //! External:
-//! `-- async_trait::async_trait
+//! |-- async_trait::async_trait
+//! |-- read_files::inspect
+//! |-- read_files::list
+//! |-- read_files::read
+//! |-- schemas::description
+//! |-- schemas::input_schema
+//! |-- schemas::output_schema
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! `-- serde_json::to_value
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/files/mod.rs
+//! |-- runtime/src/location_tools.rs
+//! |-- tools/src/files/mod.rs
+//! `-- tools/tests/files_read/core.rs
 //! Invariants: external_directory approval precedes any stat or content access, read approval
 //! precedes content access, only binary/media/image errors keep their message, everything else
 //! becomes `Unable to read <path>`.

@@ -10,7 +10,16 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-07, consumers 04/05/06 added as crates land)
+//! rust/crates/
+//! |-- integration-adapters/src/lsp/client.rs
+//! |-- integration-adapters/src/lsp/jsonrpc.rs
+//! |-- integration-adapters/src/lsp/launch.rs
+//! |-- integration-adapters/src/lsp/requests.rs
+//! |-- integration-adapters/src/lsp/resolve.rs
+//! |-- integration-adapters/src/lsp/resolve_extra.rs
+//! |-- integration-adapters/tests/lsp_client.rs
+//! |-- integration-adapters/tests/lsp_inventory.rs
+//! `-- integration-adapters/tests/lsp_jsonrpc.rs
 //! Invariants: portable (native + wasm), depends only on allowlisted first-party crates.
 //! Contract tests: integration-api/src/mcp.rs, integration-api/src/plugin.rs
 

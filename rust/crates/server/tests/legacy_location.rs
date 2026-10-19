@@ -4,7 +4,8 @@
 //! rust/crates/
 //! `-- server/src/middleware/legacy_routing.rs
 //! External:
-//! `-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: Session HTTP and directory SSE share canonical instance identities.

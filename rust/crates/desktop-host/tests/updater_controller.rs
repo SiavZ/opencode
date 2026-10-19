@@ -6,6 +6,7 @@
 //! External:
 //! |-- futures::future::BoxFuture
 //! |-- parking_lot::Mutex
+//! |-- tokio::join
 //! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint

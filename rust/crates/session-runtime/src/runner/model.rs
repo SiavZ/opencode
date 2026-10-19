@@ -11,17 +11,29 @@
 //! |-- schema/src/provider.rs
 //! |-- schema/src/session.rs
 //! |-- schema/src/values.rs
-//! `-- session-api/src/error.rs
+//! `-- session-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- fmt::Debug
+//! |-- fmt::Formatter
+//! |-- fmt::Result
 //! |-- indexmap::IndexMap
-//! `-- serde_json::Value
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! |-- str::to_owned
+//! `-- u64::try_from
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/location.rs
+//! |-- runtime/src/location_models.rs
+//! |-- runtime/src/location_routes.rs
 //! |-- session-runtime/src/runner/mod.rs
+//! |-- session-runtime/src/runner/turn.rs
 //! |-- session-runtime/tests/runner_model.rs
 //! |-- session-runtime/tests/runner_model_location.rs
-//! `-- session-runtime/tests/support/model.rs
+//! |-- session-runtime/tests/support/model.rs
+//! `-- session-runtime/tests/support/provider.rs
 //! Invariants: an explicit Session model never falls back to another model, an explicit
 //! unknown variant fails (missing or `default` uses `request.variant`), stored credentials win
 //! over configured `apiKey`, `apiKey` never reaches the provider body, only key credential

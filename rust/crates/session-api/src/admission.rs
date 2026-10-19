@@ -3,14 +3,22 @@
 //! Scope: pure values.
 //! Uses:
 //! rust/crates/
+//! |-- schema/src/session_input.rs
 //! |-- session-api/src/ids.rs
 //! `-- session-api/src/prompt.rs
 //! External:
-//! `-- opencode_schema::session_input
+//! `-- serde_json::to_string
 //! Used by:
+//! rust/bins/
+//! `-- opencode/src/cli/commands/turn.rs
 //! rust/crates/
+//! |-- server/src/handlers/session.rs
+//! |-- server/tests/support/mod.rs
 //! |-- session-api/src/lib.rs
-//! `-- session-api/src/operations.rs
+//! |-- session-api/src/operations.rs
+//! |-- session-api/tests/wire.rs
+//! |-- session-runtime/src/inbox.rs
+//! `-- session-runtime/src/service.rs
 //! Invariants: an exact retry matches Session, encoded prompt and delivery (`input.ts:191-214`).
 //! Contract tests: session-api/tests/wire.rs
 

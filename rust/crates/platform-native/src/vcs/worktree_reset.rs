@@ -3,13 +3,15 @@
 //! Scope: reset a linked worktree to the default branch, sweep untracked files, refresh submodules.
 //! Uses:
 //! rust/crates/
+//! |-- platform-native/src/vcs/run.rs
+//! |-- platform-native/src/vcs/tree.rs
 //! `-- platform-native/src/vcs/worktree.rs
 //! External:
-//! `-- none
+//! |-- str::to_string
+//! `-- str::trim
 //! Used by:
 //! rust/crates/
-//! |-- platform-native/src/vcs/worktree.rs
-//! `-- platform-native/tests/worktree.rs
+//! `-- platform-native/src/vcs/mod.rs
 //! Invariants: the primary worktree is never reset; a reset that leaves local changes fails;
 //! `clean -ffdx` failures retry once after pruning the reported paths inside the worktree only.
 //! Contract tests: platform-native/tests/worktree.rs

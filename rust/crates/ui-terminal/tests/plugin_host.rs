@@ -1,9 +1,9 @@
 //! Purpose: contract tests for plugin slot registry public boundary (order, panic isolation, disposal).
 //! Scope: integration test suite for opencode-ui-terminal.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! `-- ui-terminal/src/plugin_host.rs
 //! External:
-//! |-- opencode_ui_terminal::plugin_host::SlotRegistry
 //! |-- ratatui::buffer::Buffer
 //! |-- ratatui::layout::Rect
 //! `-- ratatui::style::Style

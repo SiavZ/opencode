@@ -5,7 +5,7 @@
 //! rust/crates/
 //! `-- desktop-host/src/lifecycle/config.rs
 //! External:
-//! `-- tempfile
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never reads or writes the real process environment.

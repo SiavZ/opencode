@@ -15,8 +15,15 @@
 //! External:
 //! `-- none
 //! Used by:
+//! rust/bins/
+//! |-- opencode/src/cli/commands/mod.rs
+//! `-- opencode/src/serve.rs
 //! rust/crates/
-//! `-- config/src/lib.rs
+//! |-- config/src/lib.rs
+//! |-- config/tests/compat_fixtures.rs
+//! |-- config/tests/legacy_load.rs
+//! |-- config/tests/legacy_remote.rs
+//! `-- config/tests/legacy_update.rs
 //! Invariants: see `load.rs` and `update.rs`.
 //! Contract tests: config/tests/legacy_load.rs
 

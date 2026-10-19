@@ -4,13 +4,16 @@
 //! Scope: temp dirs and fake executables only, never a real installer or network.
 //! Uses:
 //! rust/crates/
-//! |-- integration-adapters/src/lsp/inventory.rs
-//! |-- integration-adapters/src/lsp/launch.rs
+//! |-- integration-adapters/src/lsp/mod.rs
 //! |-- integration-adapters/src/lsp/resolve.rs
 //! |-- integration-adapters/src/lsp/roots.rs
-//! `-- integration-adapters/tests/fixtures/lsp/support.rs
+//! |-- integration-adapters/tests/fixtures/lsp/support.rs
+//! |-- integration-api/src/language.rs
+//! `-- integration-api/src/lib.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-only, PATH is always a temp dir.

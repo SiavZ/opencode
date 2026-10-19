@@ -5,7 +5,10 @@
 //! rust/crates/
 //! `-- permissions/src/wildcard.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::to_string
+//! `-- wildcard::matches
 //! Used by:
 //! rust/crates/
 //! |-- permissions/src/lib.rs

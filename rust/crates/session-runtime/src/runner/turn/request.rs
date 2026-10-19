@@ -7,14 +7,21 @@
 //! |-- context/src/history.rs
 //! |-- llm-api/src/lib.rs
 //! |-- session-api/src/lib.rs
+//! |-- session-api/src/message.rs
 //! |-- session-runtime/src/projection.rs
 //! |-- session-runtime/src/runner/max_steps.rs
-//! `-- session-runtime/src/runner/to_llm_message.rs
+//! |-- session-runtime/src/runner/to_llm_message.rs
+//! |-- session-runtime/src/runner/turn.rs
+//! `-- storage-api/src/lib.rs
 //! External:
+//! |-- history::entries_for_runner
 //! |-- indexmap::IndexMap
+//! |-- serde_json::Map
+//! |-- serde_json::Value::Object
 //! `-- serde_json::json
 //! Used by:
 //! rust/crates/
+//! |-- session-runtime/src/runner/turn.rs
 //! `-- session-runtime/src/runner/turn/attempt.rs
 //! Invariants: headers keep the baseline insertion order (`x-opencode-session-id`,
 //! `x-opencode-parent-session-id`?, `x-session-affinity`, `X-Session-Id`, `x-parent-session-id`?);

@@ -5,12 +5,21 @@
 //! rust/crates/
 //! |-- event-api/src/lib.rs
 //! |-- llm-api/src/event.rs
+//! |-- llm-api/src/message.rs
+//! |-- schema/src/provider.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/projection.rs
 //! |-- session-runtime/src/runner/publish.rs
-//! `-- session-runtime/tests/support/sql.rs
+//! |-- session-runtime/tests/support/sql.rs
+//! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- sql::Harness
+//! `-- sql::open
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/tests/runner_publish.rs

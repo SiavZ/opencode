@@ -4,13 +4,32 @@
 //! Scope: fixture-based (local wiremock server and raw TCP fixtures), no live provider calls.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/protocol.rs
 //! |-- provider-adapters/src/route.rs
 //! |-- provider-adapters/src/transport/event_stream.rs
-//! `-- provider-adapters/src/transport/http.rs
+//! `-- provider-adapters/src/transport/mod.rs
 //! External:
-//! |-- tokio::net::TcpListener
-//! `-- wiremock::{Mock, MockServer, ResponseTemplate}
+//! |-- futures::StreamExt
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::io::AsyncReadExt
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::net::TcpListener::bind
+//! |-- tokio::spawn
+//! |-- tokio::sync::oneshot::Receiver
+//! |-- tokio::sync::oneshot::channel
+//! |-- tokio::test
+//! |-- tokio::time::timeout
+//! |-- usize::MAX
+//! |-- wiremock::Mock
+//! |-- wiremock::MockServer
+//! |-- wiremock::ResponseTemplate
+//! |-- wiremock::matchers::body_string
+//! |-- wiremock::matchers::header
+//! |-- wiremock::matchers::method
+//! |-- wiremock::matchers::path
+//! `-- wiremock::matchers::query_param
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: mirrors packages/llm/test/executor.test.ts "does not retry after a successful

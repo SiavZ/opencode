@@ -11,7 +11,10 @@
 //! `-- ecosystem/tests/slack_support.rs
 //! External:
 //! |-- serde_json::json
-//! |-- tokio::{join, spawn, test, time}
+//! |-- tokio::join
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::timeout
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint

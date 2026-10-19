@@ -10,13 +10,24 @@
 //! `-- desktop-host/src/store/keys.rs
 //! External:
 //! |-- parking_lot::Mutex
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Serialize::serialize
+//! |-- serde_json::Error
+//! |-- serde_json::Map
+//! |-- serde_json::Serializer::with_formatter
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::ser::PrettyFormatter::with_indent
+//! |-- serde_json::to_string
+//! |-- tracing::warn
+//! `-- u32::MAX
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/lib.rs
 //! |-- desktop-host/src/migrate.rs
+//! |-- desktop-host/src/store/install_state.rs
 //! |-- desktop-host/tests/migrate.rs
-//! `-- desktop-host/tests/store.rs
+//! |-- desktop-host/tests/store.rs
+//! `-- desktop-host/tests/store_install_state.rs
 //! Invariants: every operation re-reads the file (no stale cache across processes), writes are
 //! atomic (temp file + rename) and serialized per store name, `__internal__` survives rewrites
 //! and cannot be set, `__proto__`/`constructor`/`prototype` sets are ignored, a missing file is

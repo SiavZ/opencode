@@ -12,7 +12,12 @@
 //! Used by:
 //! rust/crates/
 //! |-- config/src/legacy/load.rs
-//! `-- config/src/legacy/remote.rs
+//! |-- config/src/legacy/markdown.rs
+//! |-- config/src/legacy/parse.rs
+//! |-- config/src/legacy/steps.rs
+//! |-- config/src/lib.rs
+//! |-- config/src/resources.rs
+//! `-- config/tests/markdown.rs
 //! Invariants: env substitution runs first over the whole text; included file content is trimmed
 //! and JSON-string escaped; substituted values never flow back into written files (callers write
 //! the original text only).

@@ -4,12 +4,17 @@
 //! Scope: live /bin/sh in temp dirs, native Location resolution, fixture authorizer.
 //! Uses:
 //! rust/crates/
-//! |-- platform-native/src/fs/location.rs
+//! |-- platform-native/src/fs/mod.rs
 //! |-- platform-native/src/process/mod.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/shell/core.rs
+//! |-- tools/src/shell/mod.rs
 //! `-- tools/tests/search_support.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::json
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no process spawns after a denial; timeouts leave no descendant alive.

@@ -13,7 +13,10 @@
 //! `-- session-runtime/src/legacy/types.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- futures::StreamExt
+//! |-- futures::StreamExt
+//! |-- serde_json::Value::as_bool
+//! |-- str::trim
+//! `-- tracing::error
 //! Used by:
 //! rust/crates/
 //! |-- session-runtime/src/lib.rs

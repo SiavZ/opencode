@@ -3,10 +3,24 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- none
+//! |-- u8::from
+//! |-- unicode_normalization::UnicodeNormalization::nfd
+//! `-- unicode_normalization::char::is_combining_mark
 //! Used by:
 //! rust/crates/
+//! |-- codemode/src/interp/collections.rs
+//! |-- codemode/src/interp/console.rs
+//! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/ops.rs
+//! |-- codemode/src/openapi/responses.rs
+//! |-- codemode/src/stdlib/array.rs
+//! |-- codemode/src/stdlib/json.rs
+//! |-- codemode/src/stdlib/regexp.rs
 //! |-- codemode/src/stdlib/string.rs
+//! |-- codemode/src/tools/discovery.rs
+//! |-- codemode/src/tools/render.rs
+//! |-- codemode/src/tools/text.rs
+//! |-- codemode/src/value/mod.rs
 //! `-- codemode/src/value/number.rs
 //! Invariants: indexes are UTF-16 code-unit offsets like JS; strings never hold lone surrogates
 //! (Rust `String` cannot), so a split surrogate pair renders as U+FFFD.

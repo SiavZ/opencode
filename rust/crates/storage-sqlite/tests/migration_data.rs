@@ -3,10 +3,10 @@
 //! Scope: live tests on in-memory SQLite databases.
 //! Uses:
 //! rust/crates/
-//! |-- storage-sqlite/src/lib.rs
+//! |-- storage-sqlite/src/migration.rs
 //! `-- storage-sqlite/tests/common/mod.rs
 //! External:
-//! `-- serde_json
+//! `-- serde_json::to_string
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: each test names the TS test it mirrors.

@@ -3,10 +3,17 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- thiserror::Error
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
-//! `-- platform-api/src/lib.rs
+//! |-- platform-api/src/fs.rs
+//! |-- platform-api/src/lib.rs
+//! |-- platform-api/src/process.rs
+//! |-- platform-api/src/pty.rs
+//! |-- platform-api/src/watcher.rs
+//! |-- platform-native/src/process/mod.rs
+//! `-- session-runtime/tests/support/legacy.rs
 //! Invariants: kind is stable and matchable, message is human text for logs and tool output.
 //! Contract tests: none
 

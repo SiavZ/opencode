@@ -5,11 +5,13 @@
 //! Uses:
 //! rust/crates/
 //! |-- hosted-adapters/src/console/tenant.rs
-//! |-- hosted-adapters/src/console/tenant/keys.rs
 //! |-- hosted-domain/src/console/common.rs
 //! `-- hosted-domain/src/console/identity.rs
 //! External:
-//! `-- mysql_async::{TxOpts, prelude::Queryable}
+//! |-- mysql_async::TxOpts
+//! |-- mysql_async::prelude::Queryable
+//! |-- serde::Serialize
+//! `-- time::PrimitiveDateTime
 //! Used by:
 //! rust/crates/
 //! `-- hosted-adapters/src/console/tenant.rs

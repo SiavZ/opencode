@@ -6,7 +6,10 @@
 //! serializes drains per Session.
 //! Uses:
 //! rust/crates/
-//! |-- context/src/source/error.rs
+//! |-- context/src/source/mod.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/session_message.rs
+//! |-- schema/src/values.rs
 //! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/agents.rs
 //! |-- session-runtime/src/inbox.rs
@@ -17,13 +20,20 @@
 //! |-- session-runtime/src/runner/turn/attempt.rs
 //! |-- session-runtime/src/runner/turn/request.rs
 //! |-- session-runtime/src/runner/turn/tools.rs
-//! `-- session-runtime/src/store.rs
+//! |-- session-runtime/src/store.rs
+//! `-- storage-api/src/lib.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- inbox::has_pending
+//! |-- tokio::task::yield_now
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/location.rs
 //! |-- session-runtime/src/runner/mod.rs
+//! |-- session-runtime/src/runner/turn/attempt.rs
+//! |-- session-runtime/src/runner/turn/request.rs
+//! |-- session-runtime/tests/runner_turn.rs
 //! `-- session-runtime/tests/support/provider.rs
 //! Invariants: advisory runs (`force=false`) without pending input return before any write;
 //! interrupted tools from a previous owner fail before the first turn; promotion is steer after

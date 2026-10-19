@@ -7,15 +7,21 @@
 //! Uses:
 //! rust/crates/
 //! |-- integration-adapters/src/lsp/client.rs
-//! `-- integration-api/src/error.rs
+//! `-- integration-api/src/lib.rs
 //! External:
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
 //! |-- tokio::process::Command
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::Mutex::new
 //! `-- which::which_in
 //! Used by:
 //! rust/crates/
+//! |-- integration-adapters/src/lsp/mod.rs
 //! |-- integration-adapters/src/lsp/resolve.rs
-//! |-- integration-adapters/src/lsp/service.rs
-//! `-- integration-adapters/tests/lsp_inventory.rs
+//! |-- integration-adapters/src/lsp/resolve_extra.rs
+//! `-- integration-adapters/src/lsp/service.rs
 //! Invariants: spawned children have piped stdio, cwd = root, kill_on_drop, and inherit the
 //! process env overlaid with `LaunchEnv::env` and the spec env. Package installs through npm are a
 //! typed NotYetPorted, never a silent success.

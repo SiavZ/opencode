@@ -4,11 +4,11 @@
 //! rust/crates/
 //! `-- ui-terminal/src/terminal.rs
 //! External:
-//! |-- crossterm::terminal
-//! `-- signal_hook::{consts, low_level}
+//! |-- signal_hook::consts::SIGHUP
+//! |-- signal_hook::consts::SIGTERM
+//! `-- signal_hook::low_level::raise
 //! Used by:
-//! rust/crates/
-//! `-- ui-terminal/tests/terminal_pty.rs
+//! `-- none, entrypoint
 //! Invariants: only a test-owned PTY is modified, restored modes precede DONE.
 //! Contract tests: ui-terminal/tests/terminal_pty.rs
 

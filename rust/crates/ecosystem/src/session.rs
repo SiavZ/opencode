@@ -10,15 +10,37 @@
 //! External:
 //! |-- async_trait::async_trait
 //! |-- futures_util::StreamExt
-//! |-- reqwest::{Client, StatusCode}
-//! |-- serde::{Deserialize, Serialize}
+//! |-- mpsc::Receiver
+//! |-- mpsc::channel
+//! |-- reqwest::Client
+//! |-- reqwest::Client::new
+//! |-- reqwest::Error
+//! |-- reqwest::Method
+//! |-- reqwest::Method::GET
+//! |-- reqwest::Method::POST
+//! |-- reqwest::RequestBuilder
+//! |-- reqwest::Response
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
 //! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- str::trim_start
+//! |-- tokio::select
+//! |-- tokio::spawn
 //! |-- tokio::sync::mpsc
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
 //! |-- ecosystem/src/lib.rs
-//! `-- ecosystem/tests/session_http.rs
+//! |-- ecosystem/src/slack/bot.rs
+//! |-- ecosystem/src/slack/mod.rs
+//! |-- ecosystem/src/slack/output.rs
+//! |-- ecosystem/src/slack/thread.rs
+//! |-- ecosystem/tests/session_http.rs
+//! |-- ecosystem/tests/slack_bot.rs
+//! `-- ecosystem/tests/slack_session.rs
 //! Invariants: prompt returns only after the producer completed the turn (legacy
 //! `/session/{id}/message` semantics), never on V2 admission. Event stream is bounded and
 //! stops on cancellation. Wire field names match the baseline SDK JSON exactly.

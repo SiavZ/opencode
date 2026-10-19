@@ -8,13 +8,24 @@
 //! |-- server/src/services/streams.rs
 //! `-- session-api/src/operations.rs
 //! External:
-//! `-- std::sync::Arc
+//! `-- none
 //! Used by:
 //! rust/crates/
+//! |-- runtime/src/adapters.rs
+//! |-- runtime/src/process.rs
 //! |-- server/src/app.rs
-//! |-- server/src/handlers/current.rs
-//! |-- server/src/handlers/session.rs
-//! `-- server/src/middleware/legacy_routing.rs
+//! |-- server/src/handlers/mod.rs
+//! |-- server/src/lib.rs
+//! |-- server/src/middleware/legacy_routing.rs
+//! |-- server/src/middleware/location.rs
+//! |-- server/src/services/streams.rs
+//! |-- server/tests/http_errors.rs
+//! |-- server/tests/http_legacy.rs
+//! |-- server/tests/http_proxy.rs
+//! |-- server/tests/replay_baseline.rs
+//! |-- server/tests/sse_events.rs
+//! |-- server/tests/support/mod.rs
+//! `-- server/tests/ws_pty.rs
 //! Invariants: an absent service is reported as a typed NotYetPorted error by handlers, never as
 //! fake success. No Session-ID-scoped service lives here.
 //! Contract tests: server/tests/http_session.rs

@@ -2,9 +2,22 @@
 //! Scope: stdlib/math.ts.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
+//! |-- codemode/src/value/mod.rs
 //! `-- codemode/src/value/number.rs
 //! External:
-//! `-- none
+//! |-- consts::E
+//! |-- consts::FRAC_1_SQRT_2
+//! |-- consts::LN_10
+//! |-- consts::LN_2
+//! |-- consts::LOG10_E
+//! |-- consts::LOG2_E
+//! |-- consts::PI
+//! |-- consts::SQRT_2
+//! |-- f64::INFINITY
+//! |-- f64::NAN
+//! `-- f64::NEG_INFINITY
 //! Used by:
 //! rust/crates/
 //! |-- codemode/src/interp/members.rs

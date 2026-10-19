@@ -6,10 +6,19 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- f64::INFINITY
+//! |-- f64::NAN
+//! |-- f64::from
+//! |-- jiff::fmt::rfc2822::parse
 //! |-- regex::Regex
-//! `-- serde_json::{Value, json}
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! `-- u8::from
 //! Used by:
 //! rust/crates/
+//! |-- session-runtime/src/legacy/compaction.rs
 //! |-- session-runtime/src/legacy/mod.rs
 //! `-- session-runtime/tests/legacy_policy.rs
 //! Invariants: delays are capped at 2^31-1 ms, header-less exponential delays at 30 s; at most 5

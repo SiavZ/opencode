@@ -3,8 +3,11 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-native/src/process/mod.rs
-//! `-- platform-native/src/vcs/format/mod.rs
+//! |-- platform-native/src/vcs/format/mod.rs
+//! `-- platform-native/src/vcs/format/table.rs
 //! External:
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
 //! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint

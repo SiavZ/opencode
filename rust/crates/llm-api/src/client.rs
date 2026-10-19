@@ -10,6 +10,7 @@
 //! External:
 //! `-- futures::StreamExt
 //! Used by:
+//! rust/crates/
 //! `-- llm-api/src/lib.rs
 //! Invariants: `generate` fails with `InvalidProviderOutput` ("Provider stream ended without
 //! a terminal finish event") when the stream ends without `finish`/`provider-error`, and

@@ -4,10 +4,25 @@
 //! Uses:
 //! rust/crates/
 //! |-- storage-api/src/lib.rs
-//! |-- storage-sqlite/src/lib.rs
+//! |-- storage-api/src/records/mod.rs
+//! |-- storage-sqlite/src/repositories/mod.rs
 //! `-- storage-sqlite/tests/support/mod.rs
 //! External:
-//! `-- tokio
+//! |-- account::Persist
+//! |-- account::active
+//! |-- account::control_accounts
+//! |-- account::get
+//! |-- account::insert_control_account
+//! |-- account::persist
+//! |-- account::persist_token
+//! |-- account::remove
+//! |-- data_migration::completed
+//! |-- data_migration::mark
+//! |-- project::insert
+//! |-- session_share::get
+//! |-- session_share::remove
+//! |-- session_share::upsert
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every assertion names the TS behavior it pins.

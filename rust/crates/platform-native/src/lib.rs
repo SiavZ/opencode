@@ -9,7 +9,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! `-- none, reserved contract (owner: phase-05, consumer runtime composition in phase-91)
+//! `-- none, entrypoint
 //! Invariants: native-only, never a dependency of portable crates.
 //! Contract tests: platform-native/tests/
 

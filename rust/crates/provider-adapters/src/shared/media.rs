@@ -1,7 +1,14 @@
 //! Purpose: validate and normalize provider media payloads.
 //! Scope: pure media MIME, size, data URL and canonical base64 validation.
-//! Uses: opencode_llm_api::{LlmError, MediaData}, base64::{Engine, STANDARD}.
-//! Used by: provider-adapters/src/shared.rs through unchanged public reexports.
+//! Uses:
+//! rust/crates/
+//! `-- llm-api/src/lib.rs
+//! External:
+//! |-- base64::Engine
+//! `-- base64::engine::general_purpose::STANDARD
+//! Used by:
+//! rust/crates/
+//! `-- provider-adapters/src/shared.rs
 //! Invariants: preserves validation order, limits, error messages and canonical encoding.
 //! Contract tests: provider-adapters/src/shared/media.rs and provider integration tests.
 

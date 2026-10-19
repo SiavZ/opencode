@@ -4,7 +4,8 @@
 //! rust/crates/
 //! `-- tools/src/files/replacers.rs
 //! External:
-//! `-- regex::Regex
+//! |-- regex::Regex
+//! `-- regex::escape
 //! Used by:
 //! rust/crates/
 //! `-- tools/src/files/replacers.rs

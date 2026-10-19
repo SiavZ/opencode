@@ -6,7 +6,32 @@
 //! |-- codemode/src/ast.rs
 //! `-- codemode/src/parse/mod.rs
 //! External:
-//! `-- oxc_ast::ast
+//! |-- ast::Argument
+//! |-- ast::Argument::SpreadElement
+//! |-- ast::ArrayExpressionElement::Elision
+//! |-- ast::ArrayExpressionElement::SpreadElement
+//! |-- ast::ArrowFunctionBody::FunctionBody
+//! |-- ast::AssignmentTarget
+//! |-- ast::CallExpression
+//! |-- ast::ChainElement::CallExpression
+//! |-- ast::ChainElement::TSNonNullExpression
+//! |-- ast::Expression
+//! |-- ast::MemberExpression
+//! |-- ast::MemberExpression::ComputedMemberExpression
+//! |-- ast::MemberExpression::PrivateFieldExpression
+//! |-- ast::MemberExpression::StaticMemberExpression
+//! |-- ast::ObjectPropertyKind
+//! |-- ast::ObjectPropertyKind::ObjectProperty
+//! |-- ast::ObjectPropertyKind::SpreadProperty
+//! |-- ast::PropertyKey::NumericLiteral
+//! |-- ast::PropertyKey::StaticIdentifier
+//! |-- ast::PropertyKey::StringLiteral
+//! |-- ast::PropertyKind::Init
+//! |-- ast::SimpleAssignmentTarget
+//! |-- ast::TemplateLiteral
+//! |-- oxc_ast::ast
+//! |-- oxc_span::GetSpan
+//! `-- oxc_syntax::operator::UpdateOperator::Increment
 //! Used by:
 //! rust/crates/
 //! `-- codemode/src/parse/mod.rs

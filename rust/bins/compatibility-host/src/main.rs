@@ -3,7 +3,8 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- anyhow::Result
+//! |-- anyhow::Result
+//! `-- anyhow::bail
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never runs first-party policy, only bridges user plugins.

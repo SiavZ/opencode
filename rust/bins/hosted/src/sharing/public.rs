@@ -5,9 +5,29 @@
 //! Uses:
 //! rust/crates/
 //! |-- hosted-adapters/src/sharing/public.rs
-//! `-- hosted-domain/src/sharing/public.rs
+//! |-- hosted-domain/src/sharing/public.rs
+//! `-- hosted-domain/src/sharing/share.rs
 //! External:
-//! `-- axum::extract::ws::WebSocketUpgrade
+//! |-- axum::Router
+//! |-- axum::body::Bytes
+//! |-- axum::extract::Query
+//! |-- axum::extract::State
+//! |-- axum::extract::ws::Message
+//! |-- axum::extract::ws::WebSocketUpgrade
+//! |-- axum::extract::ws::rejection::WebSocketUpgradeRejection
+//! |-- axum::http::HeaderMap
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::response::IntoResponse
+//! |-- axum::response::Response
+//! |-- axum::routing::get
+//! |-- axum::routing::post
+//! |-- header::CONTENT_TYPE
+//! |-- header::UPGRADE
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::json
+//! `-- tokio::select
 //! Used by:
 //! rust/bins/
 //! |-- hosted/src/sharing/mod.rs

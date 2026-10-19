@@ -5,12 +5,22 @@
 //! Scope: integration tests, fixture-based, temp dirs only.
 //! Uses:
 //! rust/crates/
-//! |-- config/src/legacy/update.rs
-//! |-- config/src/provider.rs
+//! |-- config/src/current.rs
+//! |-- config/src/legacy/mod.rs
+//! |-- config/src/lib.rs
 //! `-- config/src/resources.rs
 //! External:
+//! |-- legacy::update
+//! |-- legacy::update_global
+//! |-- pretty_assertions::assert_eq
+//! |-- resources::agents
+//! |-- resources::plugins
+//! |-- resources::references
+//! |-- resources::skills
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
 //! |-- serde_json::json
-//! `-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: failed updates leave file bytes unchanged; errors and diagnostics never contain

@@ -3,8 +3,14 @@
 //! Scope: fixture-based (hand-written baseline-shaped JSON), no I/O.
 //! Uses:
 //! rust/crates/
-//! `-- session-api/src/lib.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/admission.rs
+//! |-- session-api/src/lib.rs
+//! `-- session-api/src/message.rs
 //! External:
+//! |-- admission::delivery_str
+//! |-- message::from_row
+//! |-- message::to_row
 //! |-- pretty_assertions::assert_eq
 //! `-- serde_json::json
 //! Used by:

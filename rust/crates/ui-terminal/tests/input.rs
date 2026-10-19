@@ -4,7 +4,17 @@
 //! rust/crates/
 //! `-- ui-terminal/src/input.rs
 //! External:
-//! `-- crossterm::event::{Event, KeyEvent, MouseEvent, KeyCode, KeyModifiers, KeyEventKind, KeyEventState, MouseEventKind, MouseButton, MediaKeyCode, ModifierKeyCode}
+//! |-- crossterm::event::Event
+//! |-- crossterm::event::KeyCode
+//! |-- crossterm::event::KeyEvent
+//! |-- crossterm::event::KeyEventKind
+//! |-- crossterm::event::KeyEventState
+//! |-- crossterm::event::KeyModifiers
+//! |-- crossterm::event::MediaKeyCode
+//! |-- crossterm::event::ModifierKeyCode
+//! |-- crossterm::event::MouseButton
+//! |-- crossterm::event::MouseEvent
+//! `-- crossterm::event::MouseEventKind
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: all crossterm event variants map to a distinct UiEvent variant without data loss.

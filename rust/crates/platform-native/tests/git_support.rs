@@ -3,9 +3,10 @@
 //! Scope: test support only (also compiled as its own empty test target).
 //! Uses:
 //! rust/crates/
-//! `-- platform-native/src/vcs/run.rs
+//! `-- platform-native/src/vcs/mod.rs
 //! External:
-//! `-- tempfile::TempDir
+//! |-- tempfile::TempDir
+//! `-- tempfile::tempdir
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/tests/git.rs

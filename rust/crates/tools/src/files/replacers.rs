@@ -2,13 +2,20 @@
 //! Scope: pure text transformations, no filesystem or permission effects.
 //! Uses:
 //! rust/crates/
-//! |-- tool-api/src/definition.rs
+//! |-- tool-api/src/lib.rs
 //! |-- tools/src/files/replacers_anchors.rs
 //! `-- tools/src/files/replacers_normalized.rs
 //! External:
-//! `-- none
+//! `-- char::len_utf16
 //! Used by:
 //! rust/crates/
+//! |-- tools/src/files/edit.rs
+//! |-- tools/src/files/edit_legacy.rs
+//! |-- tools/src/files/mod.rs
+//! |-- tools/src/files/patch.rs
+//! |-- tools/src/files/replacers_anchors.rs
+//! |-- tools/src/files/replacers_normalized.rs
+//! |-- tools/src/files/write.rs
 //! `-- tools/tests/files_replacers.rs
 //! Invariants: strategy order, ambiguity errors and 0.65 anchor thresholds match legacy edit.ts.
 //! Contract tests: tools/tests/files_replacers.rs

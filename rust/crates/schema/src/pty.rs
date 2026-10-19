@@ -6,10 +6,15 @@
 //! |-- schema/src/ids.rs
 //! `-- schema/src/values.rs
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
-//! `-- schema/src/lib.rs
+//! |-- schema/src/lib.rs
+//! `-- schema/tests/schema_domains_pty.rs
 //! Invariants: byte-identical JSON with the baseline module.
 //! Contract tests: schema/tests/schema_domains_pty.rs
 

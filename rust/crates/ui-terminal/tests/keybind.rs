@@ -2,9 +2,10 @@
 //! Scope: pure values, parsing, default definitions, and event matching.
 //! Uses:
 //! rust/crates/
+//! |-- ui-terminal/src/input.rs
 //! `-- ui-terminal/src/keybind.rs
 //! External:
-//! `-- serde_json
+//! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: parsing handles leader, modifiers, and comma-separated lists correctly.

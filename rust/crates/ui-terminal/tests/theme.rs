@@ -6,8 +6,13 @@
 //! rust/crates/
 //! `-- ui-terminal/src/theme/mod.rs
 //! External:
-//! |-- serde_json
-//! `-- tempfile
+//! |-- serde_json::Map::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- str::to_string
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: every bundled theme in both modes matches the baseline hex for every token.

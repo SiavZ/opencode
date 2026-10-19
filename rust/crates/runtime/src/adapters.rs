@@ -4,15 +4,27 @@
 //! Scope: adapter structs only, no domain logic.
 //! Uses:
 //! rust/crates/
+//! |-- locations/src/lib.rs
 //! |-- locations/src/ports.rs
-//! |-- locations/src/project.rs
 //! |-- locations/src/workspace/mod.rs
-//! |-- server/src/services/ports.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/values.rs
+//! |-- server/src/services/mod.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/revert.rs
 //! `-- session-runtime/src/service.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- opencode_session_api::{SessionError, SessionResult}
+//! |-- location::Ref
+//! |-- location_ports::LegacyWorkspaces::configured_workspace_id
+//! |-- location_ports::LegacyWorkspaces::is_syncing
+//! |-- location_ports::LegacyWorkspaces::session
+//! |-- location_ports::LegacyWorkspaces::target
+//! |-- location_ports::LegacyWorkspaces::workspace
+//! |-- location_ports::LocationResolver
+//! |-- location_ports::SessionPlacement::placement
+//! |-- location_ports::SqlSessionPlacement
+//! `-- location_ports::WorkspaceRouting
 //! Used by:
 //! rust/crates/
 //! |-- runtime/src/lib.rs

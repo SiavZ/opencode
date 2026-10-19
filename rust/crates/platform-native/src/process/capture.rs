@@ -4,10 +4,13 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- tokio::io::AsyncReadExt
+//! |-- tokio::io::AsyncRead
+//! |-- tokio::io::AsyncReadExt
+//! `-- tokio::sync::mpsc::Sender
 //! Used by:
 //! rust/crates/
-//! `-- platform-native/src/process/mod.rs
+//! |-- platform-native/src/process/mod.rs
+//! `-- platform-native/src/process/stream.rs
 //! Invariants: at most `max` bytes are kept; `truncated` is set once more bytes than `max` arrived.
 //! Contract tests: platform-native/tests/process.rs
 

@@ -7,10 +7,21 @@
 //! |-- server/src/lifecycle.rs
 //! |-- server/src/services/mod.rs
 //! |-- server/tests/support/replay/mod.rs
+//! |-- session-api/src/admission.rs
+//! |-- session-api/src/error.rs
+//! |-- session-api/src/ids.rs
+//! |-- session-api/src/info.rs
+//! |-- session-api/src/message.rs
 //! `-- session-api/src/operations.rs
 //! External:
+//! |-- async_trait::async_trait
+//! |-- axum::Router
+//! |-- lifecycle::serve
 //! |-- reqwest::Client
-//! `-- tokio::net::TcpListener
+//! |-- reqwest::Client::builder
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::net::TcpListener::bind
 //! Used by:
 //! rust/crates/
 //! |-- server/tests/http_auth.rs
@@ -19,7 +30,9 @@
 //! |-- server/tests/http_lifecycle.rs
 //! |-- server/tests/http_proxy.rs
 //! |-- server/tests/http_session.rs
-//! `-- server/tests/replay_baseline.rs
+//! |-- server/tests/replay_baseline.rs
+//! |-- server/tests/sse_events.rs
+//! `-- server/tests/ws_pty.rs
 //! Invariants: fakes record calls and return canned values; they never stand in for production.
 //! Contract tests: this harness.
 #![allow(dead_code)]

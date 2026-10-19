@@ -11,7 +11,8 @@
 //! |-- locations/src/project_store.rs
 //! |-- locations/src/registry.rs
 //! |-- locations/src/scope.rs
-//! `-- locations/src/workspace/mod.rs
+//! |-- locations/src/workspace/mod.rs
+//! `-- schema/src/location.rs
 //! External:
 //! `-- none
 //! Used by:
@@ -19,8 +20,13 @@
 //! |-- locations/tests/project.rs
 //! |-- locations/tests/registry.rs
 //! |-- locations/tests/registry_log.rs
+//! |-- locations/tests/support/workspace.rs
 //! |-- locations/tests/workspace_lifecycle.rs
-//! `-- locations/tests/workspace_sync.rs
+//! |-- locations/tests/workspace_sync.rs
+//! |-- runtime/src/adapters.rs
+//! |-- runtime/src/legacy.rs
+//! |-- runtime/src/location.rs
+//! `-- runtime/src/process.rs
 //! Invariants: this crate never depends on session or tool crates; the per-location bundle is a
 //! generic `S` injected by `crates/runtime`.
 //! Contract tests: locations/tests/registry.rs, locations/tests/project.rs, locations/tests/workspace_lifecycle.rs, locations/tests/workspace_sync.rs

@@ -5,10 +5,15 @@
 //! Uses:
 //! rust/crates/
 //! |-- session-runtime/src/legacy/shell.rs
+//! |-- session-runtime/src/legacy/types.rs
 //! |-- session-runtime/tests/support/legacy.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::json
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: live local process tests (unix only); fixtures for agents/provider/loop.

@@ -7,12 +7,33 @@
 //! `-- hosted-adapters/src/sharing/sigv4.rs
 //! External:
 //! |-- async_trait::async_trait
+//! |-- percent_encoding::AsciiSet
+//! |-- percent_encoding::CONTROLS
+//! |-- percent_encoding::utf8_percent_encode
 //! |-- reqwest::Client
-//! |-- serde_json
-//! `-- time::OffsetDateTime
+//! |-- reqwest::Client::new
+//! |-- reqwest::Method
+//! |-- reqwest::Method::DELETE
+//! |-- reqwest::Method::GET
+//! |-- reqwest::Method::PUT
+//! |-- reqwest::Response
+//! |-- serde::Serialize
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::from_str
+//! |-- serde_json::to_string
+//! |-- str::to_string
+//! |-- time::OffsetDateTime
+//! |-- time::macros::format_description
+//! |-- url::Url
+//! `-- url::form_urlencoded::Serializer::new
 //! Used by:
+//! rust/bins/
+//! |-- hosted/src/sharing/enterprise.rs
+//! |-- hosted/src/sharing/mod.rs
+//! `-- hosted/src/sharing/tests.rs
 //! rust/crates/
 //! |-- hosted-adapters/src/sharing/mod.rs
+//! |-- hosted-adapters/src/sharing/public.rs
 //! |-- hosted-adapters/src/sharing/service.rs
 //! `-- hosted-adapters/tests/sharing_baseline.rs
 //! Invariants: list reads ONE ListObjectsV2 page (no continuation, faithful defect), `after` maps to

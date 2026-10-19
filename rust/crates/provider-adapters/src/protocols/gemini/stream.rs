@@ -10,7 +10,11 @@
 //! |-- provider-adapters/src/protocols/anthropic/wire.rs
 //! `-- provider-adapters/src/shared.rs
 //! External:
-//! `-- serde::Deserialize
+//! |-- serde::Deserialize
+//! |-- serde_json::Error
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::from_value
 //! Used by:
 //! rust/crates/
 //! `-- provider-adapters/src/protocols/gemini/mod.rs

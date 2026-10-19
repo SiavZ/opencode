@@ -7,7 +7,7 @@
 //! |-- protocol/src/definitions/mod.rs
 //! `-- protocol/src/ir.rs
 //! External:
-//! `-- none
+//! `-- ir::described
 //! Used by:
 //! rust/crates/
 //! `-- protocol/src/definitions/mod.rs

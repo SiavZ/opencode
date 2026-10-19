@@ -6,8 +6,9 @@
 //! `-- desktop-host/src/attachments.rs
 //! External:
 //! |-- parking_lot::Mutex
+//! |-- serde_json::to_value
 //! |-- tempfile::tempdir
-//! `-- tokio
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: never touches real user data.

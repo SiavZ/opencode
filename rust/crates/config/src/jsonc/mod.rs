@@ -12,9 +12,12 @@
 //! Used by:
 //! rust/crates/
 //! |-- config/src/current.rs
-//! |-- config/src/legacy/load.rs
+//! |-- config/src/legacy/markdown.rs
+//! |-- config/src/legacy/parse.rs
 //! |-- config/src/legacy/update.rs
-//! `-- config/src/lib.rs
+//! |-- config/src/lib.rs
+//! |-- config/src/migrate.rs
+//! `-- config/tests/jsonc.rs
 //! Invariants: offsets, line and column numbers are UTF-16 based, exactly like the baseline.
 //! Contract tests: config/tests/jsonc.rs
 

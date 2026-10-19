@@ -5,7 +5,19 @@
 //! `-- none
 //! External:
 //! |-- axum::Router
-//! `-- jsonwebtoken::{encode, EncodingKey, Header, jwk::Jwk}
+//! |-- axum::serve
+//! |-- jsonwebtoken::Algorithm
+//! |-- jsonwebtoken::EncodingKey
+//! |-- jsonwebtoken::Header
+//! |-- jsonwebtoken::encode
+//! |-- jsonwebtoken::jwk::Jwk
+//! |-- jsonwebtoken::jwk::JwkSet
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- serde_json::to_value
+//! |-- str::to_string
+//! |-- tokio::net::TcpListener::bind
+//! `-- tokio::spawn
 //! Used by:
 //! rust/crates/
 //! |-- ecosystem/tests/github_auth_client.rs

@@ -2,14 +2,18 @@
 //! `PromptInput` accepted by `SessionV2.prompt` before mime resolution.
 //! Scope: pure values.
 //! Uses:
-//! `-- none
+//! rust/crates/
+//! `-- schema/src/prompt.rs
 //! External:
-//! |-- opencode_schema::prompt
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! `-- serde::Serialize
 //! Used by:
 //! rust/crates/
 //! |-- session-api/src/admission.rs
-//! `-- session-api/src/lib.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-runtime/src/admission.rs
+//! |-- session-runtime/src/runner/to_llm_message.rs
+//! `-- session-runtime/tests/admission.rs
 //! Invariants: `PromptInput` matches `packages/schema/src/prompt-input.ts` key order and omission.
 //! Contract tests: session-api/tests/wire.rs
 

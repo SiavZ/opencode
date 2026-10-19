@@ -7,11 +7,17 @@
 //! `-- integration-api/src/error.rs
 //! External:
 //! |-- async_trait::async_trait
-//! |-- serde::{Deserialize, Serialize}
-//! `-- serde_json::{Map, Value}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
-//! `-- integration-api/src/lib.rs
+//! |-- integration-api/src/lib.rs
+//! |-- integration-api/src/plugin_abi/bridge.rs
+//! `-- integration-api/src/plugin_abi/mod.rs
 //! Invariants: `trigger` visits hooks in plugin load order, sequentially, each hook receives the
 //! output mutated by the previous one (packages/opencode/src/plugin/index.ts:284-297). A hook that
 //! errors aborts the trigger with the error (the baseline Effect.promise defect propagates).

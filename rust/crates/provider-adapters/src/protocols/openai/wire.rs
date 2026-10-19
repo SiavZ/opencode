@@ -4,10 +4,21 @@
 //! Scope: pure helpers.
 //! Uses:
 //! rust/crates/
-//! `-- llm-api/src/lib.rs
+//! |-- llm-api/src/lib.rs
+//! |-- provider-adapters/src/protocol.rs
+//! `-- provider-adapters/src/tool_schema.rs
 //! External:
-//! |-- serde::{Deserialize, Deserializer}
-//! `-- serde_json::Value
+//! |-- serde::Deserialize
+//! |-- serde::Deserializer
+//! |-- serde::Serialize
+//! |-- serde::Serializer
+//! |-- serde::de::DeserializeOwned
+//! |-- serde_json::Map
+//! |-- serde_json::Number::from_f64
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::from_value
+//! `-- serde_json::to_string
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/src/protocols/openai/chat.rs

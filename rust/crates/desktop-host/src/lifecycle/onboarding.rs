@@ -5,8 +5,9 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- io::Result
 //! |-- serde_json::Value
-//! `-- tracing
+//! `-- tracing::info
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/lifecycle.rs

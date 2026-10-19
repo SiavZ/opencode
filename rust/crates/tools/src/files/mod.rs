@@ -22,7 +22,17 @@
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/lib.rs
+//! |-- runtime/src/location_tools.rs
+//! |-- tools/src/files/patch.rs
+//! |-- tools/src/files/patch_derive.rs
+//! |-- tools/src/lib.rs
+//! |-- tools/tests/files_contract.rs
+//! |-- tools/tests/files_mutation/native.rs
+//! |-- tools/tests/files_mutation/support.rs
+//! |-- tools/tests/files_patch.rs
+//! |-- tools/tests/files_patch/content.rs
+//! |-- tools/tests/files_patch/live.rs
+//! `-- tools/tests/files_read/support.rs
 //! Invariants: native adapters enter only through platform-api traits.
 //! Contract tests: tools/tests/files_common.rs, tools/tests/files_contract.rs
 

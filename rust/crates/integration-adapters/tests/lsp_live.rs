@@ -4,9 +4,12 @@
 //! Scope: real processes, temp workspace, downloads disabled so nothing is installed.
 //! Uses:
 //! rust/crates/
-//! |-- integration-adapters/src/lsp/service.rs
-//! `-- integration-adapters/tests/fixtures/lsp/support.rs
+//! |-- integration-adapters/src/lsp/mod.rs
+//! |-- integration-adapters/tests/fixtures/lsp/support.rs
+//! `-- integration-api/src/language.rs
 //! External:
+//! |-- tokio::test
+//! |-- tokio::time::sleep
 //! `-- which::which
 //! Used by:
 //! `-- none, entrypoint

@@ -4,14 +4,15 @@
 //! Uses:
 //! rust/crates/
 //! |-- storage-api/src/lib.rs
+//! |-- storage-api/src/records/mod.rs
 //! `-- storage-sqlite/src/lib.rs
 //! External:
-//! `-- serde_json
+//! `-- serde_json::json
 //! Used by:
 //! rust/crates/
 //! |-- storage-sqlite/tests/repositories.rs
-//! |-- storage-sqlite/tests/repositories_interop.rs
-//! `-- storage-sqlite/tests/repositories_accounts.rs
+//! |-- storage-sqlite/tests/repositories_accounts.rs
+//! `-- storage-sqlite/tests/repositories_interop.rs
 //! Invariants: every database is a fresh migrated in-memory `SqliteDatabase`.
 //! Contract tests: storage-sqlite/tests/repositories.rs
 #![allow(dead_code)]

@@ -13,7 +13,10 @@
 //! |-- provider-adapters/src/protocols/openai/wire.rs
 //! `-- provider-adapters/src/shared.rs
 //! External:
-//! `-- std::collections::BTreeMap
+//! |-- indexmap::IndexMap
+//! |-- options::store
+//! |-- serde_json::Map
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
 //! `-- provider-adapters/src/protocols/openai/mod.rs

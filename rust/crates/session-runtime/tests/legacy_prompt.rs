@@ -5,10 +5,19 @@
 //! Uses:
 //! rust/crates/
 //! |-- session-runtime/src/legacy/mod.rs
+//! |-- session-runtime/src/legacy/ports.rs
+//! |-- session-runtime/src/legacy/types.rs
 //! |-- session-runtime/tests/support/legacy.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! |-- tokio::spawn
+//! |-- tokio::sync::Notify
+//! |-- tokio::test
+//! `-- tokio::time::sleep
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-labeled doubles only for agents, provider, loop, tools and share remote.

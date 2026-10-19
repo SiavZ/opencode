@@ -11,16 +11,19 @@
 //! |-- hosted-adapters/src/console/tenant/workspace.rs
 //! `-- hosted-domain/src/console/common.rs
 //! External:
-//! |-- mysql_async::prelude::Queryable
+//! |-- mysql_async::Error
 //! `-- time::PrimitiveDateTime
 //! Used by:
-//! rust/bins/
-//! |-- hosted/src/console/auth.rs
-//! `-- hosted/src/console/workspace.rs
 //! rust/crates/
 //! |-- hosted-adapters/src/console/auth.rs
+//! |-- hosted-adapters/src/console/auth/issuer.rs
 //! |-- hosted-adapters/src/console/mod.rs
-//! `-- hosted-adapters/tests/console_identity.rs
+//! |-- hosted-adapters/src/console/tenant/account.rs
+//! |-- hosted-adapters/src/console/tenant/keys.rs
+//! |-- hosted-adapters/src/console/tenant/member.rs
+//! |-- hosted-adapters/src/console/tenant/workspace.rs
+//! |-- hosted-adapters/tests/console_identity.rs
+//! `-- hosted-adapters/tests/console_identity_auth.rs
 //! Invariants: every workspace-scoped query filters by the actor workspace id; statements and
 //! filters mirror `packages/console/core/src/{account,user,workspace,key,provider,model}.ts`.
 //! Contract tests: hosted-adapters/tests/console_identity.rs

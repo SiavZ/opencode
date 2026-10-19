@@ -4,15 +4,17 @@
 //! (lines 702-771, 2103-2210).
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
+//! |-- codemode/src/interp/collections.rs
 //! |-- codemode/src/interp/diagnose.rs
-//! |-- codemode/src/interp/pool.rs
+//! |-- codemode/src/interp/mod.rs
 //! `-- codemode/src/value/mod.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- codemode/src/interp/call.rs
+//! `-- codemode/src/interp/mod.rs
 //! Invariants: combinators observe settlements and never re-run calls; interruption from teardown
 //! is never converted into program-visible data.
 //! Contract tests: codemode/tests/promise.rs

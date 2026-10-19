@@ -5,10 +5,21 @@
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/providers/config.rs
+//! |-- provider-adapters/src/providers/mod.rs
 //! `-- provider-adapters/src/transport/mod.rs
 //! External:
+//! |-- matchers::method
+//! |-- matchers::path
+//! |-- reqwest::Client::new
 //! |-- serde_json::Value
-//! `-- wiremock::{Mock, MockServer, ResponseTemplate}
+//! |-- serde_json::from_slice
+//! |-- serde_json::from_str
+//! |-- serde_json::json
+//! |-- wiremock::Mock
+//! |-- wiremock::MockServer
+//! |-- wiremock::Request
+//! |-- wiremock::ResponseTemplate
+//! `-- wiremock::matchers
 //! Used by:
 //! rust/crates/
 //! |-- provider-adapters/tests/providers_cloud.rs

@@ -3,13 +3,14 @@
 //! stdlib/collections.ts.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
 //! `-- codemode/src/value/mod.rs
 //! External:
-//! `-- indexmap::IndexMap
+//! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/call.rs
-//! `-- codemode/src/interp/collections.rs
+//! `-- codemode/src/stdlib/mod.rs
 //! Invariants: keys use SameValueZero (objects by identity); insertion order is preserved.
 //! Contract tests: codemode/tests/stdlib.rs
 

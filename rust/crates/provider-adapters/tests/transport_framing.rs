@@ -3,9 +3,11 @@
 //! Scope: pure decoder tests, no I/O.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/transport/event_stream.rs
 //! `-- provider-adapters/src/transport/sse.rs
 //! External:
+//! |-- serde_json::Value
 //! `-- serde_json::json
 //! Used by:
 //! `-- none, entrypoint

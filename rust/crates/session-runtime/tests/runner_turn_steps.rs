@@ -5,12 +5,14 @@
 //! Scope: integration test over real SQLite through `LocalSessionExecution`.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/runner/max_steps.rs
-//! |-- session-runtime/src/runner/turn.rs
 //! |-- session-runtime/tests/support/provider.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
-//! `-- tokio
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixture-only provider and compaction port.

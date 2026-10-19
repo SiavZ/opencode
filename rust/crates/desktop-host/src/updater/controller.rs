@@ -6,15 +6,17 @@
 //! rust/crates/
 //! `-- desktop-host/src/updater/state.rs
 //! External:
-//! |-- futures::future::{BoxFuture, FutureExt, Shared}
+//! |-- futures::future::BoxFuture
+//! |-- futures::future::FutureExt
+//! |-- futures::future::Shared
 //! |-- parking_lot::Mutex
-//! |-- tokio::task::JoinHandle
-//! `-- tracing
+//! |-- tokio::spawn
+//! |-- tracing::info
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/updater.rs
-//! |-- desktop-host/src/updater/feed.rs
-//! `-- desktop-host/tests/updater_controller.rs
+//! `-- desktop-host/src/updater/store.rs
 //! Invariants: at most one check in flight (later callers join it), `ready` short-circuits
 //! checks, a failed check ends in `error` and the next check runs again, a failed install
 //! returns to `ready` and surfaces the error, listeners run outside the state lock.

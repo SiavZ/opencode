@@ -4,12 +4,15 @@
 //! Scope: pure functions over already-read status/body text. No I/O.
 //! Uses:
 //! rust/crates/
-//! `-- provider-adapters/src/transport/overflow.rs
+//! `-- provider-adapters/src/transport/mod.rs
 //! External:
-//! `-- serde_json::Value
+//! |-- indexmap::IndexMap
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/providers/mod.rs
+//! |-- provider-adapters/src/providers/mod.rs
+//! `-- provider-adapters/tests/providers_transform.rs
 //! Invariants: messages are byte-identical to the baseline, trimmed; overflow wins over
 //! api_error when the message, status 413 or `error.code` says so.
 //! Contract tests: provider-adapters/tests/providers_transform.rs

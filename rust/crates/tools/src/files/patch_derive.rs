@@ -3,13 +3,16 @@
 //! trailing newline and BOM normalization, legacy simplified unified diff.
 //! Uses:
 //! rust/crates/
-//! |-- tools/src/files/common.rs
+//! |-- tools/src/files/mod.rs
 //! `-- tools/src/files/patch.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- tools/src/files/patch.rs
+//! |-- tools/src/files/patch.rs
+//! |-- tools/tests/files_patch.rs
+//! |-- tools/tests/files_patch/content.rs
+//! `-- tools/tests/files_patch/live.rs
 //! Invariants: seek passes run exact, trimEnd, trim, then Unicode-punctuation normalized, each pass
 //! trying the EOF offset before the forward scan. Core pure inserts append at the end, legacy pure
 //! inserts land before a remaining trailing blank line.

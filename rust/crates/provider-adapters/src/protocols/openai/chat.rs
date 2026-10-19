@@ -10,10 +10,18 @@
 //! |-- provider-adapters/src/protocols/openai/wire.rs
 //! `-- provider-adapters/src/shared.rs
 //! External:
-//! `-- serde_json::{Map, Value}
+//! |-- options::is_openai_reasoning_effort
+//! |-- options::reasoning_effort
+//! |-- options::store
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/protocols/openai/mod.rs
+//! |-- provider-adapters/src/protocols/openai/chat_stream.rs
+//! |-- provider-adapters/src/protocols/openai/mod.rs
+//! `-- runtime/src/execution_support.rs
 //! Invariants: body keys follow the baseline body schema order (model, messages, tools,
 //! tool_choice, stream, stream_options, store, reasoning_effort, max_tokens, temperature,
 //! top_p, frequency_penalty, presence_penalty, seed, stop) so encoded bytes match recordings.

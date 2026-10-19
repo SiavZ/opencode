@@ -4,7 +4,6 @@
 //! rust/crates/
 //! `-- desktop-host/src/updater.rs
 //! External:
-//! |-- opencode_desktop_host::updater::{UpdaterError, UpdaterFileStore, UpdaterReadyRecord}
 //! `-- tempfile::TempDir
 //! Used by:
 //! `-- none, entrypoint

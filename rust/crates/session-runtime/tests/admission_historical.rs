@@ -7,13 +7,24 @@
 //! Scope: integration test over real migrated SQLite. Event store is the real p02 SqlEventStore.
 //! Uses:
 //! rust/crates/
-//! |-- session-runtime/src/admission.rs
-//! |-- session-runtime/src/inbox.rs
+//! |-- event-api/src/lib.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/prompt.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/projection.rs
+//! |-- session-runtime/src/revert.rs
 //! |-- session-runtime/src/service.rs
-//! `-- session-runtime/tests/support/sql.rs
+//! |-- session-runtime/tests/support/sql.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! `-- tokio
+//! |-- async_trait::async_trait
+//! |-- futures::future::join_all
+//! |-- location::Ref
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the message-only state is produced the way old databases have it: the transcript row

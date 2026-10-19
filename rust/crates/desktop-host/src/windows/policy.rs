@@ -3,12 +3,13 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde::{Deserialize, Serialize}
-//! `-- thiserror::Error
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
 //! `-- url::Url
 //! Used by:
 //! rust/crates/
-//! `-- desktop-host/src/windows.rs
+//! |-- desktop-host/src/windows.rs
+//! `-- desktop-host/tests/windows_policy.rs
 //! Invariants: pure functions, no side effects, time injection for testing.
 //! Contract tests: desktop-host/tests/windows_policy.rs
 

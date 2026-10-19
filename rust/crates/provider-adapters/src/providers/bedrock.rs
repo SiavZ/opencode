@@ -10,11 +10,13 @@
 //! |-- provider-adapters/src/providers/config.rs
 //! `-- provider-adapters/src/route.rs
 //! External:
-//! `-- none
+//! |-- bedrock::base_url
+//! `-- bedrock::route
 //! Used by:
 //! rust/crates/
+//! |-- provider-adapters/src/providers/cloud.rs
 //! |-- provider-adapters/src/providers/mod.rs
-//! `-- provider-adapters/src/providers/registry.rs
+//! `-- provider-adapters/tests/providers_facades.rs
 //! Invariants: an `apiKey` selects bearer auth, otherwise SigV4 over `credentials`. Region is
 //! `region ?? credentials.region ?? "us-east-1"`. Prefixing never double-prefixes or touches ARNs.
 //! Contract tests: provider-adapters/tests/providers_facades.rs, provider-adapters/tests/providers_registry.rs

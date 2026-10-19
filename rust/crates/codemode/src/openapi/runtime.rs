@@ -9,8 +9,13 @@
 //! `-- codemode/src/tools/render.rs
 //! External:
 //! |-- base64::Engine
-//! |-- percent_encoding
-//! `-- serde_json::Value
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- percent_encoding::AsciiSet
+//! |-- percent_encoding::NON_ALPHANUMERIC
+//! |-- percent_encoding::utf8_percent_encode
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! `-- serde_json::from_str
 //! Used by:
 //! rust/crates/
 //! `-- codemode/src/openapi/mod.rs

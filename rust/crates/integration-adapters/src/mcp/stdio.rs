@@ -5,13 +5,35 @@
 //! rust/crates/
 //! `-- integration-adapters/src/mcp/transport.rs
 //! External:
-//! |-- nix::sys::signal::{Signal, kill}
+//! |-- async_trait::async_trait
+//! |-- i32::try_from
+//! |-- mpsc::Receiver
+//! |-- mpsc::channel
+//! |-- nix::sys::signal::Signal
+//! |-- nix::sys::signal::Signal::SIGTERM
+//! |-- nix::sys::signal::kill
+//! |-- nix::unistd::Pid::from_raw
 //! |-- serde_json::Value
-//! `-- tokio::process::{Child, ChildStdin, Command}
+//! |-- serde_json::from_str
+//! |-- serde_json::to_vec
+//! |-- tokio::io::AsyncBufReadExt
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::io::BufReader
+//! |-- tokio::process::Child
+//! |-- tokio::process::ChildStdin
+//! |-- tokio::process::Command
+//! |-- tokio::spawn
+//! |-- tokio::sync::Mutex
+//! |-- tokio::sync::mpsc
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::time::timeout
+//! |-- tracing::debug
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- integration-adapters/src/mcp/connect.rs
-//! `-- integration-adapters/src/mcp/mod.rs
+//! |-- integration-adapters/src/mcp/mod.rs
+//! `-- integration-adapters/src/mcp/service.rs
 //! Invariants: matches SDK StdioClientTransport: env = sudo-style defaults + caller env, stderr
 //! piped (drained to tracing), lines split on `\n` with trailing `\r` stripped, unparsable lines
 //! reported and skipped, close waits 2s per escalation step.

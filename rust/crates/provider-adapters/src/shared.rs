@@ -5,13 +5,33 @@
 //! Scope: pure helpers.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/event.rs
 //! |-- llm-api/src/lib.rs
 //! `-- provider-adapters/src/shared/media.rs
 //! External:
-//! `-- indexmap::{IndexMap, IndexSet}
+//! |-- indexmap::IndexMap
+//! |-- indexmap::IndexSet
+//! |-- serde_json::Value
+//! |-- serde_json::from_str
+//! |-- serde_json::to_string
+//! `-- str::to_owned
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/lib.rs
+//! |-- provider-adapters/src/protocols/anthropic/body.rs
+//! |-- provider-adapters/src/protocols/anthropic/stream.rs
+//! |-- provider-adapters/src/protocols/bedrock/body.rs
+//! |-- provider-adapters/src/protocols/bedrock/stream.rs
+//! |-- provider-adapters/src/protocols/gemini/body.rs
+//! |-- provider-adapters/src/protocols/gemini/stream.rs
+//! |-- provider-adapters/src/protocols/openai/chat.rs
+//! |-- provider-adapters/src/protocols/openai/chat_stream.rs
+//! |-- provider-adapters/src/protocols/openai/responses_body.rs
+//! |-- provider-adapters/src/protocols/openai/responses_events.rs
+//! |-- provider-adapters/src/protocols/openai/responses_stream.rs
+//! |-- provider-adapters/src/providers/registry_rules.rs
+//! |-- provider-adapters/src/tool_schema.rs
+//! `-- provider-adapters/tests/gemini.rs
 //! Invariants: lifecycle `finish` closes reasoning blocks before text blocks, then emits
 //! `step-finish` (index 0) and `finish`. Empty streamed tool input parses as `{}`.
 //! Contract tests: provider-adapters/src/shared.rs (unit tests)

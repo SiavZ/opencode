@@ -4,10 +4,11 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- none
+//! `-- tokio::fs::create_dir_all
 //! Used by:
 //! rust/crates/
 //! |-- runtime/src/lib.rs
+//! |-- runtime/src/location.rs
 //! `-- runtime/src/process.rs
 //! Invariants: XDG variables that are unset or relative fall back to the `xdg-basedir` defaults
 //! (`~/.local/share`, `~/.cache`, `~/.config`, `~/.local/state`); `home` honours

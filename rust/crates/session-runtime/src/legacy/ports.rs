@@ -11,11 +11,14 @@
 //! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
-//! |-- session-runtime/src/legacy/command.rs
 //! |-- session-runtime/src/legacy/mod.rs
-//! |-- session-runtime/src/legacy/prompt.rs
-//! |-- session-runtime/src/legacy/share.rs
-//! `-- session-runtime/src/legacy/shell.rs
+//! |-- session-runtime/src/legacy/parts.rs
+//! |-- session-runtime/src/legacy/resource.rs
+//! |-- session-runtime/src/title.rs
+//! |-- session-runtime/tests/legacy_command.rs
+//! |-- session-runtime/tests/legacy_prompt.rs
+//! |-- session-runtime/tests/support/legacy.rs
+//! `-- session-runtime/tests/title.rs
 //! Invariants: unwired adapters never return a fabricated success; they fail with
 //! `LegacyError::NotYetPorted` naming the missing baseline capability.
 //! Contract tests: session-runtime/tests/legacy_prompt.rs

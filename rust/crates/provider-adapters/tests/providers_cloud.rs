@@ -7,13 +7,16 @@
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/auth.rs
-//! |-- provider-adapters/src/providers/cloud.rs
-//! |-- provider-adapters/src/providers/inventory.rs
-//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/mod.rs
 //! `-- provider-adapters/tests/providers_support/mod.rs
 //! External:
+//! |-- pretty_assertions::assert_eq
 //! |-- serde_json::json
-//! `-- wiremock::MockServer
+//! |-- tokio::test
+//! |-- wiremock::Mock::given
+//! |-- wiremock::MockServer
+//! |-- wiremock::ResponseTemplate::new
+//! `-- wiremock::matchers::method
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: credential-chain modes without supplied auth fail with the typed

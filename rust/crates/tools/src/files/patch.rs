@@ -3,15 +3,22 @@
 //! Scope: public patch API, shared types, BOM and heredoc helpers, legacy shell argv detection.
 //! Uses:
 //! rust/crates/
-//! |-- tools/src/files/common.rs
+//! |-- tools/src/files/mod.rs
 //! |-- tools/src/files/patch_derive.rs
 //! |-- tools/src/files/patch_parse.rs
 //! `-- tools/src/files/replacers.rs
 //! External:
-//! `-- thiserror::Error
+//! `-- none
 //! Used by:
 //! rust/crates/
-//! `-- tools/tests/files_patch.rs
+//! |-- tools/src/files/edit_legacy.rs
+//! |-- tools/src/files/mod.rs
+//! |-- tools/src/files/patch_derive.rs
+//! |-- tools/src/files/patch_parse.rs
+//! |-- tools/src/files/write.rs
+//! |-- tools/tests/files_patch.rs
+//! |-- tools/tests/files_patch/content.rs
+//! `-- tools/tests/files_patch/live.rs
 //! Invariants: Core mirrors packages/core/src/patch.ts (strict syntax errors), Legacy mirrors
 //! packages/opencode/src/patch/index.ts (lenient skipping, end-of-file marker never recorded, pure
 //! inserts land before a trailing blank line, simplified unified diff). JS `trim` whitespace.

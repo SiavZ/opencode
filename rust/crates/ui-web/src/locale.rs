@@ -1,10 +1,9 @@
 //! Purpose: locale dictionaries from packages/app and packages/ui i18n, fallback, plurals, RTL.
 //! Scope: localization.
 //! Uses:
-//! rust/crates/
 //! `-- none
 //! External:
-//! `-- leptos::prelude
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

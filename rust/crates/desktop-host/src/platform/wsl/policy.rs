@@ -8,13 +8,22 @@
 //! |-- desktop-host/src/connections.rs
 //! `-- desktop-host/src/platform/wsl/mod.rs
 //! External:
+//! |-- messages::NO_VERSION
+//! |-- messages::OPENCODE_CANNOT_RUN
+//! |-- messages::OPENCODE_MISSING
+//! |-- messages::WINDOWS_ONLY
+//! |-- messages::update_version
+//! |-- serde_json::Value
+//! |-- str::to_string
+//! |-- tokio::select
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
 //! |-- desktop-host/src/platform/wsl/controller.rs
 //! |-- desktop-host/src/platform/wsl/controller/jobs.rs
-//! |-- desktop-host/tests/wsl_policy.rs
-//! `-- desktop-host/tests/wsl_runtime.rs
+//! |-- desktop-host/src/platform/wsl/mod.rs
+//! |-- desktop-host/src/platform/wsl/runtime.rs
+//! `-- desktop-host/tests/wsl_policy.rs
 //! Invariants: `poll_health` performs no checks after cancellation resolves.
 //! Contract tests: desktop-host/tests/wsl_policy.rs, desktop-host/tests/wsl_runtime.rs
 

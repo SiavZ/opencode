@@ -6,13 +6,25 @@
 //! Scope: fixture-based (local wiremock server), no live provider calls.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/auth.rs
 //! |-- provider-adapters/src/protocols/bedrock/mod.rs
 //! |-- provider-adapters/src/route.rs
 //! |-- provider-adapters/src/transport/event_stream.rs
 //! `-- provider-adapters/tests/fixtures/anthropic-support/cassette.rs
 //! External:
-//! `-- wiremock::{Mock, MockServer, ResponseTemplate}
+//! |-- bedrock::ID
+//! |-- bedrock::route
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- tokio::test
+//! |-- wiremock::Mock
+//! |-- wiremock::MockServer
+//! |-- wiremock::ResponseTemplate
+//! |-- wiremock::matchers::header
+//! |-- wiremock::matchers::method
+//! `-- wiremock::matchers::path
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the SigV4 expectations were generated once with aws4fetch (the baseline signer)

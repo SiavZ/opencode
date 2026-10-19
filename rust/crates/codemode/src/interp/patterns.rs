@@ -4,13 +4,14 @@
 //! rust/crates/
 //! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
-//! `-- codemode/src/interp/mod.rs
+//! |-- codemode/src/interp/mod.rs
+//! |-- codemode/src/value/convert.rs
+//! `-- codemode/src/value/mod.rs
 //! External:
 //! `-- none
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/call.rs
-//! `-- codemode/src/interp/stmt.rs
+//! `-- codemode/src/interp/mod.rs
 //! Invariants: blocked keys (`__proto__`, `constructor`, `prototype`) are never bound.
 //! Contract tests: codemode/tests/parity.rs
 

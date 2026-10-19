@@ -7,7 +7,15 @@
 //! `-- platform-native/src/process/mod.rs
 //! External:
 //! |-- futures::StreamExt
-//! `-- tempfile::tempdir
+//! |-- tempfile::tempdir
+//! |-- tokio::join
+//! |-- tokio::process::Command::new
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc::channel
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! |-- tokio::time::timeout
+//! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no test leaves a live descendant behind.

@@ -3,12 +3,16 @@
 //! Scope: test-only; real SQLite + legacy projectors.
 //! Uses:
 //! rust/crates/
+//! |-- platform-api/src/snapshot.rs
 //! |-- session-runtime/src/summary.rs
 //! |-- session-runtime/tests/support/legacy.rs
 //! `-- session-runtime/tests/support/sql.rs
 //! External:
 //! |-- async_trait::async_trait
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: `FixtureSnapshots` is a labeled fixture returning canned diffs.

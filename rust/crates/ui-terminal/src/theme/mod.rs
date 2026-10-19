@@ -11,7 +11,13 @@
 //! `-- ratatui::style::Color
 //! Used by:
 //! rust/crates/
-//! `-- ui-terminal/src/lib.rs
+//! |-- ui-terminal/src/lib.rs
+//! |-- ui-terminal/src/theme/registry.rs
+//! |-- ui-terminal/src/theme/resolve.rs
+//! |-- ui-terminal/tests/theme.rs
+//! |-- ui-terminal/tests/theme_discovery.rs
+//! |-- ui-terminal/tests/theme_edges.rs
+//! `-- ui-terminal/tests/theme_system.rs
 //! Invariants: token set matches packages/tui/src/theme/index.ts Theme, bundled list and order match DEFAULT_THEMES.
 //! Contract tests: ui-terminal/tests/theme.rs
 

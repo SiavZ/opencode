@@ -6,8 +6,13 @@
 //! `-- session-runtime/src/coordinator.rs
 //! External:
 //! |-- futures::future::FutureExt
+//! |-- tokio::spawn
 //! |-- tokio::sync::watch
-//! `-- tokio_util::sync::CancellationToken
+//! |-- tokio::task::yield_now
+//! |-- tokio::test
+//! |-- tokio_util::sync::CancellationToken
+//! |-- watch::Sender
+//! `-- watch::channel
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: each test owns its coordinator and shuts it down or lets every drain settle.

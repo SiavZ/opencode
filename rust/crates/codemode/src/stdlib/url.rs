@@ -3,17 +3,42 @@
 //! invokeURLSearchParamsMethod/URL member writes.
 //! Uses:
 //! rust/crates/
+//! |-- codemode/src/ast.rs
+//! |-- codemode/src/error.rs
 //! |-- codemode/src/value/convert.rs
 //! `-- codemode/src/value/mod.rs
 //! External:
-//! |-- form_urlencoded
-//! |-- percent_encoding
-//! `-- url::{Url, quirks}
+//! |-- form_urlencoded::Serializer::new
+//! |-- form_urlencoded::parse
+//! |-- quirks::hash
+//! |-- quirks::host
+//! |-- quirks::hostname
+//! |-- quirks::href
+//! |-- quirks::origin
+//! |-- quirks::password
+//! |-- quirks::pathname
+//! |-- quirks::port
+//! |-- quirks::protocol
+//! |-- quirks::search
+//! |-- quirks::set_hash
+//! |-- quirks::set_host
+//! |-- quirks::set_hostname
+//! |-- quirks::set_href
+//! |-- quirks::set_password
+//! |-- quirks::set_pathname
+//! |-- quirks::set_port
+//! |-- quirks::set_protocol
+//! |-- quirks::set_search
+//! |-- quirks::set_username
+//! |-- quirks::username
+//! |-- u8::from_str_radix
+//! |-- url::Url
+//! `-- url::quirks
 //! Used by:
 //! rust/crates/
-//! |-- codemode/src/interp/call.rs
-//! |-- codemode/src/interp/collections.rs
-//! `-- codemode/src/interp/members.rs
+//! |-- codemode/src/interp/members.rs
+//! |-- codemode/src/stdlib/mod.rs
+//! `-- codemode/src/value/convert.rs
 //! Invariants: `url.searchParams` is live (mutations write through, URL writes re-parse);
 //! parsing never touches the network.
 //! Contract tests: codemode/tests/stdlib.rs

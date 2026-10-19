@@ -3,15 +3,32 @@
 //! Scope: test-only.
 //! Uses:
 //! rust/crates/
-//! |-- server/src/app.rs
 //! |-- server/tests/support/replay/matcher.rs
 //! `-- server/tests/support/replay/mod.rs
 //! External:
 //! |-- axum::Router
+//! |-- axum::body::Body
+//! |-- axum::http::Request
+//! |-- axum::http::Request::builder
+//! |-- base64::Engine
+//! |-- base64::engine::general_purpose::STANDARD
+//! |-- form_urlencoded::Serializer::new
+//! |-- futures_util::StreamExt
+//! |-- http_body_util::BodyExt
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::from_str
+//! |-- serde_json::to_vec
+//! |-- sha2::Digest
+//! |-- sha2::Sha256
+//! |-- tokio::time::Instant::now
+//! |-- tokio::time::timeout
+//! |-- tokio::time::timeout_at
 //! `-- tower::ServiceExt
 //! Used by:
 //! rust/crates/
-//! `-- server/tests/replay_baseline.rs
+//! |-- server/tests/replay_baseline.rs
+//! `-- server/tests/support/replay/mod.rs
 //! Invariants: requests are rebuilt from the fixture with placeholders filled from the current
 //! bindings; credentials come from the `auth` marker, never from the fixture. Status is compared
 //! first, then the recorded headers, then the body by kind. Categories: `not-mounted` (no Rust

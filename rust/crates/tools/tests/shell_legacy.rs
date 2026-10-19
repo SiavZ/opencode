@@ -4,11 +4,17 @@
 //! Uses:
 //! rust/crates/
 //! |-- platform-native/src/process/mod.rs
-//! |-- tools/src/shell/legacy.rs
+//! |-- tool-api/src/lib.rs
+//! |-- tools/src/shell/mod.rs
 //! |-- tools/src/shell/output.rs
 //! `-- tools/tests/search_support.rs
 //! External:
-//! `-- serde_json::json
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: abort/timeout preserve collected output; retained files hold the full stream.

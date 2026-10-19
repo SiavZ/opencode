@@ -4,12 +4,27 @@
 //! Scope: integration test over real migrated SQLite; event store is the real p02 SqlEventStore.
 //! Uses:
 //! rust/crates/
+//! |-- schema/src/location.rs
+//! |-- schema/src/session_event.rs
+//! |-- schema/src/values.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/operations.rs
 //! |-- session-runtime/src/inbox.rs
 //! |-- session-runtime/src/projection.rs
+//! |-- session-runtime/src/revert.rs
 //! |-- session-runtime/src/service.rs
-//! `-- session-runtime/tests/support/sql.rs
+//! |-- session-runtime/tests/support/sql.rs
+//! `-- storage-api/src/lib.rs
 //! External:
-//! `-- tokio
+//! |-- async_trait::async_trait
+//! |-- futures::future::join_all
+//! |-- i64::MAX
+//! |-- inbox::find
+//! |-- inbox::has_pending
+//! |-- inbox::promote_steers
+//! |-- location::Ref
+//! |-- tokio::spawn
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: mirrors packages/core/test/session-prompt.test.ts promotion cases.

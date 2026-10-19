@@ -10,8 +10,7 @@
 //! External:
 //! `-- none
 //! Used by:
-//! rust/bins/
-//! `-- hosted/src/main.rs
+//! `-- none, entrypoint
 //! Invariants: console MySQL access uses sqlx (mysql, runtime-tokio) only.
 //! Contract tests: none yet.
 

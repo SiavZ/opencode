@@ -3,13 +3,18 @@
 //! Scope: loopback axum Web API and websocket, fixture tokens only.
 //! Uses:
 //! rust/crates/
-//! |-- ecosystem/src/slack/api.rs
 //! |-- ecosystem/src/slack/mod.rs
 //! |-- ecosystem/src/slack/socket.rs
 //! `-- ecosystem/tests/slack_support.rs
 //! External:
+//! |-- mpsc::channel
 //! |-- serde_json::json
+//! |-- socket::run
+//! |-- tokio::spawn
 //! |-- tokio::sync::mpsc
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! |-- tokio::time::timeout
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint

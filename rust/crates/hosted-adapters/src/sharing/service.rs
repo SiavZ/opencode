@@ -5,13 +5,16 @@
 //! Uses:
 //! rust/crates/
 //! |-- hosted-adapters/src/sharing/objects.rs
+//! |-- hosted-domain/src/sharing/mod.rs
 //! `-- hosted-domain/src/sharing/share.rs
 //! External:
 //! |-- futures::future::try_join_all
-//! `-- uuid::Uuid
+//! |-- futures::try_join
+//! `-- uuid::Uuid::new_v4
 //! Used by:
+//! rust/bins/
+//! `-- hosted/src/sharing/enterprise.rs
 //! rust/crates/
-//! |-- hosted-adapters/src/sharing/http.rs
 //! |-- hosted-adapters/src/sharing/mod.rs
 //! `-- hosted-adapters/tests/sharing_baseline.rs
 //! Invariants: `Promise.all` groups in the baseline run concurrently here too (try_join), so the

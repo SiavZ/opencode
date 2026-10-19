@@ -6,13 +6,16 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
-//! |-- provider-adapters/src/providers/config.rs
 //! |-- provider-adapters/src/providers/gateways.rs
-//! |-- provider-adapters/src/providers/inventory.rs
-//! |-- provider-adapters/src/providers/registry.rs
+//! |-- provider-adapters/src/providers/mod.rs
 //! `-- provider-adapters/tests/providers_support/mod.rs
 //! External:
+//! |-- gateways::ai_gateway
+//! |-- gateways::openrouter
+//! |-- pretty_assertions::assert_eq
 //! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- tokio::test
 //! `-- wiremock::MockServer
 //! Used by:
 //! `-- none, entrypoint

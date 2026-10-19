@@ -4,7 +4,7 @@
 //! rust/crates/
 //! `-- desktop-host/src/windows/state.rs
 //! External:
-//! `-- serde_json
+//! `-- serde_json::to_string
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: safe functions never panic, return constant on error or destroyed state.

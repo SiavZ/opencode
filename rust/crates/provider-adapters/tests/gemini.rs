@@ -5,12 +5,24 @@
 //! Scope: fixture-based (local wiremock server), no live provider calls.
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/lib.rs
 //! |-- provider-adapters/src/auth.rs
 //! |-- provider-adapters/src/protocols/gemini/mod.rs
 //! |-- provider-adapters/src/route.rs
+//! |-- provider-adapters/src/shared.rs
 //! `-- provider-adapters/tests/fixtures/anthropic-support/cassette.rs
 //! External:
-//! `-- wiremock::{Mock, MockServer, ResponseTemplate}
+//! |-- gemini::route
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tokio::test
+//! |-- wiremock::Mock
+//! |-- wiremock::MockServer
+//! |-- wiremock::ResponseTemplate
+//! |-- wiremock::matchers::header
+//! |-- wiremock::matchers::method
+//! |-- wiremock::matchers::path
+//! `-- wiremock::matchers::query_param
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: cassette bodies must match byte-for-byte (key order and number rendering).

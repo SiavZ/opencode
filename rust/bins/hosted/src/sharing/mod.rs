@@ -7,11 +7,34 @@
 //! |-- hosted/src/sharing/public.rs
 //! |-- hosted/src/sharing/tests.rs
 //! `-- hosted/src/sharing/validate.rs
+//! rust/crates/
+//! |-- hosted-adapters/src/sharing/objects.rs
+//! `-- hosted-adapters/src/sharing/public.rs
 //! External:
-//! `-- axum::{middleware, Router}
+//! |-- anyhow::Result
+//! |-- axum::Router
+//! |-- axum::body::Body
+//! |-- axum::extract::Request
+//! |-- axum::http::HeaderValue
+//! |-- axum::http::Method
+//! |-- axum::http::StatusCode
+//! |-- axum::http::header
+//! |-- axum::middleware::Next
+//! |-- axum::middleware::self
+//! |-- axum::response::Response
+//! |-- axum::serve
+//! |-- header::ACCESS_CONTROL_ALLOW_HEADERS
+//! |-- header::ACCESS_CONTROL_ALLOW_METHODS
+//! |-- header::ACCESS_CONTROL_ALLOW_ORIGIN
+//! |-- header::ACCESS_CONTROL_REQUEST_HEADERS
+//! |-- header::CONTENT_TYPE
+//! |-- header::VARY
+//! |-- middleware::from_fn
+//! `-- tokio::net::TcpListener::bind
 //! Used by:
 //! rust/bins/
-//! `-- hosted/src/main.rs
+//! |-- hosted/src/main.rs
+//! `-- hosted/src/sharing/tests.rs
 //! Invariants: hono cors defaults: `access-control-allow-origin: *` on every response, preflight
 //! (OPTIONS) answers 204 with allow-methods `GET,HEAD,PUT,POST,DELETE,PATCH`, echoes requested
 //! headers and sets `vary: Access-Control-Request-Headers` (captured in http.json).

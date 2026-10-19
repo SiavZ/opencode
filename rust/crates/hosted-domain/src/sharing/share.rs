@@ -7,12 +7,18 @@
 //! |-- hosted-domain/src/sharing/collation.rs
 //! `-- hosted-domain/src/sharing/mod.rs
 //! External:
-//! |-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
 //! `-- serde_json::Value
 //! Used by:
+//! rust/bins/
+//! |-- hosted/src/sharing/enterprise.rs
+//! `-- hosted/src/sharing/public.rs
 //! rust/crates/
 //! |-- hosted-adapters/src/sharing/service.rs
+//! |-- hosted-adapters/tests/sharing_baseline.rs
 //! |-- hosted-domain/src/sharing/mod.rs
+//! |-- hosted-domain/src/sharing/public.rs
 //! `-- hosted-domain/tests/sharing_domain.rs
 //! Invariants: data items serialize as exactly `{"type","data"}` (zod strips unknown keys),
 //! merge is latest-wins per key then sorted with `locale_compare` (share.ts:66-76), legacy import

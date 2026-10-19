@@ -3,12 +3,14 @@
 //! Scope: error conversion only.
 //! Uses:
 //! rust/crates/
-//! `-- platform-api/src/error.rs
+//! `-- platform-api/src/lib.rs
 //! External:
-//! `-- std::io::{Error, ErrorKind}
+//! |-- nix::errno::Errno::EPERM
+//! `-- tokio::task::JoinError
 //! Used by:
 //! rust/crates/
 //! |-- platform-native/src/fs/glob.rs
+//! |-- platform-native/src/fs/mod.rs
 //! |-- platform-native/src/fs/mutation.rs
 //! |-- platform-native/src/fs/native.rs
 //! `-- platform-native/src/fs/watcher.rs

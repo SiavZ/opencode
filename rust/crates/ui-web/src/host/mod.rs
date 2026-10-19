@@ -2,9 +2,9 @@
 //! Scope: wasm32 browser APIs behind small typed functions.
 //! Uses:
 //! rust/crates/
-//! `-- none
+//! `-- ui-web/src/host/storage.rs
 //! External:
-//! `-- leptos::prelude
+//! `-- none
 //! Used by:
 //! rust/crates/
 //! `-- ui-web/src/lib.rs

@@ -9,7 +9,7 @@
 //! |-- protocol/src/ir.rs
 //! `-- protocol/src/operation.rs
 //! External:
-//! `-- none
+//! `-- ir::Schema
 //! Used by:
 //! rust/crates/
 //! `-- protocol/src/current/mod.rs

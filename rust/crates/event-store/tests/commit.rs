@@ -5,11 +5,11 @@
 //! Uses:
 //! rust/crates/
 //! |-- event-api/src/lib.rs
-//! |-- event-store/src/lib.rs
 //! |-- event-store/tests/support/mod.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! `-- serde_json
+//! |-- serde_json::json
+//! `-- tokio::test
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: each test uses its own temp database.

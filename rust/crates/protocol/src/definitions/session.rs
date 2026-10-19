@@ -6,9 +6,10 @@
 //! |-- protocol/src/definitions/mod.rs
 //! `-- protocol/src/ir.rs
 //! External:
-//! `-- none
+//! `-- ir::lits
 //! Used by:
 //! rust/crates/
+//! |-- protocol/src/definitions/message.rs
 //! `-- protocol/src/definitions/mod.rs
 //! Invariants: field order and optionality match the baseline structs. Times typed
 //! `DateTimeUtcFromMillis` are `Schema::DateTimeMillis` (epoch millis on the wire).

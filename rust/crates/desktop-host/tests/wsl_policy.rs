@@ -8,7 +8,12 @@
 //! |-- desktop-host/src/platform/wsl/mod.rs
 //! `-- desktop-host/src/platform/wsl/policy.rs
 //! External:
+//! |-- serde_json::from_value
 //! |-- serde_json::json
+//! |-- serde_json::to_value
+//! |-- tokio::spawn
+//! |-- tokio::test
+//! |-- tokio::time::sleep
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! `-- none, entrypoint

@@ -4,7 +4,9 @@
 //! rust/crates/
 //! `-- protocol/src/ir.rs
 //! External:
-//! `-- none
+//! |-- ir::Checks
+//! |-- ir::array
+//! `-- ir::object
 //! Used by:
 //! rust/crates/
 //! `-- protocol/src/legacy/mod.rs

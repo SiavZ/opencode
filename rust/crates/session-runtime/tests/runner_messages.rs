@@ -4,12 +4,16 @@
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/lib.rs
-//! |-- session-api/src/message.rs
+//! |-- session-api/src/lib.rs
 //! |-- session-runtime/src/runner/max_steps.rs
 //! `-- session-runtime/src/runner/to_llm_message.rs
 //! External:
-//! |-- futures::stream
-//! `-- serde_json::{Value, json}
+//! |-- futures::stream::empty
+//! |-- pretty_assertions::assert_eq
+//! |-- serde_json::Value
+//! |-- serde_json::from_value
+//! |-- serde_json::json
+//! `-- serde_json::to_value
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: expected JSON is the baseline `toEqual` value with `undefined` keys omitted.

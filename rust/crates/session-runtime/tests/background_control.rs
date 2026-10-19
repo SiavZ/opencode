@@ -8,7 +8,10 @@
 //! External:
 //! |-- futures::future::FutureExt
 //! |-- serde_json::json
-//! `-- tokio
+//! |-- tokio::spawn
+//! |-- tokio::task::yield_now
+//! |-- tokio::test
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: tests observe behavior only through the public API and side effects of the submitted

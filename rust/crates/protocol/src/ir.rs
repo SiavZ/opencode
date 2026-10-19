@@ -4,13 +4,32 @@
 //! Uses:
 //! `-- none
 //! External:
-//! `-- serde::{Deserialize, Serialize}
+//! |-- serde::Deserialize
+//! |-- serde::Serialize
+//! `-- serde_json::Value
 //! Used by:
 //! rust/crates/
+//! |-- protocol/src/current/catalog.rs
+//! |-- protocol/src/current/integration.rs
 //! |-- protocol/src/current/mod.rs
+//! |-- protocol/src/current/permission.rs
+//! |-- protocol/src/current/pty.rs
+//! |-- protocol/src/current/session.rs
+//! |-- protocol/src/definitions/catalog.rs
+//! |-- protocol/src/definitions/integration.rs
+//! |-- protocol/src/definitions/message.rs
+//! |-- protocol/src/definitions/mod.rs
+//! |-- protocol/src/definitions/session.rs
 //! |-- protocol/src/errors.rs
+//! |-- protocol/src/events/mod.rs
 //! |-- protocol/src/legacy/mod.rs
-//! `-- protocol/src/operation.rs
+//! |-- protocol/src/legacy/schema.rs
+//! |-- protocol/src/lib.rs
+//! |-- protocol/src/operation.rs
+//! |-- protocol/tests/current_registry.rs
+//! |-- protocol/tests/current_support/mod.rs
+//! |-- protocol/tests/registry.rs
+//! `-- server/src/middleware/decode.rs
 //! Invariants: `Ref` names resolve in the owning `Api::definitions` table. Field order is the
 //! baseline declaration order. Optional (`optionalKey`) vs `exact` (omit, never undefined) vs
 //! nullable are distinct, matching Effect's encoded representations.
