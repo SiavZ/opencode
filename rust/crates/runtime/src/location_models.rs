@@ -56,8 +56,7 @@ pub async fn load(
                 .collect(),
         ),
     );
-    // Opening validates the initial snapshot. Later failures are logged because ModelCatalog's
-    // existing optional/infallible ports cannot transport a typed catalog I/O error.
+    // Opening validates the initial snapshot; resolver checks retain typed failures on live reads.
     services.catalog().await?;
     Ok((
         Arc::new(Catalog(services.clone())),
@@ -68,6 +67,9 @@ pub async fn load(
 
 #[async_trait]
 impl ModelCatalog for Catalog {
+    async fn check(&self) -> Result<(), String> {
+        self.0.catalog().await.map(|_| ())
+    }
     async fn default_model(&self) -> Option<ModelInfo> {
         match self.0.catalog().await {
             Ok(catalog) => catalog.default_model(),

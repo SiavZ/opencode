@@ -81,6 +81,9 @@ pub enum ModelError {
     /// `Integration.AuthorizationError`: resolving the active connection failed.
     #[error("{0}")]
     Authorization(String),
+    /// Catalog storage and refresh failures must not masquerade as missing models.
+    #[error("{0}")]
+    Catalog(String),
 }
 
 impl ModelError {
@@ -92,6 +95,7 @@ impl ModelError {
             Self::VariantUnavailable { .. } => "SessionRunnerModel.VariantUnavailableError",
             Self::UnsupportedApi { .. } => "SessionRunnerModel.UnsupportedApiError",
             Self::Authorization(_) => "Integration.Authorization",
+            Self::Catalog(_) => "Catalog.Error",
         }
     }
 }
@@ -203,6 +207,10 @@ pub trait RouteFactory: Send + Sync {
 /// `Catalog.Service` subset used by model resolution.
 #[async_trait]
 pub trait ModelCatalog: Send + Sync {
+    /// Validate fallible live storage before using the historical optional lookup ports.
+    async fn check(&self) -> Result<(), String> {
+        Ok(())
+    }
     /// `catalog.model.default()`.
     async fn default_model(&self) -> Option<ModelInfo>;
     /// `catalog.model.available()`, in catalog order.
@@ -238,6 +246,7 @@ pub struct LocationModels {
 #[async_trait]
 impl SessionRunnerModel for LocationModels {
     async fn resolve(&self, session: &SessionInfo) -> Result<Model, ModelError> {
+        self.catalog.check().await.map_err(ModelError::Catalog)?;
         let selected = match &session.model {
             Some(requested) => self
                 .catalog
