@@ -14,5 +14,6 @@
 //! Contract tests: none yet
 
 pub mod proxy;
+pub mod proxy_socket;
 pub mod sse;
 pub mod websocket;

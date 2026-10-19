@@ -59,6 +59,7 @@ pub struct RouteContext {
 /// Either serve locally with a context or the request was answered (proxied or rejected).
 pub enum Plan {
     Local(RouteContext),
+    WebSocket(reqwest::Url),
     Answered(axum::response::Response),
 }
 
@@ -186,10 +187,10 @@ pub async fn route(
                     .get(axum::http::header::UPGRADE)
                     .and_then(|v| v.to_str().ok())
                     .is_some_and(|v| v.eq_ignore_ascii_case("websocket"));
-                if is_upgrade {
-                    return Err(HttpError::not_yet_ported("workspace.proxy.websocket"));
-                }
                 let target = proxy::proxy_url(&url, path, query).map_err(HttpError::Defect)?;
+                if is_upgrade {
+                    return Ok((Plan::WebSocket(target), None));
+                }
                 let response =
                     proxy::http(client, target, &extra, method.clone(), headers, body).await;
                 return Ok((Plan::Answered(response), None));

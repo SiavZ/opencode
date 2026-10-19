@@ -48,7 +48,8 @@
 //! Contract tests: server/tests/http_errors.rs, server/tests/http_session.rs
 
 use axum::body::{Body, to_bytes};
-use axum::extract::{Path, Request};
+use axum::extract::ws::WebSocketUpgrade;
+use axum::extract::{FromRequestParts, Path, Request};
 use axum::http::{StatusCode, header};
 use axum::response::{IntoResponse, Response};
 use opencode_protocol::operation::{Middleware, PayloadEncoding};
@@ -87,7 +88,7 @@ async fn pipeline(
     request: Request,
 ) -> Result<Response, HttpError> {
     let current = endpoint.path.starts_with("/api/");
-    let (parts, body) = request.into_parts();
+    let (mut parts, body) = request.into_parts();
     let path = parts.uri.path().to_string();
     let query = parts.uri.query().map(str::to_string);
 
@@ -104,6 +105,16 @@ async fn pipeline(
         .await?;
         match plan {
             Plan::Answered(response) => return Ok(response),
+            Plan::WebSocket(target) => {
+                let upgrade = WebSocketUpgrade::from_request_parts(&mut parts, &()).await;
+                return Ok(crate::transport::proxy_socket::upgrade(
+                    &state,
+                    target,
+                    &parts.headers,
+                    upgrade,
+                )
+                .await);
+            }
             Plan::Local(context) => (
                 Some(legacy_routing::instance(context).await?),
                 body.unwrap_or_else(Body::empty),
@@ -187,7 +198,7 @@ async fn pipeline(
                         } else if legacy_create {
                             HttpError::LegacyRawBadRequest
                         } else {
-                            let reason = if !endpoint.payload_required {
+                            let reason = if !endpoint.payload_required && !value.is_object() {
                                 reason.replacen("Expected ", "Expected void | ", 1)
                             } else {
                                 reason

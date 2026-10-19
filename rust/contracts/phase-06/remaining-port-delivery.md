@@ -41,4 +41,18 @@ All Cargo invocations use the isolated repair-env wrapper, `--locked --offline`,
 | Fence/config error mapping and UI assets | Earlier phase blockers remain unless composed and tested by their owners | root/config/web owners | exact error/fence/document/UI acceptance |
 | Final strict Clippy and replay after final decoder fixes | Shared lock refresh required | root then API | locked offline scoped checks and exact remaining failure report |
 
+## Follow-up: real remote WebSocket relay
+
+The remote-workspace upgrade path now uses `server/src/transport/proxy_socket.rs`, rather than returning Unsupported. It upgrades the downstream connection, connects the routed upstream URL with the offered subprotocols, forwards text/binary/control frames, preserves remote close code/reason, and closes both peers on tracked shutdown. There are no detached pumps or application queues; socket writes apply backpressure in one owned task.
+
+`server/tests/ws_proxy.rs` passed all three real loopback tests: two-listener text/binary/subprotocol/query/header/remote-close acceptance; shutdown closes both actual peers with 1001 and joins the tracker to zero active; unreachable upstream closes the accepted downstream with 1011 `proxy error`. The workspace registry is a fixture port in these transport tests, not evidence for cloud provisioning. Scoped all-target Clippy passed after the relay landed.
+
+Additional repairs preserve ECMAScript PTY cursor radix/whitespace handling, literal/discriminated-union labels, optional named payload labels, and current integer NaN messages. Full-host wrong-method requests now use the actual UI wildcard fallback, not axum's 405. UI absence remains a typed 503; it is not changed to a fake baseline failure.
+
+The next immutable empty-host replay measured **140/430 passing and 290 failing: 277 not-ported, 7 body, 2 status, 4 not-mounted**, before the final literal-union/NaN/wrong-method repairs. Residual fallback cases are unknown API/non-API paths and full-host `/openapi.json`, all requiring the real UI adapter. Current compact/wait recordings deliberately return baseline unavailable errors, while an empty host fails earlier at session placement. These are not grounds to bless the ledger. Full exact remaining IDs are available through the new opt-in `REPLAY_DIAGNOSTICS=1`; assertions and fixtures are unchanged.
+
+A repeat complete scoped suite hit its 240-second wall-clock limit after 217 seconds waiting for the shared build lock. All six new HTTP tests and the executed preceding suites passed, but that timed run is not reported as a complete suite pass. Final unrestricted scoped rerun remains required.
+
+Protocol inventory currently declares no non-JSON payload endpoint (`payload_encoding` has no call sites), so the earlier generic non-JSON implementation limitation is not a presently declared endpoint gap.
+
 No production user data, TypeScript baseline source, manifests, crate edges, expected-failure ledger or fixtures were edited in this delivery.

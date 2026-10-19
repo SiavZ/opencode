@@ -197,7 +197,10 @@ pub fn router_with(apis: &[&'static Api], services: Services, config: ServerConf
     }
     app = app.merge(streams::routes());
     if config.full_host {
-        app = app.route("/doc", axum::routing::get(doc)).fallback(ui);
+        app = app
+            .route("/doc", axum::routing::get(doc))
+            .fallback(ui)
+            .method_not_allowed_fallback(ui);
     } else {
         app = app
             .route("/openapi.json", axum::routing::get(openapi))

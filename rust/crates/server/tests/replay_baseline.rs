@@ -111,6 +111,16 @@ async fn replay_all() -> Vec<(Case, Outcome)> {
 async fn baseline_replay_matches_ledger() {
     let results = replay_all().await;
     let ledger = fixtures::ledger();
+    if std::env::var_os("REPLAY_DIAGNOSTICS").is_some() {
+        for (case, outcome) in &results {
+            if let Some(category) = &outcome.category {
+                println!(
+                    "replay mismatch {} [{category}]: {}",
+                    case.id, outcome.detail
+                );
+            }
+        }
+    }
     let bless = std::env::var_os("REPLAY_BLESS").is_some();
 
     let mut unexpected = Vec::new();

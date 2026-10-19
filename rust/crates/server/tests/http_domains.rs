@@ -200,6 +200,16 @@ async fn named_payloads_and_empty_bodies_preserve_baseline_errors() {
         (reqwest::Method::PATCH, "/config", "Config"),
         (reqwest::Method::PATCH, "/global/config", "Config"),
         (
+            reqwest::Method::POST,
+            "/experimental/worktree",
+            "void | WorktreeCreateInput",
+        ),
+        (
+            reqwest::Method::POST,
+            "/tui/publish",
+            "{ readonly \"type\": \"tui.prompt.append\", ... } | { readonly \"type\": \"tui.command.execute\", ... } | { readonly \"type\": \"tui.toast.show\", ... } | { readonly \"type\": \"tui.session.select\", ... }",
+        ),
+        (
             reqwest::Method::DELETE,
             "/experimental/worktree",
             "WorktreeRemoveInput",
@@ -245,6 +255,40 @@ async fn named_payloads_and_empty_bodies_preserve_baseline_errors() {
         response.json::<Value>().await.unwrap()["data"]["message"],
         "Missing key\n  at [\"events\"][0]"
     );
+    server.stop(false).await;
+}
+
+#[tokio::test]
+async fn current_query_messages_and_full_host_method_fallback_match_contract() {
+    let server = start().await;
+    let client = reqwest::Client::new();
+    for (query, message) in [
+        (
+            "limit=abc",
+            "Expected an integer, got NaN\n  at [\"limit\"]",
+        ),
+        (
+            "order=sideways",
+            "Expected \"asc\" | \"desc\", got \"sideways\"\n  at [\"order\"]",
+        ),
+    ] {
+        let response = client
+            .get(format!("{}/api/session?{query}", server.url()))
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(response.status(), 400);
+        let error = response.json::<Value>().await.unwrap();
+        assert_eq!(error["_tag"], "InvalidRequestError");
+        assert_eq!(error["message"], message);
+    }
+    let response = client
+        .delete(format!("{}/api/health", server.url()))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(response.status(), 503);
+    assert_eq!(response.json::<Value>().await.unwrap()["service"], "ui");
     server.stop(false).await;
 }
 

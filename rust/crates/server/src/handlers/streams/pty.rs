@@ -57,8 +57,25 @@ use crate::transport::websocket;
 /// `Number(x)` for a query value, then `isSafeInteger && >= -1`.
 pub fn parse_cursor(raw: Option<&str>) -> Option<i64> {
     let raw = raw?;
-    let trimmed = raw.trim();
-    let number = if trimmed.is_empty() {
+    let trimmed = raw.trim_matches(|character| {
+        matches!(character, '\u{0009}'..='\u{000d}' | '\u{0020}' | '\u{00a0}' | '\u{1680}' |
+            '\u{2000}'..='\u{200a}' | '\u{2028}' | '\u{2029}' | '\u{202f}' | '\u{205f}' |
+            '\u{3000}' | '\u{feff}')
+    });
+    let radix = [(("0x", "0X"), 16), (("0b", "0B"), 2), (("0o", "0O"), 8)]
+        .into_iter()
+        .find_map(|((lower, upper), radix)| {
+            trimmed
+                .strip_prefix(lower)
+                .or_else(|| trimmed.strip_prefix(upper))
+                .map(|digits| (digits, radix))
+        });
+    let number = if let Some((digits, radix)) = radix {
+        if digits.is_empty() || !digits.chars().all(|digit| digit.is_digit(radix)) {
+            return None;
+        }
+        u64::from_str_radix(digits, radix).ok()? as f64
+    } else if trimmed.is_empty() {
         0.0
     } else if trimmed
         .chars()
@@ -129,12 +146,29 @@ pub(super) async fn legacy_pty(
 ) -> Response {
     let headers = request.headers().clone();
     let query = request.uri().query().map(str::to_string);
-    let mut routed = Request::new(Body::empty());
-    *routed.uri_mut() = request.uri().clone();
-    *routed.headers_mut() = headers.clone();
-    let context = match super::legacy_context(&state, routed).await {
-        Ok(context) => context,
-        Err(response) => return *response,
+    let routed = crate::middleware::legacy_routing::route(
+        &state.services,
+        &state.client,
+        request.method(),
+        request.uri().path(),
+        request.uri().query(),
+        &headers,
+        Body::empty(),
+    )
+    .await;
+    let context = match routed {
+        Ok((crate::middleware::legacy_routing::Plan::Local(context), _)) => {
+            match crate::middleware::legacy_routing::instance(context).await {
+                Ok(context) => context,
+                Err(error) => return error.into_response(),
+            }
+        }
+        Ok((crate::middleware::legacy_routing::Plan::Answered(response), _)) => return response,
+        Ok((crate::middleware::legacy_routing::Plan::WebSocket(target), _)) => {
+            return crate::transport::proxy_socket::upgrade(&state, target, &headers, upgrade)
+                .await;
+        }
+        Err(error) => return error.into_response(),
     };
     let connect = Connect {
         pty_id,
@@ -235,5 +269,13 @@ mod tests {
         assert_eq!(parse_cursor(Some("1.5")), None);
         assert_eq!(parse_cursor(Some("abc")), None);
         assert_eq!(parse_cursor(Some("1e3")), Some(1000));
+        assert_eq!(parse_cursor(Some("0x10")), Some(16));
+        assert_eq!(parse_cursor(Some("0B101")), Some(5));
+        assert_eq!(parse_cursor(Some("0o17")), Some(15));
+        assert_eq!(parse_cursor(Some("+0x10")), None);
+        assert_eq!(parse_cursor(Some("0x+10")), None);
+        assert_eq!(parse_cursor(Some("\u{feff}7\u{00a0}")), Some(7));
+        assert_eq!(parse_cursor(Some("\u{0085}7")), None);
+        assert_eq!(parse_cursor(Some("9007199254740992")), None);
     }
 }

@@ -200,6 +200,7 @@ fn validate(api: &Api, schema: &Schema, value: &Value, path: &str) -> Result<Val
             let number = match (value, from_string) {
                 (Value::String(s), true) => match s.trim().parse::<f64>() {
                     Ok(n) if !s.trim().is_empty() => n,
+                    _ if *int => return Err(format!("Expected an integer, got NaN{}", at(path))),
                     _ => {
                         return Err(format!(
                             "Expected a string representing a finite number, got {}{}",
@@ -319,6 +320,26 @@ fn validate(api: &Api, schema: &Schema, value: &Value, path: &str) -> Result<Val
             Ok(Value::Object(out))
         }
         Schema::Union { members } => {
+            let literals = members
+                .iter()
+                .map(|member| {
+                    if let Schema::Literal { value } = resolve(api, member) {
+                        Some(value.to_string())
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Option<Vec<_>>>();
+            if let Some(literals) = literals {
+                return if members
+                    .iter()
+                    .any(|member| validate(api, member, value, path).is_ok())
+                {
+                    Ok(value.clone())
+                } else {
+                    expected(&literals.join(" | "))
+                };
+            }
             if matches!(schema, Schema::Ref { .. })
                 && !value.is_object()
                 && members.iter().all(|member| {
@@ -329,6 +350,24 @@ fn validate(api: &Api, schema: &Schema, value: &Value, path: &str) -> Result<Val
                 })
             {
                 return expected("object");
+            }
+            if !value.is_object() {
+                let labels = members
+                    .iter()
+                    .map(|member| {
+                        let Schema::Struct { fields, .. } = resolve(api, member) else {
+                            return None;
+                        };
+                        let field = fields.first()?;
+                        let Schema::Literal { value } = resolve(api, &field.schema) else {
+                            return None;
+                        };
+                        Some(format!("{{ readonly {:?}: {value}, ... }}", field.name))
+                    })
+                    .collect::<Option<Vec<_>>>();
+                if let Some(labels) = labels {
+                    return expected(&labels.join(" | "));
+                }
             }
             let mut last = None;
             for member in members {

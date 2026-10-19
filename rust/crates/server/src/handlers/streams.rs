@@ -66,7 +66,8 @@ mod pty;
 pub use pty::{issue_ticket, parse_cursor};
 
 use axum::Router;
-use axum::extract::{Path, Request, State};
+use axum::extract::ws::WebSocketUpgrade;
+use axum::extract::{FromRequestParts, Path, Request, State};
 use axum::response::{IntoResponse, Response};
 use axum::routing::get;
 use futures_util::stream::{self, BoxStream, StreamExt};
@@ -217,7 +218,7 @@ async fn legacy_context(
     state: &AppState,
     request: Request,
 ) -> Result<legacy_routing::RouteContext, Box<Response>> {
-    let (parts, body) = request.into_parts();
+    let (mut parts, body) = request.into_parts();
     let routed = legacy_routing::route(
         &state.services,
         &state.client,
@@ -233,6 +234,13 @@ async fn legacy_context(
             .await
             .map_err(|error| Box::new(error.into_response())),
         Ok((Plan::Answered(response), _)) => Err(Box::new(response)),
+        Ok((Plan::WebSocket(target), _)) => {
+            let upgrade = WebSocketUpgrade::from_request_parts(&mut parts, &()).await;
+            Err(Box::new(
+                crate::transport::proxy_socket::upgrade(state, target, &parts.headers, upgrade)
+                    .await,
+            ))
+        }
         Err(error) => Err(Box::new(error.into_response())),
     }
 }
