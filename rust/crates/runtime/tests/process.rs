@@ -133,8 +133,9 @@ async fn boots_serves_location_and_session_then_shuts_down() {
     let admitted: Value = response.json().await.unwrap();
     assert_eq!(admitted["data"]["sessionID"], json!(session));
 
-    // The advisory wake drains through the Location registry. Until the provider-turn runner
-    // lands, the drain fails with a typed error and the Session goes idle again.
+    // This smoke test intentionally has no configured provider. An idle drain alone proves
+    // lifecycle cleanup, not model execution. production.rs separately requires a completed
+    // assistant response through the actual configured transport and durable projection.
     let active_url = format!("{}/api/session/active", listener.url());
     let mut idle = false;
     for _ in 0..50 {
@@ -152,6 +153,24 @@ async fn boots_serves_location_and_session_then_shuts_down() {
 
     listener.stop(true).await;
     process.shutdown().await;
+}
+
+#[test]
+fn process_options_debug_redacts_configuration_secrets() {
+    let root = tempfile::tempdir().unwrap();
+    let mut options = ProcessOptions::isolated(root.path());
+    options
+        .environment
+        .set_var("OPENAI_API_KEY", "never-print-provider-secret");
+    options
+        .environment
+        .set_var("OPENCODE_SERVER_PASSWORD", "never-print-server-secret");
+    options
+        .git_env
+        .push(("SECRET".into(), "never-print-git-secret".into()));
+    let diagnostics = format!("{options:?}");
+    assert!(diagnostics.contains("<redacted>"));
+    assert!(!diagnostics.contains("never-print"));
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

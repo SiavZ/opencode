@@ -5322,6 +5322,7 @@ dependencies = [
  "http",
  "indexmap 2.14.2",
  "opencode-llm-api",
+ "opencode-schema",
  "pretty_assertions",
  "rand 0.10.3",
  "regex",

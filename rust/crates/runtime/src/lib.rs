@@ -21,6 +21,7 @@
 //! Contract tests: runtime/tests/process.rs
 
 pub mod adapters;
+pub mod execution_support;
 pub mod location;
 pub mod paths;
 pub mod process;

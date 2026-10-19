@@ -72,11 +72,13 @@ pub enum ProcessError {
     #[error("failed to open database: {0}")]
     Database(#[from] opencode_storage_api::StorageError),
     #[error(transparent)]
+    Location(#[from] opencode_locations::LocationError),
+    #[error(transparent)]
     Listen(#[from] ListenError),
 }
 
 /// Process inputs. `Default` reads the real environment; tests root everything in a temp dir.
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct ProcessOptions {
     pub paths: GlobalPaths,
     /// `InstallationChannel` (`OPENCODE_CHANNEL` build constant, `local` in dev builds).
@@ -92,6 +94,24 @@ pub struct ProcessOptions {
     pub workspace_id: Option<String>,
     /// Extra environment for `git` (tests isolate `GIT_CONFIG_GLOBAL`).
     pub git_env: Vec<(String, String)>,
+    /// Configuration and provider credential environment captured at process construction.
+    pub environment: opencode_config::env::Environment,
+}
+
+impl std::fmt::Debug for ProcessOptions {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("ProcessOptions")
+            .field("paths", &self.paths)
+            .field("channel", &self.channel)
+            .field("version", &self.version)
+            .field("db", &self.db)
+            .field("idle_ttl", &self.idle_ttl)
+            .field("experimental_workspaces", &self.experimental_workspaces)
+            .field("workspace_id", &self.workspace_id)
+            .field("environment", &"<redacted>")
+            .finish_non_exhaustive()
+    }
 }
 
 impl ProcessOptions {
@@ -114,6 +134,7 @@ impl ProcessOptions {
                 .ok()
                 .filter(|id| !id.is_empty()),
             git_env: Vec::new(),
+            environment: opencode_config::env::Environment::from_process(),
         }
     }
 
@@ -128,6 +149,12 @@ impl ProcessOptions {
             experimental_workspaces: false,
             workspace_id: None,
             git_env: Vec::new(),
+            environment: {
+                let mut environment =
+                    opencode_config::env::Environment::isolated(root.join("home"));
+                environment.global_config = GlobalPaths::rooted(root).config;
+                environment
+            },
         }
     }
 }
@@ -217,6 +244,19 @@ impl Process {
         })
     }
 
+    /// Models available to the same location-scoped resolver used by Session execution.
+    pub async fn available_models(
+        &self,
+        directory: std::path::PathBuf,
+    ) -> Result<Vec<opencode_schema::provider::ModelInfo>, ProcessError> {
+        let directory = tokio::fs::canonicalize(directory).await?;
+        let location = opencode_schema::location::Ref {
+            directory: opencode_schema::values::AbsolutePath::new(directory.to_string_lossy()),
+            workspace_id: None,
+        };
+        Ok(self.locations.get(&location).await?.models.clone())
+    }
+
     /// Server services over this process.
     pub fn services(&self) -> Services {
         let placement = SqlSessionPlacement::new(self.database.clone());
@@ -241,7 +281,22 @@ impl Process {
         listen_options: ListenOptions,
         cors: Vec<String>,
     ) -> Result<Listener, ProcessError> {
-        let config = ServerConfig::full_host(AuthConfig::from_env(), CorsConfig { origins: cors });
+        let config = ServerConfig::full_host(
+            AuthConfig {
+                username: self
+                    .options
+                    .environment
+                    .var("OPENCODE_SERVER_USERNAME")
+                    .unwrap_or("opencode")
+                    .to_owned(),
+                password: self
+                    .options
+                    .environment
+                    .var("OPENCODE_SERVER_PASSWORD")
+                    .map(str::to_owned),
+            },
+            CorsConfig { origins: cors },
+        );
         Ok(listen(router(self.services(), config), listen_options).await?)
     }
 
