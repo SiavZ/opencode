@@ -6,6 +6,7 @@
 //! rust/crates/
 //! |-- codemode/src/ast.rs
 //! |-- codemode/src/error.rs
+//! |-- codemode/src/interp/members/cycles.rs
 //! |-- codemode/src/interp/mod.rs
 //! |-- codemode/src/stdlib/date.rs
 //! |-- codemode/src/stdlib/math.rs
@@ -42,6 +43,10 @@
 //! Invariants: blocked keys never resolve; promises and runtime references expose no properties;
 //! each member object/key expression is evaluated exactly once per access.
 //! Contract tests: codemode/tests/parity.rs, codemode/tests/promise.rs, codemode/tests/stdlib.rs
+
+mod cycles;
+
+pub(crate) use cycles::reject_circular_insertion;
 
 use super::Interp;
 use crate::ast::{Loc, Member, MemberProp};
@@ -243,46 +248,6 @@ impl Interp {
             )),
         }
     }
-}
-
-/// Rejects inserting a value that (transitively) contains `container`.
-pub(crate) fn reject_circular_insertion(
-    container: &Value,
-    value: &Value,
-    label: &str,
-    loc: Loc,
-) -> Eval<()> {
-    fn walk(container: usize, value: &Value, seen: &mut Vec<usize>) -> bool {
-        let Some(id) = value.identity() else {
-            return false;
-        };
-        if id == container {
-            return true;
-        }
-        if value.is_runtime_reference() || seen.contains(&id) {
-            return false;
-        }
-        seen.push(id);
-        let items: Vec<Value> = match value {
-            Value::Array(array) => lock(array).items.clone(),
-            Value::Object(object) => lock(object).props.values().cloned().collect(),
-            _ => Vec::new(),
-        };
-        let found = items.iter().any(|item| walk(container, item, seen));
-        seen.pop();
-        found
-    }
-    let Some(container) = container.identity() else {
-        return Ok(());
-    };
-    if walk(container, value, &mut Vec::new()) {
-        return Err(fail_kind(
-            format!("{label} contains a circular value."),
-            loc,
-            DiagnosticKind::InvalidDataValue,
-        ));
-    }
-    Ok(())
 }
 
 fn intrinsic(receiver: Value, name: &str) -> Reference {
