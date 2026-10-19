@@ -26,13 +26,45 @@ pub enum LegacyError {
     BadRequest(String),
     #[error("{0}")]
     Unavailable(String),
+    #[error("HTTP {status}: {body}")]
+    Response { status: u16, body: Value },
     #[error("{0}")]
     Internal(String),
+}
+
+/// Explicit HTTP metadata for pagination, raw replies and no-content operations.
+#[derive(Debug)]
+pub struct LegacyResponse {
+    pub body: Value,
+    pub status: u16,
+    pub headers: Vec<(String, String)>,
+}
+
+impl From<Value> for LegacyResponse {
+    fn from(body: Value) -> Self {
+        Self {
+            body,
+            status: 200,
+            headers: Vec::new(),
+        }
+    }
 }
 
 /// Narrow V1 boundary. Query and payload are schema-validated by the HTTP host.
 #[async_trait::async_trait]
 pub trait LegacySessions: Send + Sync {
+    async fn handle_response(
+        &self,
+        operation: &str,
+        context: &RouteContext,
+        params: &Map<String, Value>,
+        query: &Map<String, Value>,
+        payload: Option<Value>,
+    ) -> Result<LegacyResponse, LegacyError> {
+        self.handle(operation, context, params, query, payload)
+            .await
+            .map(Into::into)
+    }
     async fn handle(
         &self,
         operation: &str,

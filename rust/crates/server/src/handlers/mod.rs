@@ -63,6 +63,8 @@ pub struct Ctx {
     /// Resolved by legacy instance routing.
     pub legacy: Option<RouteContext>,
     pub raw_query: Option<String>,
+    pub request_uri: axum::http::Uri,
+    pub request_headers: axum::http::HeaderMap,
 }
 
 impl Ctx {
@@ -92,14 +94,20 @@ pub async fn handle(ctx: Ctx) -> Result<Response, HttpError> {
         "global.health" => Ok(ok(
             &json!({ "healthy": true, "version": ctx.state.services.version }),
         )),
-        name if name.starts_with("session.") && !ctx.current => legacy::handle(ctx).await,
+        _ if !ctx.current => legacy::handle(ctx).await,
         "health.get" => Ok(ok(&json!({ "healthy": true }))),
         "location.get" => match &ctx.location {
             Some(location) => Ok(ok(location)),
             None => Err(HttpError::not_yet_ported("location")),
         },
+        name if ctx.current
+            && (name.starts_with("session.permission.")
+                || name.starts_with("session.question.")) =>
+        {
+            legacy::handle(ctx).await
+        }
         name if name.starts_with("session.") && ctx.current => session::handle(ctx).await,
-        name => Err(HttpError::not_yet_ported(name)),
+        _ => legacy::handle(ctx).await,
     }
 }
 

@@ -148,23 +148,31 @@ async fn pipeline(
                         .to_ascii_lowercase()
                 })
                 .unwrap_or_default();
-            let legacy_create = !current && endpoint.name == "session.create";
-            if media != "application/json" && !legacy_create {
+            let legacy_create =
+                !current && matches!(endpoint.name.as_str(), "session.create" | "session.fork");
+            let provider_authorize = !current && endpoint.name == "provider.oauth.authorize";
+            let bytes = to_bytes(body, MAX_BODY)
+                .await
+                .map_err(|e| HttpError::Defect(e.to_string()))?;
+            if !bytes.is_empty()
+                && media != "application/json"
+                && !legacy_create
+                && !provider_authorize
+            {
                 return Ok(text(
                     StatusCode::UNSUPPORTED_MEDIA_TYPE,
                     "text/plain",
                     format!("Unsupported content-type: {media}"),
                 ));
             }
-            let bytes = to_bytes(body, MAX_BODY)
-                .await
-                .map_err(|e| HttpError::Defect(e.to_string()))?;
             // Effect: empty text decodes as `undefined`, a malformed body is a defect.
             let value = if bytes.is_empty() || (legacy_create && legacy_empty_body(&bytes)) {
                 None
             } else {
                 Some(serde_json::from_slice::<Value>(&bytes).map_err(|e| {
-                    if legacy_create {
+                    if provider_authorize {
+                        HttpError::LegacyProviderBadRequest
+                    } else if legacy_create {
                         HttpError::LegacyRawBadRequest
                     } else {
                         HttpError::Defect(format!("invalid JSON body: {e}"))
@@ -174,14 +182,22 @@ async fn pipeline(
             match value {
                 Some(value) => {
                     decode::payload(api, schema, &value).map_err(|reason| {
-                        if legacy_create {
+                        if provider_authorize {
+                            HttpError::LegacyProviderBadRequest
+                        } else if legacy_create {
                             HttpError::LegacyRawBadRequest
                         } else {
+                            let reason = if !endpoint.payload_required {
+                                reason.replacen("Expected ", "Expected void | ", 1)
+                            } else {
+                                reason
+                            };
                             HttpError::schema(current, "Payload", &reason)
                         }
                     })?;
                     Some(value)
                 }
+                None if provider_authorize => return Err(HttpError::LegacyProviderBadRequest),
                 None if endpoint.payload_required => {
                     return Err(HttpError::schema(
                         current,
@@ -204,6 +220,8 @@ async fn pipeline(
         location,
         legacy,
         raw_query: query,
+        request_uri: parts.uri,
+        request_headers: parts.headers,
     };
     handle(ctx).await
 }

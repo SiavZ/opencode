@@ -47,6 +47,10 @@ pub use ports::{
 #[derive(Clone)]
 pub struct Services {
     pub legacy_sessions: Option<Arc<dyn legacy::LegacySessions>>,
+    pub legacy_global: Option<Arc<dyn legacy::LegacySessions>>,
+    pub legacy_native: Option<Arc<dyn legacy::LegacySessions>>,
+    pub legacy_integrations: Option<Arc<dyn legacy::LegacySessions>>,
+    pub legacy_providers: Option<Arc<dyn legacy::LegacySessions>>,
     pub version: String,
     /// Phase 04 `SessionV2.Interface`.
     pub session: Option<Arc<dyn SessionService>>,
@@ -66,6 +70,10 @@ impl Default for Services {
     fn default() -> Self {
         Self {
             legacy_sessions: None,
+            legacy_global: None,
+            legacy_native: None,
+            legacy_integrations: None,
+            legacy_providers: None,
             version: "local".into(),
             session: None,
             locations: None,

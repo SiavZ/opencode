@@ -24,7 +24,15 @@
 //! Invariants: legacy wire envelopes are independent of current API; unsupported families are not advertised.
 //! Contract tests: protocol/tests/registry.rs
 
+mod build;
+mod core;
+mod experimental;
+mod integration;
+mod native;
 mod schema;
+mod session;
+mod tui;
+mod workspace;
 
 use crate::ir::{self, Field, Schema};
 use crate::operation::{Api, Endpoint, Group, Method, Middleware};
@@ -147,13 +155,40 @@ pub fn api() -> &'static Api {
                 .error(404, ir::r("LegacyNotFoundError")),
             );
         }
+        global.endpoints.extend(core::global());
+        session.endpoints.extend(session::endpoints());
+        let mut groups = vec![global, event, session];
+        groups.extend(core::groups());
+        groups.extend(integration::groups());
+        groups.extend(native::groups());
+        groups.push(experimental::group_definition());
+        groups.push(tui::group_definition());
+        groups.extend(workspace::groups());
+        let mut definitions = schema::definitions();
+        for endpoint in groups.iter_mut().flat_map(|group| &mut group.endpoints) {
+            let name = match endpoint.name.as_str() {
+                "auth.set" => "Auth",
+                "config.update" | "global.config.update" => "Config",
+                "part.update" => "Part",
+                "worktree.create" => "WorktreeCreateInput",
+                "worktree.remove" => "WorktreeRemoveInput",
+                "worktree.reset" => "WorktreeResetInput",
+                _ => continue,
+            };
+            if let Some(payload) = endpoint.payload.take() {
+                if !definitions.iter().any(|definition| definition.name == name) {
+                    definitions.push(ir::def(name, payload));
+                }
+                endpoint.payload = Some(ir::r(name));
+            }
+        }
         Api {
             identifier: "opencode".into(),
             title: "opencode".into(),
             version: "1.0.0".into(),
             description: Some("opencode api".into()),
-            groups: vec![global, event, session],
-            definitions: schema::definitions(),
+            groups,
+            definitions,
         }
     })
 }

@@ -125,7 +125,17 @@ fn at(path: &str) -> String {
 
 /// Validate (and coerce `from_string` numbers), returning the decoded value.
 fn validate(api: &Api, schema: &Schema, value: &Value, path: &str) -> Result<Value, String> {
-    let expected = |what: &str| Err(format!("Expected {what}, got {}{}", short(value), at(path)));
+    let expected = |what: &str| {
+        let label = match schema {
+            Schema::Ref { name } if what == "object" => name.as_str(),
+            _ => what,
+        };
+        Err(format!(
+            "Expected {label}, got {}{}",
+            short(value),
+            at(path)
+        ))
+    };
     match resolve(api, schema) {
         Schema::Ref { name } => Err(format!("Unresolved schema {name}{}", at(path))),
         Schema::Unknown => Ok(value.clone()),
@@ -261,7 +271,10 @@ fn validate(api: &Api, schema: &Schema, value: &Value, path: &str) -> Result<Val
                 out.push(validate(api, schema, item, &format!("{path}[{i}]"))?);
             }
             if list.len() < elements.len() {
-                return expected("a longer tuple");
+                return Err(format!(
+                    "Missing key{}",
+                    at(&format!("{path}[{}]", list.len()))
+                ));
             }
             Ok(Value::Array(out))
         }
@@ -306,6 +319,17 @@ fn validate(api: &Api, schema: &Schema, value: &Value, path: &str) -> Result<Val
             Ok(Value::Object(out))
         }
         Schema::Union { members } => {
+            if matches!(schema, Schema::Ref { .. })
+                && !value.is_object()
+                && members.iter().all(|member| {
+                    matches!(
+                        resolve(api, member),
+                        Schema::Struct { .. } | Schema::Record { .. }
+                    )
+                })
+            {
+                return expected("object");
+            }
             let mut last = None;
             for member in members {
                 match validate(api, member, value, path) {

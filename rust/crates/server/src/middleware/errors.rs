@@ -54,6 +54,8 @@ pub enum HttpError {
     Api(Box<ApiError>),
     #[error("legacy raw bad request")]
     LegacyRawBadRequest,
+    #[error("legacy provider authorization bad request")]
+    LegacyProviderBadRequest,
     /// Legacy schema rejection (`packages/opencode/.../middleware/schema-error.ts`).
     #[error("legacy bad request: {message}")]
     LegacyBadRequest { message: String, kind: String },
@@ -107,6 +109,10 @@ impl HttpError {
 impl IntoResponse for HttpError {
     fn into_response(self) -> Response {
         match self {
+            HttpError::LegacyProviderBadRequest => json(
+                StatusCode::BAD_REQUEST,
+                &serde_json::json!({"name":"BadRequest","data":{}}),
+            ),
             HttpError::LegacyRawBadRequest => json(
                 StatusCode::BAD_REQUEST,
                 &serde_json::json!({"_tag":"BadRequest"}),
