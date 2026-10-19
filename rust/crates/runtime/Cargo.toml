@@ -21,6 +21,17 @@ opencode-session-api.workspace = true
 opencode-session-runtime.workspace = true
 opencode-platform-api.workspace = true
 opencode-server.workspace = true
+opencode-config.workspace = true
+opencode-context.workspace = true
+opencode-llm-api.workspace = true
+opencode-platform-native.workspace = true
+opencode-provider-adapters.workspace = true
+opencode-permissions.workspace = true
+opencode-tool-api.workspace = true
+opencode-tools.workspace = true
+serde_json.workspace = true
+indexmap.workspace = true
+futures.workspace = true
 async-trait.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
@@ -31,7 +42,6 @@ tokio-util = { workspace = true, features = ["rt"] }
 tempfile.workspace = true
 tokio = { workspace = true, features = ["rt-multi-thread", "macros", "test-util", "process"] }
 reqwest = { workspace = true, features = ["rustls", "json"] }
-serde_json.workspace = true
 
 [lints]
 workspace = true
