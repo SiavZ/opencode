@@ -1,4 +1,4 @@
-//! Purpose: enforce declared first-party edges against Cargo's resolved host and wasm graphs.
+//! Purpose: enforce first-party edges against resolved host, CI native and wasm graphs.
 //! Scope: read-only build tooling.
 //! Uses:
 //! rust/xtask/
@@ -95,7 +95,15 @@ pub fn run(args: &[String]) -> Result<()> {
         .find_map(|line| line.strip_prefix("host: "))
         .context("rustc omitted host triple")?;
     let mut errors = Vec::new();
-    for platform in [triple, "wasm32-unknown-unknown"] {
+    // Resolve platforms independently: combining mutually exclusive cfg edges can invent cycles.
+    for platform in BTreeSet::from([
+        triple,
+        "x86_64-unknown-linux-gnu",
+        "aarch64-apple-darwin",
+        "x86_64-apple-darwin",
+        "x86_64-pc-windows-msvc",
+        "wasm32-unknown-unknown",
+    ]) {
         let graph = metadata(&root, Some(platform))?;
         errors.extend(
             validate(&root, &contract, &graph)?
