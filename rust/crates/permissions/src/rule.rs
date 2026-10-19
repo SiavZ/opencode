@@ -12,7 +12,8 @@
 //! Used by:
 //! rust/crates/
 //! |-- permissions/src/lib.rs
-//! `-- permissions/src/service.rs
+//! |-- permissions/src/service.rs
+//! `-- permissions/src/service/types.rs
 //! Invariants: wire shape `{action, resource, effect}`, effect in allow|deny|ask.
 //! Contract tests: permissions/src/rule.rs
 
