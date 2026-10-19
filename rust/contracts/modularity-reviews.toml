@@ -1,6 +1,7 @@
 # Modularity review records for files above 500 physical lines.
 # Independent reviewer: mushroom, Phase 05 native/permissions owner, 2026-10-19.
-# All 17 audit candidates were read in full. No exception is granted to desktop-host
+# Initial 17 audit candidates were read in full; seven post-header candidates were also read.
+# No exception is granted to desktop-host
 # menu.rs, provider-adapters shared.rs, or gitlab_dws_discovery.rs: independent
 # translation/catalog, media-validation, and cache/time boundaries require extraction.
 # These short-lived exceptions preserve test-contract cohesion, not future growth.
@@ -8,7 +9,7 @@
 
 [[review]]
 path = "rust/crates/codemode/tests/codemode.rs"
-lines = 1375
+lines = 1380
 decision = "exception"
 reason = "Reviewed the complete execution contract suite. Local host/callback fixtures and the shared orders signature connect execution, reusable execution, catalog discovery, output limits, and host-boundary failures through the real public API. Candidate splits at console/output and catalog sections would separate the baseline suite's execution-versus-discovery assertions and duplicate its host setup; common harness functionality is already in tests/common. Most size is explicit JavaScript and expected JSON, not another production responsibility. Retain this baseline-mapped integration suite until the expiry review rather than moving assertions solely to pass the size gate."
 author = "phase-07"
@@ -16,8 +17,26 @@ reviewer = "phase-05"
 expires = "2026-11-19"
 
 [[review]]
+path = "rust/crates/session-runtime/src/background.rs"
+lines = 513
+decision = "exception"
+reason = "Read the entire header-expanded file independently. This is one generation-keyed background-job state machine: start/extend publish tracked work, spawn and settle share the same token and tail gate, cancel and shutdown join the same ownership trackers, and wait/promotion observe Active transitions. Splitting spawn or settlement would expose internal ownership state across modules and obscure the ordering being protected. A DTO-only extraction is possible but introduces no independent behavior boundary; the thirteen-line overflow comes from generated dependency documentation around this otherwise bounded lifecycle implementation. Keep ownership transitions together for this review period rather than approving unrelated job persistence or execution features here."
+author = "phase-04"
+reviewer = "phase-05"
+expires = "2026-11-19"
+
+[[review]]
+path = "rust/crates/session-runtime/tests/support/provider.rs"
+lines = 508
+decision = "exception"
+reason = "Read the complete already-extracted support harness independently. The scripted provider FIFO/gates, fixed model, echo tool and counting compaction are the injected ports wired by Harness into real SQLite, admission, execution and runner services, shared by three runner-turn suites. A provider-versus-harness split is feasible but would fragment this common composition fixture solely for an eight-line generated-header overflow, without extracting production behavior or removing duplicated test setup. Keeping the wiring and its explicitly labeled fixture ports visible together makes the real-versus-scripted boundary auditable. No live-provider or production capability is claimed by this exception."
+author = "phase-04"
+reviewer = "phase-05"
+expires = "2026-11-19"
+
+[[review]]
 path = "rust/crates/codemode/tests/openapi.rs"
-lines = 1235
+lines = 1246
 decision = "exception"
 reason = "Reviewed generation, schema conversion, naming, serialization, auth and response controls against the same recording HttpClient/spec fixtures. The end-to-end case deliberately checks generated signatures and real execution requests together; auth/network ordering and collision cases use that same setup. Splitting generation from request execution would obscure their parity contract or introduce another test-fixture layer. Large inline OpenAPI documents and expected wire bodies account for the length. This is a bounded exception for one public OpenAPI generation-to-execution contract, not approval to add unrelated clients here."
 author = "phase-07"
@@ -26,7 +45,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/codemode/tests/parity.rs"
-lines = 664
+lines = 665
 decision = "exception"
 reason = "Reviewed the full sandbox JavaScript parity matrix: undefined/coercion, branded errors, array/string operations, compound assignment, callback values and Date interactions. It contains public-execute inputs and baseline expectations, while reusable runners already live in tests/common. Splitting by builtin would distribute cross-value coercion and error invariants across suites without extracting implementation or reusable test machinery. Keep the baseline parity matrix together for this review period."
 author = "phase-07"
@@ -35,7 +54,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/codemode/tests/promise.rs"
-lines = 602
+lines = 604
 decision = "exception"
 reason = "Reviewed every async case and the shared Trace/Guard instrumentation. Eager calls, await, all/allSettled/race, timeout interruption and unsupported syntax compare starts, active maximum, completion and drop cleanup using the same real host tools. Splitting combinators away from cancellation would duplicate ownership instrumentation and weaken visibility of the lifecycle comparisons. The excess is primarily explicit JavaScript scenarios; keep this single promise lifecycle contract together."
 author = "phase-07"
@@ -44,7 +63,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/codemode/tests/signature.rs"
-lines = 603
+lines = 605
 decision = "exception"
 reason = "Reviewed pretty/compact/JSDoc rendering, refs/unions, quoting and inline catalog/search signatures. The shared list_issues, lookup_order and raw_schema fixtures intentionally feed renderer and public catalog consumers so their strings can be compared directly. Separating catalog assertions would duplicate these schema fixtures and conceal producer/consumer agreement. Expected multiline signature strings dominate the overflow; no independent production responsibility is embedded here."
 author = "phase-07"
@@ -53,7 +72,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/codemode/tests/stdlib.rs"
-lines = 1030
+lines = 1032
 decision = "exception"
 reason = "Reviewed all Date, RegExp, URL, Map and Set cases plus cross-stdlib integration and sandbox identity/copy-out controls. A per-builtin split is feasible but would be test organization only: runners are already shared, individual JavaScript expectations are self-contained, and the cross-type cases deliberately verify these builtins coexist under one sandbox boundary. Keeping the baseline stdlib suite identity is more useful for this parity audit than adding five test targets with no reusable production boundary. Reassess that tradeoff at expiry rather than treating test length as permanently exempt."
 author = "phase-07"
@@ -62,16 +81,16 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/provider-adapters/src/route.rs"
-lines = 508
+lines = 551
 decision = "exception"
-reason = "Reviewed all production code and in-module tests. The production portion is one route pipeline: cached compilation, protected overlay, endpoint/header/auth ordering, transport invocation and frame lifecycle. The remainder supplies focused transport/auth fixtures and regression assertions. Pulling endpoint/header preparation into a new module merely to remove eight physical lines would fragment the security-sensitive order visible in this pipeline; the cohesive production portion is itself below 400 lines. No exception is granted to the separate oversized media/cache modules."
+reason = "Reviewed all production code and in-module tests. The production portion is one route pipeline: cached compilation, protected overlay, endpoint/header/auth ordering, transport invocation and frame lifecycle. The remainder supplies focused transport/auth fixtures and regression assertions. Pulling endpoint/header preparation into a new module merely for the original eight-line overflow, since expanded only by generated dependency documentation, would fragment the security-sensitive order visible in this pipeline; the implementation excluding generated headers is below 400 lines. No exception is granted to the separate oversized media/cache modules."
 author = "phase-03"
 reviewer = "phase-05"
 expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/provider-adapters/tests/anthropic_messages.rs"
-lines = 1244
+lines = 1258
 decision = "exception"
 reason = "Reviewed lowering, system placement, cache breakpoint ordering, local/server tools, reasoning signatures, SSE lifecycle/errors/drop and recorded continuation/cache scenarios. The same route/auth, tool/result, cache and request constructors join synthetic protocol cases to cassette replay; the cassette transport itself is already extracted. Splitting request and replay tests would duplicate those wire constructors and separate continuation decode/re-encode controls. Explicit expected message trees and events account for most length. Keep one Anthropic Messages wire contract suite, with expiry, rather than extracting production-free fragments."
 author = "phase-03"
@@ -80,7 +99,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/provider-adapters/tests/bedrock_converse.rs"
-lines = 893
+lines = 905
 decision = "exception"
 reason = "Reviewed Converse lowering, media/cache controls, binary event frames, exception classification, auth absence, independent fixed-time SigV4 vectors and recorded tool continuation. The apparent auth/stream split is intentionally bridged by recorded requests that assert signed headers and decoded results together. Shared request/model/tool constructors and the already-extracted cassette harness keep this one Bedrock wire boundary. Moving signer vectors or stream cases just for line count would scatter its bearer-versus-SigV4 and binary framing controls without a production extraction. Preserve independent baseline signature constants unchanged."
 author = "phase-03"
@@ -89,7 +108,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/provider-adapters/tests/gemini.rs"
-lines = 818
+lines = 830
 decision = "exception"
 reason = "Reviewed all request lowering/schema/media controls, SSE finish/usage/errors, thought signature continuation and recorded cache/image/tool cases. The thought-signature test explicitly feeds decoded metadata back into preparation, crossing any proposed request-versus-stream split. Route/auth/request/tool constructors are shared and cassette infrastructure is already a separate module. Inline expected wire objects and event order assertions explain the overflow; keeping this single Gemini round-trip contract visible is preferable to separating its two halves solely for size."
 author = "phase-03"
@@ -98,7 +117,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/provider-adapters/tests/openai_chat.rs"
-lines = 670
+lines = 684
 decision = "exception"
 reason = "Reviewed request/system/options/tool/media lowering, streamed reasoning/tool assembly, malformed/finish controls, loopback HTTP header precedence and consumer drop. Replay/model/SSE helpers already live in openai_common; remaining helpers name this protocol's messages. Request-only and transport-only splits would separate the exact lowered body from actual send/auth ordering checked here. The excess consists chiefly of explicit JSON expectations and event fixtures around one Chat Completions boundary, not reusable production logic."
 author = "phase-03"
@@ -107,7 +126,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/provider-adapters/tests/openai_recorded.rs"
-lines = 624
+lines = 631
 decision = "exception"
 reason = "Reviewed the common cassette runner and every Chat, compatible Chat, Responses, encrypted reasoning, image result and cache scenario. One runner compares recorded URL/body and independent golden events per turn, then builds the next request from the actual previous Rust response. Splitting by family would duplicate this continuation driver or create a second harness beyond the existing openai_common. The cross-family byte-versus-JSON comparison policy is explicit here because historical recordings differ; preserve that unified replay contract rather than moving scenario declarations to hide length."
 author = "phase-03"
@@ -116,7 +135,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/provider-adapters/tests/openai_responses.rs"
-lines = 874
+lines = 892
 decision = "exception"
 reason = "Reviewed payload/options/tool/media, store-dependent reasoning references, streamed summary/encrypted metadata, hosted tools, errors and terminal events, HTTP auth and a real loopback WebSocket close/join control. Shared body/event constructors and openai_common already isolate reusable harness machinery. SSE-versus-WebSocket extraction would separate the same Responses terminal and payload contract across transports; request-versus-stream extraction would obscure encrypted-state continuation rules. Large literal event sequences and wire expectations justify retaining this protocol contract suite until expiry, without exempting future unrelated transports."
 author = "phase-03"
@@ -125,7 +144,7 @@ expires = "2026-11-19"
 
 [[review]]
 path = "rust/crates/session-runtime/tests/coordinator.rs"
-lines = 667
+lines = 672
 decision = "exception"
 reason = "Reviewed the complete real RunCoordinator state-machine matrix: joining resumes, coalescing wakes, failure/panic cleanup, interrupt cleanup racing successors, dropped waiters, independent keys and long trampoline drains. Shared watch latches and interrupt_cleanup_drain create deterministic comparisons between wake and resume races. A split along those operations would duplicate race fixtures and distribute transitions whose interaction is the actual contract. Keep these lifecycle assertions together; the file is test orchestration, not another runtime implementation."
 author = "phase-04"
