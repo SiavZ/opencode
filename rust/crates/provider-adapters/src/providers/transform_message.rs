@@ -1,59 +1,84 @@
 //! Purpose: message-side transformation rules ported from packages/opencode/src/provider/transform.ts
 //! Scope: normalize_messages, apply_caching, unsupported_parts, map_provider_options, message
-//! Invariants: transformations preserve typed message structure while applying provider-specific rewrites; Rust strings already contain valid Unicode scalar values.
-//! Contract tests: crates/provider-adapters/tests/providers_transform_messages.rs
 //! Uses:
 //! rust/crates/
+//! |-- llm-api/src/ids.rs
 //! |-- llm-api/src/message.rs
-//! `-- llm-api/src/ids.rs
+//! |-- provider-adapters/src/providers/transform.rs
+//! `-- provider-adapters/src/providers/transform_message/media.rs
 //! External:
-//! |-- regex::Regex
-//! `-- serde_json::Value
+//! |-- serde_json::Value
+//! `-- serde_json::json
+//! Used by:
+//! rust/crates/
+//! |-- provider-adapters/src/providers/mod.rs
+//! `-- provider-adapters/tests/providers_transform_messages.rs
+//! Invariants: transformations preserve typed message structure while applying provider-specific rewrites; Rust strings already contain valid Unicode scalar values.
+//! Contract tests: crates/provider-adapters/tests/providers_transform_messages.rs
+
+mod media;
+
+pub use media::unsupported_parts;
 
 use opencode_llm_api::ids::{JsonObject, MessageRole, ProviderMetadata};
-use opencode_llm_api::message::{ContentPart, MediaData, Message, ToolContent, ToolResultValue};
-use serde_json::{json, Value};
+use opencode_llm_api::message::{ContentPart, Message, ToolContent, ToolResultValue};
+use serde_json::{Value, json};
 
-use crate::providers::transform::{sdk_key, TransformModel};
+use crate::providers::transform::{TransformModel, sdk_key};
 
 pub fn sanitize_surrogates(content: &str) -> String {
     content.to_string()
 }
 
 fn scrub_claude_tool_id(id: &str) -> String {
-    id.chars().map(|c| if c.is_ascii_alphanumeric() || c == '_' || c == '-' { c } else { '_' }).collect()
+    id.chars()
+        .map(|c| {
+            if c.is_ascii_alphanumeric() || c == '_' || c == '-' {
+                c
+            } else {
+                '_'
+            }
+        })
+        .collect()
 }
 
 fn scrub_mistral_tool_id(id: &str) -> String {
-    let mut cleaned: String = id.chars().filter(|c| c.is_ascii_alphanumeric()).take(9).collect();
+    let mut cleaned: String = id
+        .chars()
+        .filter(|c| c.is_ascii_alphanumeric())
+        .take(9)
+        .collect();
     while cleaned.len() < 9 {
         cleaned.push('0');
     }
     cleaned
 }
 
-pub fn normalize_messages(mut msgs: Vec<Message>, model: &TransformModel, _options: &JsonObject) -> Vec<Message> {
+pub fn normalize_messages(
+    mut msgs: Vec<Message>,
+    model: &TransformModel,
+    _options: &JsonObject,
+) -> Vec<Message> {
     for msg in &mut msgs {
         for part in &mut msg.content {
             match part {
                 ContentPart::Text { text, .. } | ContentPart::Reasoning { text, .. } => {
                     *text = sanitize_surrogates(text);
                 }
-                ContentPart::ToolResult(tr) => {
-                    match &mut tr.result {
-                        ToolResultValue::Text(Value::String(s)) | ToolResultValue::Error(Value::String(s)) => {
-                            *s = sanitize_surrogates(s);
-                        }
-                        ToolResultValue::Content(parts) => {
-                            for p in parts {
-                                if let ToolContent::Text { text } = p {
-                                    *text = sanitize_surrogates(text);
-                                }
+                ContentPart::ToolResult(tr) => match &mut tr.result {
+                    ToolResultValue::Text(Value::String(s))
+                    | ToolResultValue::Error(Value::String(s)) => {
+                        *s = sanitize_surrogates(s);
+                    }
+                    ToolResultValue::Content(parts) => {
+                        for p in parts {
+                            if let ToolContent::Text { text } = p {
+                                *text = sanitize_surrogates(text);
                             }
                         }
-                        _ => {}
                     }
-                }
+                    _ => {}
+                },
                 _ => {}
             }
         }
@@ -71,7 +96,11 @@ pub fn normalize_messages(mut msgs: Vec<Message>, model: &TransformModel, _optio
                                 filtered.push(part);
                             }
                         }
-                        ContentPart::Reasoning { text, provider_metadata, .. } => {
+                        ContentPart::Reasoning {
+                            text,
+                            provider_metadata,
+                            ..
+                        } => {
                             let has_sig = provider_metadata
                                 .as_ref()
                                 .and_then(|m| m.get("anthropic"))
@@ -111,13 +140,18 @@ pub fn normalize_messages(mut msgs: Vec<Message>, model: &TransformModel, _optio
                                 filtered.push(part);
                             }
                         }
-                        ContentPart::Reasoning { provider_metadata, .. } => {
+                        ContentPart::Reasoning {
+                            provider_metadata, ..
+                        } => {
                             let meta = provider_metadata.as_ref();
                             let has_sig = meta
                                 .and_then(|m| m.get(&model.provider_id))
                                 .and_then(|v| v.get("signature"))
                                 .is_some()
-                                || meta.and_then(|m| m.get("bedrock")).and_then(|v| v.get("signature")).is_some();
+                                || meta
+                                    .and_then(|m| m.get("bedrock"))
+                                    .and_then(|v| v.get("signature"))
+                                    .is_some();
                             let has_redacted = meta
                                 .and_then(|m| m.get(&model.provider_id))
                                 .and_then(|v| v.get("redactedContent"))
@@ -130,7 +164,10 @@ pub fn normalize_messages(mut msgs: Vec<Message>, model: &TransformModel, _optio
                                     .and_then(|m| m.get("bedrock"))
                                     .and_then(|v| v.get("redactedContent"))
                                     .is_some()
-                                || meta.and_then(|m| m.get("bedrock")).and_then(|v| v.get("redactedData")).is_some();
+                                || meta
+                                    .and_then(|m| m.get("bedrock"))
+                                    .and_then(|v| v.get("redactedData"))
+                                    .is_some();
                             if has_sig || has_redacted {
                                 filtered.push(part);
                             }
@@ -201,7 +238,10 @@ pub fn normalize_messages(mut msgs: Vec<Message>, model: &TransformModel, _optio
     if model.api_id.to_lowercase().contains("deepseek") {
         for msg in &mut msgs {
             if msg.role == MessageRole::Assistant {
-                let has_reasoning = msg.content.iter().any(|p| matches!(p, ContentPart::Reasoning { .. }));
+                let has_reasoning = msg
+                    .content
+                    .iter()
+                    .any(|p| matches!(p, ContentPart::Reasoning { .. }));
                 if !has_reasoning {
                     msg.content.push(ContentPart::Reasoning {
                         text: String::new(),
@@ -221,27 +261,45 @@ fn cache_control_options() -> ProviderMetadata {
     let mut opts = ProviderMetadata::default();
     opts.insert(
         "anthropic".to_string(),
-        json!({"cacheControl": {"type": "ephemeral"}}).as_object().unwrap().clone(),
+        json!({"cacheControl": {"type": "ephemeral"}})
+            .as_object()
+            .unwrap()
+            .clone(),
     );
     opts.insert(
         "openrouter".to_string(),
-        json!({"cacheControl": {"type": "ephemeral"}}).as_object().unwrap().clone(),
+        json!({"cacheControl": {"type": "ephemeral"}})
+            .as_object()
+            .unwrap()
+            .clone(),
     );
     opts.insert(
         "bedrock".to_string(),
-        json!({"cachePoint": {"type": "default"}}).as_object().unwrap().clone(),
+        json!({"cachePoint": {"type": "default"}})
+            .as_object()
+            .unwrap()
+            .clone(),
     );
     opts.insert(
         "openaiCompatible".to_string(),
-        json!({"cache_control": {"type": "ephemeral"}}).as_object().unwrap().clone(),
+        json!({"cache_control": {"type": "ephemeral"}})
+            .as_object()
+            .unwrap()
+            .clone(),
     );
     opts.insert(
         "copilot".to_string(),
-        json!({"copilot_cache_control": {"type": "ephemeral"}}).as_object().unwrap().clone(),
+        json!({"copilot_cache_control": {"type": "ephemeral"}})
+            .as_object()
+            .unwrap()
+            .clone(),
     );
     opts.insert(
         "alibaba".to_string(),
-        json!({"cacheControl": {"type": "ephemeral"}}).as_object().unwrap().clone(),
+        json!({"cacheControl": {"type": "ephemeral"}})
+            .as_object()
+            .unwrap()
+            .clone(),
     );
     opts
 }
@@ -278,9 +336,16 @@ pub fn apply_caching(mut msgs: Vec<Message>, model: &TransformModel) -> Vec<Mess
 
         if should_use_content
             && let Some(last) = msg.content.last_mut()
-            && let ContentPart::Text { provider_metadata, .. } | ContentPart::Reasoning { provider_metadata, .. } = last
+            && let ContentPart::Text {
+                provider_metadata, ..
+            }
+            | ContentPart::Reasoning {
+                provider_metadata, ..
+            } = last
         {
-            let mut meta = provider_metadata.take().unwrap_or_else(ProviderMetadata::default);
+            let mut meta = provider_metadata
+                .take()
+                .unwrap_or_else(ProviderMetadata::default);
             for (k, v) in &cache_opts {
                 meta.insert(k.clone(), v.clone());
             }
@@ -291,70 +356,6 @@ pub fn apply_caching(mut msgs: Vec<Message>, model: &TransformModel) -> Vec<Mess
                 meta.insert(k.clone(), Value::Object(v.clone()));
             }
             msg.metadata = Some(meta);
-        }
-    }
-    msgs
-}
-
-fn mime_to_modality(mime: &str) -> Option<&'static str> {
-    if mime.starts_with("image/") {
-        return Some("image");
-    }
-    if mime.starts_with("audio/") {
-        return Some("audio");
-    }
-    if mime.starts_with("video/") {
-        return Some("video");
-    }
-    if mime == "application/pdf" {
-        return Some("pdf");
-    }
-    None
-}
-
-pub fn unsupported_parts(mut msgs: Vec<Message>, model: &TransformModel) -> Vec<Message> {
-    for msg in &mut msgs {
-        if msg.role != MessageRole::User {
-            continue;
-        }
-        for part in &mut msg.content {
-            if let ContentPart::Media { media_type, data, filename, .. } = part
-                && let MediaData::Text(data_str) = data
-                && data_str.starts_with("data:")
-                && let Some(idx) = data_str.find(',')
-            {
-                let base64_part = &data_str[idx + 1..];
-                if base64_part.is_empty() {
-                    *part = ContentPart::Text {
-                        text: "ERROR: Image file is empty or corrupted. Please provide a valid image."
-                            .to_string(),
-                        cache: None,
-                        metadata: None,
-                        provider_metadata: None,
-                    };
-                    continue;
-                }
-
-                let mime = if media_type.starts_with("data:") {
-                    media_type.split(';').next().unwrap_or("").strip_prefix("data:").unwrap_or("").to_string()
-                } else {
-                    media_type.clone()
-                };
-                let modality = mime_to_modality(&mime);
-
-                if let Some(modality_name) = modality {
-                    let supported = model.input_modalities.iter().any(|m| m == modality_name);
-                    if !supported {
-                        let name = filename.as_ref().map(|f| format!("\"{}\"", f)).unwrap_or_else(|| modality_name.to_string());
-                        *part = ContentPart::Text {
-                            text: format!("ERROR: Cannot read {} (this model does not support {} input). Inform the user.", name, modality_name),
-                            cache: None,
-                            metadata: None,
-                            provider_metadata: None,
-                        };
-                    }
-                }
-            }
         }
     }
     msgs
@@ -382,12 +383,16 @@ where
         }
         for part in &mut msg.content {
             match part {
-                ContentPart::Text { provider_metadata, .. }
-                | ContentPart::Reasoning { provider_metadata, .. } => {
-                    if let Some(meta) = provider_metadata.take() {
-                        if let Some(new_meta) = transform(meta) {
-                            *provider_metadata = Some(new_meta);
-                        }
+                ContentPart::Text {
+                    provider_metadata, ..
+                }
+                | ContentPart::Reasoning {
+                    provider_metadata, ..
+                } => {
+                    if let Some(meta) = provider_metadata.take()
+                        && let Some(new_meta) = transform(meta)
+                    {
+                        *provider_metadata = Some(new_meta);
                     }
                 }
                 ContentPart::ToolCall(tc) => {
@@ -411,7 +416,11 @@ where
     msgs
 }
 
-pub fn message(mut msgs: Vec<Message>, model: &TransformModel, options: &JsonObject) -> Vec<Message> {
+pub fn message(
+    mut msgs: Vec<Message>,
+    model: &TransformModel,
+    options: &JsonObject,
+) -> Vec<Message> {
     msgs = unsupported_parts(msgs, model);
     msgs = normalize_messages(msgs, model, options);
 
@@ -446,7 +455,12 @@ pub fn message(mut msgs: Vec<Message>, model: &TransformModel, options: &JsonObj
         });
     }
 
-    let openai_npm = ["@ai-sdk/openai", "@ai-sdk/azure", "@ai-sdk/amazon-bedrock/mantle", "@ai-sdk/github-copilot"];
+    let openai_npm = [
+        "@ai-sdk/openai",
+        "@ai-sdk/azure",
+        "@ai-sdk/amazon-bedrock/mantle",
+        "@ai-sdk/github-copilot",
+    ];
     if options.get("store") != Some(&Value::Bool(true))
         && sdk_key(&model.npm).is_some()
         && openai_npm.contains(&model.npm.as_str())

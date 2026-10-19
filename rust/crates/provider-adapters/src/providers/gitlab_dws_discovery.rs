@@ -6,32 +6,35 @@
 //! Scope: project detection, GraphQL discovery, file cache, model mapping.
 //! Uses:
 //! rust/crates/
-//! |-- llm-api/src/error.rs
-//! `-- provider-adapters/src/providers/mod.rs
+//! |-- llm-api/src/lib.rs
+//! `-- provider-adapters/src/providers/gitlab_dws_discovery/cache.rs
 //! External:
 //! |-- reqwest::Client
-//! |-- serde_json::{Map, Value}
-//! |-- sha2::{Sha256, Digest}
-//! |-- tokio::process::Command
-//! `-- url
+//! |-- reqwest::Client::new
+//! |-- serde_json::Map
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- tokio::process::Command::new
+//! |-- url::Url::parse
+//! `-- url::form_urlencoded::byte_serialize
 //! Used by:
 //! rust/crates/
-//! `-- provider-adapters/src/providers/mod.rs (exported)
+//! |-- provider-adapters/src/providers/gitlab_dws_discovery/cache.rs
+//! `-- provider-adapters/src/providers/mod.rs
 //! Invariants: the cache file lives at `$XDG_CACHE_HOME/opencode/gitlab-workflow-model-cache.json`
 //! (or `~/.cache/opencode/...`); discovery results are cached per scope with a 10-minute TTL;
 //! when project-scoped discovery fails, it falls back to namespace-scoped discovery.
-//! Contract tests: provider-adapters/tests/providers_gitlab_dws_discovery.rs (not yet written)
+//! Contract tests: child cache module tests cover calendar rollover, TTL and persisted selections; no live GitLab discovery test.
 
+mod cache;
+
+use cache::FileCache;
 use std::collections::{HashMap, HashSet};
-use std::path::PathBuf;
 use std::sync::Arc;
-use std::time::{SystemTime, UNIX_EPOCH};
 
 use opencode_llm_api::LlmError;
 use serde_json::{Map, Value};
-use sha2::{Digest, Sha256};
-
-const DISCOVERY_TTL_MS: u64 = 10 * 60 * 1000;
 const VERSION: &str = "6.21.0";
 
 /// `GitLabProjectDetector` parsed project.
@@ -59,17 +62,6 @@ pub struct DiscoveryResult {
     pub pinned_model: Option<DiscoveredModel>,
     pub model_switching_enabled: bool,
     pub instance_version: Option<String>,
-}
-
-/// One entry in the file cache.
-#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
-struct CacheEntry {
-    discovery: Option<DiscoveryResult>,
-    project: Option<GitLabProject>,
-    selected_model_ref: Option<String>,
-    selected_model_name: Option<String>,
-    updated_at: Option<String>,
-    discovery_updated_at: Option<String>,
 }
 
 /// Configuration for workflow discovery.
@@ -113,16 +105,15 @@ impl ModelDiscovery {
     /// `discoverWorkflowModels`: check cache, detect project, discover models, build result.
     pub async fn discover_workflow_models(&self) -> Result<WorkflowDiscoveryResult, LlmError> {
         let cache = self.file_cache();
-        if !cache.is_discovery_expired() {
-            if let Some(entry) = cache.load() {
-                if let Some(discovery) = entry.discovery {
-                    let models = build_models(&discovery, entry.project.as_ref());
-                    return Ok(WorkflowDiscoveryResult {
-                        models,
-                        project: entry.project,
-                    });
-                }
-            }
+        if !cache.is_discovery_expired()
+            && let Some(entry) = cache.load()
+            && let Some(discovery) = entry.discovery
+        {
+            let models = build_models(&discovery, entry.project.as_ref());
+            return Ok(WorkflowDiscoveryResult {
+                models,
+                project: entry.project,
+            });
         }
         let project = match self.detect_project().await {
             Ok(p) => p,
@@ -211,53 +202,42 @@ impl ModelDiscovery {
             .map(|u| u.host_str().map(str::to_owned))?
             .unwrap_or_default();
         if remote_url.starts_with("ssh://") {
-            if let Ok(ssh_url) = url::Url::parse(remote_url) {
-                if ssh_url.host_str() == Some(&instance_host) {
-                    let path = ssh_url.path().trim_start_matches('/');
-                    let path = if path.ends_with(".git") {
-                        &path[..path.len() - 4]
-                    } else {
-                        path
-                    };
-                    return Some(path.to_owned());
-                }
+            if let Ok(ssh_url) = url::Url::parse(remote_url)
+                && ssh_url.host_str() == Some(&instance_host)
+            {
+                let path = ssh_url.path().trim_start_matches('/');
+                return Some(path.strip_suffix(".git").unwrap_or(path).to_owned());
             }
             return None;
         }
         if let Some((host, path)) = remote_url.strip_prefix("git@").and_then(|rest| {
             rest.split_once(':').map(|(h, p)| {
-                let path = if p.ends_with(".git") {
-                    &p[..p.len() - 4]
-                } else {
-                    p
-                };
+                let path = p.strip_suffix(".git").unwrap_or(p);
                 (h.to_owned(), path.to_owned())
             })
-        }) {
-            if host == instance_host {
-                return Some(path);
-            }
+        }) && host == instance_host
+        {
+            return Some(path);
         }
-        if let Ok(https_url) = url::Url::parse(remote_url) {
-            if https_url.scheme() == "https" || https_url.scheme() == "http" {
-                if https_url.host_str() == Some(&instance_host) {
-                    let path = https_url.path().trim_start_matches('/');
-                    let path = if path.ends_with(".git") {
-                        &path[..path.len() - 4]
-                    } else {
-                        path
-                    };
-                    return Some(path.to_owned());
-                }
-            }
+        if let Ok(https_url) = url::Url::parse(remote_url)
+            && matches!(https_url.scheme(), "https" | "http")
+            && https_url.host_str() == Some(&instance_host)
+        {
+            let path = https_url.path().trim_start_matches('/');
+            return Some(path.strip_suffix(".git").unwrap_or(path).to_owned());
         }
         None
     }
 
     /// `getProjectByPath`: REST API call.
     async fn get_project_by_path(&self, project_path: &str) -> Result<GitLabProject, LlmError> {
-        let encoded = url::form_urlencoded::byte_serialize(project_path.as_bytes()).collect::<String>();
-        let url = format!("{}/api/v4/projects/{}", self.instance_url.trim_end_matches('/'), encoded);
+        let encoded =
+            url::form_urlencoded::byte_serialize(project_path.as_bytes()).collect::<String>();
+        let url = format!(
+            "{}/api/v4/projects/{}",
+            self.instance_url.trim_end_matches('/'),
+            encoded
+        );
         let headers = (self.get_headers)();
         let mut request = self
             .client
@@ -285,7 +265,10 @@ impl ModelDiscovery {
         Ok(GitLabProject {
             id: data["id"].as_u64().unwrap_or(0),
             path: data["path"].as_str().unwrap_or("").to_owned(),
-            path_with_namespace: data["path_with_namespace"].as_str().unwrap_or("").to_owned(),
+            path_with_namespace: data["path_with_namespace"]
+                .as_str()
+                .unwrap_or("")
+                .to_owned(),
             name: data["name"].as_str().unwrap_or("").to_owned(),
             namespace_id: data["namespace"]["id"].as_u64(),
         })
@@ -343,7 +326,10 @@ impl ModelDiscovery {
             variables.insert("projectId".into(), Value::String(project_id.clone()));
         }
         if let Some(root_namespace_id) = &scope.root_namespace_id {
-            variables.insert("rootNamespaceId".into(), Value::String(root_namespace_id.clone()));
+            variables.insert(
+                "rootNamespaceId".into(),
+                Value::String(root_namespace_id.clone()),
+            );
         }
         let body = serde_json::json!({
             "query": query,
@@ -357,11 +343,9 @@ impl ModelDiscovery {
         for (key, value) in headers {
             request = request.header(key, value);
         }
-        let response = request
-            .json(&body)
-            .send()
-            .await
-            .map_err(|e| LlmError::invalid_request(format!("Model discovery GraphQL request failed: {e}")))?;
+        let response = request.json(&body).send().await.map_err(|e| {
+            LlmError::invalid_request(format!("Model discovery GraphQL request failed: {e}"))
+        })?;
         if !response.status().is_success() {
             let status = response.status();
             let text = response.text().await.unwrap_or_default();
@@ -376,24 +360,26 @@ impl ModelDiscovery {
             .json()
             .await
             .map_err(|e| LlmError::invalid_request(format!("Model discovery failed: {e}")))?;
-        if let Some(errors) = json["errors"].as_array() {
-            if !errors.is_empty() {
-                let messages: Vec<String> = errors
-                    .iter()
-                    .filter_map(|e| e["message"].as_str().map(str::to_owned))
-                    .collect();
-                return Err(LlmError::invalid_request(format!(
-                    "Model discovery GraphQL errors: {}",
-                    messages.join(", ")
-                )));
-            }
+        if let Some(errors) = json["errors"].as_array()
+            && !errors.is_empty()
+        {
+            let messages: Vec<String> = errors
+                .iter()
+                .filter_map(|e| e["message"].as_str().map(str::to_owned))
+                .collect();
+            return Err(LlmError::invalid_request(format!(
+                "Model discovery GraphQL errors: {}",
+                messages.join(", ")
+            )));
         }
         let models = &json["data"]["aiChatAvailableModels"];
         let metadata = &json["data"]["metadata"];
-        let flag = metadata["featureFlags"]
-            .as_array()
-            .and_then(|flags| flags.iter().find(|f| f["name"].as_str() == Some("ai_user_model_switching")));
-        let model_switching_enabled = flag.map_or(true, |f| f["enabled"].as_bool().unwrap_or(true));
+        let flag = metadata["featureFlags"].as_array().and_then(|flags| {
+            flags
+                .iter()
+                .find(|f| f["name"].as_str() == Some("ai_user_model_switching"))
+        });
+        let model_switching_enabled = flag.is_none_or(|f| f["enabled"].as_bool().unwrap_or(true));
         let parse_model = |v: &Value| -> Option<DiscoveredModel> {
             let name = v["name"].as_str()?.to_owned();
             let r#ref = v["ref"].as_str()?.to_owned();
@@ -413,157 +399,17 @@ impl ModelDiscovery {
 
     /// `GitLabModelCache` file path and key.
     fn file_cache(&self) -> FileCache {
-        FileCache::new(&self.working_dir, &self.instance_url, self.cache_key.as_deref())
+        FileCache::new(
+            &self.working_dir,
+            &self.instance_url,
+            self.cache_key.as_deref(),
+        )
     }
 }
 
 struct DiscoveryScope {
     project_id: Option<String>,
     root_namespace_id: Option<String>,
-}
-
-/// `GitLabModelCache` file-based cache.
-struct FileCache {
-    file_path: PathBuf,
-    key: String,
-}
-
-impl FileCache {
-    fn new(work_dir: &str, instance_url: &str, scope: Option<&str>) -> Self {
-        let cache_home = std::env::var("XDG_CACHE_HOME")
-            .ok()
-            .map(PathBuf::from)
-            .unwrap_or_else(|| {
-                let home = std::env::var("HOME").unwrap_or_else(|_| ".".to_owned());
-                PathBuf::from(home).join(".cache")
-            });
-        let file_path = cache_home.join("opencode").join("gitlab-workflow-model-cache.json");
-        let normalized_url = instance_url.trim_end_matches('/');
-        let input = if let Some(scope) = scope {
-            format!("{}\0{}\0{}", work_dir, normalized_url, scope)
-        } else {
-            format!("{}\0{}", work_dir, normalized_url)
-        };
-        let key = Sha256::digest(input.as_bytes())
-            .iter()
-            .take(6)
-            .map(|b| format!("{:02x}", b))
-            .collect::<String>();
-        Self { file_path, key }
-    }
-
-    fn read_all(&self) -> HashMap<String, CacheEntry> {
-        std::fs::read_to_string(&self.file_path)
-            .ok()
-            .and_then(|text| serde_json::from_str(&text).ok())
-            .unwrap_or_default()
-    }
-
-    fn write_all(&self, data: &HashMap<String, CacheEntry>) {
-        let dir = self.file_path.parent();
-        if let Some(dir) = dir {
-            let _ = std::fs::create_dir_all(dir);
-        }
-        let tmp_path = format!(
-            "{}.{}.{}.tmp",
-            self.file_path.display(),
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap_or_default()
-                .as_millis()
-        );
-        if let Ok(json) = serde_json::to_string_pretty(data) {
-            let _ = std::fs::write(&tmp_path, json.as_bytes());
-            let _ = std::fs::rename(&tmp_path, &self.file_path);
-        }
-    }
-
-    fn load(&self) -> Option<CacheEntry> {
-        self.read_all().get(&self.key).cloned()
-    }
-
-    fn save(&self, entry: CacheEntry) {
-        let mut data = self.read_all();
-        data.insert(self.key.clone(), entry);
-        self.write_all(&data);
-    }
-
-    fn is_discovery_expired(&self) -> bool {
-        let entry = match self.load() {
-            Some(e) => e,
-            None => return true,
-        };
-        let _discovery = match entry.discovery {
-            Some(d) => d,
-            None => return true,
-        };
-        let timestamp = match entry.discovery_updated_at {
-            Some(t) => t,
-            None => return true,
-        };
-        let updated_ms = match parse_iso_timestamp_ms(&timestamp) {
-            Some(ms) => ms,
-            None => return true,
-        };
-        let now_ms = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .unwrap_or_default()
-            .as_millis() as u64;
-        now_ms.saturating_sub(updated_ms) > DISCOVERY_TTL_MS
-    }
-
-    fn save_discovery(&self, discovery: &DiscoveryResult, project: &GitLabProject) {
-        let existing = self.load();
-        let now = format_iso_timestamp();
-        self.save(CacheEntry {
-            discovery: Some(discovery.clone()),
-            project: Some(project.clone()),
-            selected_model_ref: existing.as_ref().and_then(|e| e.selected_model_ref.clone()),
-            selected_model_name: existing.as_ref().and_then(|e| e.selected_model_name.clone()),
-            updated_at: Some(now.clone()),
-            discovery_updated_at: Some(now),
-        });
-    }
-
-    fn save_selection(&self, r#ref: &str, name: Option<&str>) {
-        let existing = self.load();
-        let resolved_name = name.map(str::to_owned).or_else(|| {
-            existing.as_ref().and_then(|e| {
-                e.discovery.as_ref().and_then(|d| {
-                    d.pinned_model
-                        .as_ref()
-                        .filter(|m| m.r#ref == r#ref)
-                        .map(|m| m.name.clone())
-                        .or_else(|| {
-                            d.selectable_models
-                                .iter()
-                                .find(|m| m.r#ref == r#ref)
-                                .map(|m| m.name.clone())
-                        })
-                        .or_else(|| {
-                            d.default_model
-                                .as_ref()
-                                .filter(|m| m.r#ref == r#ref)
-                                .map(|m| m.name.clone())
-                        })
-                })
-            })
-        });
-        let now = format_iso_timestamp();
-        self.save(CacheEntry {
-            discovery: existing.as_ref().and_then(|e| e.discovery.clone()),
-            project: existing.as_ref().and_then(|e| e.project.clone()),
-            selected_model_ref: Some(r#ref.to_owned()),
-            selected_model_name: resolved_name,
-            updated_at: Some(now.clone()),
-            discovery_updated_at: existing.as_ref().and_then(|e| e.discovery_updated_at.clone()),
-        });
-    }
-
-    fn get_selected_model_ref(&self) -> Option<String> {
-        self.load().and_then(|e| e.selected_model_ref)
-    }
 }
 
 /// `buildModels`: map discovered models to route IDs using `MODEL_MAPPINGS` concept.
@@ -601,17 +447,14 @@ pub fn build_models(
         if model.r#ref.is_empty() || !seen.insert(&model.r#ref) {
             continue;
         }
-        let id = ref_to_id
-            .get(&model.r#ref)
-            .cloned()
-            .unwrap_or_else(|| {
-                if model.r#ref.starts_with("__default__") {
-                    "duo-workflow-default".to_owned()
-                } else {
-                    let sanitized = model.r#ref.replace(['/', '_'], "-");
-                    format!("duo-workflow-{}", sanitized)
-                }
-            });
+        let id = ref_to_id.get(&model.r#ref).cloned().unwrap_or_else(|| {
+            if model.r#ref.starts_with("__default__") {
+                "duo-workflow-default".to_owned()
+            } else {
+                let sanitized = model.r#ref.replace(['/', '_'], "-");
+                format!("duo-workflow-{}", sanitized)
+            }
+        });
         let pinned = discovered
             .pinned_model
             .as_ref()
@@ -637,52 +480,6 @@ pub struct DiscoveredWorkflowModel {
     pub context: usize,
     pub output: usize,
     pub pinned: bool,
-}
-
-fn format_iso_timestamp() -> String {
-    let now = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .unwrap_or_default();
-    let secs = now.as_secs();
-    let days = secs / 86400;
-    let year = 1970 + (days / 365);
-    let month = 1 + ((days % 365) / 30);
-    let day = 1 + ((days % 365) % 30);
-    let hour = (secs % 86400) / 3600;
-    let minute = (secs % 3600) / 60;
-    let second = secs % 60;
-    format!(
-        "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z",
-        year, month, day, hour, minute, second
-    )
-}
-
-fn parse_iso_timestamp_ms(timestamp: &str) -> Option<u64> {
-    let parts: Vec<&str> = timestamp.split('T').collect();
-    if parts.len() != 2 {
-        return None;
-    }
-    let date_parts: Vec<u64> = parts[0]
-        .split('-')
-        .filter_map(|s| s.parse::<u64>().ok())
-        .collect();
-    let time_str = parts[1].trim_end_matches('Z');
-    let time_parts: Vec<u64> = time_str
-        .split(':')
-        .filter_map(|s| s.parse::<u64>().ok())
-        .collect();
-    if date_parts.len() != 3 || time_parts.len() < 2 {
-        return None;
-    }
-    let year = date_parts[0];
-    let month = date_parts[1];
-    let day = date_parts[2];
-    let hour = time_parts[0];
-    let minute = time_parts[1];
-    let second = time_parts.get(2).copied().unwrap_or(0);
-    let days_since_epoch = (year.saturating_sub(1970)) * 365 + (month.saturating_sub(1)) * 30 + (day.saturating_sub(1));
-    let secs = days_since_epoch * 86400 + hour * 3600 + minute * 60 + second;
-    Some(secs * 1000)
 }
 
 /// Top-level entry point matching TypeScript `discoverWorkflowModels`.
