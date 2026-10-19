@@ -2,10 +2,10 @@
 //! help fixture (tests/fixtures/help/*.{stdout,stderr,code}) and compares stdout, stderr and exit code.
 //! Scope: fixture-based process test (no network, temp HOME).
 //! Uses:
-//! rust/bins/
-//! `-- opencode/src/main.rs
+//! `-- none
 //! External:
-//! `-- std::process::Command
+//! |-- str::to_string
+//! `-- tempfile::tempdir
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: fixtures are byte-exact baseline captures; the only normalisation is the acp
@@ -188,15 +188,25 @@ fn strip_cwd_row(text: &str) -> String {
 #[test]
 fn acp_help_normalizes_short_and_long_cwd_without_dropping_other_options() {
     let root = tempfile::tempdir().unwrap();
-    let short = root.path().canonicalize().unwrap();
-    let long = short.join("long-working-directory-for-acp-help-wrapping".repeat(3));
+    // Help does not open application state. Use the filesystem root as a genuinely short,
+    // read-only cwd while HOME remains isolated, even if TMPDIR itself has a long path.
+    let short = Path::new(std::path::MAIN_SEPARATOR_STR)
+        .canonicalize()
+        .unwrap();
+    let long = root
+        .path()
+        .canonicalize()
+        .unwrap()
+        .join("long-working-directory-for-acp-help-wrapping".repeat(3));
     std::fs::create_dir(&long).unwrap();
     let expected = strip_cwd_row(&std::fs::read_to_string(fixtures().join("acp.stderr")).unwrap());
     for cwd in [&short, &long] {
-        let (out, err, code) = run(&["acp".into(), "--help".into()], cwd, &short);
+        let (out, err, code) = run(&["acp".into(), "--help".into()], cwd, root.path());
         assert_eq!(code, 0);
         assert!(out.is_empty());
         assert!(err.contains("--cwd"));
+        let row = err.lines().find(|line| line.contains("--cwd")).unwrap();
+        assert_eq!(row.contains("[default:"), cwd == &short, "{err}");
         assert!(err.contains("working directory"));
         let compact = err.split_whitespace().collect::<String>();
         assert!(

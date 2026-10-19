@@ -5,8 +5,11 @@
 //! Uses:
 //! `-- none
 //! External:
+//! |-- reqwest::Client::new
 //! |-- serde_json::Value
-//! `-- std::process::Command
+//! |-- serde_json::json
+//! |-- tempfile::tempdir
+//! `-- tokio::runtime::Builder::new_current_thread
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: the child never sees the real HOME or XDG dirs; it is always killed on failure.
@@ -177,6 +180,24 @@ fn invalid_explicit_ports_fail_before_readiness() {
         assert!(
             String::from_utf8_lossy(&output.stderr).contains("port"),
             "no diagnostic for {port}"
+        );
+    }
+}
+
+#[test]
+fn invalid_configured_ports_fail_before_readiness() {
+    for port in ["-1", "1.5", "65536"] {
+        let output = rejected(
+            &["serve"],
+            Some(&format!("{{\"server\":{{\"port\":{port}}}}}")),
+        );
+        assert!(!output.status.success(), "accepted configured port {port}");
+        assert!(output.stdout.is_empty());
+        let error = String::from_utf8_lossy(&output.stderr);
+        assert!(
+            error.contains("invalid port")
+                || error.contains("Configuration is invalid") && error.contains("opencode.json"),
+            "configured {port}: {error}"
         );
     }
 }

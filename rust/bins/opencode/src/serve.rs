@@ -4,15 +4,22 @@
 //! Scope: the serve command handler over `opencode_runtime::Process`.
 //! Uses:
 //! rust/bins/
-//! `-- opencode/src/cli/spec/invocation.rs
+//! |-- opencode/src/cli/spec/mod.rs
+//! `-- opencode/src/cli/spec/parse.rs
 //! rust/crates/
 //! |-- config/src/env.rs
+//! |-- config/src/legacy/mod.rs
 //! |-- config/src/legacy/parse.rs
-//! |-- runtime/src/lib.rs
-//! `-- runtime/src/process.rs
+//! `-- runtime/src/lib.rs
 //! External:
 //! |-- serde_json::Value
-//! `-- tokio::signal
+//! |-- serde_json::json
+//! |-- str::to_owned
+//! |-- tokio::runtime::Builder::new_multi_thread
+//! |-- tokio::select
+//! |-- tokio::signal::ctrl_c
+//! |-- tokio::signal::unix::SignalKind::terminate
+//! `-- tokio::signal::unix::signal
 //! Used by:
 //! rust/bins/
 //! `-- opencode/src/main.rs
@@ -56,7 +63,10 @@ pub fn run(parsed: &Parsed, version: &str) -> ExitCode {
 }
 
 async fn serve(parsed: &Parsed, version: &str) -> ExitCode {
-    let env = Environment::from_process();
+    let mut env = Environment::from_process();
+    for (key, value) in parsed.globals.middleware_env(std::process::id()) {
+        env.set_var(key, value);
+    }
     let config = match load_global(&env, None, &mut Diagnostics::default()) {
         Ok(config) => config,
         Err(error) => {
@@ -75,7 +85,9 @@ async fn serve(parsed: &Parsed, version: &str) -> ExitCode {
         println!("Warning: OPENCODE_SERVER_PASSWORD is not set; server is unsecured.");
     }
     let channel = option_env!("OPENCODE_CHANNEL").unwrap_or("local");
-    let process = match Process::start(ProcessOptions::from_process(version, channel)).await {
+    let mut options = ProcessOptions::from_process(version, channel);
+    options.environment = env;
+    let process = match Process::start(options).await {
         Ok(process) => process,
         Err(error) => {
             eprintln!("Error: {error}");
@@ -247,6 +259,20 @@ mod tests {
                 mdns_domain: "opencode.local".into(),
                 cors: vec![],
             }
+        );
+    }
+
+    #[test]
+    fn valid_port_boundaries_are_preserved() {
+        assert_eq!(
+            resolve(&parsed(&["serve", "--port=0"]), None).unwrap().port,
+            0
+        );
+        assert_eq!(
+            resolve(&parsed(&["serve", "--port=65535"]), None)
+                .unwrap()
+                .port,
+            u16::MAX
         );
     }
 
