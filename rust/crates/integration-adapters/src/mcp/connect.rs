@@ -101,6 +101,8 @@ impl CreateResult {
 }
 
 pub struct ConnectEnv<'a> {
+    pub startup_timeouts: &'a BTreeMap<String, u64>,
+    pub environment: &'a BTreeMap<String, String>,
     pub directory: &'a Path,
     pub store: &'a McpAuthStore,
     pub http: &'a reqwest::Client,
@@ -126,7 +128,7 @@ pub async fn create(env: &ConnectEnv<'_>, key: &str, config: &ServerConfig) -> C
     }
     let mut result = match config {
         ServerConfig::Remote(r) => connect_remote(env, key, r).await,
-        ServerConfig::Local(l) => connect_local(env, l).await,
+        ServerConfig::Local(l) => connect_local(env, key, l).await,
     };
     let Some(connected) = result.connected.take() else {
         if !matches!(result.status, Status::Connected | Status::Disabled) {
@@ -174,7 +176,7 @@ pub async fn connect_transport(
     }
 }
 
-async fn connect_local(env: &ConnectEnv<'_>, local: &LocalConfig) -> CreateResult {
+async fn connect_local(env: &ConnectEnv<'_>, key: &str, local: &LocalConfig) -> CreateResult {
     let Some((cmd, args)) = local.command.split_first() else {
         return CreateResult::status(Status::Failed {
             error: "MCP command is empty".into(),
@@ -184,7 +186,7 @@ async fn connect_local(env: &ConnectEnv<'_>, local: &LocalConfig) -> CreateResul
         Some(c) => env.directory.join(c),
         None => env.directory.to_path_buf(),
     };
-    let mut env_map: BTreeMap<String, String> = std::env::vars().collect();
+    let mut env_map = env.environment.clone();
     if cmd == "opencode" {
         env_map.insert("BUN_BE_BUN".into(), "1".into());
     }
@@ -205,7 +207,12 @@ async fn connect_local(env: &ConnectEnv<'_>, local: &LocalConfig) -> CreateResul
             });
         }
     };
-    let timeout = local.timeout.unwrap_or(DEFAULT_TIMEOUT_MS);
+    let timeout = env
+        .startup_timeouts
+        .get(key)
+        .copied()
+        .or(local.timeout)
+        .unwrap_or(DEFAULT_TIMEOUT_MS);
     match connect_transport(Arc::new(transport), inbound, env.directory, timeout).await {
         Ok(client) => connected(client),
         Err(e) => CreateResult::status(Status::Failed {
@@ -248,7 +255,12 @@ async fn connect_remote(env: &ConnectEnv<'_>, key: &str, remote: &RemoteConfig) 
         provider: provider.clone(),
         http: env.http.clone(),
     };
-    let timeout = remote.timeout.unwrap_or(DEFAULT_TIMEOUT_MS);
+    let timeout = env
+        .startup_timeouts
+        .get(key)
+        .copied()
+        .or(remote.timeout)
+        .unwrap_or(DEFAULT_TIMEOUT_MS);
     let mut last: Option<CreateResult> = None;
     for kind in ["StreamableHTTP", "SSE"] {
         let (attempt, auth_transport) = match kind {

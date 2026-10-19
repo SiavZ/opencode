@@ -77,6 +77,9 @@ impl McpEvents for NoopEvents {
 }
 
 pub struct McpOptions {
+    /// Explicit full child environment, supplied by the Location host.
+    pub startup_timeouts: BTreeMap<String, u64>,
+    pub environment: BTreeMap<String, String>,
     /// Location directory: stdio cwd base and the single `roots/list` root.
     pub directory: PathBuf,
     /// Data dir holding `mcp-auth.json` (inject a temp dir in tests).
@@ -97,6 +100,8 @@ impl McpOptions {
         config: BTreeMap<String, ServerConfig>,
     ) -> Self {
         Self {
+            startup_timeouts: BTreeMap::new(),
+            environment: std::env::vars().collect(),
             directory,
             data_dir,
             config,
@@ -120,6 +125,8 @@ pub(super) struct State {
 }
 
 pub(super) struct Inner {
+    pub startup_timeouts: BTreeMap<String, u64>,
+    pub environment: BTreeMap<String, String>,
     pub directory: PathBuf,
     pub static_config: BTreeMap<String, ServerConfig>,
     pub default_timeout_ms: Option<u64>,
@@ -161,6 +168,8 @@ pub(super) fn rpc_to_integration(name: &str, e: RpcError) -> IntegrationError {
 impl McpServiceImpl {
     pub fn new(opts: McpOptions) -> Self {
         Self(Arc::new(Inner {
+            startup_timeouts: opts.startup_timeouts,
+            environment: opts.environment,
             directory: opts.directory,
             static_config: opts.config,
             default_timeout_ms: opts.default_timeout_ms,
@@ -180,6 +189,8 @@ impl McpServiceImpl {
 
     pub(super) fn env(&self) -> ConnectEnv<'_> {
         ConnectEnv {
+            startup_timeouts: &self.0.startup_timeouts,
+            environment: &self.0.environment,
             directory: &self.0.directory,
             store: &self.0.store,
             http: &self.0.http,

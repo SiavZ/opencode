@@ -51,6 +51,16 @@ fn typed<T: serde::de::DeserializeOwned>(m: BTreeMap<String, Value>) -> BTreeMap
         .collect()
 }
 
+impl McpServiceImpl {
+    pub async fn resource_servers(&self) -> Vec<String> {
+        self.ready().await;
+        self.connected_clients(None)
+            .into_iter()
+            .filter_map(|(name, client)| client.has_capability("resources").then_some(name))
+            .collect()
+    }
+}
+
 #[async_trait]
 impl McpService for McpServiceImpl {
     async fn status(&self) -> BTreeMap<String, Status> {

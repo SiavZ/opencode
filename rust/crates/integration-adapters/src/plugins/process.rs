@@ -114,20 +114,21 @@ impl Process {
         let id = self.next.fetch_add(1, Ordering::Relaxed);
         let (tx, rx) = oneshot::channel();
         self.pending.lock().await.insert(id, tx);
-        let result = async {
+        let result = tokio::time::timeout(timeout, async {
             send(
                 &self.writer,
                 json!({"jsonrpc":"2.0","id":id,"method":method,"params":params}),
             )
             .await?;
-            tokio::time::timeout(timeout, rx)
-                .await
-                .map_err(|_| IntegrationError::Timeout {
-                    ms: timeout.as_millis().try_into().unwrap_or(u64::MAX),
-                })?
+            rx.await
                 .map_err(|_| IntegrationError::Closed("plugin host".into()))?
-        }
-        .await;
+        })
+        .await
+        .unwrap_or_else(|_| {
+            Err(IntegrationError::Timeout {
+                ms: timeout.as_millis().try_into().unwrap_or(u64::MAX),
+            })
+        });
         self.pending.lock().await.remove(&id);
         result
     }
@@ -142,11 +143,11 @@ impl Process {
 
     pub async fn close(&self) {
         self.stop.cancel();
-        self.writer.lock().await.take();
         let mut child = self.child.lock().await;
         let _ = child.start_kill();
         let _ = child.wait().await;
         drop(child);
+        self.writer.lock().await.take();
         for task in self.tasks.lock().await.drain(..) {
             let _ = task.await;
         }
@@ -209,6 +210,17 @@ async fn read_loop(
                         .unwrap_or("plugin error")
                         .to_owned();
                     Err(match error["code"].as_i64() {
+                        _ if error
+                            .get("data")
+                            .and_then(|data| data.get("name"))
+                            .is_some() =>
+                        {
+                            IntegrationError::Rpc {
+                                code: error["code"].as_i64().unwrap_or(-32603),
+                                message,
+                                data: error.get("data").cloned(),
+                            }
+                        }
                         Some(1002) => IntegrationError::Validation(message),
                         Some(1005) => IntegrationError::Cancelled,
                         _ => IntegrationError::Rpc {

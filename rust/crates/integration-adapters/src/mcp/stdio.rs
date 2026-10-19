@@ -52,8 +52,6 @@ use tokio::sync::{Mutex, mpsc};
 
 use super::transport::{INBOUND_CAPACITY, Inbound, Transport, TransportError};
 
-/// Baseline SDK `DEFAULT_INHERITED_ENV_VARS` (non-Windows).
-const DEFAULT_INHERITED_ENV_VARS: [&str; 6] = ["HOME", "LOGNAME", "PATH", "SHELL", "TERM", "USER"];
 const CLOSE_STEP: Duration = Duration::from_secs(2);
 
 pub struct StdioParams {
@@ -81,13 +79,6 @@ impl StdioTransport {
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())
             .kill_on_drop(true);
-        for key in DEFAULT_INHERITED_ENV_VARS {
-            if let Ok(v) = std::env::var(key)
-                && !v.starts_with("()")
-            {
-                cmd.env(key, v);
-            }
-        }
         cmd.envs(&params.env);
         let mut child = cmd
             .spawn()
