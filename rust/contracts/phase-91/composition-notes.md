@@ -56,3 +56,16 @@ Location bundle members today: `Location.Info` and the runner seam only. Still t
 | Remote config fetcher | `config::legacy::RemoteFetcher` | runtime HTTP adapter (coordinator) |
 | GlobalBus, PTY provider, UI assets | `Services.streams.global/pty`, `Services.ui` | p06.legacy-registry, p05.native-process PTY, p10 |
 | mDNS | serve.rs stderr notice | not assigned yet |
+
+## Audit repair status (2026-10-19)
+
+The October 4 table above is historical. The production Location no longer uses `UnportedRunner`.
+
+- `CurrentConfig::load`, native cached/configured catalog and canonical SQLite credential records feed the same `LocationModels` resolver used by `Process::available_models`, CLI execution and the Session runner. Missing cache files are optional, not a first-run error. Credentials stay in transport authorization headers rather than request bodies.
+- The Location retains real tool/context registrations and composes `LlmSessionRunner`, native read/write/edit/bash tools, configured agent-rule authorization, built-in system context, native Git snapshots and real summary compaction. Headless `ask` is declined, never silently granted. Interactive permission replies/saved grants, the broader tool families and task-child composition are not claimed here.
+- The registry lease covers the whole cancellable drain, including acquisition. Both automatic and overflow compaction waits observe interruption. Live text deltas remain ephemeral; the actual public SSE stream observes them, and interruption flushes accumulated text into terminal durable history before the Session becomes idle.
+- The process wires real legacy `LegacyStore` projectors, persisted project identity, placed global/directory events and the required health/session create/list/get/status/message/abort boundaries. Cursor pagination and unregistered legacy route families remain explicitly unsupported, not fabricated.
+- Genuine `run`, configured/cached `models`, and a basic no-argument full-screen TUI use the production Process. Actual provider success, failure and in-flight cancellation tests verify terminal restoration. This does not establish full TypeScript TUI or command-family parity.
+- Snapshot capture is composed; `SessionProjects::revert`, plugins/MCP/LSP/skills/references, remote configuration fetching, public PTY composition/UI assets and mDNS remain separate unfinished integration work unless their own phase evidence says otherwise.
+
+Current requirement-level checks and extracted-release evidence are recorded in `audit-repair-verification.md`. The strict fixture gate still rejects 384 known empty-host legacy replay incompatibilities; conformance of the stable ledger is not full product parity.

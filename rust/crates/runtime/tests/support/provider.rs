@@ -3,15 +3,29 @@
 //! Uses:
 //! `-- none
 //! External:
-//! |-- serde_json::{Value, json}
-//! |-- tokio::{io, net, sync, task}
+//! |-- mpsc::Receiver
+//! |-- mpsc::channel
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- serde_json::from_slice
+//! |-- serde_json::json
+//! |-- tokio::io::AsyncReadExt
+//! |-- tokio::io::AsyncWriteExt
+//! |-- tokio::net::TcpListener
+//! |-- tokio::select
+//! |-- tokio::spawn
+//! |-- tokio::sync::mpsc
+//! |-- tokio::task::JoinHandle
+//! |-- tokio::test
 //! `-- tokio_util::sync::CancellationToken
 //! Used by:
 //! rust/crates/
-//! `-- runtime/tests/production.rs
+//! |-- runtime/src/execution_support.rs
+//! |-- runtime/tests/production.rs
+//! `-- runtime/tests/production_compaction.rs
 //! Invariants: listens only on loopback; every server task is cancelled and joined; captured
 //! requests pass through the real provider transport, model resolver, runner and projection.
-//! Contract tests: runtime/tests/production.rs
+//! Contract tests: inline overflow control runs in both production and production_compaction targets.
 
 use serde_json::{Value, json};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -24,6 +38,7 @@ pub enum Reply {
     Text(&'static str),
     Hold,
     Failure,
+    Overflow,
     Tool {
         name: &'static str,
         arguments: Value,
@@ -80,8 +95,12 @@ impl Provider {
                     }
                 };
                 sender.send((header, body)).await.unwrap();
-                if matches!(reply, Reply::Failure) {
-                    let body = r#"{"error":{"message":"controlled rejection"}}"#;
+                if matches!(reply, Reply::Failure | Reply::Overflow) {
+                    let body = if matches!(reply, Reply::Overflow) {
+                        r#"{"error":{"message":"maximum context length exceeded","code":"context_length_exceeded"}}"#
+                    } else {
+                        r#"{"error":{"message":"controlled rejection"}}"#
+                    };
                     socket.write_all(format!("HTTP/1.1 400 Bad Request\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).as_bytes()).await.unwrap();
                     continue;
                 }
@@ -92,7 +111,7 @@ impl Provider {
                     }
                     Reply::Text(text) => json!({"role":"assistant","content":text}),
                     Reply::Hold => json!({"role":"assistant","content":"partial"}),
-                    Reply::Failure => unreachable!(),
+                    Reply::Failure | Reply::Overflow => unreachable!(),
                 };
                 let frame = json!({"id":"chatcmpl-local","created":0,"model":"local-test","choices":[{"index":0,"delta":delta,"finish_reason":null}]});
                 socket
@@ -130,4 +149,31 @@ impl Provider {
         self.cancel.cancel();
         self.task.await.unwrap();
     }
+}
+
+#[tokio::test]
+async fn overflow_fixture_returns_context_length_error_over_http() {
+    let mut provider = Provider::start(vec![Reply::Overflow]).await;
+    let request = json!({"model":"overflow-fixture","messages":[]});
+    let response = reqwest::Client::new()
+        .post(format!("{}/chat/completions", provider.url))
+        .timeout(std::time::Duration::from_secs(5))
+        .json(&request)
+        .send()
+        .await
+        .unwrap();
+    let status = response.status();
+    let response = response.json::<Value>().await.unwrap();
+    let (header, captured) = provider.requests.recv().await.unwrap();
+    assert!(provider.requests.recv().await.is_none());
+    provider.stop().await;
+
+    assert_eq!(status, reqwest::StatusCode::BAD_REQUEST);
+    assert_eq!(response["error"]["code"], "context_length_exceeded");
+    assert_eq!(
+        response["error"]["message"],
+        "maximum context length exceeded"
+    );
+    assert!(header.starts_with("POST /v1/chat/completions HTTP/1.1\r\n"));
+    assert_eq!(captured, request);
 }

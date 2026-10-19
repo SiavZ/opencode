@@ -6,29 +6,43 @@
 //! Scope: process lifetime: construction, serving and ordered shutdown.
 //! Uses:
 //! rust/crates/
-//! |-- event-store/src/store.rs
+//! |-- config/src/env.rs
+//! |-- event-store/src/lib.rs
 //! |-- locations/src/git.rs
+//! |-- locations/src/lib.rs
 //! |-- locations/src/ports.rs
-//! |-- locations/src/project.rs
-//! |-- locations/src/registry.rs
 //! |-- locations/src/workspace/mod.rs
+//! |-- locations/src/workspace/worktree.rs
 //! |-- runtime/src/adapters.rs
+//! |-- runtime/src/legacy.rs
 //! |-- runtime/src/location.rs
 //! |-- runtime/src/paths.rs
+//! |-- schema/src/location.rs
+//! |-- schema/src/provider.rs
+//! |-- schema/src/values.rs
 //! |-- server/src/app.rs
 //! |-- server/src/lifecycle.rs
+//! |-- server/src/middleware/auth.rs
+//! |-- server/src/middleware/cors.rs
 //! |-- server/src/services/mod.rs
 //! |-- session-runtime/src/execution.rs
+//! |-- session-runtime/src/legacy/projectors.rs
+//! |-- session-runtime/src/legacy/run_state.rs
+//! |-- session-runtime/src/legacy/store.rs
 //! |-- session-runtime/src/projection.rs
 //! |-- session-runtime/src/service.rs
 //! |-- session-runtime/src/store.rs
-//! `-- storage-sqlite/src/connection.rs
+//! |-- storage-api/src/lib.rs
+//! `-- storage-sqlite/src/lib.rs
 //! External:
-//! `-- opencode_storage_api::Database
+//! |-- location::build
+//! |-- str::to_owned
+//! |-- tokio::fs::canonicalize
+//! `-- tracing::warn
 //! Used by:
 //! rust/crates/
 //! |-- runtime/src/lib.rs
-//! `-- runtime/tests/process.rs
+//! `-- runtime/src/location.rs
 //! Invariants: global services are constructed exactly once per process. Shutdown runs in
 //! reverse construction order: listener, Session execution, Location registry (joins every
 //! location's tasks), workspace sync loops, database close. Never writes outside `paths`
@@ -55,6 +69,8 @@ use opencode_server::middleware::auth::AuthConfig;
 use opencode_server::middleware::cors::CorsConfig;
 use opencode_server::services::Services;
 use opencode_session_runtime::execution::LocalSessionExecution;
+use opencode_session_runtime::legacy::run_state::{RunState, SessionStatus};
+use opencode_session_runtime::legacy::store::LegacyStore;
 use opencode_session_runtime::projection::LocalSessionEvents;
 use opencode_session_runtime::service::LocalSessionService;
 use opencode_session_runtime::store::SessionStore;
@@ -62,6 +78,7 @@ use opencode_storage_api::Database;
 use opencode_storage_sqlite::{PathEnv, SqliteDatabase, database_path};
 
 use crate::adapters::{ServerLocations, ServerPlacement, ServerWorkspaces, SessionProjects};
+use crate::legacy::{LegacyAdapter, LegacyEventBus};
 use crate::location::{self, LocationGlobals, Locations, RegistryRunners};
 use crate::paths::GlobalPaths;
 
@@ -153,6 +170,18 @@ impl ProcessOptions {
                 let mut environment =
                     opencode_config::env::Environment::isolated(root.join("home"));
                 environment.global_config = GlobalPaths::rooted(root).config;
+                environment.vars.extend([
+                    ("HOME".into(), root.join("home").display().to_string()),
+                    (
+                        "XDG_CONFIG_HOME".into(),
+                        root.join("config").display().to_string(),
+                    ),
+                    (
+                        "GIT_CONFIG_GLOBAL".into(),
+                        root.join("empty-gitconfig").display().to_string(),
+                    ),
+                    ("GIT_CONFIG_NOSYSTEM".into(), "1".into()),
+                ]);
                 environment
             },
         }
@@ -169,6 +198,7 @@ pub struct Process {
     pub locations: Locations,
     pub workspaces: WorkspaceService,
     pub projects: Arc<dyn ProjectResolver>,
+    legacy: Arc<LegacyAdapter>,
 }
 
 impl Process {
@@ -182,13 +212,22 @@ impl Process {
             database.clone(),
             events.clone(),
         ));
+        let mut environment = options.environment.clone();
+        environment.vars.extend(options.git_env.iter().cloned());
         let git = Arc::new(SubprocessGit {
-            env: options.git_env.clone(),
+            env: environment
+                .vars
+                .iter()
+                .map(|(key, value)| (key.clone(), value.clone()))
+                .collect(),
         });
         let projects: Arc<dyn ProjectResolver> = Arc::new(GitProjectResolver::new(git.clone()));
         let locations: Locations = LocationRegistry::new(
             Arc::new(LocationGlobals {
                 projects: projects.clone(),
+                environment,
+                events: session_events.clone(),
+                paths: options.paths.clone(),
             }),
             location::build,
             RegistryOptions {
@@ -200,6 +239,14 @@ impl Process {
             Arc::new(RegistryRunners {
                 locations: locations.clone(),
             }),
+        ));
+        opencode_session_runtime::legacy::projectors::register_projectors(events.as_ref());
+        let legacy_store = LegacyStore::new(session_events.clone());
+        let legacy = Arc::new(LegacyAdapter::new(
+            legacy_store.clone(),
+            projects.clone(),
+            options.version.clone(),
+            RunState::new(SessionStatus::new(legacy_store), None),
         ));
         let session = Arc::new(LocalSessionService::new(
             session_events,
@@ -241,6 +288,7 @@ impl Process {
             locations,
             workspaces,
             projects,
+            legacy,
         })
     }
 
@@ -262,6 +310,8 @@ impl Process {
         let placement = SqlSessionPlacement::new(self.database.clone());
         let mut services = Services {
             session: Some(self.session.clone()),
+            legacy_sessions: Some(self.legacy.clone()),
+            version: self.options.version.clone(),
             locations: Some(Arc::new(ServerLocations(Arc::new(self.locations.clone())))),
             placement: Some(Arc::new(ServerPlacement(placement.clone()))),
             workspaces: Some(Arc::new(ServerWorkspaces(WorkspaceRouting::new(
@@ -272,6 +322,7 @@ impl Process {
             ..Services::default()
         };
         services.streams.events = Some(self.events.clone());
+        services.streams.global = Some(Arc::new(LegacyEventBus::new(self.events.clone())));
         services
     }
 

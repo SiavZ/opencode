@@ -2,12 +2,25 @@
 //! Scope: integrated model configuration, transport, durable turn completion and interruption.
 //! Uses:
 //! rust/crates/
-//! |-- runtime/src/process.rs
-//! `-- runtime/tests/support/provider.rs
+//! |-- runtime/src/lib.rs
+//! |-- runtime/tests/support/provider.rs
+//! |-- session-api/src/lib.rs
+//! |-- session-api/src/operations.rs
+//! |-- storage-api/src/lib.rs
+//! `-- storage-sqlite/src/repositories/credentials.rs
 //! External:
+//! |-- credentials::CredentialValue::Key
+//! |-- credentials::create
 //! |-- reqwest::Client
-//! |-- serde_json::{Value, json}
-//! `-- tokio::time
+//! |-- reqwest::Client::new
+//! |-- serde_json::Value
+//! |-- serde_json::json
+//! |-- tempfile::TempDir
+//! |-- tempfile::tempdir
+//! |-- tokio::process::Command::new
+//! |-- tokio::test
+//! |-- tokio::time::sleep
+//! `-- tokio::time::timeout
 //! Used by:
 //! `-- none, entrypoint
 //! Invariants: no injected runner, fake tool materializer, user credentials or live model calls;
@@ -160,6 +173,26 @@ impl Host {
 async fn actual_production_root_completes_one_provider_turn_and_preserves_it_after_restart() {
     let mut provider = Provider::start(vec![Reply::Text("real composed response")]).await;
     let host = Host::start(&provider).await;
+    {
+        use opencode_storage_api::{DatabaseExt, TxOptions};
+        use opencode_storage_sqlite::repositories::credentials;
+        host.process
+            .database
+            .transaction(TxOptions::default(), |tx| {
+                credentials::create(
+                    tx,
+                    "local",
+                    &credentials::CredentialValue::Key {
+                        key: "stored-fixture-key".into(),
+                        metadata: None,
+                    },
+                    None,
+                )
+                .map(|_| ())
+            })
+            .await
+            .unwrap();
+    }
     for arguments in [
         vec!["init", "--quiet"],
         vec![
@@ -214,7 +247,7 @@ async fn actual_production_root_completes_one_provider_turn_and_preserves_it_aft
     );
     assert_eq!(
         assistant["model"],
-        json!({"id":"local-test","providerID":"local"})
+        json!({"id":"local-test","providerID":"local","variant":"default"})
     );
     let (headers, request) = tokio::time::timeout(Duration::from_secs(2), provider.requests.recv())
         .await
@@ -227,10 +260,14 @@ async fn actual_production_root_completes_one_provider_turn_and_preserves_it_aft
     assert!(
         headers
             .to_lowercase()
-            .contains("authorization: bearer local-fixture-key")
+            .contains("authorization: bearer stored-fixture-key")
     );
     assert!(headers.to_lowercase().contains("x-opencode-session-id:"));
     assert_eq!(request["model"], "local-test");
+    assert!(
+        request.get("apiKey").is_none(),
+        "credential leaked into provider body"
+    );
     assert!(
         request["messages"].to_string().contains(&host.directory),
         "real built-in environment must reach provider"
@@ -260,21 +297,30 @@ async fn production_interrupt_settles_an_active_stream_before_returning_idle() {
     let mut provider = Provider::start(vec![Reply::Hold]).await;
     let host = Host::start(&provider).await;
     let session = host.create("local-test").await;
+    let mut events = host
+        .client
+        .get(format!("{}/api/event", host.listener.url()))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(events.status(), 200);
     host.prompt(&session).await;
     tokio::time::timeout(Duration::from_secs(10), provider.requests.recv())
         .await
         .unwrap()
         .unwrap();
     tokio::time::timeout(Duration::from_secs(5), async {
-        loop {
-            if host.context(&session).await.to_string().contains("partial") {
-                break;
+        let mut observed = String::new();
+        while let Some(chunk) = events.chunk().await.unwrap() {
+            observed.push_str(&String::from_utf8_lossy(&chunk));
+            if observed.contains("session.next.text.delta") && observed.contains("partial") {
+                return;
             }
-            tokio::time::sleep(Duration::from_millis(10)).await;
         }
+        panic!("live event stream ended before the provider text delta");
     })
     .await
-    .unwrap();
+    .expect("ephemeral text must be observable through the public live SSE stream");
     let response = tokio::time::timeout(
         Duration::from_secs(5),
         host.client
@@ -297,12 +343,17 @@ async fn production_interrupt_settles_an_active_stream_before_returning_idle() {
         .unwrap();
     assert_eq!(assistant["finish"], "error");
     assert!(
+        assistant["content"].to_string().contains("partial"),
+        "interrupt must flush accumulated ephemeral text into durable content: {assistant}"
+    );
+    assert!(
         assistant["error"]
             .to_string()
             .to_lowercase()
             .contains("interrupt"),
         "{assistant}"
     );
+    drop(events);
     host.stop().await;
     provider.stop().await;
 }
@@ -370,4 +421,45 @@ async fn production_tools_execute_native_read_and_continue_with_its_actual_outpu
     host.completed(&session).await;
     host.stop().await;
     provider.stop().await;
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn production_native_write_enforces_the_location_permission_boundary() {
+    for (path, allowed) in [("created.txt", true), ("../outside.txt", false)] {
+        let provider = Provider::start(vec![
+            Reply::Tool {
+                name: "write",
+                arguments: json!({"path":path,"content":"production write evidence\n"}),
+            },
+            Reply::Text("write attempt settled"),
+        ])
+        .await;
+        let host = Host::start(&provider).await;
+        let session = host.create("local-test").await;
+        host.prompt(&session).await;
+        let context = host.completed(&session).await;
+        let target = std::path::Path::new(&host.directory).join(path);
+        if allowed {
+            assert_eq!(
+                std::fs::read_to_string(target).unwrap(),
+                "production write evidence\n"
+            );
+            assert!(
+                context.to_string().contains("Created file successfully"),
+                "{context}"
+            );
+        } else {
+            assert!(
+                !target.exists(),
+                "outside-location tool request wrote a file"
+            );
+            assert!(context.to_string().contains("Unable to write"), "{context}");
+        }
+        assert!(
+            context.to_string().contains("write attempt settled"),
+            "{context}"
+        );
+        host.stop().await;
+        provider.stop().await;
+    }
 }

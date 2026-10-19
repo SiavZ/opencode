@@ -7,14 +7,25 @@
 //! Uses:
 //! rust/crates/
 //! |-- runtime/src/adapters.rs
+//! |-- runtime/src/execution_support.rs
+//! |-- runtime/src/legacy.rs
 //! |-- runtime/src/location.rs
 //! |-- runtime/src/paths.rs
-//! `-- runtime/src/process.rs
+//! |-- runtime/src/process.rs
+//! `-- server/src/lifecycle.rs
 //! External:
 //! `-- none
 //! Used by:
+//! rust/bins/
+//! |-- opencode/src/cli/commands/mod.rs
+//! |-- opencode/src/cli/commands/terminal.rs
+//! |-- opencode/src/cli/commands/turn.rs
+//! `-- opencode/src/serve.rs
 //! rust/crates/
-//! `-- runtime/tests/process.rs
+//! |-- runtime/tests/legacy.rs
+//! |-- runtime/tests/process.rs
+//! |-- runtime/tests/production.rs
+//! `-- runtime/tests/production_compaction.rs
 //! Invariants: this crate only wires constructors owned by domain crates; it holds no domain
 //! logic. Every capability not yet composed is reported through the domain's typed
 //! NotYetPorted/Unavailable error, never faked.
@@ -22,6 +33,7 @@
 
 pub mod adapters;
 pub mod execution_support;
+pub mod legacy;
 pub mod location;
 pub mod paths;
 pub mod process;
