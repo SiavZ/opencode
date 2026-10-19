@@ -62,6 +62,10 @@ Actual Linux PTY rerun `1423439jih` passed: `cargo test --locked --offline -p op
 
 Task-specific scratch evidence is under `opencode-platform-proof`: `linux-native.log`, `linux-desktop-terminal.log`, `linux-pty.log`, `linux-pty-diagnostic.log`, `linux-pty-final.log`, `ci-39227041182-failed.log`, and `run-linux.sh`. The Linux proof script uses `--locked --offline`, no network, no image pulls, and no existing product state.
 
+Actual Linux desktop callback rerun `2840868qqe` also passed: `cargo test --locked --offline -p opencode-desktop-host --test updater_subscriptions`, 8 passed, 0 failed, 0 ignored, after 60s compile. It ran on the same native Linux image at HEAD `722a43c9e1521f39b377500cd2d3e672ddeb3149` plus working changes. Log: `linux-desktop-subscriptions.log`.
+
+Read-only run discovery at approximately 11:51 UTC (`gh run list --repo SiavZ/opencode --branch rust-port --workflow rust.yml`) failed after 31s with `error connecting to api.github.com`. Earlier authenticated queries succeeded. This is a current network observation failure, not evidence that credentials or hosted runners are unavailable. No new run is claimed from that failed query.
+
 ## Remaining proof
 
 | Item | Missing observation | Owner/prerequisite |
