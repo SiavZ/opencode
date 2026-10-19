@@ -26,6 +26,7 @@ use crate::rule::{Effect, Rule, Ruleset, evaluate};
 use crate::wildcard;
 use async_trait::async_trait;
 use futures::channel::oneshot;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
 mod pending;
@@ -73,6 +74,8 @@ pub struct PermissionService {
     saved: Arc<dyn SavedGrants>,
     events: Arc<dyn PermissionEvents>,
     pending: Arc<Mutex<Vec<Pending>>>,
+    replies: futures::lock::Mutex<()>,
+    closed: AtomicBool,
 }
 
 impl std::fmt::Debug for PermissionService {
@@ -106,6 +109,8 @@ impl PermissionService {
             saved,
             events,
             pending: Arc::new(Mutex::new(Vec::new())),
+            replies: futures::lock::Mutex::new(()),
+            closed: AtomicBool::new(false),
         }
     }
 
@@ -184,6 +189,9 @@ impl PermissionService {
         let owner = Arc::new(());
         {
             let mut pending = lock(&self.pending);
+            if self.closed.load(Ordering::Acquire) {
+                return Err(PermissionError::Declined);
+            }
             if pending.iter().any(|item| item.request.id == request.id) {
                 return Err(PermissionError::Duplicate { id: request.id });
             }
@@ -238,9 +246,11 @@ impl PermissionService {
         }
     }
 
-    fn take(&self, id: &str) -> Option<(PermissionRequest, Option<Settler>)> {
+    fn take(&self, id: &str, owner: &Arc<()>) -> Option<(PermissionRequest, Option<Settler>)> {
         let mut pending = lock(&self.pending);
-        let index = pending.iter().position(|item| item.request.id == id)?;
+        let index = pending
+            .iter()
+            .position(|item| item.request.id == id && Arc::ptr_eq(&item.owner, owner))?;
         let mut item = pending.remove(index);
         Some((item.request, item.sender.take()))
     }
@@ -252,11 +262,12 @@ impl PermissionService {
     }
 
     pub async fn reply(&self, input: ReplyInput) -> Result<(), PermissionError> {
+        let _reply = self.replies.lock().await;
         let existing = lock(&self.pending)
             .iter()
             .find(|item| item.request.id == input.request_id)
-            .map(|item| item.request.clone());
-        let Some(existing) = existing else {
+            .map(|item| (item.request.clone(), item.owner.clone()));
+        let Some((existing, owner)) = existing else {
             return Err(PermissionError::NotFound {
                 request_id: input.request_id,
             });
@@ -269,19 +280,29 @@ impl PermissionService {
             })
             .await?;
 
+        // Publication can suspend while the assertion is cancelled and its ID reused.
+        // Never apply that old reply or saved grant to the replacement assertion.
+        if !lock(&self.pending)
+            .iter()
+            .any(|item| Arc::ptr_eq(&item.owner, &owner))
+        {
+            return Err(PermissionError::NotFound {
+                request_id: existing.id,
+            });
+        }
         if input.reply == Reply::Reject {
-            let (_, sender) = self.take(&existing.id).unzip();
+            let (_, sender) = self.take(&existing.id, &owner).unzip();
             let error = match input.message {
                 Some(feedback) => PermissionError::Corrected { feedback },
                 None => PermissionError::Declined,
             };
             Self::settle(sender.flatten(), Err(error));
-            let others: Vec<String> = lock(&self.pending)
+            let others: Vec<(String, Arc<()>)> = lock(&self.pending)
                 .iter()
                 .filter(|item| item.request.session_id == existing.session_id)
-                .map(|item| item.request.id.clone())
+                .map(|item| (item.request.id.clone(), item.owner.clone()))
                 .collect();
-            for id in others {
+            for (id, owner) in others {
                 self.events
                     .publish(PermissionEvent::Replied {
                         session_id: existing.session_id.clone(),
@@ -289,7 +310,7 @@ impl PermissionService {
                         reply: Reply::Reject,
                     })
                     .await?;
-                if let Some((_, sender)) = self.take(&id) {
+                if let Some((_, sender)) = self.take(&id, &owner) {
                     Self::settle(sender, Err(PermissionError::Declined));
                 }
             }
@@ -302,7 +323,7 @@ impl PermissionService {
                 .add(&self.project_id, &existing.action, &save)
                 .await?;
         }
-        if let Some((_, sender)) = self.take(&existing.id) {
+        if let Some((_, sender)) = self.take(&existing.id, &owner) {
             Self::settle(sender, Ok(()));
         }
         if input.reply != Reply::Always || save.is_empty() {
@@ -310,11 +331,11 @@ impl PermissionService {
         }
 
         let remembered = self.saved_rules().await?;
-        let candidates: Vec<(PermissionRequest, Option<String>)> = lock(&self.pending)
+        let candidates: Vec<(PermissionRequest, Option<String>, Arc<()>)> = lock(&self.pending)
             .iter()
-            .map(|item| (item.request.clone(), item.agent.clone()))
+            .map(|item| (item.request.clone(), item.agent.clone(), item.owner.clone()))
             .collect();
-        for (request, agent) in candidates {
+        for (request, agent, owner) in candidates {
             let rules = match self
                 .policy
                 .configured(&request.session_id, agent.as_deref())
@@ -342,7 +363,7 @@ impl PermissionService {
                     reply: Reply::Always,
                 })
                 .await?;
-            if let Some((_, sender)) = self.take(&request.id) {
+            if let Some((_, sender)) = self.take(&request.id, &owner) {
                 Self::settle(sender, Ok(()));
             }
         }
@@ -373,6 +394,7 @@ impl PermissionService {
 
     /// Location teardown: decline every pending request and clear the registry.
     pub fn shutdown(&self) {
+        self.closed.store(true, Ordering::Release);
         let drained: Vec<Pending> = lock(&self.pending).drain(..).collect();
         for mut item in drained {
             Self::settle(item.sender.take(), Err(PermissionError::Declined));

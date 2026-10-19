@@ -27,6 +27,7 @@ struct Ports {
     events: Mutex<Vec<PermissionEvent>>,
     pause_publish: std::sync::atomic::AtomicBool,
     fail_publish: std::sync::atomic::AtomicBool,
+    reply_gate: Mutex<Option<futures::channel::oneshot::Receiver<()>>>,
 }
 
 #[async_trait]
@@ -84,7 +85,14 @@ impl SavedGrants for Ports {
 #[async_trait]
 impl PermissionEvents for Ports {
     async fn publish(&self, event: PermissionEvent) -> Result<(), PermissionError> {
+        let is_reply = matches!(&event, PermissionEvent::Replied { .. });
         self.events.lock().unwrap().push(event);
+        let gate = is_reply
+            .then(|| self.reply_gate.lock().unwrap().take())
+            .flatten();
+        if let Some(gate) = gate {
+            let _ = gate.await;
+        }
         if self.pause_publish.load(std::sync::atomic::Ordering::SeqCst) {
             std::future::pending::<()>().await;
         }
@@ -364,6 +372,67 @@ async fn cancelled_assert_removes_pending_and_unknown_reply_fails() {
             request_id: "per_a".into()
         })
     );
+}
+
+#[tokio::test]
+async fn stale_published_reply_never_grants_reused_request_id() {
+    let (svc, ports) = service(Some(vec![]));
+    let task = tokio::spawn({
+        let svc = svc.clone();
+        async move {
+            let mut request = input("per_reused", "ses_old", "read", "old");
+            request.save = Some(vec!["*".into()]);
+            svc.assert(request).await
+        }
+    });
+    wait_pending(&svc, 1).await;
+    let (release, gate) = futures::channel::oneshot::channel();
+    *ports.reply_gate.lock().unwrap() = Some(gate);
+    let reply = tokio::spawn({
+        let svc = svc.clone();
+        async move {
+            svc.reply(ReplyInput {
+                request_id: "per_reused".into(),
+                reply: Reply::Always,
+                message: None,
+            })
+            .await
+        }
+    });
+    tokio::time::timeout(std::time::Duration::from_secs(2), async {
+        loop {
+            if ports
+                .events
+                .lock()
+                .unwrap()
+                .iter()
+                .any(|event| matches!(event, PermissionEvent::Replied { .. }))
+            {
+                break;
+            }
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .unwrap();
+    task.abort();
+    assert!(task.await.unwrap_err().is_cancelled());
+    svc.ask(input("per_reused", "ses_new", "read", "new"))
+        .await
+        .unwrap();
+    release.send(()).unwrap();
+    assert!(matches!(
+        reply.await.unwrap(),
+        Err(PermissionError::NotFound { .. })
+    ));
+    assert_eq!(svc.get("per_reused").unwrap().session_id, "ses_new");
+    assert!(ports.saved.lock().unwrap().is_empty());
+    svc.shutdown();
+    assert_eq!(
+        svc.ask(input("per_closed", "ses_new", "read", "new")).await,
+        Err(PermissionError::Declined)
+    );
+    assert!(svc.list().is_empty());
 }
 
 #[tokio::test]
