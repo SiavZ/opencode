@@ -45,6 +45,35 @@ records 46 passing cases and 384 expected failures out of 430, not full API conf
 Those failures remain explicit: an empty `Services` host has no domain implementations;
 legacy families outside the listed routes are not advertised as implemented.
 
+## Production composition and executable proof
+
+The actual Process now composes `runtime/src/legacy.rs` over `ProjectStore`, `LegacyStore`,
+`RunState` and the real event store. Create first persists project identity, then publishes
+one placed durable `session.created` event through the existing projector. Both legacy
+SSE streams forward that real event. List uses baseline SQL filters, get reads the
+persisted projection, and full process restart retains the same response shape.
+
+`runtime/tests/legacy.rs` passes real loopback HTTP tests for committed Git project
+identity, create/list/get, global and directory SSE, restart recovery, authentication,
+CORS, malformed input, missing sessions and empty message history. No domain source or
+runner is replaced. `runtime/tests/production_compaction.rs` passes three real Process
+HTTP tests: held automatic summary cancellation, held overflow recovery cancellation
+with automatic compaction disabled, and persisted summary projection followed by a
+provider continuation using reloaded history. The native snapshot and compaction adapter
+unit tests also exercise actual Git, SQLite and loopback provider transport.
+
+The unchanged shipped `02-serve-health.toml` and `03-session-create-list.toml` workflows
+both pass against the debug executable. Evidence run `1792398890-71004`, candidate
+SHA-256 `b509ad5960c437f6f1c0a841be2748b7335a66c9878282a326ddc9c89d6c0dcf`, is at
+`/Users/siavash/.jcode/scratch/legacy-server/debug-shipped-acceptance.json`.
+The harness records `pass (pending review)` for the candidate; baseline rows remain
+honestly blocked because `BASELINE_CMD` was unset. This is not a claim of full baseline
+API parity or release-archive verification, which remains separately coordinated.
+
+Legacy message history is backed by the real store, but cursor pagination and truncated
+pages still return typed operation 503 rather than fabricated data or pagination headers.
+Other unregistered legacy families and the blockers below remain explicit.
+
 ## Public constructors (for p06.fixtures, p08 sdk-embedded, p91 runtime)
 
 - `opencode_server::app::router(services, ServerConfig) -> axum::Router`: full host
@@ -82,7 +111,7 @@ normalization tests use real directories. Neither substitutes for runtime persis
 | item | missing behavior | why | owner | proof needed |
 | --- | --- | --- | --- | --- |
 | Remaining legacy families | only global health/events, directory events and the listed Session boundaries are registered; config/project/provider/file/permission/question/PTY CRUD and other Session mutations still require real adapters | not covered by the audited workflow repair | p06 + domain owners | end-to-end fixture/live proof for each family before advertising it |
-| Legacy Session runtime composition | the server exposes `LegacySessions`; full-host persistence/event/restart proof must exercise the actual process adapter, not an injected source mock | HTTP layer cannot own runtime adapters | Phase 91 | process-root loopback tests + serve-health/session-create-list acceptance |
+| Legacy message pagination | unpaginated history uses real persisted messages; a cursor or a truncated page returns typed 503 | V1 cursor and pagination response headers not yet adapted | p06 + Phase 91 | real multi-page message HTTP proof |
 | `UiAssets` port | UI fallback answers 503 without it | Phase 10 web UI not composed | Phase 10 | adapter + `GET /` test |
 | OpenAPI full baseline parity | schema emission is implemented, but remaining unregistered legacy families prevent full SDK document parity | remaining domain HTTP families are not ported | p06/domain owners | per-family schema fixtures and complete baseline document comparison |
 | WebSocket proxy to remote workspace | answers 503 NotYetPorted | not implemented | p06.server-http follow-up | upgrade relay test |
@@ -108,6 +137,6 @@ event, bus and PTY adapters.
 | --- | --- | --- | --- | --- |
 | socket shutdown wiring | `lifecycle::Listener::stop` does not call `services.streams.sockets.close_all()`; the host must call it before `stop` | lifecycle is router-agnostic | p91 runtime | runtime shutdown test |
 | `pty.connectToken` handlers | ticket issuing endpoints (current + legacy) still answer 503; `handlers::streams::issue_ticket` is ready | PTY CRUD handlers not ported | p06 follow-up | connect-token socket test |
-| GlobalBus / PtyProvider adapters | no production adapter | Phase 02 / Phase 05 composition | p91 runtime | live test |
+| PtyProvider adapter | real GlobalBus is composed and proven by Process HTTP SSE tests; production PTY provider still absent | Phase 05 composition | p91 runtime | live PTY test |
 | stream failure body | `/api/event` overflow aborts the body (no failure frame), like an Effect raw stream failure; `/api/session/:id/event` errors write `effect/httpapi/stream/failure` with a generic Die cause | exact Effect defect JSON for store errors not captured | p06.fixtures | byte fixture |
 | WebSocket remote-workspace proxy for `/pty/:id/connect` | answers 503 | not implemented | p06 follow-up | relay test |
