@@ -40,11 +40,13 @@ This section supersedes the audit12 command semantics above, not its historical 
   Corpus and original ledger SHA-256 hashes make their provenance checkable. No fixture
   or expected-failure entry was deleted, changed or blessed.
 - `runtime/tests/strict_replay.rs` composes actual isolated Process services and reuses the
-  same comparator as the original server replay. A separate nonignored host acceptance
-  test creates a Session through HTTP, shuts down, restarts SQLite and reads it back.
+  same comparator as the original server replay. Independent nonignored acceptance
+  checks cover HTTP Session persistence across Process restart and real two-row legacy
+  message cursor pagination, including exact origin/query-preserving Link headers.
 - `phase-90/remaining-parity-ledger.md` reconciles all phase domains against actual source,
-  including the missing client/codegen, browser/editor, hosted and remote-workspace work
-  outside the 430 HTTP cases. Unassigned next-wave functions were reported to root.
+  including the client/codegen and embedded composition now assigned to ant/palmtree,
+  plus browser/editor, hosted and remote-workspace work outside the 430 HTTP cases.
+  Assignment is not acceptance. Unassigned next-wave functions were reported to root.
 - Parser, corpus census, orphan/duplicate checks and the complete disjoint owner partition
   passed through public xtask APIs. Full production differential and current lint results
   are recorded in the cross-phase ledger after execution, never inferred from these tests.
@@ -59,7 +61,10 @@ This section supersedes the audit12 command semantics above, not its historical 
 | p01.deps-test-support | deny/audit/licenses, crates/test-support |
 | p01.verify | independent review against the plan |
 
-## Blockers
+## Historical resolved blockers
+
+The row below records the earlier audit only. Current locked/offline xtask tests and
+strict lint resolve Cargo metadata successfully; it is not a current blocker.
 
 | item | missing behavior | why | owner | proof needed |
 | --- | --- | --- | --- | --- |
