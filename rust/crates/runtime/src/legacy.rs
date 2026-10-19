@@ -90,7 +90,7 @@ impl LegacyAdapter {
             });
         let mut info = json!({
             "id":id,"slug":slug(),"version":self.version,"projectID":project.project.id.as_str(),
-            "directory":context.directory,"path":relative(&project.sandbox, &context.directory),
+            "directory":context.directory,"path":relative(&project.project.worktree, &context.directory),
             "title":title,"cost":0,"tokens":{"input":0,"output":0,"reasoning":0,"cache":{"read":0,"write":0}},
             "time":{"created":now,"updated":now}
         });

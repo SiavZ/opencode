@@ -133,6 +133,39 @@ async fn legacy_http_persists_projects_sessions_and_publishes_real_placed_events
         .await
         .unwrap();
     assert_eq!(fetched, created);
+    let subdirectory = directory.join("nested");
+    std::fs::create_dir_all(&subdirectory).unwrap();
+    let child: Value = client
+        .post(format!("{}/session", listener.url()))
+        .header("x-opencode-directory", subdirectory.to_str().unwrap())
+        .json(&json!({"parentID":id,"title":"Nested child"}))
+        .send()
+        .await
+        .unwrap()
+        .json()
+        .await
+        .unwrap();
+    assert_eq!(child["projectID"], created["projectID"]);
+    assert_eq!(child["path"], "nested");
+    for (extra, expected) in [
+        ("", 1),
+        ("&scope=project", 2),
+        ("&path=", 2),
+        ("&scope=project&roots=true", 1),
+        ("&scope=project&limit=0", 0),
+        ("&scope=project&path=nested", 1),
+    ] {
+        let mut url =
+            reqwest::Url::parse(&format!("{}/session?unused=1{extra}", listener.url())).unwrap();
+        url.query_pairs_mut()
+            .append_pair("directory", directory.to_str().unwrap());
+        let list: Value = client.get(url).send().await.unwrap().json().await.unwrap();
+        assert_eq!(
+            list.as_array().unwrap().len(),
+            expected,
+            "list filter {extra}"
+        );
+    }
     drop(global);
     drop(scoped);
     listener.stop(true).await;
@@ -233,6 +266,11 @@ async fn legacy_production_authentication_errors_and_empty_history_are_real() {
         .await
         .unwrap();
     let id = created["id"].as_str().unwrap();
+    assert_eq!(
+        created["path"],
+        directory.to_str().unwrap().trim_start_matches('/'),
+        "global project path is relative to slash worktree, not resolver sandbox"
+    );
     let history: Value = client
         .get(format!("{}/session/{id}/message", listener.url()))
         .basic_auth("opencode", Some("secret"))
