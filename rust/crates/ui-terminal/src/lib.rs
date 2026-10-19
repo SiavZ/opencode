@@ -24,6 +24,7 @@ pub mod input;
 pub mod keybind;
 pub mod plugin_host;
 pub mod prompt;
+pub mod rendering;
 pub mod routes;
 pub mod terminal;
 pub mod theme;
