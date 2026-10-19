@@ -83,6 +83,9 @@ pub const HOOK_CONFIG: &str = "hook.config";
 pub const HOOK_DISPOSE: &str = "hook.dispose";
 pub const TOOL_EXECUTE: &str = "tool.execute";
 pub const TOOL_ABORT: &str = "tool.abort";
+pub const AUTH_METHODS: &str = "auth.methods";
+pub const AUTH_AUTHORIZE: &str = "auth.authorize";
+pub const AUTH_CALLBACK: &str = "auth.callback";
 pub const SHUTDOWN: &str = "shutdown";
 pub const CTX_ASK: &str = "ctx.ask";
 pub const CTX_METADATA: &str = "ctx.metadata";
@@ -101,6 +104,9 @@ pub const METHODS: &[MethodSpec] = &[
     m(HOOK_DISPOSE, HostToBridge, Request, "onHookDispose"),
     m(TOOL_EXECUTE, HostToBridge, Request, "onToolExecute"),
     m(TOOL_ABORT, HostToBridge, Notification, "onToolAbort"),
+    m(AUTH_METHODS, HostToBridge, Request, "onAuthMethods"),
+    m(AUTH_AUTHORIZE, HostToBridge, Request, "onAuthAuthorize"),
+    m(AUTH_CALLBACK, HostToBridge, Request, "onAuthCallback"),
     m(SHUTDOWN, HostToBridge, Request, "onShutdown"),
     m(CTX_ASK, BridgeToHost, Request, "ctxAsk"),
     m(CTX_METADATA, BridgeToHost, Notification, "ctxMetadata"),

@@ -1,90 +1,99 @@
-//! Purpose: adapt canonical native catalog and credential stores to Session model resolver ports.
-//! Scope: Location-scoped model discovery and credential lookup.
+//! Purpose: adapt refreshed provider catalogs and durable credential reads to Session resolver ports.
+//! Scope: Location services sharing one ProviderServices instance with CLI and HTTP hosts.
 //! Uses:
 //! rust/crates/
-//! |-- config/src/lib.rs
-//! |-- provider-adapters/src/catalog/mod.rs
-//! |-- provider-adapters/src/credentials/mod.rs
+//! |-- config/src/current.rs
+//! |-- provider-adapters/src/catalog/refresh.rs
+//! |-- runtime/src/provider_services.rs
 //! |-- schema/src/ids.rs
 //! |-- schema/src/provider.rs
 //! |-- session-runtime/src/runner/model.rs
 //! `-- storage-api/src/lib.rs
 //! External:
-//! |-- async_trait::async_trait
-//! |-- serde_json::Value::Array
-//! |-- serde_json::from_value
-//! |-- serde_json::json
-//! `-- serde_json::to_value
+//! `-- async_trait::async_trait
 //! Used by:
 //! rust/crates/
 //! `-- runtime/src/location.rs
-//! Invariants: native inventory is not fabricated; credential conversion preserves typed secrets.
-//! Contract tests: runtime/tests/production.rs
+//! Invariants: refresh and auth rotation are observed on the next resolution, never stale snapshots.
+//! Contract tests: runtime/tests/provider_services.rs, runtime/tests/production.rs
 
+use crate::provider_services::ProviderServices;
 use async_trait::async_trait;
 use opencode_config::CurrentConfig;
-use opencode_provider_adapters::{catalog::CatalogStore, credentials::CredentialStore};
+use opencode_provider_adapters::catalog::ModelsService;
 use opencode_schema::ids::{IntegrationID, ProviderID};
 use opencode_schema::provider::{ModelInfo, ProviderInfo};
 use opencode_session_runtime::runner::model::{
     CredentialValue, IntegrationCredentials, ModelCatalog,
 };
-use opencode_storage_api::{Database, DatabaseExt};
+use opencode_storage_api::Database;
 use std::sync::Arc;
 
-pub struct Catalog(pub CatalogStore);
-pub struct Credentials(pub CredentialStore);
+pub struct Catalog(pub Arc<ProviderServices>);
+pub struct Credentials(pub Arc<ProviderServices>);
 
 pub async fn load(
     config: &CurrentConfig,
     environment: &opencode_config::Environment,
-    cache: &std::path::Path,
+    models: Arc<ModelsService>,
     database: Arc<dyn Database>,
-) -> Result<(Arc<Catalog>, Arc<Credentials>), String> {
-    let mut catalog = CatalogStore::new();
-    let mut credentials = CredentialStore::new().with_environment(
-        environment
-            .vars
-            .iter()
-            .map(|(k, v)| (k.clone(), v.clone()))
-            .collect(),
+) -> Result<(Arc<Catalog>, Arc<Credentials>, Arc<ProviderServices>), String> {
+    let services = Arc::new(
+        ProviderServices::new(
+            database,
+            models,
+            serde_json::json!({}),
+            environment
+                .vars
+                .iter()
+                .map(|(key, value)| (key.clone(), value.clone()))
+                .collect(),
+        )
+        .with_documents(
+            config
+                .documents()
+                .map(|document| document.info.clone())
+                .collect(),
+        ),
     );
-    let cache = cache.join("models.json");
-    if cache.try_exists().map_err(|e| e.to_string())? {
-        catalog.load_cache(&cache).map_err(|e| e.to_string())?;
-        credentials.load_cache(&cache).map_err(|e| e.to_string())?;
-    }
-    for document in config.documents() {
-        catalog.apply_config(&document.info);
-        credentials.apply_config(&document.info);
-    }
-    let records = database.read(|sql| {
-        sql.query("SELECT integration_id, value FROM credential WHERE integration_id IS NOT NULL ORDER BY time_created ASC", &[])?.into_iter().map(|row| {
-            Ok(serde_json::json!({"integrationID": row.get::<String>("integration_id")?, "value": row.get_json::<serde_json::Value>("value")?}))
-        }).collect::<opencode_storage_api::Result<Vec<_>>>()
-    }).await.map_err(|e| e.to_string())?;
-    credentials
-        .load_records(&serde_json::Value::Array(records))
-        .map_err(|e| e.to_string())?;
-    catalog
-        .apply_credentials(&credentials)
-        .map_err(|e| e.to_string())?;
+    // Opening validates the initial snapshot. Later failures are logged because ModelCatalog's
+    // existing optional/infallible ports cannot transport a typed catalog I/O error.
+    services.catalog().await?;
     Ok((
-        Arc::new(Catalog(catalog)),
-        Arc::new(Credentials(credentials)),
+        Arc::new(Catalog(services.clone())),
+        Arc::new(Credentials(services.clone())),
+        services,
     ))
 }
 
 #[async_trait]
 impl ModelCatalog for Catalog {
     async fn default_model(&self) -> Option<ModelInfo> {
-        self.0.default_model()
+        match self.0.catalog().await {
+            Ok(catalog) => catalog.default_model(),
+            Err(error) => {
+                tracing::error!(%error, "provider catalog unavailable");
+                None
+            }
+        }
     }
     async fn available_models(&self) -> Vec<ModelInfo> {
-        self.0.available_models()
+        match self.0.catalog().await {
+            Ok(catalog) => catalog.available_models(),
+            Err(error) => {
+                tracing::error!(%error, "provider catalog unavailable");
+                Vec::new()
+            }
+        }
     }
     async fn provider(&self, id: &ProviderID) -> Option<ProviderInfo> {
-        self.0.provider(id)
+        match self.0.catalog().await {
+            Ok(catalog) => catalog.provider(id),
+            Err(error) => {
+                tracing::error!(%error, "provider catalog unavailable");
+                None
+            }
+        }
     }
 }
 
@@ -95,12 +104,14 @@ impl IntegrationCredentials for Credentials {
         id: &IntegrationID,
     ) -> Result<Option<CredentialValue>, String> {
         self.0
+            .credentials()
+            .await?
             .active_credential(id)
-            .map_err(|e| e.to_string())?
+            .map_err(|error| error.to_string())?
             .map(|value| {
                 serde_json::to_value(value)
                     .and_then(serde_json::from_value)
-                    .map_err(|e| e.to_string())
+                    .map_err(|error| error.to_string())
             })
             .transpose()
     }

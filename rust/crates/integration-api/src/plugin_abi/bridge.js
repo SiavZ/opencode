@@ -255,6 +255,49 @@ async function onToolAbort(params) {
   state.calls.get(params.callId)?.abort()
 }
 
+async function onAuthMethods(params) {
+  const auth = plugin(params.handle).hooks.auth
+  if (!auth) return null
+  return {
+    provider: auth.provider,
+    methods: auth.methods.map((method) => ({
+      type: method.type,
+      label: method.label,
+      ...(method.prompts ? { prompts: method.prompts.map((prompt) => ({
+        type: prompt.type, key: prompt.key, message: prompt.message,
+        ...(prompt.type === "select" ? { options: clone(prompt.options) } : prompt.placeholder ? { placeholder: prompt.placeholder } : {}),
+        ...(prompt.when ? { when: clone(prompt.when) } : {}),
+      })) } : {}),
+    })),
+  }
+}
+
+async function onAuthAuthorize(params) {
+  const hit = plugin(params.handle)
+  const method = hit.hooks.auth?.methods?.[params.method]
+  if (!method) throw new RpcError(ErrorCode.InvalidParams, "auth method not found")
+  if (method.type !== "oauth") return null
+  for (const prompt of method.prompts ?? []) {
+    if (prompt.type !== "text" || !prompt.validate || params.inputs?.[prompt.key] === undefined) continue
+    const message = prompt.validate(params.inputs[prompt.key])
+    if (message) throw new RpcError(ErrorCode.Validation, message, { name: "ProviderAuthValidationFailed", field: prompt.key, message })
+  }
+  const result = await method.authorize(params.inputs ?? undefined)
+  hit.pendingAuth = result
+  return { url: result.url, method: result.method, instructions: result.instructions }
+}
+
+async function onAuthCallback(params) {
+  const match = plugin(params.handle).pendingAuth
+  if (!match) throw new RpcError(ErrorCode.NotFound, "OAuth authorization missing", { name: "ProviderAuthOauthMissing", providerID: plugin(params.handle).hooks.auth?.provider })
+  if (match.method === "code" && !params.code)
+    throw new RpcError(ErrorCode.InvalidParams, "OAuth code missing", { name: "ProviderAuthOauthCodeMissing", providerID: plugin(params.handle).hooks.auth?.provider })
+  const result = await (match.method === "code" ? match.callback(params.code) : match.callback())
+  if (!result || result.type !== "success")
+    throw new RpcError(ErrorCode.PluginThrew, "OAuth callback failed", { name: "ProviderAuthOauthCallbackFailed" })
+  return clone(result)
+}
+
 async function onShutdown() {
   setTimeout(() => process.exit(0), 0)
   return null
