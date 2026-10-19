@@ -25,15 +25,18 @@ pub enum Action {
     New,
     Sessions,
     Models,
+    Variants,
     Agents,
     Timeline,
     Open(String),
     Model(String),
+    Variant(String),
     Agent(String),
     Jump(String),
     Rename(String),
     Delete,
     Fork,
+    ForkAt(String),
     Undo,
     Redo,
     Compact,
@@ -48,6 +51,11 @@ pub struct App {
     pub busy: bool,
     pub scroll: usize,
     pub thinking: bool,
+    pub selected_model: Option<String>,
+    pub selected_variant: Option<String>,
+    pub selected_agent: Option<String>,
+    pub pending_prompt: Option<String>,
+    pub hidden_messages: Vec<String>,
     leader: bool,
 }
 
@@ -63,6 +71,7 @@ impl App {
         self.navigation.navigate(Route::Session(id));
         self.scroll = 0;
         self.dialogs.clear();
+        self.hidden_messages.clear();
     }
 
     pub fn picker(&mut self, kind: Kind, title: &str, choices: Vec<Choice>) {
@@ -83,6 +92,7 @@ impl App {
             ("new", "New session", "Ctrl-X N"),
             ("sessions", "Switch session", "Ctrl-X L"),
             ("models", "Switch model", "Ctrl-X M"),
+            ("variants", "Switch model variant", ""),
             ("agents", "Switch agent", "Ctrl-X A"),
             ("timeline", "Jump to message", ""),
             ("rename", "Rename session", ""),
@@ -107,6 +117,7 @@ impl App {
             "new" => Action::New,
             "sessions" => Action::Sessions,
             "models" | "model" => Action::Models,
+            "variants" | "variant" => Action::Variants,
             "agents" | "agent" => Action::Agents,
             "timeline" => Action::Timeline,
             "rename" => {
@@ -165,11 +176,13 @@ impl App {
                     Kind::Commands => self.command(&value),
                     Kind::Sessions => Action::Open(value),
                     Kind::Models => Action::Model(value),
+                    Kind::Variants => Action::Variant(value),
                     Kind::Agents => Action::Agent(value),
                     Kind::Timeline => Action::Jump(value),
+                    Kind::Fork => Action::ForkAt(value),
                     Kind::Rename => Action::Rename(value),
                     Kind::Delete if value == "delete" => Action::Delete,
-                    Kind::Permission => Action::Permission(value),
+                    Kind::Permission | Kind::PermissionConfirm => Action::Permission(value),
                     _ => Action::None,
                 },
                 _ => Action::None,

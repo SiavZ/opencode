@@ -13,7 +13,7 @@
 //! Invariants: confirmations never execute by default and modal keys never leak into the prompt.
 //! Contract tests: this file
 
-use crossterm::event::{Event, KeyCode, KeyEvent, KeyModifiers};
+use crossterm::event::{Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers};
 use opencode_ui_terminal::app::{Action, App};
 use opencode_ui_terminal::dialog::{Choice, Dialog, Dialogs, Kind, Outcome};
 use opencode_ui_terminal::input::UiEvent;
@@ -101,7 +101,39 @@ fn rename_erases_whole_grapheme_and_release_keys_do_not_select() {
     dialog.handle(&key(KeyCode::Backspace));
     assert_eq!(dialog.query, "a");
     assert_eq!(
+        dialog.handle(&UiEvent::from(Event::Key(KeyEvent::new_with_kind(
+            KeyCode::Enter,
+            KeyModifiers::NONE,
+            KeyEventKind::Release
+        )))),
+        Outcome::None
+    );
+    assert_eq!(
         dialog.handle(&key(KeyCode::Enter)),
         Outcome::Select(Kind::Rename, "a".into())
+    );
+}
+
+#[test]
+fn fork_and_variant_forms_preserve_explicit_default_values() {
+    let mut app = App::default();
+    app.picker(
+        Kind::Fork,
+        "Fork",
+        vec![Choice::new("", "Full session", "")],
+    );
+    assert_eq!(
+        app.handle(&key(KeyCode::Enter)),
+        Some(Action::ForkAt("".into()))
+    );
+    assert_eq!(app.command("/variant"), Action::Variants);
+    app.picker(
+        Kind::Variants,
+        "Variant",
+        vec![Choice::new("", "Default", "")],
+    );
+    assert_eq!(
+        app.handle(&key(KeyCode::Enter)),
+        Some(Action::Variant("".into()))
     );
 }

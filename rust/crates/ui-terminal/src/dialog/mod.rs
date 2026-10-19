@@ -42,11 +42,14 @@ pub enum Kind {
     Commands,
     Sessions,
     Models,
+    Variants,
     Agents,
     Timeline,
+    Fork,
     Rename,
     Delete,
     Permission,
+    PermissionConfirm,
     Alert,
 }
 
@@ -93,7 +96,9 @@ impl Dialog {
 
     pub fn handle(&mut self, event: &UiEvent) -> Outcome {
         let UiEvent::Key(key) = event else {
-            if let UiEvent::Paste(text) = event {
+            if let UiEvent::Paste(text) = event
+                && !matches!(self.kind, Kind::Permission | Kind::PermissionConfirm)
+            {
                 self.query
                     .extend(text.chars().filter(|ch| !ch.is_control()));
                 self.selected = 0;
@@ -102,6 +107,30 @@ impl Dialog {
         };
         if key.kind == UiKeyEventKind::Release {
             return Outcome::None;
+        }
+        if matches!(self.kind, Kind::Permission | Kind::PermissionConfirm) {
+            if key.code == UiKeyCode::Esc
+                || key.modifiers.control && matches!(key.code, UiKeyCode::Char('c' | 'd'))
+            {
+                return self
+                    .choices
+                    .iter()
+                    .find(|choice| choice.value.ends_with("/reject"))
+                    .map(|choice| Outcome::Select(self.kind, choice.value.clone()))
+                    .unwrap_or(Outcome::Close);
+            }
+            match key.code {
+                UiKeyCode::Left | UiKeyCode::Char('h') => {
+                    self.step(-1);
+                    return Outcome::None;
+                }
+                UiKeyCode::Right | UiKeyCode::Char('l') => {
+                    self.step(1);
+                    return Outcome::None;
+                }
+                UiKeyCode::Char(_) | UiKeyCode::Backspace => return Outcome::None,
+                _ => {}
+            }
         }
         if key.code == UiKeyCode::Esc || key.code == UiKeyCode::Char('c') && key.modifiers.control {
             return Outcome::Close;
@@ -127,11 +156,11 @@ impl Dialog {
                 }
                 self.selected = 0;
             }
-            UiKeyCode::Char(ch) if !key.modifiers.control && !key.modifiers.alt => {
-                if !ch.is_control() {
-                    self.query.push(ch);
-                    self.selected = 0;
-                }
+            UiKeyCode::Char(ch)
+                if !key.modifiers.control && !key.modifiers.alt && !ch.is_control() =>
+            {
+                self.query.push(ch);
+                self.selected = 0;
             }
             _ => {}
         }
