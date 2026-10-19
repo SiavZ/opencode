@@ -206,7 +206,13 @@ fn acp_help_normalizes_short_and_long_cwd_without_dropping_other_options() {
         assert!(out.is_empty());
         assert!(err.contains("--cwd"));
         let row = err.lines().find(|line| line.contains("--cwd")).unwrap();
-        assert_eq!(row.contains("[default:"), cwd == &short, "{err}");
+        // cliui may inline the `[default:` prefix while hard-wrapping the path itself.
+        // Check the complete value, not where that prefix happens to land.
+        assert_eq!(
+            row.contains(&format!("[default: \"{}\"]", cwd.display())),
+            cwd == &short,
+            "{err}"
+        );
         assert!(err.contains("working directory"));
         let compact = err.split_whitespace().collect::<String>();
         assert!(
