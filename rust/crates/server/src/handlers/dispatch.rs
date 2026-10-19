@@ -80,7 +80,10 @@ async fn pipeline(
         .await?;
         match plan {
             Plan::Answered(response) => return Ok(response),
-            Plan::Local(context) => (Some(context), body.unwrap_or_else(Body::empty)),
+            Plan::Local(context) => (
+                Some(legacy_routing::instance(context).await?),
+                body.unwrap_or_else(Body::empty),
+            ),
         }
     } else {
         (None, body)
@@ -121,7 +124,8 @@ async fn pipeline(
                         .to_ascii_lowercase()
                 })
                 .unwrap_or_default();
-            if media != "application/json" {
+            let legacy_create = !current && endpoint.name == "session.create";
+            if media != "application/json" && !legacy_create {
                 return Ok(text(
                     StatusCode::UNSUPPORTED_MEDIA_TYPE,
                     "text/plain",
@@ -132,18 +136,28 @@ async fn pipeline(
                 .await
                 .map_err(|e| HttpError::Defect(e.to_string()))?;
             // Effect: empty text decodes as `undefined`, a malformed body is a defect.
-            let value = if bytes.is_empty() {
+            let value = if bytes.is_empty()
+                || (legacy_create && bytes.iter().all(u8::is_ascii_whitespace))
+            {
                 None
             } else {
-                Some(
-                    serde_json::from_slice::<Value>(&bytes)
-                        .map_err(|e| HttpError::Defect(format!("invalid JSON body: {e}")))?,
-                )
+                Some(serde_json::from_slice::<Value>(&bytes).map_err(|e| {
+                    if legacy_create {
+                        HttpError::LegacyRawBadRequest
+                    } else {
+                        HttpError::Defect(format!("invalid JSON body: {e}"))
+                    }
+                })?)
             };
             match value {
                 Some(value) => {
-                    decode::payload(api, schema, &value)
-                        .map_err(|reason| HttpError::schema(current, "Payload", &reason))?;
+                    decode::payload(api, schema, &value).map_err(|reason| {
+                        if legacy_create {
+                            HttpError::LegacyRawBadRequest
+                        } else {
+                            HttpError::schema(current, "Payload", &reason)
+                        }
+                    })?;
                     Some(value)
                 }
                 None if endpoint.payload_required => {

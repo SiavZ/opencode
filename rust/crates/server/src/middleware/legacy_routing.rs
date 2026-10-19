@@ -5,6 +5,7 @@
 //! Uses:
 //! rust/crates/
 //! |-- server/src/middleware/errors.rs
+//! |-- server/src/middleware/location.rs
 //! |-- server/src/services/mod.rs
 //! `-- server/src/transport/proxy.rs
 //! External:
@@ -92,8 +93,14 @@ pub async fn route(
     body: Body,
 ) -> Result<(Plan, Option<Body>), HttpError> {
     let workspaces = services.workspaces.as_ref();
-    let session = match (route_session_id(path), workspaces) {
-        (Some(id), Some(ws)) => ws.session(&id).await,
+    let session_id = route_session_id(path)
+        .map(|id| {
+            opencode_schema::ids::SessionID::new(id)
+                .map_err(|error| HttpError::Defect(error.to_string()))
+        })
+        .transpose()?;
+    let session = match (session_id, workspaces) {
+        (Some(id), Some(ws)) => ws.session(id.as_str()).await,
         _ => None,
     };
     let env_workspace = workspaces.and_then(|w| w.configured_workspace_id());
@@ -108,6 +115,13 @@ pub async fn route(
             kind: Some("Query".to_string()),
             field: Some("workspace".to_string()),
         }));
+    }
+    if !path.starts_with("/api/")
+        && session_workspace.is_none()
+        && let Some(id) = &param
+    {
+        opencode_schema::ids::WorkspaceID::new(id.clone())
+            .map_err(|error| HttpError::Defect(error.to_string()))?;
     }
     let workspace_id = session_workspace.or(param);
     let workspace = match (&workspace_id, &env_workspace, workspaces) {
@@ -179,6 +193,40 @@ pub async fn route(
         workspace_id: env_workspace.or(workspace_id),
     };
     Ok((Plan::Local(context), Some(body)))
+}
+
+/// `InstanceContextMiddleware`: decode the selected directory then `FSUtil.resolve`.
+/// Resolve before subscribing so a symlinked directory sees the same events as Session creation.
+pub async fn instance(context: RouteContext) -> Result<RouteContext, HttpError> {
+    tokio::task::spawn_blocking(move || {
+        let decoded = super::location::decode_component(&context.directory);
+        let absolute =
+            std::path::absolute(decoded).map_err(|error| HttpError::Defect(error.to_string()))?;
+        let normalized =
+            absolute
+                .components()
+                .fold(std::path::PathBuf::new(), |mut path, component| {
+                    match component {
+                        std::path::Component::CurDir => {}
+                        std::path::Component::ParentDir => {
+                            path.pop();
+                        }
+                        component => path.push(component.as_os_str()),
+                    }
+                    path
+                });
+        let directory = match std::fs::canonicalize(&normalized) {
+            Ok(path) => path,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => normalized,
+            Err(error) => return Err(HttpError::Defect(error.to_string())),
+        };
+        Ok(RouteContext {
+            directory: directory.to_string_lossy().into_owned(),
+            ..context
+        })
+    })
+    .await
+    .map_err(|error| HttpError::Defect(error.to_string()))?
 }
 
 /// `process.cwd()`.

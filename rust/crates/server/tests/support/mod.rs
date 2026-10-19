@@ -228,6 +228,8 @@ impl SessionService for FakeSessions {
 
 pub fn services(sessions: Arc<FakeSessions>) -> opencode_server::services::Services {
     opencode_server::services::Services {
+        legacy_sessions: None,
+        version: "test".into(),
         session: Some(sessions),
         locations: Some(Arc::new(EchoLocations)),
         placement: Some(Arc::new(OnePlacement)),

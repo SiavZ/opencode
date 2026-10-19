@@ -3,6 +3,7 @@
 //! Scope: process-level dependency container, cloned cheaply per request.
 //! Uses:
 //! rust/crates/
+//! |-- server/src/services/legacy.rs
 //! |-- server/src/services/ports.rs
 //! |-- server/src/services/streams.rs
 //! `-- session-api/src/operations.rs
@@ -18,6 +19,7 @@
 //! fake success. No Session-ID-scoped service lives here.
 //! Contract tests: server/tests/http_session.rs
 
+pub mod legacy;
 pub mod ports;
 pub mod streams;
 
@@ -31,8 +33,10 @@ pub use ports::{
 };
 
 /// Every service a handler may need. `None` means the capability is not composed in this host.
-#[derive(Clone, Default)]
+#[derive(Clone)]
 pub struct Services {
+    pub legacy_sessions: Option<Arc<dyn legacy::LegacySessions>>,
+    pub version: String,
     /// Phase 04 `SessionV2.Interface`.
     pub session: Option<Arc<dyn SessionService>>,
     /// Location resolution (`LocationServiceMap.get` + `Location.Info`).
@@ -45,6 +49,21 @@ pub struct Services {
     pub ui: Option<Arc<dyn UiAssets>>,
     /// Event source, legacy bus, PTY lookup, tickets and the WebSocket tracker.
     pub streams: streams::StreamServices,
+}
+
+impl Default for Services {
+    fn default() -> Self {
+        Self {
+            legacy_sessions: None,
+            version: "local".into(),
+            session: None,
+            locations: None,
+            placement: None,
+            workspaces: None,
+            ui: None,
+            streams: Default::default(),
+        }
+    }
 }
 
 impl std::fmt::Debug for Services {

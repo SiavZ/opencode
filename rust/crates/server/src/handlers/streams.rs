@@ -207,7 +207,9 @@ async fn legacy_context(
     )
     .await;
     match routed {
-        Ok((Plan::Local(context), _)) => Ok(context),
+        Ok((Plan::Local(context), _)) => legacy_routing::instance(context)
+            .await
+            .map_err(|error| Box::new(error.into_response())),
         Ok((Plan::Answered(response), _)) => Err(Box::new(response)),
         Err(error) => Err(Box::new(error.into_response())),
     }

@@ -3,6 +3,42 @@
 Owner node: p06.server-http. Crate: `rust/crates/server` (HTTP core). Commits: 699862e39,
 9b1ec9327, 4987d4f39 (plus the final status commit).
 
+## October 19, 2026 audit blocker repair
+
+The full-host legacy registry now mounts the workflow-critical global, event and Session
+boundaries rather than falling through to the UI. Global health returns the installation
+version supplied by the process. Legacy Session responses use the V1 JSON shape, not the
+current API's `{data: ...}` envelope or its `location` field.
+
+- `GET /global/health`, `GET /global/event`, `GET /event`.
+- `GET /session`, `POST /session`, `GET /session/status`, `GET /session/:sessionID`.
+- `GET /session/:sessionID/message`, `GET /session/:sessionID/message/:messageID`,
+  `POST /session/:sessionID/abort` dispatch through the same composed legacy boundary.
+- `Services::legacy_sessions` is the explicit V1 runtime seam. Its implementation must use
+  real persistence and projectors. The HTTP layer never synthesizes persisted Sessions or
+  publishes duplicate `session.created` events. Absent composition is a typed operation 503.
+- Create decodes its raw optional body like the TypeScript `createRaw` function, including
+  whitespace-only bodies, no required JSON media type, and empty `_tag: BadRequest` 400
+  responses for invalid JSON or invalid CreateInput. The complete model, metadata,
+  workspace and permission input fields are represented in the registry.
+- Instance directory decoding and canonicalization are shared by HTTP dispatch and SSE,
+  including symlink identities, lexical dot segments and the ENOENT absolute-path fallback.
+- Legacy ID validation happens before endpoint decoding, preserving the baseline's 500
+  UnknownError for malformed Session/workspace route IDs. Missing valid IDs map to V1
+  NotFoundError 404 through the runtime service.
+
+New `tests/http_legacy.rs` exercises actual loopback listeners, Basic auth, CORS/preflight,
+health/version, typed absent-service errors, and raw payload/query errors without source
+mocks. `tests/legacy_location.rs` exercises the real temporary filesystem. Existing
+`tests/sse_events.rs` remains fixture-backed transport coverage. Production persistence,
+real event forwarding and restart proof belongs to the process-root tests in
+`runtime/tests` and the shipped acceptance workflows, coordinated with Phase 91.
+
+The empty-host baseline replay was regenerated after reviewing the route changes. It now
+records 46 passing cases and 384 expected failures out of 430, not full API conformance.
+Those failures remain explicit: an empty `Services` host has no domain implementations;
+legacy families outside the listed routes are not advertised as implemented.
+
 ## Public constructors (for p06.fixtures, p08 sdk-embedded, p91 runtime)
 
 - `opencode_server::app::router(services, ServerConfig) -> axum::Router`: full host
@@ -31,17 +67,18 @@ Owner node: p06.server-http. Crate: `rust/crates/server` (HTTP core). Commits: 6
 | Health, location, session list/create/active/get/prompt/compact/wait/revert/context/history/interrupt/message, messages paging | `src/handlers/{mod,session,cursor}.rs` | `tests/http_session.rs` (fixture SessionService) |
 | Lifecycle | `src/lifecycle.rs` | `tests/http_lifecycle.rs` |
 
-All socket tests use fixture ports from `tests/support/mod.rs` (fixture-only, not adapters).
+Socket auth/proxy/current Session tests use fixture ports from `tests/support/mod.rs`.
+The new legacy HTTP tests use absent domain services intentionally, while filesystem
+normalization tests use real directories. Neither substitutes for runtime persistence proof.
 
 ## Blockers
 
 | item | missing behavior | why | owner | proof needed |
 | --- | --- | --- | --- | --- |
-| session/message groups in `opencode_protocol::current` | registry only has health + location; session endpoints are mounted only via `router_with` in tests | p06.current-registry not done | p06.current-registry | `tests/http_errors.rs` iterates the real registry including session endpoints with `Middleware::SessionLocation` |
-| legacy registry | `opencode_protocol::legacy::api()` is empty, so no legacy route is mounted on the full host | p06.legacy-registry not done | p06.legacy-registry | full-host router mounts legacy groups with `Middleware::LegacyInstance` |
-| `LocationResolver`, `SessionPlacement`, `LegacyWorkspaces` ports | narrow port traits in `src/services/ports.rs`; no production adapter | `opencode-locations` is a skeleton | Phase 02 (p02.locations) | adapter implementing the traits, wired in runtime |
+| Remaining legacy families | only global health/events, directory events and the listed Session boundaries are registered; config/project/provider/file/permission/question/PTY CRUD and other Session mutations still require real adapters | not covered by the audited workflow repair | p06 + domain owners | end-to-end fixture/live proof for each family before advertising it |
+| Legacy Session runtime composition | the server exposes `LegacySessions`; full-host persistence/event/restart proof must exercise the actual process adapter, not an injected source mock | HTTP layer cannot own runtime adapters | Phase 91 | process-root loopback tests + serve-health/session-create-list acceptance |
 | `UiAssets` port | UI fallback answers 503 without it | Phase 10 web UI not composed | Phase 10 | adapter + `GET /` test |
-| `/doc`, `/openapi.json` body | serves `opencode_protocol::openapi::document`, currently a stub `{openapi: "3.1.0"}` | p06.events-openapi | p06.events-openapi | byte-compare with `packages/sdk/openapi.json` |
+| OpenAPI full baseline parity | schema emission is implemented, but remaining unregistered legacy families prevent full SDK document parity | remaining domain HTTP families are not ported | p06/domain owners | per-family schema fixtures and complete baseline document comparison |
 | WebSocket proxy to remote workspace | answers 503 NotYetPorted | not implemented | p06.server-http follow-up | upgrade relay test |
 | multipart/form/text/bytes payloads | answer 503 NotYetPorted | only JSON decoding implemented | p06.server-http follow-up | per-encoding decode tests |
 | fence header (`OPENCODE_WORKSPACE_ID`) | not implemented | needs Database port | p06 + Phase 02 | fence diff test |

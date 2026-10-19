@@ -5,14 +5,14 @@ Fixtures: `rust/crates/server/tests/fixtures/baseline/` (one file per route fami
 `rust/crates/server/tests/fixtures/replay-ledger.json`. Router: `app::router(Services::default(),
 ServerConfig::full_host(..))`, so every service-backed operation is measured against an empty host.
 
-Cases: 430. Passed: 40. Expected failures: 390.
+Cases: 430. Passed: 46. Expected failures: 384.
 
 | category | cases |
 | --- | --- |
 | body | 7 |
-| not-mounted | 255 |
-| not-ported | 126 |
-| status | 2 |
+| not-mounted | 222 |
+| not-ported | 140 |
+| status | 15 |
 
 ## Operations
 
@@ -22,7 +22,7 @@ Cases: 430. Passed: 40. Expected failures: 390.
 | DELETE | `/auth/{providerID}` | auth.remove | legacy-auth | 1 | 0 | not-mounted x1 |
 | POST | `/log` | app.log | legacy-log | 3 | 0 | not-mounted x3 |
 | POST | `/experimental/control-plane/move-session` | experimental.controlPlane.moveSession | legacy-experimental | 3 | 0 | not-mounted x3 |
-| GET | `/global/health` | global.health | legacy-global, negative-auth | 5 | 2 | not-mounted x3 |
+| GET | `/global/health` | global.health | legacy-global, negative-auth | 5 | 5 | - |
 | GET | `/global/event` | global.event | sse | 1 | 0 | not-ported x1 |
 | GET | `/global/config` | global.config.get | legacy-global | 1 | 0 | not-mounted x1 |
 | PATCH | `/global/config` | global.config.update | legacy-global | 3 | 0 | not-mounted x3 |
@@ -93,21 +93,21 @@ Cases: 430. Passed: 40. Expected failures: 390.
 | GET | `/provider/auth` | provider.auth | legacy-provider | 1 | 0 | not-mounted x1 |
 | POST | `/provider/{providerID}/oauth/authorize` | provider.oauth.authorize | legacy-provider | 3 | 0 | not-mounted x3 |
 | POST | `/provider/{providerID}/oauth/callback` | provider.oauth.callback | legacy-provider | 3 | 0 | not-mounted x3 |
-| GET | `/session` | session.list | legacy-session, negative-auth | 5 | 2 | not-mounted x3 |
-| POST | `/session` | session.create | legacy-session | 4 | 0 | not-mounted x4 |
-| GET | `/session/status` | session.status | legacy-session | 1 | 0 | not-mounted x1 |
-| GET | `/session/{sessionID}` | session.get | legacy-session | 3 | 0 | not-mounted x3 |
-| DELETE | `/session/{sessionID}` | session.delete | legacy-session | 2 | 0 | not-mounted x2 |
-| PATCH | `/session/{sessionID}` | session.update | legacy-session | 4 | 0 | not-mounted x4 |
+| GET | `/session` | session.list | legacy-session, negative-auth | 5 | 2 | not-ported x3 |
+| POST | `/session` | session.create | legacy-session | 4 | 2 | not-ported x2 |
+| GET | `/session/status` | session.status | legacy-session | 1 | 0 | not-ported x1 |
+| GET | `/session/{sessionID}` | session.get | legacy-session | 3 | 1 | not-ported x2 |
+| DELETE | `/session/{sessionID}` | session.delete | legacy-session | 2 | 0 | status x2 |
+| PATCH | `/session/{sessionID}` | session.update | legacy-session | 4 | 0 | status x4 |
 | GET | `/session/{sessionID}/children` | session.children | legacy-session | 2 | 0 | not-mounted x2 |
 | GET | `/session/{sessionID}/todo` | session.todo | legacy-session | 2 | 0 | not-mounted x2 |
 | GET | `/session/{sessionID}/diff` | session.diff | legacy-session | 2 | 0 | not-mounted x2 |
-| GET | `/session/{sessionID}/message` | session.messages | legacy-session | 2 | 0 | not-mounted x2 |
-| POST | `/session/{sessionID}/message` | session.prompt | legacy-session | 5 | 0 | not-mounted x5 |
-| GET | `/session/{sessionID}/message/{messageID}` | session.message | legacy-session | 2 | 0 | not-mounted x2 |
-| DELETE | `/session/{sessionID}/message/{messageID}` | session.deleteMessage | legacy-session | 2 | 0 | not-mounted x2 |
+| GET | `/session/{sessionID}/message` | session.messages | legacy-session | 2 | 0 | not-ported x2 |
+| POST | `/session/{sessionID}/message` | session.prompt | legacy-session | 5 | 0 | status x5 |
+| GET | `/session/{sessionID}/message/{messageID}` | session.message | legacy-session | 2 | 0 | not-ported x2 |
+| DELETE | `/session/{sessionID}/message/{messageID}` | session.deleteMessage | legacy-session | 2 | 0 | status x2 |
 | POST | `/session/{sessionID}/fork` | session.fork | legacy-session | 4 | 0 | not-mounted x4 |
-| POST | `/session/{sessionID}/abort` | session.abort | legacy-session | 2 | 0 | not-mounted x2 |
+| POST | `/session/{sessionID}/abort` | session.abort | legacy-session | 2 | 0 | not-ported x2 |
 | POST | `/session/{sessionID}/init` | session.init | legacy-session | 4 | 0 | not-mounted x4 |
 | POST | `/session/{sessionID}/share` | session.share | legacy-session | 2 | 0 | not-mounted x2 |
 | DELETE | `/session/{sessionID}/share` | session.unshare | legacy-session | 2 | 0 | not-mounted x2 |
@@ -229,13 +229,13 @@ Cases: 430. Passed: 40. Expected failures: 390.
 | `auth:invalid:POST /api/session` | negative-auth | 401 | pass |
 | `auth:valid:GET /api/health` | negative-auth | 200 | pass |
 | `auth:valid:GET /api/session` | negative-auth | 200 | not-ported |
-| `auth:valid:GET /global/health` | negative-auth | 200 | not-mounted |
-| `auth:valid:GET /session` | negative-auth | 200 | not-mounted |
+| `auth:valid:GET /global/health` | negative-auth | 200 | pass |
+| `auth:valid:GET /session` | negative-auth | 200 | not-ported |
 | `auth:valid:POST /api/session` | negative-auth | 200 | not-ported |
 | `auth:query-valid:GET /api/health` | negative-auth | 200 | pass |
 | `auth:query-valid:GET /api/session` | negative-auth | 200 | not-ported |
-| `auth:query-valid:GET /global/health` | negative-auth | 200 | not-mounted |
-| `auth:query-valid:GET /session` | negative-auth | 200 | not-mounted |
+| `auth:query-valid:GET /global/health` | negative-auth | 200 | pass |
+| `auth:query-valid:GET /session` | negative-auth | 200 | not-ported |
 | `auth:query-valid:POST /api/session` | negative-auth | 200 | not-ported |
 | `auth:none:GET /` | negative-auth | 401 | pass |
 | `auth:none:GET /api/pty/x/connect?ticket` | negative-auth | 404 | not-ported |

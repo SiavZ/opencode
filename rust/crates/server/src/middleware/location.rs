@@ -62,7 +62,7 @@ fn workspace_id(value: String) -> Result<WorkspaceID, HttpError> {
 }
 
 /// `decodeURIComponent` with the raw input kept on failure.
-fn decode_component(input: &str) -> String {
+pub(crate) fn decode_component(input: &str) -> String {
     let decoded = percent_encoding::percent_decode_str(input).decode_utf8();
     match decoded {
         Ok(text) if !has_bad_escape(input) => text.into_owned(),

@@ -8,6 +8,7 @@
 //! |-- server/src/app.rs
 //! |-- server/src/handlers/cursor.rs
 //! |-- server/src/handlers/dispatch.rs
+//! |-- server/src/handlers/legacy.rs
 //! |-- server/src/handlers/session.rs
 //! |-- server/src/handlers/streams.rs
 //! |-- server/src/middleware/errors.rs
@@ -25,6 +26,7 @@
 
 pub mod cursor;
 pub mod dispatch;
+pub mod legacy;
 pub mod session;
 pub mod streams;
 
@@ -78,6 +80,10 @@ impl Ctx {
 /// Route a decoded request to its implementation.
 pub async fn handle(ctx: Ctx) -> Result<Response, HttpError> {
     match ctx.endpoint.name.as_str() {
+        "global.health" => Ok(ok(
+            &json!({ "healthy": true, "version": ctx.state.services.version }),
+        )),
+        name if name.starts_with("session.") && !ctx.current => legacy::handle(ctx).await,
         "health.get" => Ok(ok(&json!({ "healthy": true }))),
         "location.get" => match &ctx.location {
             Some(location) => Ok(ok(location)),
