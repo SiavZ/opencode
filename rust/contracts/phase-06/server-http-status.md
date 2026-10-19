@@ -34,6 +34,12 @@ mocks. `tests/legacy_location.rs` exercises the real temporary filesystem. Exist
 real event forwarding and restart proof belongs to the process-root tests in
 `runtime/tests` and the shipped acceptance workflows, coordinated with Phase 91.
 
+The October 19 repair passed `cargo test --locked --offline -p opencode-server
+-p opencode-protocol` with 81 tests and no failures. The release-profile subset covering
+`http_legacy`, `http_lifecycle`, `legacy_location` and `sse_events` passed all 19 tests.
+Scoped all-target Clippy passed with `-D warnings`. These checks prove HTTP boundaries and
+transport behavior, not production runtime composition or shipped executable acceptance.
+
 The empty-host baseline replay was regenerated after reviewing the route changes. It now
 records 46 passing cases and 384 expected failures out of 430, not full API conformance.
 Those failures remain explicit: an empty `Services` host has no domain implementations;
