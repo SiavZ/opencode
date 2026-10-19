@@ -149,8 +149,14 @@ pub fn resolve_request_options(mut request: LlmRequest) -> LlmRequest {
         model.provider_options.as_ref(),
         request.provider_options.as_ref(),
     ]);
+    // Route.defaults merges its shorthand headers after its HTTP patch in the TS constructor.
+    let headers = route.headers.map(|headers| HttpOptions {
+        headers: Some(headers),
+        ..HttpOptions::default()
+    });
     request.http = merge_http_options([
         route.http.as_ref(),
+        headers.as_ref(),
         model.http.as_ref(),
         request.http.as_ref(),
     ]);

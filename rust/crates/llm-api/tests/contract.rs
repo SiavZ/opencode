@@ -216,6 +216,51 @@ fn request_option_precedence_route_model_request() {
 }
 
 #[test]
+fn route_header_shorthand_merges_before_model_and_request_headers() {
+    let mut selected = model(
+        RouteDefaults {
+            headers: Some(
+                [
+                    ("route".into(), "kept".into()),
+                    ("shared".into(), "shorthand".into()),
+                ]
+                .into(),
+            ),
+            http: Some(HttpOptions {
+                headers: Some(
+                    [
+                        ("http".into(), "kept".into()),
+                        ("shared".into(), "http".into()),
+                    ]
+                    .into(),
+                ),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+        vec![],
+    );
+    selected.defaults = Some(ModelDefaults {
+        http: Some(HttpOptions {
+            headers: Some([("shared".into(), "model".into())].into()),
+            ..Default::default()
+        }),
+        ..Default::default()
+    });
+    let mut request = LlmRequest::new(selected);
+    request.http = Some(HttpOptions {
+        headers: Some([("shared".into(), "request".into())].into()),
+        ..Default::default()
+    });
+    let resolved = resolve_request_options(request);
+    let headers = resolved.http.unwrap().headers.unwrap();
+    assert_eq!(headers["http"], "kept");
+    assert_eq!(headers["shared"], "request");
+    assert_eq!(headers["route"], "kept");
+    assert_eq!(headers.len(), 3);
+}
+
+#[test]
 fn reducer_assembles_interleaved_blocks_in_first_seen_order() {
     let events = vec![
         LlmEvent::ReasoningDelta {
