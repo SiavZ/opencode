@@ -4,6 +4,7 @@
 //! Uses:
 //! rust/xtask/
 //! |-- src/check.rs
+//! |-- src/codegen/mod.rs
 //! |-- src/edges.rs
 //! |-- src/fixtures.rs
 //! |-- src/headers.rs
@@ -20,6 +21,7 @@
 //! Contract tests: xtask/tests/
 
 pub mod check;
+pub mod codegen;
 pub mod edges;
 pub mod fixtures;
 pub mod headers;

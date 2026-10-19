@@ -5,6 +5,7 @@
 //! rust/xtask/
 //! |-- src/check.rs
 //! |-- src/cloud/mod.rs
+//! |-- src/codegen/mod.rs
 //! |-- src/distribution/mod.rs
 //! |-- src/edges.rs
 //! |-- src/fixtures.rs
@@ -35,6 +36,8 @@ Phase 01:
   parity-census    print exact empty-host categories, baseline routes and domain owners
   fixtures [run [--strict | --conformance]] validate; run strict production replay by default
   check [--strict | --conformance] every gate; conformance is diagnostic, NOT product parity
+Phase 08:
+  codegen [--check] generate or verify Rust client operations from the protocol registry
 Phase 13:
   cloud             infrastructure plans";
 
@@ -42,6 +45,7 @@ fn main() -> Result<()> {
     let args = std::env::args().skip(2).collect::<Vec<_>>();
     let task = std::env::args().nth(1).unwrap_or_default();
     match task.as_str() {
+        "codegen" => xtask::codegen::run(&args),
         "cloud" => cloud::run(&args),
         "distribution" => distribution::run(&args),
         "headers" => xtask::headers::run(&args),

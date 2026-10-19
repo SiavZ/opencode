@@ -46,6 +46,8 @@ fn census_counts_actual_baseline_and_assigns_every_requirement() {
     let root = xtask::workspace::rust_root().unwrap();
     let report = parity::render(&root).unwrap();
     assert!(report.contains("430 captured cases, 384 ledger mismatches, 46 matches"));
+    assert!(report.contains("2ed84974fc779a5b5d06b65bb8618fc0d6a5e1006c81e00c72abf88d3d7cf4d7"));
+    assert!(report.contains("a85c7751375bb0c144d7a1d45a160b7728c6222a18de6f97997324ab6133c9c7"));
     for (category, count) in [
         ("not-mounted", 222),
         ("not-ported", 140),

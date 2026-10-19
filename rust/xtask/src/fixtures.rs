@@ -90,7 +90,13 @@ pub fn run(args: &[String]) -> Result<()> {
             }
             if mode == Mode::Strict && target == Some("strict_replay") {
                 // Strict gates must execute the opt-in differential, not count an ignored test.
-                command.args(["--", "--ignored", "--nocapture"]);
+                command.args([
+                    "production_process_matches_every_recorded_requirement",
+                    "--",
+                    "--ignored",
+                    "--exact",
+                    "--nocapture",
+                ]);
             }
             let output = command
                 .output()
