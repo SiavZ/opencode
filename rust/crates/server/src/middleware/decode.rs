@@ -127,7 +127,10 @@ fn at(path: &str) -> String {
 fn validate(api: &Api, schema: &Schema, value: &Value, path: &str) -> Result<Value, String> {
     let expected = |what: &str| {
         let label = match schema {
-            Schema::Ref { name } if what == "object" => name.as_str(),
+            Schema::Ref { name } if what == "object" => api
+                .definition(name)
+                .and_then(|definition| definition.identifier.as_deref())
+                .unwrap_or(name.as_str()),
             _ => what,
         };
         Err(format!(

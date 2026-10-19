@@ -119,3 +119,25 @@ fn legacy_void_successes_do_not_advertise_a_json_alternative() {
         }
     }
 }
+
+#[test]
+fn legacy_success_statuses_use_the_last_explicit_schema() {
+    let api = opencode_protocol::legacy::api();
+    for (_, endpoint) in api.endpoints() {
+        let mut statuses = HashSet::new();
+        assert!(
+            endpoint
+                .successes
+                .iter()
+                .all(|success| statuses.insert(success.status)),
+            "{}",
+            endpoint.name
+        );
+    }
+    let endpoint = api.find("auth.set").expect("auth set");
+    assert_eq!(endpoint.successes.len(), 1);
+    assert!(matches!(
+        endpoint.successes[0].schema,
+        Some(Schema::Boolean)
+    ));
+}

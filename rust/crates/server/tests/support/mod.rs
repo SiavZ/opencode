@@ -125,6 +125,7 @@ pub fn user_message(id: &str) -> Message {
 /// SessionService fixture recording requests.
 #[derive(Default)]
 pub struct FakeSessions {
+    pub empty_lists: bool,
     pub lists: Mutex<Vec<ListRequest>>,
     pub prompts: Mutex<Vec<PromptRequest>>,
     pub messages: Mutex<Vec<MessagesRequest>>,
@@ -140,6 +141,9 @@ fn missing(id: &SessionID) -> SessionError {
 impl SessionService for FakeSessions {
     async fn list(&self, request: ListRequest) -> SessionResult<Vec<SessionInfo>> {
         self.lists.lock().unwrap().push(request);
+        if self.empty_lists {
+            return Ok(Vec::new());
+        }
         Ok(vec![session_info("ses_b", 20), session_info("ses_a", 10)])
     }
     async fn create(&self, request: CreateRequest) -> SessionResult<SessionInfo> {

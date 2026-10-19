@@ -40,7 +40,7 @@ use opencode_session_api::operations::SessionService;
 
 pub use ports::{
     LegacyWorkspaces, LocationInfo, LocationRef, LocationResolver, PortError, SessionPlacement,
-    UiAssets, WorkspaceInfo, WorkspaceTarget,
+    UiAssets, UiRequest, UiResponse, WorkspaceInfo, WorkspaceTarget,
 };
 
 /// Every service a handler may need. `None` means the capability is not composed in this host.

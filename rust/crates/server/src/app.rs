@@ -70,7 +70,7 @@ use std::sync::Arc;
 
 use axum::Router;
 use axum::extract::{Path, Request, State};
-use axum::http::{StatusCode, header};
+use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use axum::routing::{MethodFilter, MethodRouter, on};
 use futures_util::FutureExt;
@@ -303,19 +303,8 @@ async fn ui(State(state): State<AppState>, request: Request) -> Response {
     let Some(assets) = state.services.ui.as_ref() else {
         return HttpError::not_yet_ported("ui").into_response();
     };
-    match assets.get(request.uri().path()).await {
-        None => StatusCode::NOT_FOUND.into_response(),
-        Some((content_type, body, csp)) => {
-            let mut response = (StatusCode::OK, body).into_response();
-            if let Ok(value) = content_type.parse() {
-                response.headers_mut().insert(header::CONTENT_TYPE, value);
-            }
-            if let Some(value) = csp.and_then(|v| v.parse().ok()) {
-                response
-                    .headers_mut()
-                    .insert(header::CONTENT_SECURITY_POLICY, value);
-            }
-            response
-        }
+    match assets.request(request).await {
+        Ok(response) => response,
+        Err(error) => HttpError::Defect(error.message).into_response(),
     }
 }

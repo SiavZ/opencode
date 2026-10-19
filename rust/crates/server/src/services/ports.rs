@@ -70,8 +70,32 @@ pub trait LegacyWorkspaces: Send + Sync {
 }
 
 /// Static or proxied web UI (`packages/opencode/src/server/shared/ui.ts`).
+pub type UiRequest = axum::extract::Request;
+pub type UiResponse = axum::response::Response;
+
 #[async_trait]
 pub trait UiAssets: Send + Sync {
     /// Returns `(content_type, body, content_security_policy)` or `None` for 404.
     async fn get(&self, path: &str) -> Option<(String, Vec<u8>, Option<String>)>;
+
+    /// Full proxy boundary. Native bodies own their streams, so dropping a response cancels it.
+    /// Static adapters keep their existing `get` implementation without losing compatibility.
+    async fn request(&self, request: UiRequest) -> Result<UiResponse, PortError> {
+        use axum::http::{StatusCode, header};
+        use axum::response::IntoResponse;
+
+        let Some((content_type, body, csp)) = self.get(request.uri().path()).await else {
+            return Ok(StatusCode::NOT_FOUND.into_response());
+        };
+        let mut response = (StatusCode::OK, body).into_response();
+        if let Ok(value) = content_type.parse() {
+            response.headers_mut().insert(header::CONTENT_TYPE, value);
+        }
+        if let Some(value) = csp.and_then(|value| value.parse().ok()) {
+            response
+                .headers_mut()
+                .insert(header::CONTENT_SECURITY_POLICY, value);
+        }
+        Ok(response)
+    }
 }

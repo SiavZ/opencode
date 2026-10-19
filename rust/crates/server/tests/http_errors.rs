@@ -24,6 +24,32 @@ use opencode_server::app::{self, axum_path};
 use opencode_server::services::Services;
 use serde_json::{Value, json};
 
+#[tokio::test]
+async fn question_reply_wrong_type_uses_effect_identifier_not_component_key() {
+    let services = support::services(std::sync::Arc::new(support::FakeSessions::default()));
+    let server = support::start(app::embedded_router(services)).await;
+    let response = support::client()
+        .post(format!(
+            "{}/api/session/ses_known/question/que_known/reply",
+            server.url()
+        ))
+        .json(&json!("wrong"))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(response.status(), 400);
+    let body: Value = response.json().await.unwrap();
+    assert!(
+        body.to_string().contains("Expected QuestionV2.Reply, got"),
+        "{body}"
+    );
+    assert!(
+        !body.to_string().contains("Expected QuestionV2Reply"),
+        "{body}"
+    );
+    server.stop(false).await;
+}
+
 #[test]
 fn path_templates_translate() {
     assert_eq!(

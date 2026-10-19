@@ -36,6 +36,22 @@ async fn get(url: String) -> (u16, Value) {
 }
 
 #[tokio::test]
+async fn empty_session_list_preserves_recorded_null_cursor_keys() {
+    let sessions = Arc::new(support::FakeSessions {
+        empty_lists: true,
+        ..support::FakeSessions::default()
+    });
+    let server = support::start(support::session_router(support::services(sessions))).await;
+    let (status, body) = get(format!("{}/api/session", server.url())).await;
+    assert_eq!(status, 200);
+    assert_eq!(
+        body,
+        json!({"data":[],"cursor":{"previous":null,"next":null}})
+    );
+    server.stop(false).await;
+}
+
+#[tokio::test]
 async fn location_uses_bracketed_query_then_header() {
     let (server, _) = embedded().await;
     let (status, body) = get(format!(

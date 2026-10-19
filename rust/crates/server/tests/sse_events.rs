@@ -316,6 +316,10 @@ async fn session_events_replay_after_cursor_then_live_and_reconnect() {
     let url = format!("{}/api/session/ses_known/event?after=0", server.url());
     let response = support::client().get(&url).send().await.unwrap();
     assert_eq!(response.status(), 200);
+    assert_eq!(response.headers()["content-type"], "text/event-stream");
+    assert!(!response.headers().contains_key("cache-control"));
+    assert!(!response.headers().contains_key("x-accel-buffering"));
+    assert!(!response.headers().contains_key("x-content-type-options"));
     let reader = tokio::spawn(read_frames(response, 3));
     tokio::time::sleep(Duration::from_millis(50)).await;
     events.publish(payload(

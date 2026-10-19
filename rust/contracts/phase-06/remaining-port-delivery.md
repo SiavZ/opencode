@@ -66,3 +66,19 @@ At **11:55 UTC**, all three `runtime/tests/workspace_transport.rs` tests passed.
 At **11:57 UTC**, the unrestricted server/protocol package suite passed with only the separately measured immutable replay ledger assertion excluded. This includes six domain HTTP tests, eight SSE tests, three remote relay tests, and seven PTY socket tests. Server/protocol **all-target Clippy with `-D warnings` also passed**. A registry regression additionally proves `session.prompt_async` advertises only empty 204, not the constructor's earlier accidental JSON 200 alternative.
 
 Strict Clippy for the runtime workspace transport target was attempted and blocked by seven newly edited provider variant compilation errors (`serde_json::Map` cannot be constructed from a two-element array with `.into()`). This is a peer-owned dependency failure, reported to the provider owner, not a transport lint pass. Reverification is pending that repair.
+
+## Production replay follow-through
+
+The final empty-host diagnostic at **11:57 UTC** measured **142/430 passing, 288 failing: 277 not-ported, 5 body, 5 not-mounted, 1 status**. The immutable ledger assertion still fails and was not blessed. Explicit residual body mismatches are compact/wait placement failures; UI fallback cases require an actual UI adapter, and the TUI control timeout requires the real process queue.
+
+The independent production Process differential then measured **347/430 passing, 83 failing**. This is the first composed-host observation, not interchangeable with the empty-host diagnostic. Actual failures drove these API repairs:
+
+- Durable current session SSE no longer inherits the handcrafted global stream cache/buffering headers. The TS handler returns the HttpApiBuilder-encoded stream without those extra headers. Actual loopback SSE tests passed after adding absence assertions.
+- Named object validation now uses the preserved Effect identifier, so `QuestionV2.Reply` is not shortened to the OpenAPI component key. Its new actual HTTP regression passed.
+- Legacy success alternatives are canonicalized by status with the last explicitly supplied schema replacing the constructor's unknown 200. Registry tests passed, including the auth boolean schema and sole async-prompt 204.
+- The full UI port now accepts an owned native request and returns an owned response, preserving method, URI, headers, body stream, status and response stream. Existing static `get` adapters remain compatible. Both actual loopback port-fixture tests passed; actual upstream/CSP behavior remains root's runtime adapter responsibility.
+- Empty current session lists now preserve the independently recorded `cursor.previous: null` and `cursor.next: null`; message paging remains separately governed by its own recorded behavior.
+- Current filesystem raw bytes have an additive `handle_bytes` port with explicit status/MIME headers, avoiding JSON or UTF-8 corruption. A non-UTF-8 loopback regression is queued; root's global adapter owner supplies actual file reads.
+- Current integration lifecycle routes now select the concrete provider credential port rather than the MCP/reference integration port.
+
+The document endpoint was traced to a literal OpenAPI stub. Root delegated the real registry/IR emitter and its tests to a separate worker; this owner does not edit those delegated files. Final combined checks are temporarily blocked while that new module set is being written. Later runtime target Clippy reached the host and reported four peer-owned lints, routed to their owners; no runtime lint success is claimed yet.

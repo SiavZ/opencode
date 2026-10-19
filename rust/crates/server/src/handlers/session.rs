@@ -233,7 +233,10 @@ async fn list(ctx: &Ctx, session: Arc<dyn SessionService>) -> Result<Response, H
         }
         .encode()
     };
-    let mut cursor = Map::new();
+    let mut cursor = Map::from_iter([
+        ("previous".into(), Value::Null),
+        ("next".into(), Value::Null),
+    ]);
     if let Some(first) = sessions.first() {
         cursor.insert(
             "previous".into(),

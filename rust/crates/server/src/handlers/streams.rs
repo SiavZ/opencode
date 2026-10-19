@@ -198,7 +198,12 @@ async fn session_events(
             futures_util::future::ready(Some(chunk))
         })
         .boxed();
-    sse::response(frames)
+    let mut response = sse::response(frames);
+    // HttpApiBuilder encodes the session stream without the explicit global-event headers.
+    for (name, _) in opencode_protocol::sse::HEADERS {
+        response.headers_mut().remove(name);
+    }
+    response
 }
 
 /// `Stream.orDie` defects encoded through `Schema.Cause(Never, Defect)`.

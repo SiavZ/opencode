@@ -40,6 +40,14 @@ pub struct LegacyResponse {
     pub headers: Vec<(String, String)>,
 }
 
+/// Raw response bytes and explicit MIME/status metadata, never coerced through JSON text.
+#[derive(Debug)]
+pub struct LegacyBytesResponse {
+    pub body: Vec<u8>,
+    pub status: u16,
+    pub headers: Vec<(String, String)>,
+}
+
 impl From<Value> for LegacyResponse {
     fn from(body: Value) -> Self {
         Self {
@@ -53,6 +61,18 @@ impl From<Value> for LegacyResponse {
 /// Narrow V1 boundary. Query and payload are schema-validated by the HTTP host.
 #[async_trait::async_trait]
 pub trait LegacySessions: Send + Sync {
+    async fn handle_bytes(
+        &self,
+        operation: &str,
+        context: &RouteContext,
+        params: &Map<String, Value>,
+        query: &Map<String, Value>,
+        payload: Option<Value>,
+    ) -> Result<LegacyBytesResponse, LegacyError> {
+        let _ = (context, params, query, payload);
+        Err(LegacyError::Unavailable(operation.to_owned()))
+    }
+
     async fn handle_response(
         &self,
         operation: &str,

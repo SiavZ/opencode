@@ -41,6 +41,7 @@ pub async fn handle(mut ctx: Ctx) -> Result<Response, HttpError> {
     let name = ctx.endpoint.name.as_str();
     let services = &ctx.state.services;
     let service = match name {
+        name if ctx.current && name.starts_with("integration.") => &services.legacy_providers,
         name if name.starts_with("session.permission.")
             || name.starts_with("session.question.") =>
         {
@@ -104,6 +105,39 @@ pub async fn handle(mut ctx: Ctx) -> Result<Response, HttpError> {
     } else {
         name
     };
+    if ctx
+        .endpoint
+        .successes
+        .iter()
+        .any(|success| success.encoding == SuccessEncoding::Bytes)
+    {
+        return match service
+            .handle_bytes(
+                operation,
+                &context,
+                &ctx.params,
+                &ctx.query,
+                ctx.payload.clone(),
+            )
+            .await
+        {
+            Ok(value) => {
+                let status = StatusCode::from_u16(value.status)
+                    .map_err(|error| HttpError::Defect(error.to_string()))?;
+                let mut response = (status, value.body).into_response();
+                for (name, value) in value.headers {
+                    response.headers_mut().insert(
+                        HeaderName::try_from(name)
+                            .map_err(|error| HttpError::Defect(error.to_string()))?,
+                        HeaderValue::try_from(value)
+                            .map_err(|error| HttpError::Defect(error.to_string()))?,
+                    );
+                }
+                Ok(response)
+            }
+            Err(error) => domain_error(error),
+        };
+    }
     match service
         .handle_response(
             operation,

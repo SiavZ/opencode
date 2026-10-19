@@ -166,6 +166,13 @@ pub fn api() -> &'static Api {
         groups.extend(workspace::groups());
         let mut definitions = schema::definitions();
         for endpoint in groups.iter_mut().flat_map(|group| &mut group.endpoints) {
+            // Constructors start with an unknown 200; a later explicit schema replaces it.
+            let mut statuses = std::collections::HashSet::new();
+            endpoint.successes.reverse();
+            endpoint
+                .successes
+                .retain(|success| statuses.insert(success.status));
+            endpoint.successes.reverse();
             let name = match endpoint.name.as_str() {
                 "auth.set" => "Auth",
                 "config.update" | "global.config.update" => "Config",
