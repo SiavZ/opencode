@@ -136,9 +136,7 @@ async fn pipeline(
                 .await
                 .map_err(|e| HttpError::Defect(e.to_string()))?;
             // Effect: empty text decodes as `undefined`, a malformed body is a defect.
-            let value = if bytes.is_empty()
-                || (legacy_create && bytes.iter().all(u8::is_ascii_whitespace))
-            {
+            let value = if bytes.is_empty() || (legacy_create && legacy_empty_body(&bytes)) {
                 None
             } else {
                 Some(serde_json::from_slice::<Value>(&bytes).map_err(|e| {
@@ -184,6 +182,17 @@ async fn pipeline(
         raw_query: query,
     };
     handle(ctx).await
+}
+
+/// JavaScript String.trim also removes BOM and NBSP, but not Unicode NEL.
+fn legacy_empty_body(bytes: &[u8]) -> bool {
+    std::str::from_utf8(bytes).is_ok_and(|text| {
+        text.chars().all(|character| {
+            matches!(character, '\u{0009}'..='\u{000d}' | '\u{0020}' | '\u{00a0}' | '\u{1680}' |
+            '\u{2000}'..='\u{200a}' | '\u{2028}' | '\u{2029}' | '\u{202f}' | '\u{205f}' |
+            '\u{3000}' | '\u{feff}')
+        })
+    })
 }
 
 /// Collect axum path params in template order.

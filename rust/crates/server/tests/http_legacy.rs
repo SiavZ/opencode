@@ -150,7 +150,7 @@ async fn registered_legacy_routes_fail_typed_without_runtime_services() {
         assert_ne!(value["service"], "ui", "{path}: {value}");
         assert_eq!(value["_tag"], "ServiceUnavailableError");
     }
-    for body in ["", " \n\t", "{}"] {
+    for body in ["", " \n\t", "\u{00a0}\u{feff}\u{3000}", "{}"] {
         let response = client
             .post(format!("{}/session", server.url()))
             .body(body)
@@ -175,6 +175,8 @@ async fn legacy_create_preserves_raw_decode_errors_and_complete_input_schema() {
         "{",
         "null",
         "[]",
+        "\u{0085}",
+        "\u{feff}{}",
         "{\"title\":12}",
         "{\"model\":{\"providerID\":\"p\",\"modelID\":\"wrong-v2-key\"}}",
         "{\"permission\":[{\"permission\":\"read\",\"pattern\":\"*\",\"action\":\"invalid\"}]}",
