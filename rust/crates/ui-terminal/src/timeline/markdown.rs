@@ -66,10 +66,8 @@ pub fn render(text: &str) -> Vec<Line<'static>> {
                             current,
                         );
                     }
-                    Tag::TableCell => {
-                        if lines.last().is_some_and(|l| !l.spans.is_empty()) {
-                            push(&mut lines, " │ ", current);
-                        }
+                    Tag::TableCell if lines.last().is_some_and(|l| !l.spans.is_empty()) => {
+                        push(&mut lines, " │ ", current);
                     }
                     _ => {}
                 }
@@ -89,10 +87,10 @@ pub fn render(text: &str) -> Vec<Line<'static>> {
                     | TagEnd::CodeBlock
                     | TagEnd::Item
                     | TagEnd::TableRow
-                    | TagEnd::TableHead => {
-                        if lines.last().is_some_and(|l| !l.spans.is_empty()) {
-                            lines.push(Line::default());
-                        }
+                    | TagEnd::TableHead
+                        if lines.last().is_some_and(|l| !l.spans.is_empty()) =>
+                    {
+                        lines.push(Line::default());
                     }
                     _ => {}
                 }

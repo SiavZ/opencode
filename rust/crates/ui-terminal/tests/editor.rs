@@ -191,3 +191,82 @@ fn inserting_combining_text_reestablishes_grapheme_boundaries() {
     editor.delete(true);
     assert_eq!(editor.text(), "");
 }
+
+#[test]
+fn baseline_shortcuts_distinguish_buffer_line_and_visual_motion() {
+    let mut editor = Editor::new();
+    editor.set_text("first\nsecond");
+    editor.handle(&key(KeyCode::Char('a'), KeyModifiers::CONTROL));
+    assert_eq!(editor.cursor(), 6);
+    editor.handle(&key(KeyCode::Home, KeyModifiers::NONE));
+    assert_eq!(editor.cursor(), 0);
+    editor.handle(&key(KeyCode::End, KeyModifiers::NONE));
+    assert_eq!(editor.cursor(), editor.text().len());
+    editor.handle(&key(KeyCode::Char('j'), KeyModifiers::CONTROL));
+    assert!(editor.text().ends_with('\n'));
+    editor.handle(&key(KeyCode::Char('-'), KeyModifiers::CONTROL));
+    assert_eq!(editor.text(), "first\nsecond");
+    editor.handle(&key(KeyCode::Char('.'), KeyModifiers::CONTROL));
+    assert!(editor.text().ends_with('\n'));
+    assert_eq!(
+        editor.handle(&key(KeyCode::Char('z'), KeyModifiers::CONTROL)),
+        EditorAction::None
+    );
+    editor.handle(&key(KeyCode::Char('a'), KeyModifiers::SUPER));
+    assert_eq!(editor.selection().unwrap(), 0..editor.text().len());
+}
+
+#[test]
+fn visual_movement_wraps_and_preserves_preferred_column() {
+    let mut editor = Editor::new();
+    editor.set_text("abcdefghij");
+    editor.handle_at(&key(KeyCode::Up, KeyModifiers::NONE), 4);
+    assert_eq!(editor.cursor(), 6);
+    editor.handle_at(&key(KeyCode::Up, KeyModifiers::NONE), 4);
+    assert_eq!(editor.cursor(), 2);
+    editor.handle_at(&key(KeyCode::Down, KeyModifiers::SHIFT), 4);
+    assert_eq!(&editor.text()[editor.selection().unwrap()], "cdef");
+    editor.handle_at(&key(KeyCode::Char('a'), KeyModifiers::ALT), 4);
+    assert_eq!(editor.cursor(), 4);
+}
+
+#[test]
+fn exact_margin_hard_newline_does_not_create_a_phantom_row() {
+    let mut editor = Editor::new();
+    editor.set_text("abcd\nx");
+    let layout = editor.layout(4);
+    assert_eq!(
+        layout
+            .lines
+            .iter()
+            .map(ToString::to_string)
+            .collect::<Vec<_>>(),
+        ["abcd", "x"]
+    );
+    assert_eq!(layout.cursor, (1, 1));
+    editor.set_text("abcd");
+    assert_eq!(editor.layout(4).cursor, (0, 1));
+}
+
+#[test]
+fn seeded_history_is_bounded_and_available_for_persistence() {
+    let mut editor = Editor::new();
+    editor.set_history((0..55).map(|index| index.to_string()).collect());
+    assert_eq!(editor.history().len(), 50);
+    assert_eq!(editor.history()[0], "5");
+    assert!(editor.history_move(true));
+    assert_eq!(editor.text(), "54");
+}
+
+#[test]
+fn baseline_offsets_distinguish_tab_from_newline_and_keep_zero_width_prefix() {
+    assert_eq!(offset_width("\t"), 0);
+    assert_eq!(offset_width("\n"), 1);
+    assert_eq!(display_slice("\u{301}a", 0, 1), "\u{301}a");
+    let mut editor = Editor::new();
+    editor.insert(" ");
+    assert_eq!(
+        editor.command("input.submit"),
+        EditorAction::Submit(" ".into())
+    );
+}

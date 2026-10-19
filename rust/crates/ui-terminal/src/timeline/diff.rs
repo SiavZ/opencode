@@ -48,3 +48,19 @@ pub fn render(before: &str, after: &str) -> Vec<Line<'static>> {
         })
         .collect()
 }
+
+/// Preserve a tool's existing unified patch, including hunk and file headers.
+pub fn render_patch(patch: &str) -> Vec<Line<'static>> {
+    patch
+        .lines()
+        .map(|line| {
+            let color = match line.as_bytes().first() {
+                Some(b'+') if !line.starts_with("+++") => Color::Green,
+                Some(b'-') if !line.starts_with("---") => Color::Red,
+                Some(b'@') => Color::Cyan,
+                _ => Color::DarkGray,
+            };
+            Line::styled(safe_text(line), Style::default().fg(color))
+        })
+        .collect()
+}

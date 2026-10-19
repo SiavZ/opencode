@@ -44,6 +44,7 @@ pub struct Editor {
     cursor: usize,
     anchor: Option<usize>,
     preferred_column: Option<usize>,
+    viewport_width: Option<u16>,
     undo: Vec<(String, usize)>,
     redo: Vec<(String, usize)>,
     history: Vec<String>,
@@ -131,17 +132,17 @@ impl Editor {
             self.anchor.get_or_insert(self.cursor);
         }
         if !selecting {
-            if let Some(range) = self.selection() {
-                if matches!(movement, Movement::Left | Movement::Right) {
-                    self.cursor = if movement == Movement::Left {
-                        range.start
-                    } else {
-                        range.end
-                    };
-                    self.anchor = None;
-                    self.preferred_column = None;
-                    return;
-                }
+            if let Some(range) = self.selection()
+                && matches!(movement, Movement::Left | Movement::Right)
+            {
+                self.cursor = if movement == Movement::Left {
+                    range.start
+                } else {
+                    range.end
+                };
+                self.anchor = None;
+                self.preferred_column = None;
+                return;
             }
             self.anchor = None;
         }
@@ -240,6 +241,16 @@ impl Editor {
             position = self.next(position);
         }
         position
+    }
+    pub fn history(&self) -> &[String] {
+        &self.history
+    }
+    pub fn set_history(&mut self, history: Vec<String>) {
+        self.history.clear();
+        for text in history {
+            self.remember(text);
+        }
+        self.history_index = self.history.len();
     }
     pub fn remember(&mut self, text: String) {
         if self.history.last() != Some(&text) {

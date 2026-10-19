@@ -4,7 +4,9 @@
 //! rust/crates/
 //! |-- ui-terminal/src/timeline/diff.rs
 //! |-- ui-terminal/src/timeline/markdown.rs
-//! `-- ui-terminal/src/timeline/tool.rs
+//! |-- ui-terminal/src/timeline/projection.rs
+//! |-- ui-terminal/src/timeline/tool.rs
+//! `-- ui-terminal/src/timeline/tool_details.rs
 //! External:
 //! |-- ratatui::{style, text}
 //! |-- unicode_segmentation::UnicodeSegmentation
@@ -16,7 +18,10 @@
 //! Contract tests: ui-terminal/tests/rendering.rs
 pub mod diff;
 pub mod markdown;
+mod projection;
+pub use projection::ProjectionError;
 pub mod tool;
+mod tool_details;
 use ratatui::{
     style::{Color, Style},
     text::{Line, Span},
@@ -65,15 +70,14 @@ impl Timeline {
             role: current,
             parts,
         }) = self.messages.last_mut()
+            && current == role
         {
-            if current == role {
-                if let Some(Part::Text(text)) = parts.last_mut() {
-                    text.push_str(delta);
-                    return;
-                }
-                parts.push(Part::Text(delta.to_owned()));
+            if let Some(Part::Text(text)) = parts.last_mut() {
+                text.push_str(delta);
                 return;
             }
+            parts.push(Part::Text(delta.to_owned()));
+            return;
         }
         self.push(role, delta);
     }

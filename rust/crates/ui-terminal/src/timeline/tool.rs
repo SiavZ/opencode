@@ -2,7 +2,8 @@
 //! Scope: pure widget rendering.
 //! Uses:
 //! rust/crates/
-//! `-- ui-terminal/src/timeline/mod.rs
+//! |-- ui-terminal/src/timeline/mod.rs
+//! `-- ui-terminal/src/timeline/tool_details.rs
 //! External:
 //! |-- ratatui::{style, text}
 //! `-- serde_json::Value
@@ -88,6 +89,10 @@ pub fn render(tool: &Tool) -> Vec<Line<'static>> {
                 .lines()
                 .map(|line| Line::styled(line.to_owned(), Style::default().fg(Color::Red))),
         );
+    }
+    if let Some(details) = super::tool_details::render(tool) {
+        lines.extend(details);
+        return lines;
     }
     if tool.expanded {
         lines.extend(
