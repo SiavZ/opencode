@@ -17,3 +17,5 @@ pub mod acp;
 pub mod lsp;
 pub mod mcp;
 pub mod plugins;
+pub mod references;
+pub mod skills;
