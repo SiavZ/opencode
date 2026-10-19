@@ -1,5 +1,7 @@
 //! Purpose: message-side transformation rules ported from packages/opencode/src/provider/transform.ts
 //! Scope: normalize_messages, apply_caching, unsupported_parts, map_provider_options, message
+//! Invariants: transformations preserve typed message structure while applying provider-specific rewrites; Rust strings already contain valid Unicode scalar values.
+//! Contract tests: crates/provider-adapters/tests/providers_transform_messages.rs
 //! Uses:
 //! rust/crates/
 //! |-- llm-api/src/message.rs

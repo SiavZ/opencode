@@ -18,7 +18,7 @@
 //! |-- src/lib.rs
 //! |-- src/main.rs
 //! `-- tests/gates.rs
-//! Invariants: empty corpora, malformed cases and known compatibility failures cannot pass.
+//! Invariants: empty corpora and runner failures fail; strict mode also rejects known parity debt.
 //! Contract tests: xtask/tests/gates.rs
 
 use anyhow::{Context, Result, bail};
@@ -35,11 +35,12 @@ pub fn run(args: &[String]) -> Result<()> {
     let mut errors = validate(&root)?;
     if args.first().is_some_and(|arg| arg == "run") {
         let executed = regex::Regex::new(r"test result: ok\. ([1-9][0-9]*) passed")?;
-        for (package, target) in [
-            ("opencode-schema", None),
-            ("opencode-server", Some("replay_baseline")),
-            ("opencode-provider-adapters", None),
-            ("opencode", Some("cli_help")),
+        for (package, target, filter) in [
+            ("opencode-schema", None, None),
+            ("opencode-server", Some("replay_baseline"), None),
+            ("opencode-provider-adapters", None, None),
+            ("opencode", Some("cli_help"), None),
+            ("xtask", Some("xtask"), Some("cloud::tests")),
         ] {
             let mut command = std::process::Command::new(
                 std::env::var_os("CARGO").unwrap_or_else(|| "cargo".into()),
@@ -51,9 +52,12 @@ pub fn run(args: &[String]) -> Result<()> {
                 .env_remove("UPDATE_EXPECT")
                 .env_remove("INSTA_UPDATE");
             if let Some(target) = target {
-                command.args(["--test", target]);
+                command.args([if filter.is_some() { "--bin" } else { "--test" }, target]);
             } else {
                 command.arg("--tests");
+            }
+            if let Some(filter) = filter {
+                command.arg(filter);
             }
             let output = command
                 .output()

@@ -1,4 +1,8 @@
 //! Tests for message-side transforms in `providers/transform.rs`.
+//! Purpose: exercise provider-specific message normalization, caching, unsupported media and option mapping.
+//! Scope: offline typed-message examples; no live provider requests or full production parity claim.
+//! Invariants: assertions call the actual exported transforms and verify model-specific output.
+//! Contract tests: this integration target runs fourteen message-transformation cases.
 
 use opencode_llm_api::{
     ContentPart, Message, MessageRole, ToolCallPart, ToolResultPart, ToolResultValue,

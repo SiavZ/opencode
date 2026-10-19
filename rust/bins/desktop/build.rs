@@ -7,6 +7,7 @@
 //! Used by:
 //! `-- none, build script
 //! Invariants: only runs during cargo build.
+//! Contract tests: no dedicated test; desktop cargo build executes Tauri code generation.
 
 fn main() {
     tauri_build::build()
