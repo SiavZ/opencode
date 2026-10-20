@@ -81,7 +81,10 @@ async fn serve(parsed: &Parsed, version: &str) -> ExitCode {
             return ExitCode::from(1);
         }
     };
-    if std::env::var("OPENCODE_SERVER_PASSWORD").map_or(true, |p| p.is_empty()) {
+    if std::env::var("OPENCODE_SERVER_PASSWORD")
+        .unwrap_or_default()
+        .is_empty()
+    {
         println!("Warning: OPENCODE_SERVER_PASSWORD is not set; server is unsecured.");
     }
     let channel = option_env!("OPENCODE_CHANNEL").unwrap_or("local");
