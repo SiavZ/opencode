@@ -64,8 +64,7 @@ async fn catalog_failure_does_not_become_unavailable_model_or_authorization() {
     let error = resolver
         .resolve(&support::session("ses_catalog", None))
         .await
-        .err()
-        .expect("catalog failure");
+        .expect_err("catalog failure");
     assert_eq!(
         error,
         ModelError::Catalog("catalog database unavailable".into())
