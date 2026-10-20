@@ -323,7 +323,7 @@ impl Compaction<'_> {
         let Some((head, recent)) = select(entries, self.settings.tokens) else {
             return Ok(false);
         };
-        let previous = entries.iter().find_map(|message| match message {
+        let previous = entries.iter().rev().find_map(|message| match message {
             Message::Compaction(compaction) => Some(compaction),
             _ => None,
         });

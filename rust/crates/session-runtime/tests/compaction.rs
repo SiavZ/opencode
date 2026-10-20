@@ -243,6 +243,40 @@ async fn compact_after_overflow_publishes_started_and_ended() {
 }
 
 #[tokio::test]
+async fn repeated_compaction_uses_newest_prior_summary_and_recent_tail() {
+    let h = sql::open().await;
+    h.seed_session(SESSION).await;
+    let llm = ScriptedLlm {
+        events: vec![Ok(delta("updated summary"))],
+        requests: Mutex::default(),
+    };
+    let compaction = Compaction {
+        events: h.events.as_ref(),
+        llm: &llm,
+        settings: Settings {
+            tokens: 3.0,
+            ..Settings::default()
+        },
+    };
+    let entries = vec![
+        message(json!({ "id": "msg_old", "type": "compaction", "reason": "auto", "summary": "old summary", "recent": "old recent", "time": { "created": 1 } })),
+        message(json!({ "id": "msg_new", "type": "compaction", "reason": "auto", "summary": "new summary", "recent": "new recent", "time": { "created": 2 } })),
+        user("msg_1", &"a".repeat(100)),
+        user("msg_2", "hi"),
+    ];
+    assert!(compaction
+        .compact_after_overflow(&SessionID::new(SESSION).unwrap(), &entries, &request(100_000, 0))
+        .await
+        .unwrap());
+    let sent = &llm.requests.lock().unwrap()[0];
+    let prompt = serde_json::to_string(&sent.messages).unwrap();
+    assert!(prompt.contains("new summary"));
+    assert!(prompt.contains("new recent"));
+    assert!(!prompt.contains("old summary"));
+    assert!(!prompt.contains("old recent"));
+}
+
+#[tokio::test]
 async fn provider_error_or_blank_summary_publishes_only_started() {
     let h = sql::open().await;
     h.seed_session(SESSION).await;
