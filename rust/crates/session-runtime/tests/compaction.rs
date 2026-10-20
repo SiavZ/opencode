@@ -27,8 +27,8 @@ mod sql;
 use std::sync::{Arc, Mutex};
 
 use opencode_llm_api::{
-    FinishReason, LlmError, LlmEvent, LlmEventStream, LlmRequest, Model, ModelLimits,
-    PreparedRequest, ProviderId, Route, RouteDefaults,
+    FinishReason, LlmError, LlmErrorReason, LlmEvent, LlmEventStream, LlmRequest, Model,
+    ModelLimits, PreparedRequest, ProviderId, Route, RouteDefaults,
 };
 use opencode_schema::session_message::Message;
 use opencode_session_api::SessionID;
@@ -70,7 +70,7 @@ impl Route for LimitRoute {
 
 /// Fixture LLM client: records requests and replays a scripted event list.
 struct ScriptedLlm {
-    events: Vec<LlmEvent>,
+    events: Vec<Result<LlmEvent, LlmError>>,
     requests: Mutex<Vec<LlmRequest>>,
 }
 
@@ -80,9 +80,7 @@ impl opencode_llm_api::LlmClient for ScriptedLlm {
     }
     fn stream(&self, request: LlmRequest) -> LlmEventStream {
         self.requests.lock().unwrap().push(request);
-        Box::pin(futures::stream::iter(
-            self.events.clone().into_iter().map(Ok),
-        ))
+        Box::pin(futures::stream::iter(self.events.clone()))
     }
 }
 
@@ -198,7 +196,10 @@ async fn compact_after_overflow_publishes_started_and_ended() {
     let h = sql::open().await;
     h.seed_session(SESSION).await;
     let llm = ScriptedLlm {
-        events: vec![delta("## Objective"), delta("\n- x"), finish()],
+        events: vec![delta("## Objective"), delta("\n- x"), finish()]
+            .into_iter()
+            .map(Ok)
+            .collect(),
         requests: Mutex::default(),
     };
     let compaction = Compaction {
@@ -248,7 +249,7 @@ async fn provider_error_or_blank_summary_publishes_only_started() {
     let error: LlmEvent =
         serde_json::from_value(json!({ "type": "provider-error", "message": "boom" })).unwrap();
     let llm = ScriptedLlm {
-        events: vec![delta("x"), error],
+        events: vec![delta("x"), error].into_iter().map(Ok).collect(),
         requests: Mutex::default(),
     };
     let compaction = Compaction {
@@ -272,7 +273,7 @@ async fn provider_error_or_blank_summary_publishes_only_started() {
         vec!["session.next.compaction.started.1"]
     );
     let blank = ScriptedLlm {
-        events: vec![delta("  ")],
+        events: vec![Ok(delta("  "))],
         requests: Mutex::default(),
     };
     let compaction = Compaction {
@@ -295,11 +296,65 @@ async fn provider_error_or_blank_summary_publishes_only_started() {
 }
 
 #[tokio::test]
+async fn transport_error_after_delta_does_not_persist_partial_summary() {
+    let h = sql::open().await;
+    h.seed_session(SESSION).await;
+    let llm = ScriptedLlm {
+        events: vec![
+            Ok(delta("## Partial summary")),
+            Err(LlmError::new(
+                "fixture",
+                "stream",
+                LlmErrorReason::Transport {
+                    message: "connection dropped".into(),
+                    kind: None,
+                    url: None,
+                    http: None,
+                },
+            )),
+        ],
+        requests: Mutex::default(),
+    };
+    let compaction = Compaction {
+        events: h.events.as_ref(),
+        llm: &llm,
+        settings: Settings {
+            tokens: 3.0,
+            ..Settings::default()
+        },
+    };
+    let entries = vec![user("msg_1", &"a".repeat(100)), user("msg_2", "hi")];
+    assert!(
+        !compaction
+            .compact_after_overflow(
+                &SessionID::new(SESSION).unwrap(),
+                &entries,
+                &request(100_000, 0)
+            )
+            .await
+            .unwrap()
+    );
+    assert_eq!(
+        event_types(&h).await,
+        vec!["session.next.compaction.started.1"]
+    );
+    assert!(
+        h.query(
+            "SELECT data FROM event WHERE type = 'session.next.compaction.ended.1'",
+            vec![],
+        )
+        .await
+        .is_empty(),
+        "partial summary must not be persisted"
+    );
+}
+
+#[tokio::test]
 async fn nothing_to_summarize_or_no_context_is_a_noop() {
     let h = sql::open().await;
     h.seed_session(SESSION).await;
     let llm = ScriptedLlm {
-        events: vec![delta("s")],
+        events: vec![Ok(delta("s"))],
         requests: Mutex::default(),
     };
     let compaction = Compaction {
@@ -348,7 +403,7 @@ async fn compact_if_needed_respects_auto_and_buffer() {
     let h = sql::open().await;
     h.seed_session(SESSION).await;
     let llm = ScriptedLlm {
-        events: vec![delta("s")],
+        events: vec![Ok(delta("s"))],
         requests: Mutex::default(),
     };
     let session = SessionID::new(SESSION).unwrap();
