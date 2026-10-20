@@ -285,6 +285,13 @@ async fn provider_error_or_blank_summary_publishes_only_started() {
             .await
             .unwrap()
     );
+    assert_eq!(
+        event_types(&h).await,
+        vec![
+            "session.next.compaction.started.1",
+            "session.next.compaction.started.1"
+        ]
+    );
 }
 
 #[tokio::test]
