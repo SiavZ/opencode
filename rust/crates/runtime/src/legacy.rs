@@ -61,7 +61,9 @@ pub struct LegacyAdapter {
     version: String,
     run_state: RunState,
     locations: Option<Arc<dyn LegacyLocations>>,
+    execution: Option<Arc<dyn opencode_session_api::operations::SessionExecution>>,
     tasks: tokio_util::task::TaskTracker,
+    stop: tokio_util::sync::CancellationToken,
 }
 
 impl LegacyAdapter {
@@ -77,7 +79,9 @@ impl LegacyAdapter {
             version,
             run_state,
             locations: None,
+            execution: None,
             tasks: tokio_util::task::TaskTracker::new(),
+            stop: tokio_util::sync::CancellationToken::new(),
         }
     }
 
@@ -86,7 +90,20 @@ impl LegacyAdapter {
         self
     }
 
+    pub fn with_execution(
+        mut self,
+        execution: Arc<dyn opencode_session_api::operations::SessionExecution>,
+    ) -> Self {
+        self.execution = Some(execution);
+        self
+    }
+
     pub async fn shutdown(&self) {
+        self.stop.cancel();
+        self.run_state.shutdown().await;
+        if let Some(locations) = &self.locations {
+            locations.shutdown().await;
+        }
         self.tasks.close();
         self.tasks.wait().await;
     }
@@ -123,10 +140,10 @@ impl LegacyAdapter {
                 )
             });
         let mut info = json!({
-            "id":id,"slug":slug(),"version":self.version,"projectID":project.project.id.as_str(),
+            "id":id,"slug":slug(),"projectID":project.project.id.as_str(),
             "directory":context.directory,"path":relative(&project.project.worktree, &context.directory),
-            "title":title,"cost":0,"tokens":{"input":0,"output":0,"reasoning":0,"cache":{"read":0,"write":0}},
-            "time":{"created":now,"updated":now}
+            "cost":0,"tokens":{"input":0,"output":0,"reasoning":0,"cache":{"read":0,"write":0}},
+            "title":title,"version":self.version,"time":{"created":now,"updated":now}
         });
         let object = info.as_object_mut().expect("literal object");
         for key in ["parentID", "agent", "model", "metadata", "permission"] {
@@ -268,7 +285,15 @@ impl LegacySessions for LegacyAdapter {
             "session.create" => self.create(context, payload).await,
             "session.list" => self.list(context, query).await,
             "experimental.session.list" => Ok(self.global_page(context, query).await?.body),
+            "experimental.session.background" => self
+                .locations
+                .as_ref()
+                .ok_or_else(|| LegacyError::Unavailable("legacy background registry".into()))?
+                .background(parameter(params, "sessionID")?)
+                .await
+                .map(Value::Bool),
             "session.todo" => {
+                self.store.get(id()?).await.map_err(map_error)?;
                 let session = SessionID::new(id()?)
                     .map_err(|error| LegacyError::BadRequest(error.to_string()))?;
                 let todos = opencode_session_runtime::todo::Todos::new(

@@ -14,6 +14,9 @@
 //! Contract tests: client/tests (Phase 08)
 
 pub mod errors;
+pub mod generated;
+pub mod operation;
 pub mod transport;
 
 pub use errors::{ClientError, ClientErrorReason};
+pub use generated::{current, legacy};

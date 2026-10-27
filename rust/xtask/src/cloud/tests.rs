@@ -243,7 +243,7 @@ fn outputs_follow_sst_config() {
     assert_eq!(keys, ["StatWorkerUrl", "StatsUrl", "AwsStage"]);
     assert_eq!(
         dev["output"]["StatWorkerUrl"]["value"],
-        "${module.Stat.url}"
+        "${local.Stat.url}"
     );
     let pr = terraform::emit(&build(Stage::new("pr-123")));
     assert!(pr["output"].get("StatsUrl").is_none());

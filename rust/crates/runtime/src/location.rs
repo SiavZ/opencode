@@ -69,15 +69,14 @@ use opencode_session_api::{SessionError, SessionID};
 use opencode_session_runtime::execution::LocationRunners;
 use opencode_session_runtime::runner::SessionRunner;
 use opencode_session_runtime::runner::model::{LocationModels, ModelCatalog};
-use opencode_session_runtime::runner::ports::RegistryContext;
 use opencode_session_runtime::runner::turn::{LlmSessionRunner, RunnerDeps};
 
 #[path = "location_agents.rs"]
 mod agents;
 #[path = "location_models.rs"]
-mod model_ports;
+pub(crate) mod model_ports;
 #[path = "location_routes.rs"]
-mod routes;
+pub(crate) mod routes;
 #[path = "location_tools.rs"]
 mod tools;
 
@@ -87,19 +86,47 @@ pub struct LocationGlobals {
     pub environment: opencode_config::Environment,
     pub events: Arc<dyn opencode_session_runtime::projection::SessionEvents>,
     pub paths: crate::paths::GlobalPaths,
+    pub models: Arc<opencode_provider_adapters::catalog::ModelsService>,
+    pub application_tools: opencode_tool_api::ToolRegistry,
+    pub callbacks: Arc<dyn opencode_server::services::legacy::LegacySessions>,
 }
 
 /// One `Location.Ref`'s services.
 pub struct LocationBundle {
     pub info: Info,
     pub models: Vec<ModelInfo>,
+    pub catalog: Arc<model_ports::Catalog>,
+    pub agents: opencode_session_runtime::agents::Agents,
+    pub config: CurrentConfig,
+    pub legacy_config: Arc<crate::location_legacy_config::Inputs>,
+    pub permissions: crate::location_permissions::Permissions,
+    pub questions: Arc<opencode_tools::interaction::Questions>,
+    pub native: crate::native_services::NativeServices,
+    pub providers: Arc<crate::provider_services::ProviderServices>,
+    pub tools: opencode_tool_api::ToolRegistry,
+    pub snapshots: Arc<dyn opencode_platform_api::snapshot::Snapshots>,
+    pub integrations: Arc<crate::location_integrations::LocationIntegrations>,
+    pub models_resolver: Arc<dyn opencode_session_runtime::runner::model::SessionRunnerModel>,
+    pub materializer: Arc<opencode_session_runtime::runner::ports::RegistryMaterializer>,
+    pub legacy_materializer: Arc<opencode_session_runtime::runner::ports::RegistryMaterializer>,
+    pub llm: Arc<dyn opencode_llm_api::LlmClient>,
+    pub context: Registry,
     /// `SessionRunnerLLM` for this location.
     pub runner: Arc<dyn SessionRunner>,
     _tools: opencode_tool_api::Registration,
+    _legacy_tools: opencode_tool_api::Registration,
     _context: opencode_context::registry::Registration,
+    _integrations: opencode_tool_api::Registration,
+    _legacy_integrations: opencode_tool_api::Registration,
 }
 
-impl LocationServices for LocationBundle {}
+#[async_trait]
+impl LocationServices for LocationBundle {
+    async fn teardown(&self) {
+        self.permissions.service.shutdown();
+        self.questions.shutdown();
+    }
+}
 
 impl HasLocationInfo for LocationBundle {
     fn location_info(&self) -> &Info {
@@ -126,10 +153,10 @@ pub async fn build(
         },
     )
     .map_err(build_error)?;
-    let (catalog, credentials) = model_ports::load(
+    let (catalog, credentials, providers) = model_ports::load(
         &config,
         &context.global.environment,
-        &context.global.paths.cache,
+        context.global.models.clone(),
         context.global.events.database(),
     )
     .await
@@ -141,16 +168,141 @@ pub async fn build(
         &context.global.paths.data,
         &context.global.paths.tmp,
     );
-    let tools = tools::build(
+    let permissions = crate::location_permissions::build(
+        resolved.id.as_str().to_owned(),
+        agents.clone(),
+        context.global.events.clone(),
+        opencode_event_api::LocationRef {
+            directory: directory.clone(),
+            workspace_id: context
+                .location
+                .workspace_id
+                .as_ref()
+                .map(|id| id.as_str().to_owned()),
+        },
+    );
+    let native = crate::native_services::build_with_environment(
+        directory.clone().into(),
+        config
+            .latest("shell")
+            .and_then(serde_json::Value::as_str)
+            .unwrap_or(if cfg!(windows) {
+                "powershell.exe"
+            } else {
+                "/bin/sh"
+            })
+            .to_owned(),
+        context.global.events.clone(),
+        opencode_event_api::LocationRef {
+            directory: directory.clone(),
+            workspace_id: context
+                .location
+                .workspace_id
+                .as_ref()
+                .map(|id| id.as_str().to_owned()),
+        },
+        context.global.environment.vars.clone(),
+    );
+    let questions = crate::location_questions::build(
+        context.global.events.clone(),
+        opencode_event_api::LocationRef {
+            directory: directory.clone(),
+            workspace_id: context
+                .location
+                .workspace_id
+                .as_ref()
+                .map(|id| id.as_str().to_owned()),
+        },
+    );
+    let native_pty = native.pty.clone();
+    context.scope.add_finalizer("native PTY", async move {
+        opencode_platform_api::pty::PtyService::shutdown(native_pty.as_ref()).await;
+    });
+    let tools = tools::build_with_permissions(
         std::path::Path::new(&directory),
         &resolved.directory,
         &context.global.paths.data,
         &config,
-        agents.clone(),
+        permissions.service.clone(),
+        &context.global.application_tools,
+        questions.clone(),
     )
     .await
     .map_err(build_error)?;
     let registry = Registry::default();
+    let integration_events = crate::location_integrations::events::IntegrationEvents::start(
+        context.global.events.store(),
+        opencode_event_api::LocationRef {
+            directory: directory.clone(),
+            workspace_id: context
+                .location
+                .workspace_id
+                .as_ref()
+                .map(|id| id.as_str().to_owned()),
+        },
+    );
+    let event_cleanup = integration_events.clone();
+    context
+        .scope
+        .add_finalizer("integration events", async move {
+            event_cleanup.shutdown().await;
+        });
+    let integrations = crate::location_integrations::LocationIntegrations::build(
+        crate::location_integrations::Options {
+            directory: std::path::Path::new(&directory),
+            project: &resolved.directory,
+            data: &context.global.paths.data,
+            home: &context.global.paths.home,
+            config: &config,
+            environment: &context.global.environment.vars,
+            events: integration_events.clone(),
+            callbacks: Arc::new(
+                crate::location_integrations::callbacks::LocationCallbacks::new(
+                    context.global.callbacks.clone(),
+                    opencode_server::middleware::legacy_routing::RouteContext {
+                        directory: directory.clone(),
+                        workspace_id: context
+                            .location
+                            .workspace_id
+                            .as_ref()
+                            .map(|id| id.as_str().to_owned()),
+                    },
+                ),
+            ),
+        },
+    )
+    .await
+    .map_err(build_error)?;
+    let integration_cleanup = integrations.clone();
+    context
+        .scope
+        .add_finalizer("integration processes", async move {
+            integration_cleanup.shutdown().await;
+        });
+    providers.set_plugins(integrations.plugins.clone()).await;
+    let provider_cleanup = providers.clone();
+    context
+        .scope
+        .add_finalizer("provider authentication", async move {
+            provider_cleanup.shutdown().await;
+        });
+    integration_events.set_plugins(
+        integrations
+            .plugins
+            .iter()
+            .cloned()
+            .map(|plugin| plugin as Arc<dyn opencode_integration_api::plugin::PluginInstance>)
+            .collect(),
+    );
+    let integration_registration = integrations
+        .register_tools(&tools.materializer.registry)
+        .await
+        .map_err(build_error)?;
+    let legacy_integration_registration = integrations
+        .register_tools(&tools.legacy_materializer.registry)
+        .await
+        .map_err(build_error)?;
+    integration_events.set_integrations(&integrations);
     let registration = builtins::register(
         &registry,
         &builtins::LocationFacts {
@@ -196,27 +348,62 @@ pub async fn build(
         },
     )
     .await;
+    let tool_registry = tools.materializer.registry.clone();
+    let materializer = Arc::new(tools.materializer);
+    let legacy_materializer = Arc::new(tools.legacy_materializer);
+    let models_resolver = Arc::new(LocationModels {
+        catalog: catalog.clone(),
+        integrations: credentials,
+        routes: Arc::new(routes::NativeRoutes::new().map_err(build_error)?),
+    });
     let runner = LlmSessionRunner::new(RunnerDeps {
         events: context.global.events.clone(),
         llm: llm.clone(),
-        agents,
-        tools: Arc::new(tools.materializer),
-        models: Arc::new(LocationModels {
-            catalog,
-            integrations: credentials,
-            routes: Arc::new(routes::NativeRoutes::new().map_err(build_error)?),
+        agents: agents.clone(),
+        tools: Arc::new(
+            crate::location_integrations::hooks::IntegrationMaterializer {
+                source: materializer.clone(),
+                inner: materializer.clone(),
+                integrations: integrations.clone(),
+            },
+        ),
+        models: models_resolver.clone(),
+        context: Arc::new(crate::location_integrations::context::IntegrationContext {
+            registry: registry.clone(),
+            integrations: integrations.clone(),
         }),
-        context: Arc::new(RegistryContext(registry)),
         compaction: Arc::new(crate::execution_support::SessionCompaction {
             events: context.global.events.clone(),
-            llm,
+            llm: llm.clone(),
             settings,
         }),
-        snapshots: Arc::new(crate::execution_support::RunnerSnapshots(snapshots)),
+        snapshots: Arc::new(crate::execution_support::RunnerSnapshots(snapshots.clone())),
         location: context.location.clone(),
     });
+    integrations.callbacks.ready();
     Ok(LocationBundle {
         models,
+        catalog,
+        agents,
+        config,
+        legacy_config: Arc::new(crate::location_legacy_config::Inputs {
+            port: context.global.callbacks.clone(),
+            environment: context.global.environment.clone(),
+            models: context.global.models.clone(),
+            database: context.global.events.database(),
+        }),
+        permissions,
+        questions,
+        native,
+        providers,
+        tools: tool_registry,
+        snapshots: Arc::new(snapshots),
+        integrations,
+        models_resolver,
+        materializer,
+        legacy_materializer,
+        llm,
+        context: registry,
         info: location_info(
             &context.location,
             &resolved.id,
@@ -224,7 +411,10 @@ pub async fn build(
         ),
         runner: Arc::new(runner),
         _tools: tools.registration,
+        _legacy_tools: tools.legacy_registration,
         _context: registration,
+        _integrations: integration_registration,
+        _legacy_integrations: legacy_integration_registration,
     })
 }
 

@@ -1,5 +1,5 @@
 //! Purpose: workspace repository: create (workspace + admin member + zero billing + default key),
-//! info, update, default region, soft delete, block/unblock single and batch, disabled models.
+//! info, update, default region, soft delete, block/unblock, disabled models and usage graph.
 //! Scope: repository functions on `TenantStore`.
 //! Uses:
 //! rust/crates/
@@ -228,6 +228,82 @@ impl TenantStore {
         }
         let (applied, not_found) = unique.into_iter().partition(|id| applied.contains(id));
         Ok(BlockBatch { applied, not_found })
+    }
+
+    /// `usage/graph-section.tsx:getCosts`: month is zero-based, offset is the browser's
+    /// fixed mid-month UTC offset. This intentionally includes every plan and all users.
+    pub async fn usage_graph(
+        &self,
+        actor: &Actor,
+        year: i32,
+        month: i32,
+        tz_offset: &str,
+    ) -> TenantResult<serde_json::Value> {
+        let workspace = actor.workspace()?;
+        let year = if (0..100).contains(&year) {
+            year + 1900
+        } else {
+            year
+        };
+        let months = i64::from(year) * 12 + i64::from(month);
+        let date = |months: i64| {
+            i32::try_from(months.div_euclid(12))
+                .ok()
+                .and_then(|year| {
+                    time::Month::try_from((months.rem_euclid(12) + 1) as u8)
+                        .ok()
+                        .and_then(|month| time::Date::from_calendar_date(year, month, 1).ok())
+                })
+                .ok_or_else(|| ConsoleError::Validation("Invalid graph month".into()))
+        };
+        let bytes = tz_offset.as_bytes();
+        let minutes = if bytes.len() == 6
+            && matches!(bytes[0], b'+' | b'-')
+            && bytes[3] == b':'
+            && [bytes[1], bytes[2], bytes[4], bytes[5]]
+                .iter()
+                .all(u8::is_ascii_digit)
+        {
+            let hours = i64::from(bytes[1] - b'0') * 10 + i64::from(bytes[2] - b'0');
+            let minutes = i64::from(bytes[4] - b'0') * 10 + i64::from(bytes[5] - b'0');
+            (hours * 60 + minutes) * if bytes[0] == b'-' { -1 } else { 1 }
+        } else {
+            0
+        };
+        let offset = time::Duration::minutes(minutes);
+        let start = date(months)?
+            .midnight()
+            .checked_sub(offset)
+            .ok_or_else(|| ConsoleError::Validation("Invalid graph month".into()))?;
+        let end = date(months + 1)?
+            .midnight()
+            .checked_sub(offset)
+            .ok_or_else(|| ConsoleError::Validation("Invalid graph month".into()))?;
+        let mut conn = self.db().conn().await?;
+        type UsageGraphRow = (
+            Option<String>,
+            String,
+            String,
+            Option<String>,
+            Option<String>,
+        );
+        let rows: Vec<UsageGraphRow> = conn.exec(
+            "SELECT CAST(DATE(CONVERT_TZ(`time_created`, '+00:00', ?)) AS CHAR) AS `date`, `model`, CAST(SUM(`cost`) AS CHAR), `key_id`, JSON_EXTRACT(`enrichment`, '$.plan') AS `plan` FROM `usage` WHERE `workspace_id` = ? AND `time_created` >= ? AND `time_created` < ? GROUP BY `date`, `model`, `key_id`, `plan`",
+            (tz_offset, workspace, start, end),
+        ).await?;
+        let usage = rows.into_iter().map(|(date, model, total, key_id, plan)| {
+            let total = total.parse::<i64>().map_err(|_| ConsoleError::Validation("Usage cost exceeds supported integer range".into()))?;
+            // MySQL JSON_EXTRACT returns JSON text; baseline's JSON column decoder unwraps it.
+            let plan = plan.and_then(|value| serde_json::from_str::<serde_json::Value>(&value).ok());
+            Ok(serde_json::json!({"date": date, "model": model, "totalCost": total, "keyId": key_id, "plan": plan}))
+        }).collect::<Result<Vec<_>, ConsoleError>>()?;
+        let keys: Vec<(String, String, String, Option<time::PrimitiveDateTime>)> = conn.exec(
+            "SELECT `key`.`id`, `key`.`name`, `auth`.`subject`, `key`.`time_deleted` FROM `key` INNER JOIN `user` ON `key`.`user_id` = `user`.`id` AND `key`.`workspace_id` = `user`.`workspace_id` INNER JOIN `auth` ON `user`.`account_id` = `auth`.`account_id` AND `auth`.`provider` = 'email' WHERE `key`.`workspace_id` = ? AND (`key`.`time_deleted` IS NULL OR EXISTS (SELECT 1 FROM `usage` WHERE `usage`.`workspace_id` = ? AND `usage`.`key_id` = `key`.`id` AND `usage`.`time_created` >= ? AND `usage`.`time_created` < ?)) ORDER BY `auth`.`subject`, `key`.`name`",
+            (workspace, workspace, start, end),
+        ).await?;
+        Ok(
+            serde_json::json!({"usage": usage, "keys": keys.into_iter().map(|(id, name, email, deleted)| serde_json::json!({"id": id, "displayName": format!("{email} - {name}"), "deleted": deleted.is_some()})).collect::<Vec<_>>()}),
+        )
     }
 
     /// `Model.listDisabled`.

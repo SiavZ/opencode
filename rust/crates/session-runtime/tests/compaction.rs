@@ -259,15 +259,25 @@ async fn repeated_compaction_uses_newest_prior_summary_and_recent_tail() {
         },
     };
     let entries = vec![
-        message(json!({ "id": "msg_old", "type": "compaction", "reason": "auto", "summary": "old summary", "recent": "old recent", "time": { "created": 1 } })),
-        message(json!({ "id": "msg_new", "type": "compaction", "reason": "auto", "summary": "new summary", "recent": "new recent", "time": { "created": 2 } })),
+        message(
+            json!({ "id": "msg_old", "type": "compaction", "reason": "auto", "summary": "old summary", "recent": "old recent", "time": { "created": 1 } }),
+        ),
+        message(
+            json!({ "id": "msg_new", "type": "compaction", "reason": "auto", "summary": "new summary", "recent": "new recent", "time": { "created": 2 } }),
+        ),
         user("msg_1", &"a".repeat(100)),
         user("msg_2", "hi"),
     ];
-    assert!(compaction
-        .compact_after_overflow(&SessionID::new(SESSION).unwrap(), &entries, &request(100_000, 0))
-        .await
-        .unwrap());
+    assert!(
+        compaction
+            .compact_after_overflow(
+                &SessionID::new(SESSION).unwrap(),
+                &entries,
+                &request(100_000, 0)
+            )
+            .await
+            .unwrap()
+    );
     let sent = &llm.requests.lock().unwrap()[0];
     let prompt = serde_json::to_string(&sent.messages).unwrap();
     assert!(prompt.contains("new summary"));

@@ -183,6 +183,9 @@ impl LegacySessions {
 /// AgentV2 lookup, the `task` permission ask, tool-context metadata and the legacy SessionPrompt ops.
 #[async_trait]
 pub trait ChildOps: Send + Sync {
+    fn scope(&self) -> Option<Arc<dyn Send + Sync>> {
+        None
+    }
     /// `Agent.get(name)`.
     async fn agent(&self, name: &str) -> Result<Option<AgentInfo>, ChildError>;
     /// `ctx.ask({ permission, patterns: [pattern], always: ["*"], metadata })`.
@@ -260,6 +263,9 @@ impl ComposedChildHost {
 
 #[async_trait]
 impl ChildHost for ComposedChildHost {
+    fn scope(&self) -> Option<Arc<dyn Send + Sync>> {
+        self.ops.scope()
+    }
     async fn session(&self, id: &str) -> Result<SessionNode, ChildError> {
         self.sessions.get(id).await
     }

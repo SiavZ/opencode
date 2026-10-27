@@ -427,7 +427,11 @@ async fn production_tools_execute_native_read_and_continue_with_its_actual_outpu
 async fn production_native_write_enforces_the_location_permission_boundary() {
     for allowed in [true, false] {
         let outside = tempfile::tempdir().unwrap();
-        let path = if allowed { "created.txt".to_owned() } else { outside.path().join("outside.txt").display().to_string() };
+        let path = if allowed {
+            "created.txt".to_owned()
+        } else {
+            outside.path().join("outside.txt").display().to_string()
+        };
         let provider = Provider::start(vec![
             Reply::Tool {
                 name: "write",
@@ -442,18 +446,33 @@ async fn production_native_write_enforces_the_location_permission_boundary() {
         if !allowed {
             let request = tokio::time::timeout(Duration::from_secs(10), async {
                 loop {
-                    let pending = host.process.pending_permissions(host.directory.clone().into()).await.unwrap();
-                    if let Some(request) = pending.into_iter().find(|request| request.session_id == session) {
+                    let pending = host
+                        .process
+                        .pending_permissions(host.directory.clone().into())
+                        .await
+                        .unwrap();
+                    if let Some(request) = pending
+                        .into_iter()
+                        .find(|request| request.session_id == session)
+                    {
                         break request;
                     }
                     tokio::time::sleep(Duration::from_millis(10)).await;
                 }
-            }).await.unwrap();
-            host.process.reply_permission(host.directory.clone().into(), opencode_permissions::ReplyInput {
-                request_id: request.id,
-                reply: opencode_permissions::Reply::Reject,
-                message: None,
-            }).await.unwrap();
+            })
+            .await
+            .unwrap();
+            host.process
+                .reply_permission(
+                    host.directory.clone().into(),
+                    opencode_permissions::ReplyInput {
+                        request_id: request.id,
+                        reply: opencode_permissions::Reply::Reject,
+                        message: None,
+                    },
+                )
+                .await
+                .unwrap();
         }
         let context = host.completed(&session).await;
         let target = std::path::Path::new(&host.directory).join(path);

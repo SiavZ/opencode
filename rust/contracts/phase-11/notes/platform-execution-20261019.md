@@ -64,7 +64,7 @@ Task-specific scratch evidence is under `opencode-platform-proof`: `linux-native
 
 Actual Linux desktop callback rerun `2840868qqe` also passed: `cargo test --locked --offline -p opencode-desktop-host --test updater_subscriptions`, 8 passed, 0 failed, 0 ignored, after 60s compile. It ran on the same native Linux image at HEAD `722a43c9e1521f39b377500cd2d3e672ddeb3149` plus working changes. Log: `linux-desktop-subscriptions.log`.
 
-Read-only run discovery at approximately 11:51 UTC (`gh run list --repo SiavZ/opencode --branch rust-port --workflow rust.yml`) failed after 31s with `error connecting to api.github.com`. Earlier authenticated queries succeeded. This is a current network observation failure, not evidence that credentials or hosted runners are unavailable. No new run is claimed from that failed query.
+Read-only run discovery at approximately 11:51 UTC (`gh run list --repo SiavZ/opencode --branch rust-port --workflow rust.yml`) failed after 31s with `error connecting to api.github.com`. Earlier authenticated queries succeeded. This is a current network observation failure, not evidence that credentials or hosted runners are unavailable. No new run is claimed from that failed query. A successful retry at 12:00 UTC still reported `39227041182` at `dd2499bdd2b8647a692b6d2cb25e6f899cd57315` as the latest branch run, with conclusion `failure`; API connectivity had recovered but updated native execution remained pending coordinator publication.
 
 ## Remaining proof
 

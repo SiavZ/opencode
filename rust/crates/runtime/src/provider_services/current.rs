@@ -27,6 +27,9 @@ impl ProviderServices {
         params: &Map<String, Value>,
         payload: Option<Value>,
     ) -> Result<Value, LegacyError> {
+        if operation.starts_with("v2.integration.") {
+            return self.integration_operation(operation, params, payload).await;
+        }
         match operation {
             "v2.provider.list" => serde_json::to_value(
                 self.catalog()

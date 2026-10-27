@@ -24,11 +24,18 @@
 
 pub mod auth;
 pub mod billing;
+pub mod browser;
+pub mod issuer;
+pub mod public;
+pub mod referral;
 pub mod state;
 pub mod support;
+pub mod workers;
 pub mod workspace;
 pub mod zen;
 
+#[cfg(test)]
+mod tests;
 use axum::Router;
 
 pub use state::ConsoleState;
@@ -39,6 +46,9 @@ pub fn router(state: ConsoleState) -> Router {
         .merge(auth::routes())
         .merge(workspace::routes())
         .merge(billing::routes())
+        .merge(browser::routes())
+        .merge(public::routes())
+        .merge(referral::routes())
         .merge(zen::routes())
         .merge(support::routes())
         .with_state(state)

@@ -154,6 +154,10 @@ pub enum ChildError {
 /// the runtime composition over the legacy Session service, Agent service and SessionPrompt ops.
 #[async_trait]
 pub trait ChildHost: Send + Sync {
+    /// Keep the concrete prompt owner alive only while a child job is active.
+    fn scope(&self) -> Option<std::sync::Arc<dyn Send + Sync>> {
+        None
+    }
     async fn session(&self, id: &str) -> Result<SessionNode, ChildError>;
     async fn agent(&self, name: &str) -> Result<Option<AgentInfo>, ChildError>;
     /// `ctx.ask({ permission, patterns: [pattern], always: ["*"], metadata })`.

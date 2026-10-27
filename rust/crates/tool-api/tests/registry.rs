@@ -23,6 +23,53 @@ use serde_json::{Value, json};
 use std::sync::Arc;
 use tokio_util::sync::CancellationToken;
 
+// Boundary fixture: exposes forwarded context without implementing retention policy.
+struct ContextBounder(bool);
+
+#[async_trait]
+impl OutputBounder for ContextBounder {
+    async fn bound(
+        &self,
+        session_id: &str,
+        tool_call_id: &str,
+        output: ToolOutput,
+    ) -> Result<BoundOutput, String> {
+        if self.0 {
+            return Err("retention unavailable".into());
+        }
+        Ok(BoundOutput {
+            output,
+            output_paths: vec![format!("{session_id}/{tool_call_id}")],
+        })
+    }
+}
+
+#[tokio::test]
+async fn rebound_output_uses_location_bounder_and_preserves_context_and_failures() {
+    let application = ToolRegistry::new(Arc::new(PassthroughBounder));
+    let location = application.fork(Arc::new(ContextBounder(false)));
+    let output = ToolOutput::new(
+        json!({"hook":"after"}),
+        vec![ToolContent::text("rewritten output")],
+    );
+    let bounded = location.bound(output.clone(), &context()).await.unwrap();
+    assert_eq!(bounded.output, output);
+    assert_eq!(bounded.output_paths, ["ses_1/call_1"]);
+    assert!(
+        application
+            .bound(output.clone(), &context())
+            .await
+            .unwrap()
+            .output_paths
+            .is_empty()
+    );
+    let failed = application.fork(Arc::new(ContextBounder(true)));
+    assert_eq!(
+        failed.bound(output, &context()).await.unwrap_err(),
+        "retention unavailable"
+    );
+}
+
 struct Echo(&'static str);
 
 #[async_trait]

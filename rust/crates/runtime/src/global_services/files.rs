@@ -174,7 +174,7 @@ impl GlobalServices {
     }
 }
 
-async fn target(directory: &Path, input: &str) -> Result<PathBuf, LegacyError> {
+pub(super) async fn target(directory: &Path, input: &str) -> Result<PathBuf, LegacyError> {
     let root = tokio::fs::canonicalize(directory).await.map_err(internal)?;
     let input = Path::new(input);
     let mut absolute = if input.is_absolute() {

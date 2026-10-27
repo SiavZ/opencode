@@ -45,12 +45,18 @@ use async_trait::async_trait;
 use futures::future::BoxFuture;
 use opencode_schema::location::Ref;
 use tokio::sync::{OnceCell, watch};
-use tokio::time::{Instant, sleep_until};
+use tokio::time::Instant;
+#[path = "registry/idle.rs"]
+mod idle;
+use idle::idle_timer;
 use tokio_util::sync::CancellationToken;
 use tokio_util::task::TaskTracker;
 
 use crate::error::{LocationError, Result};
 pub use crate::scope::LocationScope;
+
+#[path = "registry/invalidation.rs"]
+mod invalidation;
 
 /// `idleTimeToLive: "60 minutes"`.
 pub const DEFAULT_IDLE_TTL: Duration = Duration::from_secs(60 * 60);
@@ -440,44 +446,6 @@ impl<S: LocationServices, G: Send + Sync + 'static> Drop for LocationLease<S, G>
             },
             &registry.runtime,
         );
-    }
-}
-
-async fn idle_timer<S: LocationServices, G: Send + Sync + 'static>(
-    registry: std::sync::Weak<Inner<S, G>>,
-    slot: Arc<Slot<S>>,
-) {
-    loop {
-        let deadline = {
-            let refs = lock(&slot.refs);
-            refs.expires_at
-        };
-        let Some(deadline) = deadline else {
-            lock(&slot.refs).timer = false;
-            return;
-        };
-        sleep_until(deadline).await;
-        let Some(registry) = registry.upgrade() else {
-            return;
-        };
-        let mut map = lock(&registry.map);
-        let mut refs = lock(&slot.refs);
-        if refs.removed || refs.count > 0 {
-            refs.timer = false;
-            return;
-        }
-        match refs.expires_at {
-            Some(at) if at <= Instant::now() => {
-                refs.removed = true;
-                refs.timer = false;
-                remove_if_same(&mut map, &slot);
-            }
-            _ => continue,
-        }
-        drop(refs);
-        drop(map);
-        registry.spawn_teardown(slot);
-        return;
     }
 }
 

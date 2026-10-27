@@ -372,17 +372,57 @@ source = "infra/console.ts:59"
 
 [[resource]]
 name = "AuthStorage"
-kind = "sst.cloudflare.Kv"
-mode = "managed"
-provider = "cloudflare"
+kind = "native.ConsoleService"
+mode = "linkable"
+provider = "native-topology"
 when = "always"
 source = "infra/console.ts:60"
 
 [[resource]]
+name = "OPENCODE_ISSUER_SIGNING_KEY_PEM"
+kind = "sst.Secret"
+mode = "secret"
+provider = "native-topology"
+when = "always"
+source = "rust/native-console-topology"
+
+[[resource]]
+name = "OPENCODE_ISSUER_RETIRED_JWKS"
+kind = "sst.Secret"
+mode = "secret"
+provider = "native-topology"
+when = "always"
+source = "rust/native-console-topology"
+
+[[resource]]
+name = "OPENCODE_ISSUER_KEY_ID"
+kind = "sst.Secret"
+mode = "secret"
+provider = "native-topology"
+when = "always"
+source = "rust/native-console-topology"
+
+[[resource]]
+name = "OPENCODE_CONSOLE_LOG_INGRESS_TOKEN"
+kind = "sst.Secret"
+mode = "secret"
+provider = "native-topology"
+when = "always"
+source = "rust/native-console-topology"
+
+[[resource]]
+name = "NativeConsoleTopology"
+kind = "native.ConsoleTopology"
+mode = "linkable"
+provider = "native-topology"
+when = "always"
+source = "rust/native-console-topology"
+
+[[resource]]
 name = "AuthApi"
-kind = "sst.cloudflare.Worker"
-mode = "managed"
-provider = "cloudflare"
+kind = "native.ConsoleService"
+mode = "linkable"
+provider = "native-topology"
 when = "always"
 source = "infra/console.ts:61-66"
 
@@ -852,9 +892,9 @@ source = "infra/console.ts:250"
 
 [[resource]]
 name = "LogProcessor"
-kind = "sst.cloudflare.Worker"
-mode = "managed"
-provider = "cloudflare"
+kind = "native.ConsoleService"
+mode = "linkable"
+provider = "native-topology"
 when = "always"
 source = "infra/console.ts:252-255"
 
@@ -900,17 +940,17 @@ source = "infra/console.ts:286-289"
 
 [[resource]]
 name = "Console"
-kind = "sst.cloudflare.x.SolidStart"
-mode = "managed"
-provider = "cloudflare"
+kind = "native.ConsoleService"
+mode = "linkable"
+provider = "native-topology"
 when = "always"
 source = "infra/console.ts:257-313"
 
 [[resource]]
 name = "Stat"
-kind = "sst.cloudflare.Worker"
-mode = "managed"
-provider = "cloudflare"
+kind = "native.ConsoleService"
+mode = "linkable"
+provider = "native-topology"
 when = "always"
 source = "infra/console.ts:319-323"
 
@@ -985,4 +1025,3 @@ mode = "managed"
 provider = "honeycomb"
 when = "monitoring"
 source = "infra/monitoring.ts:260-287"
-

@@ -1,18 +1,26 @@
-//! Purpose: session page composition: timeline, composer, side panels for one scoped session.
-//! Scope: session view.
+//! Purpose: render a session workspace and actionable failures around the canonical timeline.
+//! Scope: browser session view.
 //! Uses:
 //! `-- none
 //! External:
-//! `-- leptos::prelude::*
+//! `-- none
 //! Used by:
-//! rust/crates/
-//! `-- ui-web/src/lib.rs
-//! Invariants: skeleton owned by child node p10.session; replace this header when implementing.
-//! Contract tests: ui-web/tests (owner p10.session)
-
+//! `-- none
+//! Invariants: failures stay visible and retry uses the real transport.
+//! Contract tests: browser acceptance
+use crate::state::{Browser, text};
 use leptos::prelude::*;
-
 #[component]
 pub fn SessionPage() -> impl IntoView {
-    view! { <div class="oc-session"><crate::composer::Composer/></div> }
+    let browser = expect_context::<Browser>();
+    view! {
+        <section class="oc-session" aria-label="Session workspace">
+            <header class="oc-session-header"><h1>{move ||browser.state.with(|state|state.sessions.iter().find(|session|session["id"]==state.active).map(|session|text(session,"title")).unwrap_or_else(||"New session".into()))}</h1><span role="status">{move ||browser.state.with(|state|if state.loading { "Loading" } else { "" })}</span></header>
+            <Show when=move ||browser.state.with(|state|state.error.is_some())>
+                <div class="oc-error" role="alert">{move ||browser.state.with(|state|state.error.clone().unwrap_or_default())}<button on:click=move |_| { browser.state.update(|state|state.error=None); browser.refresh(); if browser.state.with(|state|!state.active.is_empty()) { browser.load(None); } }>"Retry"</button></div>
+            </Show>
+            <crate::timeline::Timeline/>
+            <crate::composer::Composer/>
+        </section>
+    }
 }

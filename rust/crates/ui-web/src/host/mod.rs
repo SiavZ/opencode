@@ -11,4 +11,6 @@
 //! Invariants: skeleton owned by child node p10.shell; replace this header when implementing.
 //! Contract tests: ui-web/tests (owner p10.shell)
 
+pub mod network;
 pub mod storage;
+pub mod stream;

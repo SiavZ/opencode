@@ -73,7 +73,10 @@ pub(super) fn groups() -> Vec<Group> {
                 ])),
                 endpoint("pty.remove", Method::Delete, "/pty/:ptyID"),
                 endpoint("pty.connect", Method::Get, "/pty/:ptyID/connect")
-                    .query(vec![ir::opt("cursor", ir::string()), ir::opt("ticket", ir::string())])
+                    .query(vec![
+                        ir::opt("cursor", ir::string()),
+                        ir::opt("ticket", ir::string()),
+                    ])
                     .ok(ir::boolean()),
                 endpoint(
                     "pty.connectToken",

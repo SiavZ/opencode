@@ -1,0 +1,3427 @@
+[
+  {
+    "kind": "request",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": {
+      "model": "claude",
+      "system": [
+        {
+          "type": "text",
+          "text": "rules"
+        },
+        {
+          "type": "text",
+          "text": "more"
+        }
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "tc1",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "ok"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "hello"
+            },
+            {
+              "type": "image",
+              "source": {
+                "type": "base64",
+                "media_type": "image/png",
+                "data": "YWJj"
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "a"
+            },
+            {
+              "type": "text",
+              "text": "b"
+            },
+            {
+              "type": "tool_use",
+              "id": "tc1",
+              "name": "calc",
+              "input": {
+                "x": 1
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "tc2",
+              "name": "raw",
+              "input": "bad-json"
+            }
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "name": "calc",
+          "description": "calculator",
+          "input_schema": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "native",
+          "type": "web_search"
+        }
+      ],
+      "tool_choice": {
+        "type": "tool",
+        "name": "calc"
+      },
+      "stop_sequences": [
+        "done"
+      ],
+      "temperature": 0.2,
+      "top_p": 0.9,
+      "stream": true
+    },
+    "expected": {
+      "model": "claude",
+      "system": [
+        {
+          "type": "text",
+          "text": "rules"
+        },
+        {
+          "type": "text",
+          "text": "more"
+        }
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "tc1",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "ok"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "hello"
+            },
+            {
+              "type": "image",
+              "source": {
+                "type": "base64",
+                "media_type": "image/png",
+                "data": "YWJj"
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "a"
+            },
+            {
+              "type": "text",
+              "text": "b"
+            },
+            {
+              "type": "tool_use",
+              "id": "tc1",
+              "name": "calc",
+              "input": {
+                "x": 1
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "tc2",
+              "name": "raw",
+              "input": "bad-json"
+            }
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "name": "calc",
+          "description": "calculator",
+          "input_schema": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "native",
+          "type": "web_search"
+        }
+      ],
+      "tool_choice": {
+        "type": "tool",
+        "name": "calc"
+      },
+      "stop_sequences": [
+        "done"
+      ],
+      "temperature": 0.2,
+      "top_p": 0.9,
+      "stream": true
+    }
+  },
+  {
+    "kind": "request",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": {
+      "system": "ignored",
+      "messages": [
+        {
+          "role": "user",
+          "content": "baseline ignores plain anthropic string"
+        },
+        {
+          "role": "assistant",
+          "content": []
+        }
+      ],
+      "tool_choice": {
+        "type": "any"
+      },
+      "stop_sequences": [],
+      "max_tokens": 0
+    },
+    "expected": {
+      "system": "ignored",
+      "messages": [
+        {
+          "role": "user",
+          "content": "baseline ignores plain anthropic string"
+        },
+        {
+          "role": "assistant",
+          "content": []
+        }
+      ],
+      "tool_choice": {
+        "type": "any"
+      },
+      "stop_sequences": [],
+      "max_tokens": 0
+    }
+  },
+  {
+    "kind": "response",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": {
+      "id": "msg_abc",
+      "type": "message",
+      "model": "claude",
+      "content": [
+        {
+          "type": "text",
+          "text": "hello "
+        },
+        {
+          "type": "text",
+          "text": "world"
+        },
+        {
+          "type": "tool_use",
+          "id": "tc",
+          "name": "calc",
+          "input": {
+            "x": 1
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "bad",
+          "name": "raw",
+          "input": "bad"
+        }
+      ],
+      "stop_reason": "tool_use",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 3,
+        "cache_read_input_tokens": 0
+      }
+    },
+    "expected": {
+      "id": "msg_abc",
+      "type": "message",
+      "model": "claude",
+      "content": [
+        {
+          "type": "text",
+          "text": "hello "
+        },
+        {
+          "type": "text",
+          "text": "world"
+        },
+        {
+          "type": "tool_use",
+          "id": "tc",
+          "name": "calc",
+          "input": {
+            "x": 1
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "bad",
+          "name": "raw",
+          "input": "bad"
+        }
+      ],
+      "stop_reason": "tool_use",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 3,
+        "cache_read_input_tokens": 0
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": {
+      "type": "error",
+      "error": {
+        "message": "denied"
+      }
+    },
+    "expected": {
+      "type": "error",
+      "error": {
+        "message": "denied"
+      }
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_abc\",\"model\":\"claude\",\"usage\":{\"input_tokens\":5}}}",
+    "expected": "event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_abc\",\"model\":\"claude\",\"usage\":{\"input_tokens\":5}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}",
+    "expected": "event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"héllo\"}}",
+    "expected": "event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"héllo\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":2,\"content_block\":{\"type\":\"tool_use\",\"id\":\"tc\",\"name\":\"calc\",\"input\":{}}}",
+    "expected": "event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":2,\"content_block\":{\"type\":\"tool_use\",\"id\":\"tc\",\"name\":\"calc\",\"input\":{}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":2,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{\\\"x\\\":\"}}",
+    "expected": "event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":2,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{\\\"x\\\":\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "event: message_delta\ndata: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"tool_use\"},\"usage\":{\"output_tokens\":3,\"cache_read_input_tokens\":2}}",
+    "expected": "event: message_delta\ndata: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"tool_use\"},\"usage\":{\"output_tokens\":3,\"cache_read_input_tokens\":2}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "event: message_stop\ndata: {\"type\":\"message_stop\"}",
+    "expected": "event: message_stop\ndata: {\"type\":\"message_stop\"}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "anthropic",
+    "input": "data: broken",
+    "expected": "data: broken"
+  },
+  {
+    "kind": "request",
+    "from": "anthropic",
+    "to": "openai",
+    "input": {
+      "model": "claude",
+      "system": [
+        {
+          "type": "text",
+          "text": "rules"
+        },
+        {
+          "type": "text",
+          "text": "more"
+        }
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "tc1",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "ok"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "hello"
+            },
+            {
+              "type": "image",
+              "source": {
+                "type": "base64",
+                "media_type": "image/png",
+                "data": "YWJj"
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "a"
+            },
+            {
+              "type": "text",
+              "text": "b"
+            },
+            {
+              "type": "tool_use",
+              "id": "tc1",
+              "name": "calc",
+              "input": {
+                "x": 1
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "tc2",
+              "name": "raw",
+              "input": "bad-json"
+            }
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "name": "calc",
+          "description": "calculator",
+          "input_schema": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "native",
+          "type": "web_search"
+        }
+      ],
+      "tool_choice": {
+        "type": "tool",
+        "name": "calc"
+      },
+      "stop_sequences": [
+        "done"
+      ],
+      "temperature": 0.2,
+      "top_p": 0.9,
+      "stream": true
+    },
+    "expected": {
+      "model": "claude",
+      "input": [
+        {
+          "role": "system",
+          "content": "rules"
+        },
+        {
+          "role": "system",
+          "content": "more"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "tc1",
+          "output": "[{\"type\":\"text\",\"text\":\"ok\"}]"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "hello"
+            },
+            {
+              "type": "input_image",
+              "image_url": {
+                "url": "data:image/png;base64,YWJj"
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "output_text",
+              "text": "ab"
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "call_id": "tc1",
+          "name": "calc",
+          "arguments": "{\"x\":1}"
+        },
+        {
+          "type": "function_call",
+          "call_id": "tc2",
+          "name": "raw",
+          "arguments": "bad-json"
+        }
+      ],
+      "top_p": 0.9,
+      "stop_sequences": [
+        "done"
+      ],
+      "stream": true,
+      "tools": [
+        {
+          "type": "function",
+          "name": "calc",
+          "description": "calculator",
+          "parameters": {
+            "type": "object"
+          }
+        }
+      ],
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "calc"
+        }
+      },
+      "text": {
+        "verbosity": "low"
+      },
+      "reasoning": {
+        "effort": "medium"
+      }
+    }
+  },
+  {
+    "kind": "request",
+    "from": "anthropic",
+    "to": "openai",
+    "input": {
+      "system": "ignored",
+      "messages": [
+        {
+          "role": "user",
+          "content": "baseline ignores plain anthropic string"
+        },
+        {
+          "role": "assistant",
+          "content": []
+        }
+      ],
+      "tool_choice": {
+        "type": "any"
+      },
+      "stop_sequences": [],
+      "max_tokens": 0
+    },
+    "expected": {
+      "input": [],
+      "max_output_tokens": 0,
+      "stop_sequences": [],
+      "stream": false,
+      "tool_choice": "required",
+      "text": {
+        "verbosity": "low"
+      },
+      "reasoning": {
+        "effort": "medium"
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "anthropic",
+    "to": "openai",
+    "input": {
+      "id": "msg_abc",
+      "type": "message",
+      "model": "claude",
+      "content": [
+        {
+          "type": "text",
+          "text": "hello "
+        },
+        {
+          "type": "text",
+          "text": "world"
+        },
+        {
+          "type": "tool_use",
+          "id": "tc",
+          "name": "calc",
+          "input": {
+            "x": 1
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "bad",
+          "name": "raw",
+          "input": "bad"
+        }
+      ],
+      "stop_reason": "tool_use",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 3,
+        "cache_read_input_tokens": 0
+      }
+    },
+    "expected": {
+      "id": "resp_abc",
+      "object": "response",
+      "model": "claude",
+      "output": [
+        {
+          "id": "msg_cih9lzh0gv",
+          "type": "message",
+          "status": "completed",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "output_text",
+              "text": "hello world",
+              "annotations": [],
+              "logprobs": []
+            }
+          ]
+        },
+        {
+          "id": "tc",
+          "type": "function_call",
+          "name": "calc",
+          "call_id": "tc",
+          "arguments": "{\"x\":1}"
+        },
+        {
+          "id": "bad",
+          "type": "function_call",
+          "name": "raw",
+          "call_id": "bad",
+          "arguments": "bad"
+        }
+      ],
+      "stop_reason": "tool_call",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 3,
+        "total_tokens": 13
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "anthropic",
+    "to": "openai",
+    "input": {
+      "type": "error",
+      "error": {
+        "message": "denied"
+      }
+    },
+    "expected": {
+      "type": "error",
+      "error": {
+        "message": "denied"
+      }
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_abc\",\"model\":\"claude\",\"usage\":{\"input_tokens\":5}}}",
+    "expected": ""
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}",
+    "expected": ""
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"héllo\"}}",
+    "expected": "event: response.output_text.delta\ndata: {\"id\":\"\",\"type\":\"response.output_text.delta\",\"delta\":\"héllo\",\"response\":{\"id\":\"\",\"model\":\"\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":2,\"content_block\":{\"type\":\"tool_use\",\"id\":\"tc\",\"name\":\"calc\",\"input\":{}}}",
+    "expected": "event: response.output_item.added\ndata: {\"type\":\"response.output_item.added\",\"output_index\":0,\"item\":{\"id\":\"tc\",\"type\":\"function_call\",\"name\":\"calc\",\"call_id\":\"tc\",\"arguments\":\"\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":2,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{\\\"x\\\":\"}}",
+    "expected": "event: response.function_call_arguments.delta\ndata: {\"type\":\"response.function_call_arguments.delta\",\"output_index\":0,\"delta\":\"{\\\"x\\\":\"}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "event: message_delta\ndata: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"tool_use\"},\"usage\":{\"output_tokens\":3,\"cache_read_input_tokens\":2}}",
+    "expected": "event: response.completed\ndata: {\"id\":\"\",\"type\":\"response.completed\",\"response\":{\"id\":\"\",\"model\":\"\",\"usage\":{\"output_tokens\":3,\"total_tokens\":3,\"input_tokens_details\":{\"cached_tokens\":2}}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "event: message_stop\ndata: {\"type\":\"message_stop\"}",
+    "expected": ""
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "openai",
+    "input": "data: broken",
+    "expected": "data: broken"
+  },
+  {
+    "kind": "request",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": {
+      "model": "claude",
+      "system": [
+        {
+          "type": "text",
+          "text": "rules"
+        },
+        {
+          "type": "text",
+          "text": "more"
+        }
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "tc1",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "ok"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "hello"
+            },
+            {
+              "type": "image",
+              "source": {
+                "type": "base64",
+                "media_type": "image/png",
+                "data": "YWJj"
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "a"
+            },
+            {
+              "type": "text",
+              "text": "b"
+            },
+            {
+              "type": "tool_use",
+              "id": "tc1",
+              "name": "calc",
+              "input": {
+                "x": 1
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "tc2",
+              "name": "raw",
+              "input": "bad-json"
+            }
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "name": "calc",
+          "description": "calculator",
+          "input_schema": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "native",
+          "type": "web_search"
+        }
+      ],
+      "tool_choice": {
+        "type": "tool",
+        "name": "calc"
+      },
+      "stop_sequences": [
+        "done"
+      ],
+      "temperature": 0.2,
+      "top_p": 0.9,
+      "stream": true
+    },
+    "expected": {
+      "model": "claude",
+      "temperature": 0.2,
+      "top_p": 0.9,
+      "stop": "done",
+      "messages": [
+        {
+          "role": "system",
+          "content": "rules"
+        },
+        {
+          "role": "system",
+          "content": "more"
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "tc1",
+          "content": "[{\"type\":\"text\",\"text\":\"ok\"}]"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "hello"
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "data:image/png;base64,YWJj"
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": "ab",
+          "tool_calls": [
+            {
+              "id": "tc1",
+              "type": "function",
+              "function": {
+                "name": "calc",
+                "arguments": "{\"x\":1}"
+              }
+            },
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "raw",
+                "arguments": "bad-json"
+              }
+            }
+          ]
+        }
+      ],
+      "stream": true,
+      "tools": [
+        {
+          "type": "function",
+          "function": {}
+        }
+      ],
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "calc"
+        }
+      }
+    }
+  },
+  {
+    "kind": "request",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": {
+      "system": "ignored",
+      "messages": [
+        {
+          "role": "user",
+          "content": "baseline ignores plain anthropic string"
+        },
+        {
+          "role": "assistant",
+          "content": []
+        }
+      ],
+      "tool_choice": {
+        "type": "any"
+      },
+      "stop_sequences": [],
+      "max_tokens": 0
+    },
+    "expected": {
+      "max_tokens": 0,
+      "stop": [],
+      "messages": [
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "stream": false,
+      "tool_choice": "required"
+    }
+  },
+  {
+    "kind": "response",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": {
+      "id": "msg_abc",
+      "type": "message",
+      "model": "claude",
+      "content": [
+        {
+          "type": "text",
+          "text": "hello "
+        },
+        {
+          "type": "text",
+          "text": "world"
+        },
+        {
+          "type": "tool_use",
+          "id": "tc",
+          "name": "calc",
+          "input": {
+            "x": 1
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "bad",
+          "name": "raw",
+          "input": "bad"
+        }
+      ],
+      "stop_reason": "tool_use",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 3,
+        "cache_read_input_tokens": 0
+      }
+    },
+    "expected": {
+      "id": "chatcmpl_abc",
+      "object": "chat.completion",
+      "created": 1793073897,
+      "model": "claude",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "hello world",
+            "tool_calls": [
+              {
+                "id": "tc",
+                "type": "function",
+                "function": {
+                  "name": "calc",
+                  "arguments": "{\"x\":1}"
+                }
+              },
+              {
+                "id": "bad",
+                "type": "function",
+                "function": {
+                  "name": "raw",
+                  "arguments": "bad"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 10,
+        "completion_tokens": 3,
+        "total_tokens": 13,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": {
+      "type": "error",
+      "error": {
+        "message": "denied"
+      }
+    },
+    "expected": {
+      "type": "error",
+      "error": {
+        "message": "denied"
+      }
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_abc\",\"model\":\"claude\",\"usage\":{\"input_tokens\":5}}}",
+    "expected": "data: {\"id\":\"msg_abc\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"claude\",\"choices\":[]}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}",
+    "expected": "data: {\"id\":\"\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"\",\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\"},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"héllo\"}}",
+    "expected": "data: {\"id\":\"\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"héllo\"},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":2,\"content_block\":{\"type\":\"tool_use\",\"id\":\"tc\",\"name\":\"calc\",\"input\":{}}}",
+    "expected": "data: {\"id\":\"\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"\",\"choices\":[{\"index\":2,\"delta\":{\"tool_calls\":[{\"index\":2,\"id\":\"tc\",\"type\":\"function\",\"function\":{\"name\":\"calc\",\"arguments\":\"\"}}]},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":2,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{\\\"x\\\":\"}}",
+    "expected": "data: {\"id\":\"\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"\",\"choices\":[{\"index\":2,\"delta\":{\"tool_calls\":[{\"index\":2,\"function\":{\"arguments\":\"{\\\"x\\\":\"}}]},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "event: message_delta\ndata: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"tool_use\"},\"usage\":{\"output_tokens\":3,\"cache_read_input_tokens\":2}}",
+    "expected": "data: {\"id\":\"\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"tool_calls\"}],\"usage\":{\"completion_tokens\":3,\"total_tokens\":3,\"prompt_tokens_details\":{\"cached_tokens\":2}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "event: message_stop\ndata: {\"type\":\"message_stop\"}",
+    "expected": "data: {\"id\":\"\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"\",\"choices\":[]}"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "anthropic",
+    "to": "oa-compat",
+    "input": "data: broken",
+    "expected": "data: broken"
+  },
+  {
+    "kind": "request",
+    "from": "openai",
+    "to": "anthropic",
+    "input": {
+      "model": "gpt-5-codex",
+      "input": [
+        {
+          "role": "developer",
+          "content": [
+            {
+              "type": "text",
+              "text": "rules"
+            },
+            {
+              "type": "text",
+              "text": "ignored"
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "hello"
+            },
+            {
+              "type": "input_image",
+              "image_url": "https://image.test/a"
+            },
+            {
+              "type": "tool_result",
+              "tool_call_id": "tc1",
+              "content": {
+                "ok": true
+              }
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "id": "tc1",
+          "call_id": "ignored",
+          "name": "calc",
+          "arguments": {
+            "x": 1
+          }
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "tc1",
+          "output": {
+            "ok": 1
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "next",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      ],
+      "max_output_tokens": 80,
+      "tools": [
+        {
+          "type": "function",
+          "name": "flat",
+          "parameters": {
+            "type": "object"
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "nested",
+            "parameters": {
+              "type": "object"
+            },
+            "strict": true
+          }
+        }
+      ],
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "calc"
+        }
+      },
+      "stop": [
+        "a",
+        "b"
+      ],
+      "stream": true
+    },
+    "error": "TypeError: undefined is not an object (evaluating 't.function.name')"
+  },
+  {
+    "kind": "request",
+    "from": "openai",
+    "to": "anthropic",
+    "input": {
+      "model": "other",
+      "messages": [
+        {
+          "role": "system",
+          "content": ""
+        },
+        {
+          "role": "user",
+          "content": "hi"
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "tool_choice": "required",
+      "stop_sequences": "stop"
+    },
+    "expected": {
+      "max_tokens": 32000,
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "hi",
+              "cache_control": {
+                "type": "ephemeral"
+              }
+            }
+          ]
+        }
+      ],
+      "stream": false,
+      "tool_choice": {
+        "type": "any"
+      },
+      "stop_sequences": [
+        "stop"
+      ]
+    }
+  },
+  {
+    "kind": "response",
+    "from": "openai",
+    "to": "anthropic",
+    "input": {
+      "response": {
+        "id": "resp_abc",
+        "model": "gpt",
+        "output": [
+          {
+            "type": "message",
+            "content": [
+              {
+                "type": "output_text",
+                "text": "hi"
+              }
+            ]
+          },
+          {
+            "id": "tc",
+            "type": "function_call",
+            "name": "calc",
+            "arguments": {
+              "x": 1
+            }
+          }
+        ],
+        "stop_reason": "max_output_tokens",
+        "usage": {
+          "input_tokens": 10,
+          "output_tokens": 2,
+          "input_tokens_details": {
+            "cached_tokens": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "id": "chatcmpl_abc",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "hi"
+        },
+        {
+          "type": "tool_use",
+          "id": "tc",
+          "name": "calc",
+          "input": {
+            "x": 1
+          }
+        }
+      ],
+      "model": "gpt",
+      "stop_reason": "max_tokens",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 2,
+        "cache_read_input_tokens": 4
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "openai",
+    "to": "anthropic",
+    "input": {
+      "id": "resp_empty",
+      "model": "gpt",
+      "output": [],
+      "stop_reason": "content_filter"
+    },
+    "expected": {
+      "id": "chatcmpl_empty",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": ""
+        }
+      ],
+      "model": "gpt",
+      "stop_reason": "content_filter"
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "anthropic",
+    "input": "event: response.created\ndata: {\"type\":\"response.created\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\"}}",
+    "expected": "{}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "anthropic",
+    "input": "event: response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"delta\":\"héllo\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\"}}",
+    "expected": "{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"héllo\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "anthropic",
+    "input": "event: response.output_item.added\ndata: {\"type\":\"response.output_item.added\",\"item\":{\"type\":\"function_call\",\"id\":\"tc\",\"name\":\"calc\"}}",
+    "expected": "{\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"tool_use\",\"id\":\"tc\",\"name\":\"calc\",\"input\":{}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "anthropic",
+    "input": "event: response.function_call_arguments.delta\ndata: {\"type\":\"response.function_call_arguments.delta\",\"delta\":\"{\\\"x\\\":\"}",
+    "expected": "{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{\\\"x\\\":\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "anthropic",
+    "input": "event: response.completed\ndata: {\"type\":\"response.completed\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\",\"stop_reason\":\"stop\",\"usage\":{\"input_tokens\":10,\"output_tokens\":2,\"input_tokens_details\":{\"cached_tokens\":3}}}}",
+    "expected": "{\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"end_turn\",\"stop_sequence\":null},\"usage\":{\"input_tokens\":10,\"output_tokens\":2,\"cache_read_input_tokens\":3}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "anthropic",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "anthropic",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "anthropic",
+    "input": "data: broken",
+    "expected": "data: broken"
+  },
+  {
+    "kind": "request",
+    "from": "openai",
+    "to": "openai",
+    "input": {
+      "model": "gpt-5-codex",
+      "input": [
+        {
+          "role": "developer",
+          "content": [
+            {
+              "type": "text",
+              "text": "rules"
+            },
+            {
+              "type": "text",
+              "text": "ignored"
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "hello"
+            },
+            {
+              "type": "input_image",
+              "image_url": "https://image.test/a"
+            },
+            {
+              "type": "tool_result",
+              "tool_call_id": "tc1",
+              "content": {
+                "ok": true
+              }
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "id": "tc1",
+          "call_id": "ignored",
+          "name": "calc",
+          "arguments": {
+            "x": 1
+          }
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "tc1",
+          "output": {
+            "ok": 1
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "next",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      ],
+      "max_output_tokens": 80,
+      "tools": [
+        {
+          "type": "function",
+          "name": "flat",
+          "parameters": {
+            "type": "object"
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "nested",
+            "parameters": {
+              "type": "object"
+            },
+            "strict": true
+          }
+        }
+      ],
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "calc"
+        }
+      },
+      "stop": [
+        "a",
+        "b"
+      ],
+      "stream": true
+    },
+    "expected": {
+      "model": "gpt-5-codex",
+      "input": [
+        {
+          "role": "developer",
+          "content": [
+            {
+              "type": "text",
+              "text": "rules"
+            },
+            {
+              "type": "text",
+              "text": "ignored"
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "hello"
+            },
+            {
+              "type": "input_image",
+              "image_url": "https://image.test/a"
+            },
+            {
+              "type": "tool_result",
+              "tool_call_id": "tc1",
+              "content": {
+                "ok": true
+              }
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "id": "tc1",
+          "call_id": "ignored",
+          "name": "calc",
+          "arguments": {
+            "x": 1
+          }
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "tc1",
+          "output": {
+            "ok": 1
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "next",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      ],
+      "max_output_tokens": 80,
+      "tools": [
+        {
+          "type": "function",
+          "name": "flat",
+          "parameters": {
+            "type": "object"
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "nested",
+            "parameters": {
+              "type": "object"
+            },
+            "strict": true
+          }
+        }
+      ],
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "calc"
+        }
+      },
+      "stop": [
+        "a",
+        "b"
+      ],
+      "stream": true
+    }
+  },
+  {
+    "kind": "request",
+    "from": "openai",
+    "to": "openai",
+    "input": {
+      "model": "other",
+      "messages": [
+        {
+          "role": "system",
+          "content": ""
+        },
+        {
+          "role": "user",
+          "content": "hi"
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "tool_choice": "required",
+      "stop_sequences": "stop"
+    },
+    "expected": {
+      "model": "other",
+      "messages": [
+        {
+          "role": "system",
+          "content": ""
+        },
+        {
+          "role": "user",
+          "content": "hi"
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "tool_choice": "required",
+      "stop_sequences": "stop"
+    }
+  },
+  {
+    "kind": "response",
+    "from": "openai",
+    "to": "openai",
+    "input": {
+      "response": {
+        "id": "resp_abc",
+        "model": "gpt",
+        "output": [
+          {
+            "type": "message",
+            "content": [
+              {
+                "type": "output_text",
+                "text": "hi"
+              }
+            ]
+          },
+          {
+            "id": "tc",
+            "type": "function_call",
+            "name": "calc",
+            "arguments": {
+              "x": 1
+            }
+          }
+        ],
+        "stop_reason": "max_output_tokens",
+        "usage": {
+          "input_tokens": 10,
+          "output_tokens": 2,
+          "input_tokens_details": {
+            "cached_tokens": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "response": {
+        "id": "resp_abc",
+        "model": "gpt",
+        "output": [
+          {
+            "type": "message",
+            "content": [
+              {
+                "type": "output_text",
+                "text": "hi"
+              }
+            ]
+          },
+          {
+            "id": "tc",
+            "type": "function_call",
+            "name": "calc",
+            "arguments": {
+              "x": 1
+            }
+          }
+        ],
+        "stop_reason": "max_output_tokens",
+        "usage": {
+          "input_tokens": 10,
+          "output_tokens": 2,
+          "input_tokens_details": {
+            "cached_tokens": 4
+          }
+        }
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "openai",
+    "to": "openai",
+    "input": {
+      "id": "resp_empty",
+      "model": "gpt",
+      "output": [],
+      "stop_reason": "content_filter"
+    },
+    "expected": {
+      "id": "resp_empty",
+      "model": "gpt",
+      "output": [],
+      "stop_reason": "content_filter"
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "openai",
+    "input": "event: response.created\ndata: {\"type\":\"response.created\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\"}}",
+    "expected": "event: response.created\ndata: {\"type\":\"response.created\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "openai",
+    "input": "event: response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"delta\":\"héllo\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\"}}",
+    "expected": "event: response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"delta\":\"héllo\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "openai",
+    "input": "event: response.output_item.added\ndata: {\"type\":\"response.output_item.added\",\"item\":{\"type\":\"function_call\",\"id\":\"tc\",\"name\":\"calc\"}}",
+    "expected": "event: response.output_item.added\ndata: {\"type\":\"response.output_item.added\",\"item\":{\"type\":\"function_call\",\"id\":\"tc\",\"name\":\"calc\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "openai",
+    "input": "event: response.function_call_arguments.delta\ndata: {\"type\":\"response.function_call_arguments.delta\",\"delta\":\"{\\\"x\\\":\"}",
+    "expected": "event: response.function_call_arguments.delta\ndata: {\"type\":\"response.function_call_arguments.delta\",\"delta\":\"{\\\"x\\\":\"}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "openai",
+    "input": "event: response.completed\ndata: {\"type\":\"response.completed\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\",\"stop_reason\":\"stop\",\"usage\":{\"input_tokens\":10,\"output_tokens\":2,\"input_tokens_details\":{\"cached_tokens\":3}}}}",
+    "expected": "event: response.completed\ndata: {\"type\":\"response.completed\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\",\"stop_reason\":\"stop\",\"usage\":{\"input_tokens\":10,\"output_tokens\":2,\"input_tokens_details\":{\"cached_tokens\":3}}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "openai",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "openai",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "openai",
+    "input": "data: broken",
+    "expected": "data: broken"
+  },
+  {
+    "kind": "request",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": {
+      "model": "gpt-5-codex",
+      "input": [
+        {
+          "role": "developer",
+          "content": [
+            {
+              "type": "text",
+              "text": "rules"
+            },
+            {
+              "type": "text",
+              "text": "ignored"
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "hello"
+            },
+            {
+              "type": "input_image",
+              "image_url": "https://image.test/a"
+            },
+            {
+              "type": "tool_result",
+              "tool_call_id": "tc1",
+              "content": {
+                "ok": true
+              }
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "id": "tc1",
+          "call_id": "ignored",
+          "name": "calc",
+          "arguments": {
+            "x": 1
+          }
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "tc1",
+          "output": {
+            "ok": 1
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "next",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      ],
+      "max_output_tokens": 80,
+      "tools": [
+        {
+          "type": "function",
+          "name": "flat",
+          "parameters": {
+            "type": "object"
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "nested",
+            "parameters": {
+              "type": "object"
+            },
+            "strict": true
+          }
+        }
+      ],
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "calc"
+        }
+      },
+      "stop": [
+        "a",
+        "b"
+      ],
+      "stream": true
+    },
+    "expected": {
+      "model": "gpt-5-codex",
+      "max_tokens": 80,
+      "stop": [
+        "a",
+        "b"
+      ],
+      "messages": [
+        {
+          "role": "system",
+          "content": "rules"
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "tc1",
+          "content": "{\"ok\":true}"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "hello"
+            },
+            {
+              "type": "image_url",
+              "image_url": "https://image.test/a"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "id": "tc1",
+              "type": "function",
+              "function": {
+                "name": "calc",
+                "arguments": "{\"x\":1}"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "tc1",
+          "content": "{\"ok\":1}"
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "next",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      ],
+      "stream": true,
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "flat",
+            "parameters": {
+              "type": "object"
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {}
+        }
+      ],
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "calc"
+        }
+      }
+    }
+  },
+  {
+    "kind": "request",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": {
+      "model": "other",
+      "messages": [
+        {
+          "role": "system",
+          "content": ""
+        },
+        {
+          "role": "user",
+          "content": "hi"
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "tool_choice": "required",
+      "stop_sequences": "stop"
+    },
+    "expected": {
+      "model": "other",
+      "stop": "stop",
+      "messages": [
+        {
+          "role": "user",
+          "content": "hi"
+        },
+        {
+          "role": "assistant"
+        }
+      ],
+      "stream": false,
+      "tool_choice": "required"
+    }
+  },
+  {
+    "kind": "response",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": {
+      "response": {
+        "id": "resp_abc",
+        "model": "gpt",
+        "output": [
+          {
+            "type": "message",
+            "content": [
+              {
+                "type": "output_text",
+                "text": "hi"
+              }
+            ]
+          },
+          {
+            "id": "tc",
+            "type": "function_call",
+            "name": "calc",
+            "arguments": {
+              "x": 1
+            }
+          }
+        ],
+        "stop_reason": "max_output_tokens",
+        "usage": {
+          "input_tokens": 10,
+          "output_tokens": 2,
+          "input_tokens_details": {
+            "cached_tokens": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "id": "chatcmpl_abc",
+      "object": "chat.completion",
+      "created": 1793073897,
+      "model": "gpt",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "hi",
+            "tool_calls": [
+              {
+                "id": "tc",
+                "type": "function",
+                "function": {
+                  "name": "calc",
+                  "arguments": "{\"x\":1}"
+                }
+              }
+            ]
+          },
+          "finish_reason": "length"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 10,
+        "completion_tokens": 2,
+        "total_tokens": 12,
+        "prompt_tokens_details": {
+          "cached_tokens": 4
+        }
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": {
+      "id": "resp_empty",
+      "model": "gpt",
+      "output": [],
+      "stop_reason": "content_filter"
+    },
+    "expected": {
+      "id": "chatcmpl_empty",
+      "object": "chat.completion",
+      "created": 1793073897,
+      "model": "gpt",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant"
+          },
+          "finish_reason": "content_filter"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": "event: response.created\ndata: {\"type\":\"response.created\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\"}}",
+    "expected": "data: {\"id\":\"resp_abc\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"gpt\",\"choices\":[]}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": "event: response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"delta\":\"héllo\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\"}}",
+    "expected": "data: {\"id\":\"resp_abc\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"gpt\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"héllo\"},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": "event: response.output_item.added\ndata: {\"type\":\"response.output_item.added\",\"item\":{\"type\":\"function_call\",\"id\":\"tc\",\"name\":\"calc\"}}",
+    "expected": "data: {\"id\":\"\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"tc\",\"type\":\"function\",\"function\":{\"name\":\"calc\",\"arguments\":\"\"}}]},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": "event: response.function_call_arguments.delta\ndata: {\"type\":\"response.function_call_arguments.delta\",\"delta\":\"{\\\"x\\\":\"}",
+    "expected": "data: {\"id\":\"\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"{\\\"x\\\":\"}}]},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": "event: response.completed\ndata: {\"type\":\"response.completed\",\"response\":{\"id\":\"resp_abc\",\"model\":\"gpt\",\"stop_reason\":\"stop\",\"usage\":{\"input_tokens\":10,\"output_tokens\":2,\"input_tokens_details\":{\"cached_tokens\":3}}}}",
+    "expected": "data: {\"id\":\"resp_abc\",\"object\":\"chat.completion.chunk\",\"created\":1793073897,\"model\":\"gpt\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2,\"total_tokens\":12,\"prompt_tokens_details\":{\"cached_tokens\":3}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "openai",
+    "to": "oa-compat",
+    "input": "data: broken",
+    "expected": "data: broken"
+  },
+  {
+    "kind": "request",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": {
+      "model": "chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "rules"
+        },
+        {
+          "role": "developer",
+          "content": "ignored"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "hi"
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "data:image/jpeg;base64,YQ=="
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc1",
+              "type": "function",
+              "function": {
+                "name": "calc",
+                "arguments": "{\"x\":1}"
+              }
+            },
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "raw",
+                "arguments": "not json"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "tc1",
+          "content": "result"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "calc",
+            "description": "calculator",
+            "parameters": {
+              "type": "object"
+            },
+            "strict": true
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "max_tokens": 12,
+      "stop": "stop",
+      "stream": true
+    },
+    "expected": {
+      "max_tokens": 12,
+      "system": [
+        {
+          "type": "text",
+          "text": "rules",
+          "cache_control": {
+            "type": "ephemeral"
+          }
+        }
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "hi",
+              "cache_control": {
+                "type": "ephemeral"
+              }
+            },
+            {
+              "type": "image",
+              "source": {
+                "type": "base64",
+                "media_type": "image/jpeg",
+                "data": "YQ=="
+              },
+              "cache_control": {
+                "type": "ephemeral"
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "answer",
+              "cache_control": {
+                "type": "ephemeral"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "tc1",
+              "name": "calc",
+              "input": {
+                "x": 1
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "tc2",
+              "name": "raw",
+              "input": "not json"
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "tc1",
+              "content": "result"
+            }
+          ]
+        }
+      ],
+      "stream": true,
+      "tools": [
+        {
+          "name": "calc",
+          "description": "calculator",
+          "input_schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "tool_choice": {
+        "type": "auto"
+      },
+      "stop_sequences": [
+        "stop"
+      ]
+    }
+  },
+  {
+    "kind": "request",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": {
+      "messages": [
+        null,
+        {},
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "only"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "temperature": 0,
+      "top_p": 1,
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "f"
+        }
+      }
+    },
+    "expected": {
+      "max_tokens": 32000,
+      "temperature": 0,
+      "top_p": 1,
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "only",
+              "cache_control": {
+                "type": "ephemeral"
+              }
+            }
+          ]
+        }
+      ],
+      "stream": false,
+      "tool_choice": {
+        "type": "tool",
+        "name": "f"
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": {
+      "id": "chatcmpl_abc",
+      "model": "chat",
+      "created": 1,
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "hi",
+            "tool_calls": [
+              {
+                "id": "tc",
+                "type": "function",
+                "function": {
+                  "name": "calc",
+                  "arguments": "{ \"x\": 1 }"
+                }
+              },
+              {
+                "id": "bad",
+                "type": "function",
+                "function": {
+                  "name": "raw",
+                  "arguments": "bad"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 10,
+        "completion_tokens": 2,
+        "total_tokens": 12,
+        "prompt_tokens_details": {
+          "cached_tokens": 4
+        }
+      }
+    },
+    "expected": {
+      "id": "chatcmpl_abc",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "hi"
+        },
+        {
+          "type": "tool_use",
+          "id": "tc",
+          "name": "calc",
+          "input": {
+            "x": 1
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "bad",
+          "name": "raw",
+          "input": "bad"
+        }
+      ],
+      "model": "chat",
+      "stop_reason": "tool_use",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 2,
+        "cache_read_input_tokens": 4
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": {
+      "id": "empty",
+      "choices": [
+        {
+          "message": {
+            "role": "assistant",
+            "content": ""
+          },
+          "finish_reason": "unknown"
+        }
+      ]
+    },
+    "expected": {
+      "id": "empty",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": ""
+        }
+      ],
+      "stop_reason": null
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": {
+      "error": {
+        "message": "denied"
+      }
+    },
+    "expected": {
+      "error": {
+        "message": "denied"
+      }
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": "data: {\"id\":\"chat\",\"model\":\"m\",\"created\":1,\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\"},\"finish_reason\":null}]}",
+    "expected": "{}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": "data: {\"id\":\"chat\",\"model\":\"m\",\"created\":1,\"choices\":[{\"index\":0,\"delta\":{\"content\":\"héllo\"},\"finish_reason\":null}]}",
+    "expected": "{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"héllo\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":2,\"id\":\"tc\",\"function\":{\"name\":\"calc\",\"arguments\":\"\"}}]}}]}",
+    "expected": "{\"type\":\"content_block_start\",\"index\":2,\"content_block\":{\"type\":\"tool_use\",\"id\":\"tc\",\"name\":\"calc\",\"input\":{}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":2,\"function\":{\"arguments\":\"{\\\"x\\\":\"}}]}}]}",
+    "expected": "{\"type\":\"content_block_delta\",\"index\":2,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{\\\"x\\\":\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"length\"}],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2,\"total_tokens\":12}}",
+    "expected": "{\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"max_tokens\",\"stop_sequence\":null},\"usage\":{\"input_tokens\":10,\"output_tokens\":2}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2}}",
+    "expected": "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "anthropic",
+    "input": "data: broken",
+    "expected": "data: broken"
+  },
+  {
+    "kind": "request",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": {
+      "model": "chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "rules"
+        },
+        {
+          "role": "developer",
+          "content": "ignored"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "hi"
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "data:image/jpeg;base64,YQ=="
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc1",
+              "type": "function",
+              "function": {
+                "name": "calc",
+                "arguments": "{\"x\":1}"
+              }
+            },
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "raw",
+                "arguments": "not json"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "tc1",
+          "content": "result"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "calc",
+            "description": "calculator",
+            "parameters": {
+              "type": "object"
+            },
+            "strict": true
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "max_tokens": 12,
+      "stop": "stop",
+      "stream": true
+    },
+    "expected": {
+      "model": "chat",
+      "input": [
+        {
+          "role": "system",
+          "content": "rules"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "hi"
+            },
+            {
+              "type": "input_image",
+              "image_url": {
+                "url": "data:image/jpeg;base64,YQ=="
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "output_text",
+              "text": "answer"
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "call_id": "tc1",
+          "name": "calc",
+          "arguments": "{\"x\":1}"
+        },
+        {
+          "type": "function_call",
+          "call_id": "tc2",
+          "name": "raw",
+          "arguments": "not json"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "tc1",
+          "output": "result"
+        }
+      ],
+      "max_output_tokens": 12,
+      "stop_sequences": [
+        "stop"
+      ],
+      "stream": true,
+      "tools": [
+        {
+          "type": "function",
+          "name": "calc",
+          "description": "calculator",
+          "parameters": {
+            "type": "object"
+          },
+          "strict": true
+        }
+      ],
+      "tool_choice": "auto",
+      "text": {
+        "verbosity": "low"
+      },
+      "reasoning": {
+        "effort": "medium"
+      }
+    }
+  },
+  {
+    "kind": "request",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": {
+      "messages": [
+        null,
+        {},
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "only"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "temperature": 0,
+      "top_p": 1,
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "f"
+        }
+      }
+    },
+    "expected": {
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "only"
+            }
+          ]
+        }
+      ],
+      "top_p": 1,
+      "stream": false,
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "f"
+        }
+      },
+      "text": {
+        "verbosity": "low"
+      },
+      "reasoning": {
+        "effort": "medium"
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": {
+      "id": "chatcmpl_abc",
+      "model": "chat",
+      "created": 1,
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "hi",
+            "tool_calls": [
+              {
+                "id": "tc",
+                "type": "function",
+                "function": {
+                  "name": "calc",
+                  "arguments": "{ \"x\": 1 }"
+                }
+              },
+              {
+                "id": "bad",
+                "type": "function",
+                "function": {
+                  "name": "raw",
+                  "arguments": "bad"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 10,
+        "completion_tokens": 2,
+        "total_tokens": 12,
+        "prompt_tokens_details": {
+          "cached_tokens": 4
+        }
+      }
+    },
+    "expected": {
+      "id": "resp_abc",
+      "object": "response",
+      "model": "chat",
+      "output": [
+        {
+          "id": "msg_fl063k3n5dk",
+          "type": "message",
+          "status": "completed",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "output_text",
+              "text": "hi",
+              "annotations": [],
+              "logprobs": []
+            }
+          ]
+        },
+        {
+          "id": "tc",
+          "type": "function_call",
+          "name": "calc",
+          "call_id": "tc",
+          "arguments": "{\"x\":1}"
+        },
+        {
+          "id": "bad",
+          "type": "function_call",
+          "name": "raw",
+          "call_id": "bad",
+          "arguments": "bad"
+        }
+      ],
+      "stop_reason": "tool_call",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 2,
+        "total_tokens": 12,
+        "input_tokens_details": {
+          "cached_tokens": 4
+        }
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": {
+      "id": "empty",
+      "choices": [
+        {
+          "message": {
+            "role": "assistant",
+            "content": ""
+          },
+          "finish_reason": "unknown"
+        }
+      ]
+    },
+    "expected": {
+      "id": "empty",
+      "object": "response",
+      "output": [],
+      "stop_reason": null
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": {
+      "error": {
+        "message": "denied"
+      }
+    },
+    "expected": {
+      "error": {
+        "message": "denied"
+      }
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": "data: {\"id\":\"chat\",\"model\":\"m\",\"created\":1,\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\"},\"finish_reason\":null}]}",
+    "expected": ""
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": "data: {\"id\":\"chat\",\"model\":\"m\",\"created\":1,\"choices\":[{\"index\":0,\"delta\":{\"content\":\"héllo\"},\"finish_reason\":null}]}",
+    "expected": "event: response.output_text.delta\ndata: {\"id\":\"chat\",\"type\":\"response.output_text.delta\",\"delta\":\"héllo\",\"response\":{\"id\":\"chat\",\"model\":\"m\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":2,\"id\":\"tc\",\"function\":{\"name\":\"calc\",\"arguments\":\"\"}}]}}]}",
+    "expected": "event: response.output_item.added\ndata: {\"type\":\"response.output_item.added\",\"output_index\":0,\"item\":{\"id\":\"tc\",\"type\":\"function_call\",\"name\":\"calc\",\"call_id\":\"tc\",\"arguments\":\"\"}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":2,\"function\":{\"arguments\":\"{\\\"x\\\":\"}}]}}]}",
+    "expected": "event: response.function_call_arguments.delta\ndata: {\"type\":\"response.function_call_arguments.delta\",\"output_index\":0,\"delta\":\"{\\\"x\\\":\"}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"length\"}],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2,\"total_tokens\":12}}",
+    "expected": "event: response.completed\ndata: {\"id\":\"\",\"type\":\"response.completed\",\"response\":{\"id\":\"\",\"model\":\"\",\"usage\":{\"input_tokens\":10,\"output_tokens\":2,\"total_tokens\":12}}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2}}",
+    "expected": "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "openai",
+    "input": "data: broken",
+    "expected": "data: broken"
+  },
+  {
+    "kind": "request",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": {
+      "model": "chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "rules"
+        },
+        {
+          "role": "developer",
+          "content": "ignored"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "hi"
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "data:image/jpeg;base64,YQ=="
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc1",
+              "type": "function",
+              "function": {
+                "name": "calc",
+                "arguments": "{\"x\":1}"
+              }
+            },
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "raw",
+                "arguments": "not json"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "tc1",
+          "content": "result"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "calc",
+            "description": "calculator",
+            "parameters": {
+              "type": "object"
+            },
+            "strict": true
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "max_tokens": 12,
+      "stop": "stop",
+      "stream": true
+    },
+    "expected": {
+      "model": "chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "rules"
+        },
+        {
+          "role": "developer",
+          "content": "ignored"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "hi"
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "data:image/jpeg;base64,YQ=="
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": "answer",
+          "tool_calls": [
+            {
+              "id": "tc1",
+              "type": "function",
+              "function": {
+                "name": "calc",
+                "arguments": "{\"x\":1}"
+              }
+            },
+            {
+              "id": "tc2",
+              "type": "function",
+              "function": {
+                "name": "raw",
+                "arguments": "not json"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "tc1",
+          "content": "result"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "calc",
+            "description": "calculator",
+            "parameters": {
+              "type": "object"
+            },
+            "strict": true
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "max_tokens": 12,
+      "stop": "stop",
+      "stream": true
+    }
+  },
+  {
+    "kind": "request",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": {
+      "messages": [
+        null,
+        {},
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "only"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "temperature": 0,
+      "top_p": 1,
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "f"
+        }
+      }
+    },
+    "expected": {
+      "messages": [
+        null,
+        {},
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "only"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "temperature": 0,
+      "top_p": 1,
+      "tool_choice": {
+        "type": "function",
+        "function": {
+          "name": "f"
+        }
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": {
+      "id": "chatcmpl_abc",
+      "model": "chat",
+      "created": 1,
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "hi",
+            "tool_calls": [
+              {
+                "id": "tc",
+                "type": "function",
+                "function": {
+                  "name": "calc",
+                  "arguments": "{ \"x\": 1 }"
+                }
+              },
+              {
+                "id": "bad",
+                "type": "function",
+                "function": {
+                  "name": "raw",
+                  "arguments": "bad"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 10,
+        "completion_tokens": 2,
+        "total_tokens": 12,
+        "prompt_tokens_details": {
+          "cached_tokens": 4
+        }
+      }
+    },
+    "expected": {
+      "id": "chatcmpl_abc",
+      "model": "chat",
+      "created": 1,
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "hi",
+            "tool_calls": [
+              {
+                "id": "tc",
+                "type": "function",
+                "function": {
+                  "name": "calc",
+                  "arguments": "{ \"x\": 1 }"
+                }
+              },
+              {
+                "id": "bad",
+                "type": "function",
+                "function": {
+                  "name": "raw",
+                  "arguments": "bad"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 10,
+        "completion_tokens": 2,
+        "total_tokens": 12,
+        "prompt_tokens_details": {
+          "cached_tokens": 4
+        }
+      }
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": {
+      "id": "empty",
+      "choices": [
+        {
+          "message": {
+            "role": "assistant",
+            "content": ""
+          },
+          "finish_reason": "unknown"
+        }
+      ]
+    },
+    "expected": {
+      "id": "empty",
+      "choices": [
+        {
+          "message": {
+            "role": "assistant",
+            "content": ""
+          },
+          "finish_reason": "unknown"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "response",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": {
+      "error": {
+        "message": "denied"
+      }
+    },
+    "expected": {
+      "error": {
+        "message": "denied"
+      }
+    }
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": "data: {\"id\":\"chat\",\"model\":\"m\",\"created\":1,\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\"},\"finish_reason\":null}]}",
+    "expected": "data: {\"id\":\"chat\",\"model\":\"m\",\"created\":1,\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\"},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": "data: {\"id\":\"chat\",\"model\":\"m\",\"created\":1,\"choices\":[{\"index\":0,\"delta\":{\"content\":\"héllo\"},\"finish_reason\":null}]}",
+    "expected": "data: {\"id\":\"chat\",\"model\":\"m\",\"created\":1,\"choices\":[{\"index\":0,\"delta\":{\"content\":\"héllo\"},\"finish_reason\":null}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":2,\"id\":\"tc\",\"function\":{\"name\":\"calc\",\"arguments\":\"\"}}]}}]}",
+    "expected": "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":2,\"id\":\"tc\",\"function\":{\"name\":\"calc\",\"arguments\":\"\"}}]}}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":2,\"function\":{\"arguments\":\"{\\\"x\\\":\"}}]}}]}",
+    "expected": "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":2,\"function\":{\"arguments\":\"{\\\"x\\\":\"}}]}}]}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"length\"}],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2,\"total_tokens\":12}}",
+    "expected": "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"length\"}],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2,\"total_tokens\":12}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2}}",
+    "expected": "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":2}}"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": "data: [DONE]",
+    "expected": "data: [DONE]"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": ": ping",
+    "expected": ": ping"
+  },
+  {
+    "kind": "stream",
+    "from": "oa-compat",
+    "to": "oa-compat",
+    "input": "data: broken",
+    "expected": "data: broken"
+  }
+]

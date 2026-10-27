@@ -157,6 +157,51 @@ impl LegacyAdapter {
     }
 
     pub(super) async fn remove(&self, session: &str) -> Result<Value, LegacyError> {
+        let sessions = self.session_tree(session).await?;
+        for (id, info) in sessions.into_iter().rev() {
+            self.cancel_one(&id).await?;
+            self.store
+                .publish(
+                    &Definition::durable("session.deleted", 1, "sessionID"),
+                    json!({"sessionID":id,"info":info}),
+                )
+                .await
+                .map_err(map_error)?;
+            self.store
+                .events()
+                .store()
+                .remove(&id)
+                .await
+                .map_err(internal)?;
+        }
+        Ok(json!(true))
+    }
+
+    /// Join real legacy children/runner and optional V2 drains without booting a Location.
+    pub async fn cancel_tree(&self, session: &str) -> Result<(), LegacyError> {
+        for (id, _) in self.session_tree(session).await?.into_iter().rev() {
+            self.cancel_one(&id).await?;
+        }
+        Ok(())
+    }
+
+    async fn cancel_one(&self, id: &str) -> Result<(), LegacyError> {
+        if let Some(locations) = &self.locations {
+            locations.cancel_children(id).await;
+        }
+        self.run_state.cancel(id).await;
+        if let Some(execution) = &self.execution {
+            execution
+                .interrupt(&opencode_schema::SessionID::new(id).map_err(internal)?)
+                .await;
+        }
+        Ok(())
+    }
+
+    async fn session_tree(
+        &self,
+        session: &str,
+    ) -> Result<Vec<(String, Map<String, Value>)>, LegacyError> {
         self.store.get(session).await.map_err(map_error)?;
         let mut pending = vec![session.to_owned()];
         let mut visited = std::collections::HashSet::new();
@@ -176,23 +221,7 @@ impl LegacyAdapter {
             );
             sessions.push((id, info));
         }
-        for (id, info) in sessions.into_iter().rev() {
-            self.run_state.cancel(&id).await;
-            self.store
-                .publish(
-                    &Definition::durable("session.deleted", 1, "sessionID"),
-                    json!({"sessionID":id,"info":info}),
-                )
-                .await
-                .map_err(map_error)?;
-            self.store
-                .events()
-                .store()
-                .remove(&id)
-                .await
-                .map_err(internal)?;
-        }
-        Ok(json!(true))
+        Ok(sessions)
     }
 
     pub(super) async fn fork(

@@ -171,7 +171,7 @@ impl GlobalServices {
         .await
         .map_err(internal)??;
         if result.changed {
-            self.locations.invalidate_all().await;
+            // Only the legacy InstanceStore is disposed by this producer, not V2 Locations.
             self.publish("global.disposed", "global", serde_json::json!({}))
                 .await?;
         }

@@ -29,6 +29,15 @@
 //! Unsupported options fail before admission rather than silently changing user intent.
 //! Contract tests: opencode/tests/commands.rs
 
+mod agents;
+mod config;
+mod database;
+mod diagnostics;
+mod integrations;
+mod json_run;
+mod providers;
+mod sanitize;
+mod sessions;
 mod terminal;
 mod turn;
 
@@ -36,8 +45,6 @@ use std::io::{IsTerminal, Read, Write};
 use std::path::PathBuf;
 
 use anyhow::{Context, bail};
-use opencode_config::legacy::Diagnostics;
-use opencode_config::legacy::parse::load_global;
 use opencode_runtime::{Process, ProcessOptions};
 use opencode_session_api::ids::{AbsolutePath, AgentID, LocationRef, ModelID, ProviderID};
 use opencode_session_api::operations::{CreateRequest, ListRequest, ListScope, SessionService};
@@ -47,6 +54,32 @@ use super::dispatch::CommandError;
 use super::spec::{CommandId, Parsed};
 
 pub async fn run(parsed: &Parsed, version: &str) -> Result<(), CommandError> {
+    if parsed.command == CommandId::DebugPaths {
+        let paths = ProcessOptions::from_process(version, "local").paths;
+        paths.ensure().await.map_err(anyhow::Error::from)?;
+        let mut output = std::io::stdout().lock();
+        for (name, path) in [
+            ("home", &paths.home),
+            ("data", &paths.data),
+            ("bin", &paths.bin),
+            ("log", &paths.log),
+            ("repos", &paths.repos),
+            ("cache", &paths.cache),
+            ("config", &paths.config),
+            ("state", &paths.state),
+            ("tmp", &paths.tmp),
+        ] {
+            writeln!(output, "{name:10} {}", path.display()).map_err(anyhow::Error::from)?;
+        }
+        return Ok(());
+    }
+    if parsed.command == CommandId::DebugWait {
+        tokio::select! {
+            () = tokio::time::sleep(std::time::Duration::from_secs(86400)) => {}
+            result = tokio::signal::ctrl_c() => result.map_err(anyhow::Error::from)?,
+        }
+        return Ok(());
+    }
     validate(parsed)?;
     let directory = directory(parsed)?;
     let mut options =
@@ -54,33 +87,114 @@ pub async fn run(parsed: &Parsed, version: &str) -> Result<(), CommandError> {
     for (key, value) in parsed.globals.middleware_env(std::process::id()) {
         options.environment.set_var(key, value);
     }
-    load_global(&options.environment, None, &mut Diagnostics::default())
-        .map_err(anyhow::Error::from)?;
+    if !matches!(
+        parsed.command,
+        CommandId::DbQuery
+            | CommandId::DbPath
+            | CommandId::ProvidersList
+            | CommandId::ProvidersLogout
+    ) {
+        config::validate(&options.environment, &directory).map_err(anyhow::Error::from)?;
+    }
     let process = Process::start(options).await.map_err(anyhow::Error::from)?;
-    let result = match parsed.command {
-        CommandId::Models => models(&process, parsed, directory).await,
-        CommandId::Tui => terminal::run(&process, parsed, directory).await,
-        CommandId::Run if parsed.args.bool("interactive") || parsed.args.bool("mini") => {
-            terminal::run(&process, parsed, directory).await
+    let result: anyhow::Result<()> = async {
+        match parsed.command {
+            CommandId::Models => models(&process, parsed, directory).await,
+            CommandId::Tui => terminal::run(&process, parsed, directory).await,
+            CommandId::Run if parsed.args.bool("interactive") || parsed.args.bool("mini") => {
+                terminal::run(&process, parsed, directory).await
+            }
+            CommandId::Run => noninteractive(&process, parsed, directory).await,
+            CommandId::ProvidersList | CommandId::ProvidersLogout => {
+                providers::run(&process, parsed).await
+            }
+            CommandId::AgentList => agents::list(&process, directory).await,
+            CommandId::DbQuery => database::run(&process, parsed).await,
+            CommandId::DbPath => {
+                println!("{}", process.database_path().display());
+                Ok(())
+            }
+            CommandId::DebugConfig => {
+                let mut config = process.resolved_config(directory).await?;
+                diagnostics::redact(&mut config, false);
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&config).map_err(anyhow::Error::from)?
+                );
+                Ok(())
+            }
+            CommandId::McpList
+            | CommandId::McpAuthList
+            | CommandId::McpLogout
+            | CommandId::DebugSkill => integrations::run(&process, parsed, directory).await,
+            CommandId::SessionList
+            | CommandId::SessionDelete
+            | CommandId::Import
+            | CommandId::Export => sessions::run(&process, parsed, directory).await,
+            _ => unreachable!("dispatcher only accepts implemented commands"),
         }
-        CommandId::Run => noninteractive(&process, parsed, directory).await,
-        _ => unreachable!("dispatcher only accepts implemented commands"),
-    };
+    }
+    .await;
     process.shutdown().await;
     result.map_err(CommandError::from)
 }
 
 fn validate(parsed: &Parsed) -> Result<(), CommandError> {
+    let unsupported = match parsed.command {
+        CommandId::McpLogout if parsed.args.str("name").is_none() => {
+            Some("interactive MCP logout picker; provide name")
+        }
+        CommandId::ProvidersLogout if parsed.args.str("provider").is_none() => {
+            Some("interactive provider logout picker; provide provider")
+        }
+        CommandId::SessionList if parsed.args.str("format").as_deref() != Some("json") => {
+            Some("session list table locale and pager; use --format json")
+        }
+        CommandId::Import
+            if parsed.args.str("file").is_some_and(|file| {
+                file.starts_with("http://") || file.starts_with("https://")
+            }) =>
+        {
+            Some("share URL import")
+        }
+        CommandId::Export if parsed.args.str("sessionID").is_none() => {
+            Some("interactive export session picker; provide sessionID")
+        }
+        _ => None,
+    };
+    if let Some(unsupported) = unsupported {
+        return Err(CommandError::Unsupported(unsupported.into()));
+    }
+    if parsed.command == CommandId::DbQuery
+        && parsed
+            .args
+            .str("query")
+            .is_none_or(|query| query.is_empty())
+    {
+        return Err(CommandError::Unsupported(
+            "interactive sqlite3 shell; provide SQL query".into(),
+        ));
+    }
+    if parsed.args.bool("fork")
+        && !parsed.args.bool("continue")
+        && parsed.args.str("session").is_none()
+    {
+        return Err(anyhow::anyhow!("--fork requires --continue or --session").into());
+    }
+    if !matches!(
+        parsed.command,
+        CommandId::Run | CommandId::Tui | CommandId::Models
+    ) {
+        return Ok(());
+    }
     let unsupported = if parsed.command == CommandId::Models {
-        vec!["refresh"]
+        vec![]
     } else {
         vec![
             "attach",
             "command",
-            "fork",
             "share",
             "file",
-            "title",
             "auto",
             "yolo",
             "dangerously-skip-permissions",
@@ -90,7 +204,21 @@ fn validate(parsed: &Parsed) -> Result<(), CommandError> {
             "username",
         ]
     };
+    if parsed.args.str("title").is_some()
+        && (parsed.command != CommandId::Run
+            || parsed.args.bool("interactive")
+            || parsed.args.bool("mini"))
+    {
+        return Err(CommandError::Unsupported("interactive --title".into()));
+    }
     for key in unsupported {
+        if key == "file"
+            && parsed.command == CommandId::Run
+            && !parsed.args.bool("interactive")
+            && !parsed.args.bool("mini")
+        {
+            continue;
+        }
         if parsed.args.bool(key)
             || parsed.args.str(key).is_some_and(|value| value != "false")
             || !parsed.args.strings(key).is_empty() && key == "file"
@@ -98,14 +226,13 @@ fn validate(parsed: &Parsed) -> Result<(), CommandError> {
             return Err(CommandError::Unsupported(format!("--{key}")));
         }
     }
-    if parsed.args.str("variant").is_some() && parsed.args.str("model").is_none() {
+    if parsed.args.str("format").as_deref() == Some("json")
+        && (parsed.command != CommandId::Run
+            || parsed.args.bool("interactive")
+            || parsed.args.bool("mini"))
+    {
         return Err(CommandError::Unsupported(
-            "--variant without an explicit --model".into(),
-        ));
-    }
-    if parsed.args.str("format").as_deref() == Some("json") {
-        return Err(CommandError::Unsupported(
-            "legacy JSON event formatting (--format json)".into(),
+            "interactive JSON event formatting (--format json)".into(),
         ));
     }
     if parsed.command == CommandId::Run
@@ -161,6 +288,10 @@ fn directory(parsed: &Parsed) -> anyhow::Result<PathBuf> {
 }
 
 async fn models(process: &Process, parsed: &Parsed, directory: PathBuf) -> anyhow::Result<()> {
+    if parsed.args.bool("refresh") {
+        process.refresh_models(directory.clone(), true).await?;
+        println!("Models cache refreshed");
+    }
     let mut models = process.available_models(directory).await?;
     if let Some(provider) = parsed.args.str("provider") {
         models.retain(|model| model.provider_id.as_str() == provider);
@@ -232,6 +363,30 @@ async fn session(
     } else {
         None
     };
+    let model = if model.is_none() && parsed.args.str("variant").is_some() {
+        let mut selected = match existing.as_ref().and_then(|session| session.model.clone()) {
+            Some(model) => Some(model),
+            None => process.default_model(directory.clone()).await?,
+        }
+        .context("No model is available")?;
+        selected.variant = parsed
+            .args
+            .str("variant")
+            .map(|variant| serde_json::from_value(serde_json::json!(variant)))
+            .transpose()?;
+        Some(selected)
+    } else {
+        model
+    };
+    let existing = if let Some(session) = existing {
+        Some(if parsed.args.bool("fork") {
+            process.session.fork(&session.id, None).await?
+        } else {
+            session
+        })
+    } else {
+        None
+    };
     if let Some(session) = existing {
         if let Some(model) = model {
             process.session.switch_model(&session.id, model).await?;
@@ -275,6 +430,12 @@ async fn noninteractive(
     };
     if text.trim().is_empty() {
         bail!("You must provide a message or a command");
+    }
+    if parsed.args.str("format").as_deref() == Some("json")
+        || !parsed.args.strings("file").is_empty()
+        || parsed.args.str("title").is_some()
+    {
+        return json_run::run(process, parsed, directory, text).await;
     }
     let id = session(process, parsed, directory).await?;
     let mut output = std::io::stdout();

@@ -287,7 +287,10 @@ fn filter(method: Method) -> MethodFilter {
 async fn doc() -> Response {
     json(
         StatusCode::OK,
-        &opencode_protocol::openapi::document(opencode_protocol::registry()),
+        &opencode_protocol::openapi::document(&[
+            opencode_protocol::legacy::api(),
+            opencode_protocol::current::api(),
+        ]),
     )
 }
 

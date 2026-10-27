@@ -201,6 +201,18 @@ impl ToolRegistry {
         }
     }
 
+    /// Reapply this Location's retained-output policy after integration hooks change output.
+    pub async fn bound(
+        &self,
+        output: ToolOutput,
+        context: &ToolContext,
+    ) -> Result<BoundOutput, String> {
+        self.inner
+            .bounder
+            .bound(&context.session_id, &context.tool_call_id, output)
+            .await
+    }
+
     fn insert(
         &self,
         tools: Vec<(String, Arc<dyn Tool>)>,

@@ -43,6 +43,7 @@
 //! recreate the server root); the terminal may key its view by `SessionKey`. Both use the same rows.
 
 pub mod actions;
+pub mod browser;
 pub mod identity;
 pub mod projection;
 pub mod reducer;

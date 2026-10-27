@@ -19,6 +19,7 @@ use std::collections::{HashMap, HashSet};
 
 use opencode_event_api::{Definition, LocationRef, PublishOptions};
 use opencode_schema::session_event::DURABLE_DEFINITIONS;
+use opencode_session_api::message::{AssistantContent, Message, ToolState};
 use opencode_session_api::operations::{CreateRequest, SessionService};
 use opencode_session_api::{MessageID, SessionError, SessionID, SessionInfo, SessionResult};
 use opencode_storage_api::DatabaseExt;
@@ -89,25 +90,11 @@ impl LocalSessionService {
                 "Cannot fork an active session".into(),
             ));
         }
-        let id = session.as_str().to_owned();
-        let rows = self
-            .events
-            .database()
-            .read(move |tx| {
-                tx.query(
-                    "SELECT id, seq FROM session_message WHERE session_id = ? ORDER BY seq",
-                    &[id.into()],
-                )
-            })
-            .await
-            .map_err(crate::projection::storage_error)?;
+        let rows = self.store.context(session).await?;
         let boundary = match boundary {
             Some(boundary) => Some(
                 rows.iter()
-                    .position(|row| {
-                        row.get::<String>("id")
-                            .is_ok_and(|id| id == boundary.as_str())
-                    })
+                    .position(|row| row.id() == boundary)
                     .ok_or_else(|| SessionError::MessageNotFound {
                         session_id: session.clone(),
                         message_id: boundary.clone(),
@@ -118,12 +105,22 @@ impl LocalSessionService {
         let selected = rows
             .into_iter()
             .take(boundary.unwrap_or(usize::MAX))
-            .map(|row| row.get::<String>("id"))
-            .collect::<Result<Vec<_>, _>>()
-            .map_err(crate::projection::storage_error)?;
+            .collect::<Vec<_>>();
+        if selected.iter().any(|message| match message {
+            Message::Assistant(message) => message.time.completed.is_none() || message.content.iter().any(|content| matches!(content, AssistantContent::Tool(tool) if matches!(&tool.state, ToolState::Pending(_) | ToolState::Running(_)))),
+            Message::Shell(message) => message.time.completed.is_none(),
+            _ => false,
+        }) {
+            return Err(SessionError::Validation("Cannot fork incomplete projected history".into()));
+        }
         let ids: HashMap<String, String> = selected
             .into_iter()
-            .map(|id| (id, MessageID::create().into_inner()))
+            .map(|message| {
+                (
+                    message.id().as_str().to_owned(),
+                    MessageID::create().into_inner(),
+                )
+            })
             .collect();
         let types = DURABLE_DEFINITIONS
             .iter()
@@ -145,7 +142,9 @@ impl LocalSessionService {
                 .map_err(event_error)?;
             for event in page.events {
                 after = event.durable.as_ref().map(|durable| durable.seq);
-                if event.event_type == "session.next.prompt.admitted" {
+                if event.event_type == "session.next.prompt.admitted"
+                    || event.event_type.starts_with("session.next.revert.")
+                {
                     continue;
                 }
                 let message = event

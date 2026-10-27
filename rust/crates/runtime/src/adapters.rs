@@ -127,6 +127,9 @@ impl ServerWorkspaces {
 /// Session `SessionLocations`: `ProjectV2.resolve` plus Location-bound revert.
 pub struct SessionProjects {
     pub projects: Arc<dyn ProjectResolver>,
+    pub locations: crate::location::Locations,
+    pub database: Arc<dyn opencode_storage_api::Database>,
+    pub events: Arc<dyn opencode_event_api::EventStore>,
 }
 
 #[async_trait]
@@ -147,10 +150,14 @@ impl SessionLocations for SessionProjects {
         })
     }
 
-    fn revert(&self, _: &location::Ref) -> SessionResult<Revert> {
-        Err(SessionError::Run {
-            message: "NotYetPorted: Location snapshot service (p05.native-vcs)".to_owned(),
-            retryable: false,
-        })
+    fn revert(&self, location: &location::Ref) -> SessionResult<Revert> {
+        Ok(Revert::new(
+            self.database.clone(),
+            self.events.clone(),
+            Arc::new(crate::snapshot_services::LocationSnapshots {
+                locations: self.locations.clone(),
+                location: location.clone(),
+            }),
+        ))
     }
 }

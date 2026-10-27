@@ -31,6 +31,8 @@ pub struct ConsoleConfig {
     /// `Resource.App.stage`, e.g. `production`, `dev`.
     pub stage: String,
     pub auth: super::auth::Config,
+    pub issuer: super::issuer::Config,
+    pub public: super::public::Config,
     pub workspace: super::workspace::Config,
     pub billing: super::billing::Config,
     pub zen: super::zen::Config,
@@ -38,10 +40,25 @@ pub struct ConsoleConfig {
 }
 
 impl ConsoleConfig {
+    pub fn for_issuer_from_env() -> anyhow::Result<Self> {
+        let issuer = super::issuer::Config::from_env()?;
+        anyhow::ensure!(
+            issuer.runtime.is_some(),
+            "Native issuer configuration is required"
+        );
+        Ok(Self {
+            stage: std::env::var("OPENCODE_STAGE").unwrap_or_else(|_| "dev".into()),
+            issuer,
+            ..Default::default()
+        })
+    }
+
     pub fn from_env() -> anyhow::Result<Self> {
         Ok(Self {
             stage: std::env::var("OPENCODE_STAGE").unwrap_or_else(|_| "dev".into()),
             auth: super::auth::Config::from_env()?,
+            issuer: super::issuer::Config::from_env()?,
+            public: super::public::Config::from_env()?,
             workspace: super::workspace::Config::from_env()?,
             billing: super::billing::Config::from_env()?,
             zen: super::zen::Config::from_env()?,

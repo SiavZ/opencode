@@ -215,6 +215,25 @@ pub fn decode_info(input: &Value) -> Option<Value> {
         let v1 = schema::decode(schema::v1::info(), input).ok()?;
         return schema::decode(schema::v2::info(), &migrate::migrate(&v1)).ok();
     }
+    // The dual-generation runtime also consumes legacy MCP-only files. The TS isV1
+    // predicate stays unchanged; explicit canonical {servers,timeout} always wins.
+    let legacy_mcp = input
+        .get("mcp")
+        .and_then(Value::as_object)
+        .is_some_and(|servers| {
+            !servers.contains_key("servers")
+                && !servers.contains_key("timeout")
+                && servers.values().any(|server| {
+                    matches!(
+                        server.get("type").and_then(Value::as_str),
+                        Some("local" | "remote")
+                    )
+                })
+        });
+    if legacy_mcp {
+        let v1 = schema::decode(schema::v1::info(), input).ok()?;
+        return schema::decode(schema::v2::info(), &migrate::migrate(&v1)).ok();
+    }
     schema::decode(schema::v2::info(), input).ok()
 }
 

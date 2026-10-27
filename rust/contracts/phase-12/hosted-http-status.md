@@ -1,102 +1,78 @@
-# Hosted HTTP transport status
+# Hosted console HTTP status
 
-Status: implemented as an explicit Rust JSON transport; baseline parity is partial and browser certification is outstanding.
+As of 2026-10-27. Latest-source local implementation and controlled acceptance are complete per coordinator `336372w6kq`, exit 0 at 2026-10-27 05:57:07.180901 UTC. Fmt and strict all-target lint passed; ordinary 30 test targets passed **208/0/2**, with three separate rebuilt browser runs each **1/0/0**. Support frontend scope is isolated local/operator-only. Native production provisioner remains absent; TLS/ALPN/proxy/upgraded cancellation unproven; no deployment or Phase01 modularity approval is claimed.
 
-Owner: Phase 12 hosted console HTTP review.
+## Runtime boundaries
 
-## Scope and transport boundary
+- `opencode-hosted` serves native Axum console APIs. `console/mod.rs` composes auth, workspace/settings, billing, browser delegation, referrals, public routes, Zen and support.
+- The unchanged SolidStart frontend is compiled with `rust/scripts/console-browser/plugin.ts`. Actual SolidStart owns generated server-function IDs, Seroval framing, FormData, SSR, redirects and revalidation. The plugin delegates server bodies to authenticated Rust APIs; it does not emulate `/_server` JSON wire compatibility.
+- `build.ts` produces a Node/Nitro production bundle outside `packages/`. `production-start.mjs` routes native endpoints to the colocated loopback Rust service and frontend requests to compiled SSR. A Cloudflare Worker cannot use localhost to reach an unrelated native deployment.
+- `OPENCODE_HOSTED_SERVICE=console-issuer` exposes the native issuer on its own listener/origin. Console mode does not expose issuer endpoints.
+- `console-stat`, `console-worker`, and `console-log-processor` select native TPS aggregation, bounded JSON stdin commands, and authenticated HTTP tail ingress. Workers start without unrelated console authentication configuration; log ingress does not require a database.
+- `transport.rs` attaches connection-scoped cancellation to requests. Real HTTP/1 TCP disconnects before provider headers and during streaming cancel owned work. Normal Content-Length/chunked request-body completion does not cancel reusable connections.
 
-The Rust transport is composed by `rust/bins/hosted/src/console/mod.rs` and is implemented in:
+## Implemented HTTP and browser behavior
 
-- `rust/bins/hosted/src/console/auth.rs`
-- `rust/bins/hosted/src/console/auth/request.rs`
-- `rust/bins/hosted/src/console/auth/session.rs`
-- `rust/bins/hosted/src/console/workspace.rs`
+The complete baseline inventory, source references and route dispositions are in `inventory.md`.
 
-These endpoints are explicit Axum JSON endpoints. They are not claimed to implement SolidStart server-function wire compatibility. The browser routes and server functions under `packages/console/app/src/routes` remain the behavior baseline.
+### Authentication and invitation admission
 
-## Configuration
+`/auth/authorize`, `/auth/callback` and suffixes, `/auth/status`, `/auth/logout`, `/auth`, and `/auth/action/actor` preserve session/account/workspace behavior. Authorize persists a ten-minute one-time nonce in Redis, bound to the sealed session. Callback atomically consumes state and verifies ES256/RS512 issuer JWKS, issuer, audience, expiration, access mode and account subject before sealing the session. Query errors omit secret code/state values. Actor mutations enforce the shared browser-origin boundary.
 
-`rust/bins/hosted/src/console/auth.rs` reads the first non-empty value from each listed pair:
+The native issuer implements GitHub OAuth and Google OIDC, provider state/nonce validation, allowed redirects, PKCE, single-use authorization codes, signing/JWKS/discovery, durable refresh rotation, and the existing account/invitation/Black-membership admission flow. SQLite transactions provide native persistent single-writer grant storage; signing keys and durable paths must be configured explicitly. Public tests exercise the installed TypeScript OpenAuth SDK against the native service.
 
-| Environment variable | Fallback | Meaning |
-| --- | --- | --- |
-| `OPENCODE_CONSOLE_AUTH_URL` | `VITE_AUTH_URL` | OpenAuth issuer base URL; must be `http` or `https` with a host. |
-| `OPENCODE_CONSOLE_SESSION_SECRET` | `ZEN_SESSION_SECRET` | Password for the sealed `auth` session cookie. |
-| `OPENCODE_CONSOLE_MIGRATION_URL` | `CONSOLE_MIGRATION_URL` | Destination for migrated/no-Black workspaces; redirects to `${value}/login`. |
-| `OPENCODE_CONSOLE_PUBLIC_ORIGIN` | none | Trusted external origin for reverse-proxied URL construction and same-origin checks. It must have only scheme, host, optional port, and `/` path, with no credentials, query, or fragment. |
+Invitation POST requires an admitted workspace administrator and same-origin browser request. SES delivery is fixtureable; invitation claiming is exercised through native issuer admission, not inferred from a repository helper alone.
 
-`OPENCODE_STAGE` is read by `ConsoleConfig` and defaults to `dev`; it is consumed by other console modules. The auth session cookie is named `auth`, is `HttpOnly`, has `Path=/`, has a one-year lifetime, and intentionally has no `Secure` attribute to match the TypeScript baseline.
+### Workspace and settings
 
-When `OPENCODE_CONSOLE_PUBLIC_ORIGIN` is configured, it is used instead of request `Host` and forwarding headers. Without it, the transport accepts direct HTTP requests and uses `Host`; it does not trust `x-forwarded-proto`. Production deployments should configure the public origin and ensure the proxy boundary is controlled.
+Native routes cover workspace list/create/read/update/delete/default-region, members, keys, BYOK provider list/save/remove, model listing/toggle and monthly usage graphs. Graph queries preserve timezone offsets, model/key/plan grouping, historical deleted-key labels and workspace isolation. MySQL strict `ONLY_FULL_GROUP_BY` behavior is tested. Existing baseline authorization conventions, including member workspace deletion, remain explicit rather than silently replaced with generic admin assumptions.
 
-## Auth endpoints
+### Billing and referrals
 
-All paths below are relative to the hosted service origin. Successful session-bearing responses may emit a refreshed `Set-Cookie: auth=...` header.
+Stripe raw-body signature validation precedes processing. Native handling covers checkout credits, first-customer metadata, customer updates, Lite/Black subscription lifecycle, invoice success/failure/action-required paths, refunds and replay handling. Authenticated browser operations cover summaries, payment/usage lists, receipt/portal/checkout invocation, reload settings, monthly limits, coupons and subscription settings according to the active baseline behavior.
 
-| Method and path | Request | Response contract |
-| --- | --- | --- |
-| `GET /auth/authorize` | Optional query `continue`; when present it must be a local absolute path beginning with one `/`, not `//`, backslash, or control characters. | `302 Location: <issuer>/authorize?...` with `client_id=app`, `redirect_uri=<origin>/auth/callback<continue>`, `response_type=code`, and a generated UUID `state`. |
-| `GET /auth/callback` and `GET /auth/callback/{path}` | OAuth query `code` is required. | Exchanges the code at `<issuer>/token` using the URL-encoded authorization-code fields, decodes the account subject, updates the sealed session, and returns `302` to `/auth` or the callback suffix. Locale selection may prefix supported paths according to request locale. Missing/invalid callback data returns `500` with a JSON-formatted body containing `error` and the received query `cause`; the current handler constructs a string response, so `application/json` content-type parity is not certified. |
-| `GET /auth/status` | Optional sealed `auth` cookie. Missing or invalid cookies are treated as an empty session. Duplicate `auth` cookies return `400`. | `200` JSON session data (`account` map and optional `current`) plus a refreshed sealed cookie. |
-| `GET /auth/logout` | Optional sealed `auth` cookie. | Removes the current account, selects the first remaining account, and returns `302 Location: /zen` plus the refreshed cookie. |
-| `GET /auth` | Optional sealed session. | Last-seen live, non-migrated workspace redirects `302` to `/workspace/{id}`. No eligible workspace redirects `302` to the configured migration console `/login`. Resolver/database failures fall back to `302 /auth/authorize`, matching the baseline catch behavior. |
-| `POST /auth/action/actor` | JSON `{ "workspaceID": string | null }`; `Origin` and `Sec-Fetch-Site`, when supplied, must be same-origin. Non-browser clients may omit `Origin`. | Resolves the account or workspace actor as JSON and may refresh the session cookie. Missing workspace membership redirects to `/auth/authorize`; no Black membership redirects to the migration console. Migrated workspace redirects with `303` for this POST endpoint, with `Cache-Control: no-store` (the shared admission rule uses `302` for GET/HEAD and `303` for other methods). |
+Referral persistence covers attribution, summaries, preview, reward application and Lite-subscription completion. Reward application updates all intended usage counters atomically and does not become a balance credit. Tests cover tenant isolation, duplicate application, account history/deleted inviter eligibility, empty administrator-email fallback and concurrent completion in two different workspaces. Referral normalization uppercases before stripping/truncation, including Unicode expansions.
 
-The session payload follows the baseline shape: `account` is an insertion-ordered map of `{ id, email }`, and `current` is the selected account ID. Session seals are integrity-protected by the existing iron codec; invalid or expired seals become a fresh empty session.
+### Zen, Go and provider transport
 
-## Workspace endpoints
+- `GET /zen/v1/models` uses the full `zenModels` catalog and live-key workspace-disabled filtering.
+- `GET /zen/go/v1/models` uses the public Lite/Go catalog. The earlier inverted assignment was corrected against the actual TypeScript routes.
+- Native generation routes cover chat completions, Anthropic messages, Responses, Systemone and the baseline Google action path, with OPTIONS/CORS and configured migration forwarding where the baseline delegates.
+- Provider helpers, usage parsing, request/response conversions, incremental SSE/UTF-8 handling and Bedrock framing are tested against captured executions of the actual TypeScript converters. Unsupported baseline format combinations remain typed failures, not invented converters.
+- IP/key/checkout caps, trials, TPM/TPS, provider budgets/sticky routing, plan/credit/BYOK admission, rolling windows, reload locking and durable settlement are implemented and fixture-tested.
+- Hot-workspace Redis accumulation follows baseline pending-delta/GETDEL behavior. It is not represented as a stronger crash-safe queue than the baseline.
+- Completed SSE settles usage once at EOF; downstream cancellation does not settle a completed generation. Provider/internal secret metadata is not leaked.
+- Native gateway metrics flow through the authenticated tail ingress into a durable capture. Finalized usage/timing and secret-free event assertions are exercised through real generation requests.
 
-These are explicit JSON alternatives to the Solid actions. Workspace-scoped endpoints first resolve the cookie session, then require a `user` actor whose admitted `workspaceID` exactly equals the path ID. A public actor receives `401`; an authenticated actor for another workspace, account actor, or system actor receives `403`.
+### Support, public routes and operators
 
-| Method and path | JSON request | Response and authorization |
-| --- | --- | --- |
-| `GET /workspaces` | none | `200` array of `{ id, name, slug }` for the current account's non-deleted memberships. Requires an account actor. |
-| `POST /workspaces` | `{ "name": string }` | `201` `{ "id": string }`. Requires an account actor; creates workspace, admin membership, zero billing, and the default API key. Empty names are rejected. |
-| `GET /workspaces/{id}` | none | `200` `{ id, name, slug }`; requires membership in that exact workspace. |
-| `PATCH /workspaces/{id}` | Any subset of `name`, `region` (`us`, `eu`, `sg`, `cn` array), and `allow_training` (`boolean`). JSON `null` for these optional fields is rejected. | `204`; requires an admitted **admin** actor. Name is 1..255 UTF-16 code units and region arrays are non-empty. Unauthenticated/mismatched/member access is rejected. |
-| `DELETE /workspaces/{id}` | none | `204`; requires an admitted actor for the exact workspace. This intentionally follows the baseline: `Workspace.remove` has no admin assertion, so an admitted member may delete. |
-| `POST /workspaces/{id}/default-region` | `{}` or `{ "country": string }` | `200` JSON region list. Uses `us,eu,sg` except country `CN`, which includes `cn`; only fills a currently-null region. Any admitted member may invoke it, matching baseline. |
-| `GET /workspaces/{id}/members` | none | `200` member list scoped to the admitted workspace. |
-| `PATCH /workspaces/{id}/members/{member_id}` | `{ "role": "admin" | "member", "monthlyLimit": integer | null }` | `204`; admin-only, never permits demoting/removing self according to domain rules. |
-| `DELETE /workspaces/{id}/members/{member_id}` | none | `204`; admin-only and never self. |
-| `GET /workspaces/{id}/keys` | none | `200` key list scoped to workspace; secret visibility follows the adapter rules. |
-| `POST /workspaces/{id}/keys` | `{ "name": string }` | `201` `{ "id": string }`; creates a key for the admitted user's own user ID. |
-| `DELETE /workspaces/{id}/keys/{key_id}` | none | `204`; adapter/domain authorization applies and cross-workspace access is denied. |
+Native support routes include guarded mutations and lookup, enterprise intake with local-capture Salesforce/SES/EmailOctopus adapters, Honeycomb-to-Discord formatting and newsletter signup. All provider calls used for acceptance are loopback captures.
 
-Workspace mutation requests are intended to enforce the same-origin browser guard. The controlled test evidence below verifies cross-origin rejection for PATCH; every future mutation route must retain this guard, including DELETE, default-region, member, and key actions.
+Auxiliary routes cover native-client metadata, fixed redirects, OpenAPI, update-download redirects, locale-aware docs/share/enterprise proxies, stats-to-data redirects, the data proxy/cache/HTML transformations, GitHub metadata, changelog parsing/cache/CORS and benchmark submission/list/task reads. Compressed upstream HTML is decoded before rewriting and stale encoding/length headers are not retained. Configured upstream destinations ignore attacker-controlled Host headers.
 
-Domain/store failures map to JSON errors: validation `400`, permission/actor errors `403`, not found `404`, conflict `409`, not-yet-ported `501`, and database failures `500`.
+All eighteen inventoried operator script equivalents have safe native local invocation paths. Destructive operations require an explicitly confirmed disposable local database. Stripe operator acceptance uses literal-loopback capture. Secret pull/update/promote equivalents use a marked durable local configuration store; they are not a claim of live SST secret-management support.
 
 ## Controlled verification
 
-Run from `rust/` with local fixture prerequisites as described in `rust/contracts/phase-12/contract.md`:
+Coordinator reports final `336372w6kq` completed 2026-10-27 05:57:07.180901 UTC, exit 0. Fmt and strict all-target clippy `-D warnings` passed. First 30 ordinary result lines total **208 passed, 0 failed, 2 ignored** = hosted 84 + CLI 2 + adapters 88 + domain 34. All 10 public fixtures passed within the hosted suite.
 
-```sh
-cargo fmt -p opencode-hosted
-cargo test -p opencode-hosted console::tests -- --nocapture
-```
+Same-chain explicit acceptance rebuilt and passed production console, development console and actual Rust/MySQL native support built-SSR Chromium, each **1 passed, 0 failed, 0 ignored**. Support canary scan passed. The ordinary opt-in ignores are not silently counted as passes; 211 passes across every result line includes these three browsers and is not the ordinary suite total.
 
-Final controlled result reported by the HTTP verifier on 2026-10-26: **5 passed, 0 failed, 11 filtered, 5.05s**. The covered cases are:
+Console browser workflows exercise compiled SSR, generated Solid RPC, settings persistence/reload and controlled database effects; aggregate workflows do not prove every individual route was browser-tested. Support browser acceptance applies only to its isolated local/operator bridge/build, with no public authentication claim.
 
-- missing and tampered cookies return `200` with an empty session;
-- local fake OpenAuth token exchange, callback, session login, and logout round trip;
-- workspace A cannot read or PATCH workspace B;
-- a member can read but cannot PATCH workspace settings;
-- PATCH persists name, region, and `allow_training`;
-- default-region is fill-only;
-- an evil `Origin` plus `Sec-Fetch-Site: cross-site` PATCH returns `403`.
+Final Bun suites at 2026-10-27 05:52:59 UTC: console **11 passed, 0 failed, 275 assertions**; support **3 passed, 0 failed, 39 assertions**. Public sitemap/config/tui normal-front-proxy HTTP 200 exact-byte checks at 05:35:22 UTC measured 97,390 / 39,039 / 1,156,030 bytes, with artifact parity tests passed.
 
-Each database fixture uses a unique `TestDatabase`. No live issuer, payment, mail, or provider network was used, and no tests were silently skipped.
+Transport `1823856h1y` passed 6/0 and gateway `539306b5qv` passed 5/0; native h2c same-connection reset/sibling/reuse, URI regressions, no settlement/completion tail on reset and EOF follow-up/full-tail are retained in final hosted coverage. Native-plan diff/guard/cloud/golden receipts remain separate.
 
-The verifier has not yet added explicit acceptance coverage for `POST /auth/action/actor` or workspace `DELETE` routes. Those remain required before calling the entire transport acceptance-complete.
+Final success supersedes `822402cbat` lookup/countdown and `0970200rpt` selector failures; deterministic same-clock lookup and boundary regression repairs passed. Historical `460019s48h` 203/0/1 is not the latest aggregate. Receipts are coordinator/owner-reported where not independently read. No Cargo or runtime edits were performed for this final documentation update.
 
-## Limitations and inherited risks
+## Deployment and compatibility limits
 
-- SolidStart server-function wire format, browser navigation behavior, and the full hosted frontend workflow are not certified by these Axum tests.
-- The live OpenAuth issuer and real OAuth provider callbacks were not exercised; only local fake issuer fixtures were used.
-- JWT subject decoding intentionally remains unverified, matching the existing OpenAuth client adapter behavior. The Rust route must not describe this as signature-validation certification.
-- OAuth `state` is generated but not persisted or checked on callback, also inherited from the baseline flow. This remains an explicit security risk and is not completion certification.
-- Invite-mail delivery is not part of this HTTP evidence. The tenant adapter's mail seam is fixture-oriented; live invite mail is deferred/not exercised.
-- Billing, provider, model, usage, and Zen route parity is outside this document's tested surface.
-- Public-origin hardening is present in `auth/request.rs` and has a unit test proving configured origin ignores an attacker-controlled Host. Same-origin guard calls are present on workspace create, update, default-region, key create/remove, member update/remove, and workspace delete. The passing cross-site PATCH acceptance case does not prove every mutation's guard end-to-end; add explicit route acceptance coverage for the remaining methods.
+1. No live cloud deployment, payment, provider inference or email was performed. Production configuration, provider credentials, TLS ingress, secret mounts, durable storage and operational rollout remain environment work.
+2. Native infrastructure plans explicitly identify `deployment_backend_required` and `deployable: false` where this repository lacks a native scheduler/volume/ingress renderer. A tested topology description and built SSR artifact are not provisioned production infrastructure. Existing Cloudflare tail sources need an explicit authenticated export attachment.
+3. Existing Cloudflare KV authorization codes, refresh grants and encrypted browser cookies are not imported into SQLite. Deliberate user reauthentication is a supported cutover policy; seamless grant/cookie import is not mandatory absent an explicit request and required key material. Fresh issuer acceptance is complete per issuer audit. Retained ES256/RS512 public verification keys are supported; this does not migrate existing grants.
+4. Coordinator reports `1823856h1y`: all 6 transport tests passed, including h2c pre-header and body reset with live same-connection sibling/reuse. Separate native gateway h2c acceptance `539306b5qv` passed 5/0, covering URI regressions, actual same-connection reset with no DB settlement/completion tail, and EOF follow-up with full tail. This supersedes the earlier failed metric assertion; it does not certify other deployments or protocols. TLS/ALPN, proxies and upgraded-protocol cancellation remain uncertified.
+5. Native public caches are bounded process-local caches, not a global Cloudflare edge cache. Native issuer storage requires the documented durable single-writer deployment boundary.
+6. No implementation commit was made in this shared dirty worktree. Unrelated existing edits and the TypeScript baseline remain preserved. Local controlled acceptance is not Phase01 modularity approval.
+
+Coordinator reports final cleanup at 2026-10-27 05:58:31 UTC: session Redis `p12-eni-final-20261027-0541` verified absent. Preexisting MySQL remained up and untouched. Git diff check passed and packages status clean. Fixture cleanup is not deployment.

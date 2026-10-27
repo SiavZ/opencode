@@ -33,10 +33,30 @@
 
 pub mod adapters;
 pub mod execution_support;
+pub mod global_services;
+pub mod integration_services;
 pub mod legacy;
+mod legacy_location;
 pub mod location;
+pub mod location_integrations;
+pub mod location_legacy_config;
+pub mod location_permissions;
+pub mod location_questions;
+pub mod native_services;
 pub mod paths;
 pub mod process;
+mod process_services;
+mod process_tasks;
+pub mod provider_services;
+mod service_router;
+mod snapshot_services;
+mod ui_assets;
+mod workspace_host;
+pub mod workspace_transport;
+
+pub use opencode_event_api::EventStore;
+pub use opencode_permissions::{PermissionRequest, Reply, ReplyInput};
+pub use opencode_schema::question::{Answer as QuestionAnswer, Request as QuestionRequest};
 
 pub use location::{LocationBundle, LocationGlobals};
 pub use opencode_server::lifecycle::{ListenOptions, Listener};

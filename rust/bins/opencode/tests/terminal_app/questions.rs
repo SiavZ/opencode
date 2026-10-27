@@ -30,13 +30,21 @@ fn multiple_choices_custom_unicode_and_review_reach_actual_tool_continuation() {
         .requests
         .recv_timeout(Duration::from_secs(2))
         .unwrap();
-    terminal.send(b" \x1b[B\r");
+    terminal.send(b"1j\r\t");
     terminal.wait("Choose a name");
-    terminal.send(b"\x1b[B\r");
+    terminal.send(b"2");
     terminal.send("\x1b[200~名前\x1b[201~\r".as_bytes());
     terminal.wait("Review answers");
     terminal.wait("Audit, History");
     terminal.wait("名前");
+    terminal.send(b"lh");
+    terminal.wait("Review answers");
+    terminal.send(b"h2");
+    terminal.wait_absent("Review answers");
+    terminal.wait("Other: 名前");
+    terminal.send("\x1b[200~修正\x1b[201~\r".as_bytes());
+    terminal.wait("Review answers");
+    terminal.wait("名前修正");
     assert!(
         provider.requests.try_recv().is_err(),
         "review must still own the real waiter"
@@ -57,7 +65,7 @@ fn multiple_choices_custom_unicode_and_review_reach_actual_tool_continuation() {
         .find(|message| message["role"] == "tool")
         .unwrap();
     assert!(tool.to_string().contains("Audit, History"), "{tool}");
-    assert!(tool.to_string().contains("名前"), "{tool}");
+    assert!(tool.to_string().contains("名前修正"), "{tool}");
 }
 
 #[test]

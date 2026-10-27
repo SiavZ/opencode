@@ -23,6 +23,7 @@ pub(super) struct Turn {
     pricing: Object,
     blocks: BTreeMap<String, Object>,
     tools: BTreeMap<String, Object>,
+    finishes: Vec<Object>,
     reason: Option<FinishReason>,
     step_finished: bool,
     pub terminal: bool,
@@ -42,6 +43,7 @@ impl Turn {
             pricing,
             blocks: BTreeMap::new(),
             tools: BTreeMap::new(),
+            finishes: Vec::new(),
             reason: None,
             step_finished: false,
             terminal: false,
@@ -230,6 +232,7 @@ impl Turn {
                 part.insert("cost".into(), usage["cost"].clone());
                 part.insert("tokens".into(), usage["tokens"].clone());
                 self.store.update_part(&part).await?;
+                self.finishes.push(part);
             }
             LlmEvent::Finish {
                 reason,
@@ -270,19 +273,40 @@ impl Turn {
                 .as_str()
                 .map(str::to_owned)
                 .unwrap_or_else(|| value.to_string());
-            part["state"] = json!({"status":"completed","input":part["state"]["input"],"output":text,"title":output.as_ref().and_then(|value|value.get("title")).cloned().unwrap_or(json!("")),"metadata":output.as_ref().and_then(|value|value.get("metadata")).cloned().unwrap_or(json!({})),"time":{"start":start,"end":now_millis()}});
+            if result["type"] == "error" {
+                part["state"] = json!({"status":"error","input":part["state"]["input"],"error":text,"time":{"start":start,"end":now_millis()}});
+                self.store.update_part(part).await?;
+                return Ok(());
+            }
+            let structured = output.as_ref().and_then(|value| value.get("structured"));
+            part["state"] = json!({"status":"completed","input":part["state"]["input"],"output":text,"title":structured.and_then(|value|value.get("title")).cloned().unwrap_or(json!("")),"metadata":structured.and_then(|value|value.get("metadata")).cloned().unwrap_or(json!({})),"time":{"start":start,"end":now_millis()}});
             self.store.update_part(part).await?;
         }
         Ok(())
     }
 
     pub async fn fail(&mut self, message: &str) -> Result<(), LegacyError> {
+        for part in self.tools.values_mut() {
+            if matches!(
+                part["state"]["status"].as_str(),
+                Some("pending" | "running")
+            ) {
+                part["state"] = json!({"status":"error","input":part["state"]["input"],"error":message,"time":{"start":part["state"]["time"]["start"].as_i64().unwrap_or_else(now_millis),"end":now_millis()}});
+                self.store.update_part(part).await?;
+            }
+        }
         self.info.insert(
             "error".into(),
             json!({"name":"UnknownError","data":{"message":message}}),
         );
         self.info["time"]["completed"] = json!(now_millis());
-        self.store.update_message(&self.info).await
+        self.store.update_message(&self.info).await?;
+        self.store
+            .publish_error(
+                str_field(&self.info, "sessionID").unwrap_or_default(),
+                self.info["error"].clone(),
+            )
+            .await
     }
 
     pub async fn finish(&mut self, snapshots: &dyn Snapshots) -> Result<(), LegacyError> {
@@ -291,6 +315,10 @@ impl Turn {
             self.store.update_part(part).await?;
         }
         if let (Some(before), Some(after)) = (&self.snapshot, snapshots.capture().await) {
+            for part in &mut self.finishes {
+                part.insert("snapshot".into(), json!(after));
+                self.store.update_part(part).await?;
+            }
             let files = snapshots
                 .files(before, &after)
                 .await

@@ -18,7 +18,12 @@
 //! Invariants: no live keys or paid calls; sessions, config and terminal belong to each test.
 //! Contract tests: self
 
+#[path = "admin/mod.rs"]
+mod admin;
 mod support;
+#[cfg(unix)]
+#[path = "terminal_app/mod.rs"]
+mod terminal_app;
 
 use std::time::Duration;
 
@@ -188,21 +193,10 @@ fn input_errors_and_unimplemented_features_are_honest_failures() {
             2,
             "NotYetPorted: --attach",
         ),
-        (vec!["models", "--refresh"], 2, "NotYetPorted: --refresh"),
-        (
-            vec!["run", "hello", "--format", "json"],
-            2,
-            "NotYetPorted: legacy JSON event formatting",
-        ),
-        (
-            vec!["run", "hello", "--variant", "high"],
-            2,
-            "NotYetPorted: --variant without an explicit --model",
-        ),
         (
             vec!["run", "hello", "--file", "missing.txt"],
-            2,
-            "NotYetPorted: --file",
+            1,
+            "File not found: missing.txt",
         ),
         (
             vec!["run", "hello", "--port=0"],
@@ -266,6 +260,7 @@ mod pty {
             let mut command = CommandBuilder::new(super::support::binary());
             command.env_clear();
             command.env("PATH", "/usr/bin:/bin");
+            command.env("OPENCODE_DISABLE_MODELS_FETCH", "true");
             command.env("TERM", "xterm-256color");
             for (key, value) in home.env() {
                 command.env(key, value);

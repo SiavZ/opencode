@@ -34,6 +34,9 @@ pub trait LegacyAgents: Send + Sync {
     async fn get(&self, name: &str) -> Result<Option<AgentInfo>, LegacyError>;
     async fn list(&self) -> Result<Vec<AgentInfo>, LegacyError>;
     async fn default_info(&self) -> Result<AgentInfo, LegacyError>;
+    async fn settings(&self, _name: &str) -> Result<Object, LegacyError> {
+        Ok(Object::new())
+    }
 }
 
 /// Legacy `Provider.Service` reads used by prompt/command/title/compaction.

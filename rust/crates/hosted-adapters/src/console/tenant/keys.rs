@@ -120,6 +120,30 @@ impl TenantStore {
         Ok(())
     }
 
+    /// Returns live disabled model IDs for a live key and workspace, matching the Go model-list query.
+    pub async fn disabled_models_for_key(
+        &self,
+        api_key: &str,
+    ) -> TenantResult<Option<Vec<String>>> {
+        let mut conn = self.db().conn().await?;
+        let rows: Vec<(String,)> = conn
+            .exec(
+                "SELECT `model`.`model` FROM `key` INNER JOIN `workspace` ON `workspace`.`id` = `key`.`workspace_id` INNER JOIN `model` ON `model`.`workspace_id` = `key`.`workspace_id` WHERE `key`.`key` = ? AND `key`.`time_deleted` IS NULL AND `model`.`time_deleted` IS NULL",
+                (api_key,),
+            )
+            .await?;
+        if !rows.is_empty() {
+            return Ok(Some(rows.into_iter().map(|(model,)| model).collect()));
+        }
+        let live_key: Option<(String,)> = conn
+            .exec_first(
+                "SELECT `key`.`id` FROM `key` INNER JOIN `workspace` ON `workspace`.`id` = `key`.`workspace_id` WHERE `key`.`key` = ? AND `key`.`time_deleted` IS NULL LIMIT 1",
+                (api_key,),
+            )
+            .await?;
+        Ok(live_key.map(|_| Vec::new()))
+    }
+
     /// `Provider.list`: live BYOK rows of the actor workspace.
     pub async fn list_providers(&self, actor: &Actor) -> TenantResult<Vec<ProviderRow>> {
         let mut conn = self.db().conn().await?;

@@ -24,7 +24,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::time::Duration;
 
 use anyhow::bail;
-use opencode_runtime::Process;
+use opencode_runtime::{Process, Reply, ReplyInput};
 use opencode_session_api::admission::PromptRequest;
 use opencode_session_api::message::{AssistantContent, Message};
 use opencode_session_api::operations::{SessionExecution, SessionService};
@@ -37,6 +37,15 @@ pub async fn execute(
     thinking: bool,
     mut output: impl FnMut(&str) -> anyhow::Result<()>,
 ) -> anyhow::Result<()> {
+    let directory = std::path::PathBuf::from(
+        process
+            .session
+            .get(session)
+            .await?
+            .location
+            .directory
+            .as_str(),
+    );
     let previous: BTreeSet<_> = process
         .session
         .context(session)
@@ -68,7 +77,11 @@ pub async fn execute(
                 };
             }
             _ = interval.tick() => {
-                if let Err(error) = render(process, session, &previous, &mut printed, thinking, &mut output).await {
+                let refreshed = async {
+                    reject_pending(process, session, &directory).await?;
+                    render(process, session, &previous, &mut printed, thinking, &mut output).await
+                }.await;
+                if let Err(error) = refreshed {
                     break Err(error);
                 }
             }
@@ -105,6 +118,42 @@ pub async fn execute(
         if assistant.time.completed.is_none() {
             bail!("Session drain left an incomplete assistant response");
         }
+    }
+    Ok(())
+}
+
+async fn reject_pending(
+    process: &Process,
+    session: &SessionID,
+    directory: &std::path::Path,
+) -> anyhow::Result<()> {
+    for request in process.pending_permissions(directory.to_path_buf()).await? {
+        if request.session_id != session.as_str() {
+            continue;
+        }
+        eprintln!(
+            "permission requested: {} ({}); auto-rejecting",
+            request.action,
+            request.resources.join(", ")
+        );
+        process
+            .reply_permission(
+                directory.to_path_buf(),
+                ReplyInput {
+                    request_id: request.id,
+                    reply: Reply::Reject,
+                    message: None,
+                },
+            )
+            .await?;
+    }
+    for request in process.pending_questions(directory.to_path_buf()).await? {
+        if &request.session_id != session {
+            continue;
+        }
+        process
+            .reject_question(directory.to_path_buf(), request.id.as_str())
+            .await?;
     }
     Ok(())
 }

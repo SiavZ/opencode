@@ -334,7 +334,9 @@ impl Children {
 
     fn child_run(&self, run: TaskRun) -> BoxFuture<'static, Result<String, String>> {
         let host = self.host.clone();
+        let scope = host.scope();
         async move {
+            let _scope = scope;
             host.prompt_child(run)
                 .await
                 .map_err(|error| error.to_string())
@@ -350,8 +352,10 @@ impl Children {
         job: &str,
     ) -> Arc<dyn Fn() + Send + Sync> {
         let (host, jobs, tasks) = (self.host.clone(), self.jobs.clone(), self.tasks.clone());
+        let scope = host.scope();
         let (input, job) = (input.clone(), job.to_owned());
         Arc::new(move || {
+            let scope = scope.clone();
             let (host, jobs, input, job, variant) = (
                 host.clone(),
                 jobs.clone(),
@@ -360,6 +364,7 @@ impl Children {
                 variant.clone(),
             );
             tasks.spawn(async move {
+                let _scope = scope;
                 let waited = jobs.wait(&job, None).await;
                 let Some(info) = waited.info else { return };
                 let (state, text) = match info.status {

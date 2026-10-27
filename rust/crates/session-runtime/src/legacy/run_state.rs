@@ -235,6 +235,9 @@ impl Runner {
     async fn ensure_running(self: &Arc<Self>, work: BoxFuture<'static, Outcome>) -> Outcome {
         let receiver = {
             let mut state = self.lock();
+            if self.owner.closed.load(std::sync::atomic::Ordering::SeqCst) {
+                return Err(LegacyError::Cancelled);
+            }
             match &mut *state {
                 State::Running { done, .. } | State::ShellThenRun { done, .. } => done.subscribe(),
                 State::Shell(_) => {
@@ -266,6 +269,9 @@ impl Runner {
     async fn start_shell(self: &Arc<Self>, work: ShellWork) -> Outcome {
         let (id, cancel, ready, sender, receiver) = {
             let mut state = self.lock();
+            if self.owner.closed.load(std::sync::atomic::Ordering::SeqCst) {
+                return Err(LegacyError::Cancelled);
+            }
             if !matches!(*state, State::Idle) {
                 return Err(LegacyError::Busy(self.session.clone()));
             }
@@ -370,6 +376,7 @@ pub struct RunState {
     runners: Arc<Mutex<HashMap<String, Arc<Runner>>>>,
     status: SessionStatus,
     jobs: Option<Arc<dyn JobCanceller>>,
+    closed: Arc<std::sync::atomic::AtomicBool>,
 }
 
 impl RunState {
@@ -378,11 +385,21 @@ impl RunState {
             runners: Arc::default(),
             status,
             jobs,
+            closed: Arc::new(std::sync::atomic::AtomicBool::new(false)),
         }
     }
 
     pub fn status(&self) -> &SessionStatus {
         &self.status
+    }
+
+    pub fn with_jobs(&self, jobs: Arc<dyn JobCanceller>) -> Self {
+        Self {
+            runners: self.runners.clone(),
+            status: self.status.clone(),
+            jobs: Some(jobs),
+            closed: self.closed.clone(),
+        }
     }
 
     fn lock(&self) -> std::sync::MutexGuard<'_, HashMap<String, Arc<Runner>>> {
@@ -397,8 +414,12 @@ impl RunState {
         let _ = self.status.set(session, json!({ "type": "idle" })).await;
     }
 
-    fn runner(&self, session: &str, on_interrupt: Fallback) -> Arc<Runner> {
-        self.lock()
+    fn runner(&self, session: &str, on_interrupt: Fallback) -> Result<Arc<Runner>, LegacyError> {
+        let mut runners = self.lock();
+        if self.closed.load(std::sync::atomic::Ordering::SeqCst) {
+            return Err(LegacyError::Cancelled);
+        }
+        Ok(runners
             .entry(session.to_owned())
             .or_insert_with(|| {
                 Arc::new(Runner {
@@ -409,7 +430,7 @@ impl RunState {
                     ids: Default::default(),
                 })
             })
-            .clone()
+            .clone())
     }
 
     /// Whether the Session currently runs a loop or shell.
@@ -446,7 +467,10 @@ impl RunState {
         on_interrupt: Fallback,
         work: BoxFuture<'static, Outcome>,
     ) -> Outcome {
-        self.runner(session, on_interrupt)
+        if self.closed.load(std::sync::atomic::Ordering::SeqCst) {
+            return Err(LegacyError::Cancelled);
+        }
+        self.runner(session, on_interrupt)?
             .ensure_running(work)
             .await
     }
@@ -458,11 +482,15 @@ impl RunState {
         on_interrupt: Fallback,
         work: ShellWork,
     ) -> Outcome {
-        self.runner(session, on_interrupt).start_shell(work).await
+        if self.closed.load(std::sync::atomic::Ordering::SeqCst) {
+            return Err(LegacyError::Cancelled);
+        }
+        self.runner(session, on_interrupt)?.start_shell(work).await
     }
 
     /// Cancels every runner (`InstanceState` finalizer).
     pub async fn shutdown(&self) {
+        self.closed.store(true, std::sync::atomic::Ordering::SeqCst);
         let runners: Vec<_> = self.lock().values().cloned().collect();
         for runner in runners {
             runner.cancel().await;

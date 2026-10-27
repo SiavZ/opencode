@@ -50,15 +50,13 @@
 //! Contract tests: runtime/tests/process.rs
 
 use std::sync::Arc;
-use std::time::Duration;
 
 use opencode_event_store::SqlEventStore;
 use opencode_locations::git::SubprocessGit;
 use opencode_locations::ports::{SqlSessionPlacement, WorkspaceRouting};
 use opencode_locations::workspace::worktree::WorktreeAdapter;
 use opencode_locations::workspace::{
-    AdapterContext, AdapterRegistry, UnsupportedHost, UnsupportedTransport, WorkspaceBus,
-    WorkspaceOptions,
+    AdapterContext, AdapterRegistry, WorkspaceBus, WorkspaceOptions,
 };
 use opencode_locations::{
     GitProjectResolver, LocationRegistry, ProjectResolver, RegistryOptions, WorkspaceService,
@@ -75,15 +73,22 @@ use opencode_session_runtime::projection::LocalSessionEvents;
 use opencode_session_runtime::service::LocalSessionService;
 use opencode_session_runtime::store::SessionStore;
 use opencode_storage_api::Database;
-use opencode_storage_sqlite::{PathEnv, SqliteDatabase, database_path};
+use opencode_storage_sqlite::{SqliteDatabase, database_path};
 
 use crate::adapters::{ServerLocations, ServerPlacement, ServerWorkspaces, SessionProjects};
 use crate::legacy::{LegacyAdapter, LegacyEventBus};
 use crate::location::{self, LocationGlobals, Locations, RegistryRunners};
-use crate::paths::GlobalPaths;
 
 #[derive(Debug, thiserror::Error)]
 pub enum ProcessError {
+    #[error(transparent)]
+    Session(#[from] opencode_session_api::SessionError),
+    #[error(transparent)]
+    Permission(#[from] opencode_permissions::PermissionError),
+    #[error(transparent)]
+    Legacy(#[from] opencode_server::services::legacy::LegacyError),
+    #[error("{0}")]
+    Service(String),
     #[error("failed to create opencode directories: {0}")]
     Directories(#[from] std::io::Error),
     #[error("failed to open database: {0}")]
@@ -94,99 +99,8 @@ pub enum ProcessError {
     Listen(#[from] ListenError),
 }
 
-/// Process inputs. `Default` reads the real environment; tests root everything in a temp dir.
-#[derive(Clone)]
-pub struct ProcessOptions {
-    pub paths: GlobalPaths,
-    /// `InstallationChannel` (`OPENCODE_CHANNEL` build constant, `local` in dev builds).
-    pub channel: String,
-    /// `InstallationVersion`.
-    pub version: String,
-    pub db: PathEnv,
-    /// Location idle TTL (`idleTimeToLive: 60 minutes`).
-    pub idle_ttl: Duration,
-    /// `RuntimeFlags.experimentalWorkspaces`.
-    pub experimental_workspaces: bool,
-    /// `OPENCODE_WORKSPACE_ID`.
-    pub workspace_id: Option<String>,
-    /// Extra environment for `git` (tests isolate `GIT_CONFIG_GLOBAL`).
-    pub git_env: Vec<(String, String)>,
-    /// Configuration and provider credential environment captured at process construction.
-    pub environment: opencode_config::env::Environment,
-}
-
-impl std::fmt::Debug for ProcessOptions {
-    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        formatter
-            .debug_struct("ProcessOptions")
-            .field("paths", &self.paths)
-            .field("channel", &self.channel)
-            .field("version", &self.version)
-            .field("db", &self.db)
-            .field("idle_ttl", &self.idle_ttl)
-            .field("experimental_workspaces", &self.experimental_workspaces)
-            .field("workspace_id", &self.workspace_id)
-            .field("environment", &"<redacted>")
-            .finish_non_exhaustive()
-    }
-}
-
-impl ProcessOptions {
-    pub fn from_process(version: impl Into<String>, channel: impl Into<String>) -> Self {
-        let flag = |key: &str| {
-            std::env::var(key)
-                .ok()
-                .map(|value| matches!(value.to_lowercase().as_str(), "true" | "1"))
-        };
-        Self {
-            paths: GlobalPaths::from_process(),
-            channel: channel.into(),
-            version: version.into(),
-            db: PathEnv::from_process(),
-            idle_ttl: opencode_locations::DEFAULT_IDLE_TTL,
-            experimental_workspaces: flag("OPENCODE_EXPERIMENTAL_WORKSPACES")
-                .or_else(|| flag("OPENCODE_EXPERIMENTAL"))
-                .unwrap_or(false),
-            workspace_id: std::env::var("OPENCODE_WORKSPACE_ID")
-                .ok()
-                .filter(|id| !id.is_empty()),
-            git_env: Vec::new(),
-            environment: opencode_config::env::Environment::from_process(),
-        }
-    }
-
-    /// Everything under `root`, nothing read from the process environment.
-    pub fn isolated(root: &std::path::Path) -> Self {
-        Self {
-            paths: GlobalPaths::rooted(root),
-            channel: "local".to_owned(),
-            version: "local".to_owned(),
-            db: PathEnv::default(),
-            idle_ttl: opencode_locations::DEFAULT_IDLE_TTL,
-            experimental_workspaces: false,
-            workspace_id: None,
-            git_env: Vec::new(),
-            environment: {
-                let mut environment =
-                    opencode_config::env::Environment::isolated(root.join("home"));
-                environment.global_config = GlobalPaths::rooted(root).config;
-                environment.vars.extend([
-                    ("HOME".into(), root.join("home").display().to_string()),
-                    (
-                        "XDG_CONFIG_HOME".into(),
-                        root.join("config").display().to_string(),
-                    ),
-                    (
-                        "GIT_CONFIG_GLOBAL".into(),
-                        root.join("empty-gitconfig").display().to_string(),
-                    ),
-                    ("GIT_CONFIG_NOSYSTEM".into(), "1".into()),
-                ]);
-                environment
-            },
-        }
-    }
-}
+mod options;
+pub use options::ProcessOptions;
 
 /// The running process: global services plus the Location registry.
 pub struct Process {
@@ -198,7 +112,13 @@ pub struct Process {
     pub locations: Locations,
     pub workspaces: WorkspaceService,
     pub projects: Arc<dyn ProjectResolver>,
-    legacy: Arc<LegacyAdapter>,
+    pub models: Arc<opencode_provider_adapters::catalog::ModelsService>,
+    pub providers: Arc<crate::provider_services::ProviderServices>,
+    pub application_tools: opencode_tool_api::ToolRegistry,
+    pub global: Arc<crate::global_services::GlobalServices>,
+    pub(crate) legacy: Arc<LegacyAdapter>,
+    callbacks: Arc<crate::service_router::ServiceRouter>,
+    tasks: crate::process_tasks::ProcessTasks,
 }
 
 impl Process {
@@ -222,12 +142,40 @@ impl Process {
                 .collect(),
         });
         let projects: Arc<dyn ProjectResolver> = Arc::new(GitProjectResolver::new(git.clone()));
+        let models_source = environment
+            .var("OPENCODE_MODELS_URL")
+            .unwrap_or("https://models.opencode.ai");
+        let models = Arc::new(
+            opencode_provider_adapters::catalog::ModelsService::new(
+                reqwest::Client::new(),
+                models_source.to_owned(),
+                options
+                    .paths
+                    .cache
+                    .join(opencode_provider_adapters::catalog::cache_filename(
+                        models_source,
+                    )),
+                format!("opencode/{}", options.version),
+            )
+            .with_policy(environment.truthy("OPENCODE_DISABLE_MODELS_FETCH"), None)
+            .with_read_path(
+                environment
+                    .var("OPENCODE_MODELS_PATH")
+                    .map(std::path::PathBuf::from),
+            ),
+        );
+        let application_tools =
+            opencode_tool_api::ToolRegistry::new(Arc::new(opencode_tool_api::PassthroughBounder));
+        let callbacks = Arc::new(crate::service_router::ServiceRouter::default());
         let locations: Locations = LocationRegistry::new(
             Arc::new(LocationGlobals {
                 projects: projects.clone(),
                 environment,
                 events: session_events.clone(),
                 paths: options.paths.clone(),
+                models: models.clone(),
+                application_tools: application_tools.clone(),
+                callbacks: callbacks.client(),
             }),
             location::build,
             RegistryOptions {
@@ -242,17 +190,39 @@ impl Process {
         ));
         opencode_session_runtime::legacy::projectors::register_projectors(events.as_ref());
         let legacy_store = LegacyStore::new(session_events.clone());
-        let legacy = Arc::new(LegacyAdapter::new(
-            legacy_store.clone(),
-            projects.clone(),
-            options.version.clone(),
-            RunState::new(SessionStatus::new(legacy_store), None),
-        ));
+        let run_state = RunState::new(SessionStatus::new(legacy_store.clone()), None);
+        let legacy = Arc::new(
+            LegacyAdapter::new(
+                legacy_store.clone(),
+                projects.clone(),
+                options.version.clone(),
+                run_state.clone(),
+            )
+            .with_execution(execution.clone())
+            .with_locations(Arc::new(
+                crate::legacy_location::LegacyLocationResolver::new(
+                    locations.clone(),
+                    legacy_store,
+                    run_state,
+                    options.paths.home.clone(),
+                    options.version.clone(),
+                )
+                .with_background(
+                    options
+                        .environment
+                        .truthy("OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS")
+                        || options.environment.truthy("OPENCODE_EXPERIMENTAL"),
+                ),
+            )),
+        );
         let session = Arc::new(LocalSessionService::new(
             session_events,
             execution.clone(),
             Arc::new(SessionProjects {
                 projects: projects.clone(),
+                locations: locations.clone(),
+                database: database.clone(),
+                events: events.clone(),
             }),
             options.version.clone(),
         ));
@@ -266,20 +236,51 @@ impl Process {
                 bus.clone(),
             )),
         );
+        let workspace_transport = Arc::new(crate::workspace_transport::WorkspaceTransport::new(
+            reqwest::Client::new(),
+        ));
+        let providers = Arc::new(crate::provider_services::ProviderServices::new(
+            database.clone(),
+            models.clone(),
+            serde_json::Value::Null,
+            options.environment.vars.clone().into_iter().collect(),
+        ));
         let workspaces = WorkspaceService::new(
             database.clone(),
             events.clone(),
             adapters,
             bus,
-            Arc::new(UnsupportedTransport),
-            Arc::new(UnsupportedHost),
+            workspace_transport.clone(),
+            Arc::new(crate::workspace_host::Host {
+                providers: providers.clone(),
+                session: session.clone(),
+                legacy: legacy.clone(),
+                environment: options.environment.vars.clone(),
+            }),
             WorkspaceOptions {
                 experimental_workspaces: options.experimental_workspaces,
                 configured_workspace_id: options.workspace_id.clone(),
                 ..WorkspaceOptions::default()
             },
         );
-        Ok(Self {
+        let global = Arc::new(
+            crate::global_services::GlobalServices::new(
+                database.clone(),
+                projects.clone(),
+                locations.clone(),
+                options.clone(),
+            )
+            .with_workspaces(workspaces.clone())
+            .with_events(events.clone())
+            .with_workspace_transport(workspace_transport)
+            .with_sessions(legacy.clone()),
+        );
+        let tasks = crate::process_tasks::ProcessTasks::start(
+            models.clone(),
+            events.clone(),
+            options.model_refresh && !options.environment.truthy("OPENCODE_DISABLE_MODELS_FETCH"),
+        );
+        let process = Self {
             options,
             database,
             events,
@@ -288,8 +289,16 @@ impl Process {
             locations,
             workspaces,
             projects,
+            models,
+            providers,
+            application_tools,
+            global,
             legacy,
-        })
+            callbacks,
+            tasks,
+        };
+        process.callbacks.initialize(process.services());
+        Ok(process)
     }
 
     /// Models available to the same location-scoped resolver used by Session execution.
@@ -297,12 +306,13 @@ impl Process {
         &self,
         directory: std::path::PathBuf,
     ) -> Result<Vec<opencode_schema::provider::ModelInfo>, ProcessError> {
-        let directory = tokio::fs::canonicalize(directory).await?;
-        let location = opencode_schema::location::Ref {
-            directory: opencode_schema::values::AbsolutePath::new(directory.to_string_lossy()),
-            workspace_id: None,
-        };
-        Ok(self.locations.get(&location).await?.models.clone())
+        self.location_services(directory)
+            .await?
+            .providers
+            .catalog()
+            .await
+            .map(|catalog| catalog.available_models())
+            .map_err(ProcessError::Service)
     }
 
     /// Server services over this process.
@@ -311,7 +321,28 @@ impl Process {
         let mut services = Services {
             session: Some(self.session.clone()),
             legacy_sessions: Some(self.legacy.clone()),
+            legacy_global: Some(self.global.clone()),
+            legacy_native: Some(Arc::new(crate::native_services::http::LegacyNative::new(
+                self.locations.clone(),
+            ))),
+            legacy_providers: Some(Arc::new(crate::process_services::LocationProviders {
+                locations: self.locations.clone(),
+                global: self.providers.clone(),
+            })),
+            legacy_integrations: Some(Arc::new(crate::integration_services::IntegrationServices {
+                locations: self.locations.clone(),
+            })),
             version: self.options.version.clone(),
+            ui: Some(Arc::new(crate::ui_assets::Assets {
+                client: reqwest::Client::new(),
+                upstream: self.options.ui_upstream.clone(),
+                embedded: (!self
+                    .options
+                    .environment
+                    .truthy("OPENCODE_DISABLE_EMBEDDED_WEB_UI"))
+                .then(|| self.options.ui_assets.clone())
+                .flatten(),
+            })),
             locations: Some(Arc::new(ServerLocations(Arc::new(self.locations.clone())))),
             placement: Some(Arc::new(ServerPlacement(placement.clone()))),
             workspaces: Some(Arc::new(ServerWorkspaces(WorkspaceRouting::new(
@@ -323,6 +354,9 @@ impl Process {
         };
         services.streams.events = Some(self.events.clone());
         services.streams.global = Some(Arc::new(LegacyEventBus::new(self.events.clone())));
+        services.streams.pty = Some(Arc::new(crate::native_services::NativeProvider {
+            locations: self.locations.clone(),
+        }));
         services
     }
 
@@ -353,9 +387,12 @@ impl Process {
 
     /// Ordered teardown, reverse of construction.
     pub async fn shutdown(self) {
+        self.tasks.shutdown().await;
+        self.legacy.shutdown().await;
         self.execution.shutdown().await;
         self.locations.shutdown().await;
         self.workspaces.shutdown().await;
+        self.providers.shutdown().await;
         if let Err(error) = self.database.close().await {
             tracing::warn!(%error, "database close failed");
         }

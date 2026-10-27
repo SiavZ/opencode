@@ -1,0 +1,3987 @@
+[
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Rate limit exceeded. Please try again later.",
+    "locale": "en",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Model Claude $& Opus is not supported",
+    "locale": "en",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Model Claude $& Opus is not supported for format oa-compat",
+    "locale": "en",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "No provider available",
+    "locale": "en",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Provider test-provider not supported",
+    "locale": "en",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Missing API key.",
+    "locale": "en",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Invalid API key.",
+    "locale": "en",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "locale": "en",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "locale": "en",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "en",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "en",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "en",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "en",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "en",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "en",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "en",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Model is disabled",
+    "locale": "en",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "en",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "This model is not available in your country.",
+    "locale": "en",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "en",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "en"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "locale": "en",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "超出速率限制。请稍后重试。",
+    "locale": "zh",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "不支持模型 Claude $& Opus",
+    "locale": "zh",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "格式 oa-compat 不支持模型 Claude $& Opus",
+    "locale": "zh",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "没有可用的提供商",
+    "locale": "zh",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "不支持提供商 test-provider",
+    "locale": "zh",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "缺少 API 密钥。",
+    "locale": "zh",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "无效的 API 密钥。",
+    "locale": "zh",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "请求被上游提供商阻止。",
+    "locale": "zh",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "超出订阅配额。请在 1 hour 2 minutes 后重试。",
+    "locale": "zh",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "已达到 5 小时使用限额。将在 1 hour 2 minutes 后重置。如需立即继续使用该模型，请启用从可用余额扣费：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zh",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "已达到每周使用限额。将在 1 hour 2 minutes 后重置。如需立即继续使用该模型，请启用从可用余额扣费：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zh",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "已达到每月使用限额。将在 1 hour 2 minutes 后重置。如需立即继续使用该模型，请启用从可用余额扣费：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zh",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "没有付款方式。请在此处添加付款方式：https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "zh",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "余额不足。请在此处管理您的计费：https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "zh",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "您的工作区已达到每月支出限额 $12.50。请在此处管理您的限额：https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "zh",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "您已达到每月支出限额 $12.50。请在此处管理您的限额：https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "zh",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "模型已禁用",
+    "locale": "zh",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "该模型的最新版本仅在中国提供托管服务，需明确选择启用：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zh",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "该模型在你所在的国家或地区不可用。",
+    "locale": "zh",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "该模型会收集用于提升其质量的数据，使用前需要你明确同意：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zh",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zh"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Claude $& Opus 的限免活动已结束。您可以订阅 OpenCode Go 继续使用该模型 - https://opencode.ai/go",
+    "locale": "zh",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "超出頻率限制。請稍後再試。",
+    "locale": "zht",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "不支援模型 Claude $& Opus",
+    "locale": "zht",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "模型 Claude $& Opus 不支援格式 oa-compat",
+    "locale": "zht",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "無可用的供應商",
+    "locale": "zht",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "不支援供應商 test-provider",
+    "locale": "zht",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "缺少 API 金鑰。",
+    "locale": "zht",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "無效的 API 金鑰。",
+    "locale": "zht",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "請求遭上游供應商封鎖。",
+    "locale": "zht",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "超出訂閱配額。請在 1 hour 2 minutes 後重試。",
+    "locale": "zht",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "已達 5 小時使用上限，將在 1 hour 2 minutes 後重置。若要立即繼續使用此模型，請從可用餘額啟用使用量：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zht",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "已達每週使用上限，將在 1 hour 2 minutes 後重置。若要立即繼續使用此模型，請從可用餘額啟用使用量：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zht",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "已達每月使用上限，將在 1 hour 2 minutes 後重置。若要立即繼續使用此模型，請從可用餘額啟用使用量：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zht",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "無付款方式。請在此處新增付款方式：https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "zht",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "餘額不足。請在此處管理你的帳務：https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "zht",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "你的工作區已達到每月支出限額 $12.50。請在此處管理你的限額：https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "zht",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "你已達到每月支出限額 $12.50。請在此處管理你的限額：https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "zht",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "模型已停用",
+    "locale": "zht",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "此模型的最新版本僅於中國託管，且需明確選擇啟用：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zht",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "此模型無法在你所在的國家或地區使用。",
+    "locale": "zht",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "此模型會收集用於提升其品質的資料，使用前須經你明確同意：https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "zht",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "zht"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Claude $& Opus 的限免活动已結束。您可以訂閱 OpenCode Go 繼續使用該模型 - https://opencode.ai/go",
+    "locale": "zht",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "속도 제한을 초과했습니다. 나중에 다시 시도해 주세요.",
+    "locale": "ko",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Claude $& Opus 모델은 지원되지 않습니다",
+    "locale": "ko",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Claude $& Opus 모델은 oa-compat 형식에 대해 지원되지 않습니다",
+    "locale": "ko",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "사용 가능한 제공자가 없습니다",
+    "locale": "ko",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "test-provider 제공자는 지원되지 않습니다",
+    "locale": "ko",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "API 키가 누락되었습니다.",
+    "locale": "ko",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "유효하지 않은 API 키입니다.",
+    "locale": "ko",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "상위 제공자가 요청을 차단했습니다.",
+    "locale": "ko",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "구독 할당량을 초과했습니다. 1 hour 2 minutes 후 다시 시도해 주세요.",
+    "locale": "ko",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "5시간 사용 한도에 도달했습니다. 1 hour 2 minutes 후 초기화됩니다. 이 모델을 지금 계속 사용하려면 사용 가능한 잔액에서 사용을 활성화하세요: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ko",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "주간 사용 한도에 도달했습니다. 1 hour 2 minutes 후 초기화됩니다. 이 모델을 지금 계속 사용하려면 사용 가능한 잔액에서 사용을 활성화하세요: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ko",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "월간 사용 한도에 도달했습니다. 1 hour 2 minutes 후 초기화됩니다. 이 모델을 지금 계속 사용하려면 사용 가능한 잔액에서 사용을 활성화하세요: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ko",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "결제 수단이 없습니다. 결제 수단을 추가하세요: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ko",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "잔액이 부족합니다. 결제 관리를 여기서 하세요: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ko",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "워크스페이스의 월간 지출 한도인 $12.50에 도달했습니다. 한도 관리를 여기서 하세요: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ko",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "월간 지출 한도인 $12.50에 도달했습니다. 한도 관리를 여기서 하세요: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "ko",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "모델이 비활성화되었습니다",
+    "locale": "ko",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "이 모델의 최신 버전은 중국에서 호스팅되는 경우에만 사용할 수 있으며, 명시적으로 사용에 동의해야 합니다: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ko",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "이 모델은 거주 국가에서 사용할 수 없습니다.",
+    "locale": "ko",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "이 모델은 품질 개선에 사용되는 데이터를 수집하며, 사용하려면 명시적으로 동의해야 합니다: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ko",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ko"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Claude $& Opus의 무료 프로모션이 종료되었습니다. OpenCode Go를 구독하면 모델을 계속 사용할 수 있습니다 - https://opencode.ai/go",
+    "locale": "ko",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Ratenlimit überschritten. Bitte versuche es später erneut.",
+    "locale": "de",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Modell Claude $& Opus wird nicht unterstützt",
+    "locale": "de",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modell Claude $& Opus wird für das Format oa-compat nicht unterstützt",
+    "locale": "de",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Kein Anbieter verfügbar",
+    "locale": "de",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Anbieter test-provider wird nicht unterstützt",
+    "locale": "de",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Fehlender API-Key.",
+    "locale": "de",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Ungültiger API-Key.",
+    "locale": "de",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Anfrage vom vorgelagerten Anbieter blockiert.",
+    "locale": "de",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Abonnement-Quote überschritten. Erneuter Versuch in 1 hour 2 minutes.",
+    "locale": "de",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "5-Stunden-Nutzungslimit erreicht. Wird in 1 hour 2 minutes zurückgesetzt. Um dieses Modell jetzt weiter zu nutzen, aktiviere die Nutzung über dein verfügbares Guthaben: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "de",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Wöchentliches Nutzungslimit erreicht. Wird in 1 hour 2 minutes zurückgesetzt. Um dieses Modell jetzt weiter zu nutzen, aktiviere die Nutzung über dein verfügbares Guthaben: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "de",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Monatliches Nutzungslimit erreicht. Wird in 1 hour 2 minutes zurückgesetzt. Um dieses Modell jetzt weiter zu nutzen, aktiviere die Nutzung über dein verfügbares Guthaben: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "de",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Keine Zahlungsmethode. Füge hier eine Zahlungsmethode hinzu: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "de",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Unzureichendes Guthaben. Verwalte deine Abrechnung hier: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "de",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Dein Workspace hat sein monatliches Ausgabenlimit von $12.50 erreicht. Verwalte deine Limits hier: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "de",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Du hast dein monatliches Ausgabenlimit von $12.50 erreicht. Verwalte deine Limits hier: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "de",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Modell ist deaktiviert",
+    "locale": "de",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Die neueste Version dieses Modells ist nur verfügbar, wenn sie in China gehostet wird, und muss ausdrücklich aktiviert werden: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "de",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Dieses Modell ist in deinem Land nicht verfügbar.",
+    "locale": "de",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Dieses Modell erfasst Daten, die zur Verbesserung seiner Qualität verwendet werden, und erfordert deine ausdrückliche Zustimmung: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "de",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "de"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Die kostenlose Aktion für Claude $& Opus ist beendet. Du kannst das Modell weiterhin nutzen, indem du OpenCode Go abonnierst - https://opencode.ai/go",
+    "locale": "de",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Límite de tasa excedido. Por favor, inténtalo de nuevo más tarde.",
+    "locale": "es",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Modelo Claude $& Opus no soportado",
+    "locale": "es",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modelo Claude $& Opus no soportado para el formato oa-compat",
+    "locale": "es",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Ningún proveedor disponible",
+    "locale": "es",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Proveedor test-provider no soportado",
+    "locale": "es",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Falta la clave API.",
+    "locale": "es",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Clave API inválida.",
+    "locale": "es",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "El proveedor externo bloqueó la solicitud.",
+    "locale": "es",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Cuota de suscripción excedida. Reintenta en 1 hour 2 minutes.",
+    "locale": "es",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Límite de uso de 5 horas alcanzado. Se restablece en 1 hour 2 minutes. Para seguir usando este modelo ahora, habilita el uso desde tu saldo disponible: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "es",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Límite de uso semanal alcanzado. Se restablece en 1 hour 2 minutes. Para seguir usando este modelo ahora, habilita el uso desde tu saldo disponible: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "es",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Límite de uso mensual alcanzado. Se restablece en 1 hour 2 minutes. Para seguir usando este modelo ahora, habilita el uso desde tu saldo disponible: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "es",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Sin método de pago. Añade un método de pago aquí: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "es",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Saldo insuficiente. Gestiona tu facturación aquí: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "es",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Tu espacio de trabajo ha alcanzado su límite de gasto mensual de $12.50. Gestiona tus límites aquí: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "es",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Has alcanzado tu límite de gasto mensual de $12.50. Gestiona tus límites aquí: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "es",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "El modelo está deshabilitado",
+    "locale": "es",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "La versión más reciente de este modelo solo está disponible alojada en China y requiere una aceptación explícita: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "es",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Este modelo no está disponible en tu país.",
+    "locale": "es",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Este modelo recopila datos que se utilizan para mejorar su calidad y requiere tu consentimiento explícito: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "es",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "es"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "La promoción gratuita de Claude $& Opus ha finalizado. Puedes seguir usando el modelo suscribiéndote a OpenCode Go - https://opencode.ai/go",
+    "locale": "es",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Limite de débit dépassée. Veuillez réessayer plus tard.",
+    "locale": "fr",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Modèle Claude $& Opus non pris en charge",
+    "locale": "fr",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modèle Claude $& Opus non pris en charge pour le format oa-compat",
+    "locale": "fr",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Aucun fournisseur disponible",
+    "locale": "fr",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Fournisseur test-provider non pris en charge",
+    "locale": "fr",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Clé API manquante.",
+    "locale": "fr",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Clé API invalide.",
+    "locale": "fr",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Requête bloquée par le fournisseur en amont.",
+    "locale": "fr",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Quota d'abonnement dépassé. Réessayez dans 1 hour 2 minutes.",
+    "locale": "fr",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite d'utilisation sur 5 heures atteinte. Réinitialisation dans 1 hour 2 minutes. Pour continuer à utiliser ce modèle dès maintenant, activez l'utilisation depuis votre solde disponible : https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "fr",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite d'utilisation hebdomadaire atteinte. Réinitialisation dans 1 hour 2 minutes. Pour continuer à utiliser ce modèle dès maintenant, activez l'utilisation depuis votre solde disponible : https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "fr",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite d'utilisation mensuelle atteinte. Réinitialisation dans 1 hour 2 minutes. Pour continuer à utiliser ce modèle dès maintenant, activez l'utilisation depuis votre solde disponible : https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "fr",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Aucune méthode de paiement. Ajoutez une méthode de paiement ici : https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "fr",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Solde insuffisant. Gérez votre facturation ici : https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "fr",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Votre espace de travail a atteint sa limite de dépense mensuelle de 12.50 $. Gérez vos limites ici : https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "fr",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Vous avez atteint votre limite de dépense mensuelle de 12.50 $. Gérez vos limites ici : https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "fr",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Le modèle est désactivé",
+    "locale": "fr",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "La dernière version de ce modèle est uniquement disponible avec un hébergement en Chine et nécessite votre consentement explicite : https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "fr",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Ce modèle n’est pas disponible dans votre pays.",
+    "locale": "fr",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Ce modèle collecte des données utilisées pour améliorer sa qualité et nécessite votre consentement explicite : https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "fr",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "La promotion gratuite de Claude $& Opus est terminée. Vous pouvez continuer à utiliser le modèle en vous abonnant à OpenCode Go - https://opencode.ai/go",
+    "locale": "fr",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Limite di richieste superato. Riprova più tardi.",
+    "locale": "it",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Modello Claude $& Opus non supportato",
+    "locale": "it",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modello Claude $& Opus non supportato per il formato oa-compat",
+    "locale": "it",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Nessun provider disponibile",
+    "locale": "it",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Provider test-provider non supportato",
+    "locale": "it",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Chiave API mancante.",
+    "locale": "it",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Chiave API non valida.",
+    "locale": "it",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Richiesta bloccata dal provider upstream.",
+    "locale": "it",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Quota dell'abbonamento superata. Riprova tra 1 hour 2 minutes.",
+    "locale": "it",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite di utilizzo di 5 ore raggiunto. Si reimposta tra 1 hour 2 minutes. Per continuare a usare questo modello ora, abilita l'utilizzo dal tuo saldo disponibile: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "it",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite di utilizzo settimanale raggiunto. Si reimposta tra 1 hour 2 minutes. Per continuare a usare questo modello ora, abilita l'utilizzo dal tuo saldo disponibile: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "it",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite di utilizzo mensile raggiunto. Si reimposta tra 1 hour 2 minutes. Per continuare a usare questo modello ora, abilita l'utilizzo dal tuo saldo disponibile: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "it",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Nessun metodo di pagamento. Aggiungi un metodo di pagamento qui: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "it",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Saldo insufficiente. Gestisci la tua fatturazione qui: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "it",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "La tua area di lavoro ha raggiunto il limite di spesa mensile di $12.50. Gestisci i tuoi limiti qui: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "it",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Hai raggiunto il tuo limite di spesa mensile di $12.50. Gestisci i tuoi limiti qui: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "it",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Il modello è disabilitato",
+    "locale": "it",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "La versione più recente di questo modello è disponibile solo con hosting in Cina e richiede un consenso esplicito: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "it",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Questo modello non è disponibile nel tuo paese.",
+    "locale": "it",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Questo modello raccoglie dati utilizzati per migliorarne la qualità e richiede il tuo consenso esplicito: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "it",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "it"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "La promozione gratuita di Claude $& Opus è terminata. Puoi continuare a usare il modello abbonandoti a OpenCode Go - https://opencode.ai/go",
+    "locale": "it",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Hastighedsgrænse overskredet. Prøv venligst igen senere.",
+    "locale": "da",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Model Claude $& Opus understøttes ikke",
+    "locale": "da",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Model Claude $& Opus understøttes ikke for format oa-compat",
+    "locale": "da",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Ingen udbyder tilgængelig",
+    "locale": "da",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Udbyder test-provider understøttes ikke",
+    "locale": "da",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Manglende API-nøgle.",
+    "locale": "da",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Ugyldig API-nøgle.",
+    "locale": "da",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Anmodningen blev blokeret af upstream-udbyderen.",
+    "locale": "da",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Abonnementskvote overskredet. Prøv igen om 1 hour 2 minutes.",
+    "locale": "da",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Forbrugsgrænsen for 5 timer er nået. Nulstilles om 1 hour 2 minutes. For at fortsætte med at bruge denne model nu, aktivér forbrug fra din tilgængelige saldo: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "da",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Ugentlig forbrugsgrænse er nået. Nulstilles om 1 hour 2 minutes. For at fortsætte med at bruge denne model nu, aktivér forbrug fra din tilgængelige saldo: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "da",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Månedlig forbrugsgrænse er nået. Nulstilles om 1 hour 2 minutes. For at fortsætte med at bruge denne model nu, aktivér forbrug fra din tilgængelige saldo: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "da",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Ingen betalingsmetode. Tilføj en betalingsmetode her: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "da",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Utilstrækkelig saldo. Administrer din fakturering her: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "da",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Dit workspace har nået sin månedlige forbrugsgrænse på $12.50. Administrer dine grænser her: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "da",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Du har nået din månedlige forbrugsgrænse på $12.50. Administrer dine grænser her: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "da",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Modellen er deaktiveret",
+    "locale": "da",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Den nyeste version af denne model er kun tilgængelig som hostet i Kina og kræver, at du aktivt tilvælger den: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "da",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Denne model er ikke tilgængelig i dit land.",
+    "locale": "da",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Denne model indsamler data, der bruges til at forbedre dens kvalitet, og kræver, at du aktivt tilvælger den: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "da",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "da"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Den gratis kampagne for Claude $& Opus er afsluttet. Du kan fortsætte med at bruge modellen ved at abonnere på OpenCode Go - https://opencode.ai/go",
+    "locale": "da",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "レート制限を超えました。後でもう一度お試しください。",
+    "locale": "ja",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "モデル Claude $& Opus はサポートされていません",
+    "locale": "ja",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "フォーマット oa-compat ではモデル Claude $& Opus はサポートされていません",
+    "locale": "ja",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "利用可能なプロバイダーがありません",
+    "locale": "ja",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "プロバイダー test-provider はサポートされていません",
+    "locale": "ja",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "APIキーがありません。",
+    "locale": "ja",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "無効なAPIキーです。",
+    "locale": "ja",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "上流プロバイダーによりリクエストがブロックされました。",
+    "locale": "ja",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "サブスクリプションの制限を超えました。1 hour 2 minutes 後に再試行してください。",
+    "locale": "ja",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "5時間の利用上限に達しました。1 hour 2 minutes 後にリセットされます。今すぐこのモデルの利用を続けるには、利用可能な残高からの利用を有効化してください: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ja",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "週間の利用上限に達しました。1 hour 2 minutes 後にリセットされます。今すぐこのモデルの利用を続けるには、利用可能な残高からの利用を有効化してください: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ja",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "月間の利用上限に達しました。1 hour 2 minutes 後にリセットされます。今すぐこのモデルの利用を続けるには、利用可能な残高からの利用を有効化してください: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ja",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "お支払い方法がありません。こちらからお支払い方法を追加してください: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ja",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "残高が不足しています。こちらから請求を管理してください: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ja",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "ワークスペースが月額の利用上限 $12.50 に達しました。こちらから上限を管理してください: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ja",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "月額の利用上限 $12.50 に達しました。こちらから上限を管理してください: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "ja",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "モデルが無効です",
+    "locale": "ja",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "このモデルの最新バージョンは中国でのみホスト提供されており、利用するには明示的なオプトインが必要です: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ja",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "このモデルはお住まいの国では利用できません。",
+    "locale": "ja",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "このモデルは品質向上のためのデータを収集します。利用するには明示的な同意が必要です: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ja",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ja"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Claude $& Opus の無料プロモーションは終了しました。OpenCode Go を購読するとモデルを引き続き使用できます - https://opencode.ai/go",
+    "locale": "ja",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Przekroczono limit zapytań. Spróbuj ponownie później.",
+    "locale": "pl",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Model Claude $& Opus nie jest obsługiwany",
+    "locale": "pl",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Model Claude $& Opus nie jest obsługiwany dla formatu oa-compat",
+    "locale": "pl",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Brak dostępnego dostawcy",
+    "locale": "pl",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Dostawca test-provider nie jest obsługiwany",
+    "locale": "pl",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Brak klucza API.",
+    "locale": "pl",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Nieprawidłowy klucz API.",
+    "locale": "pl",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Żądanie zablokowane przez dostawcę zewnętrznego.",
+    "locale": "pl",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Przekroczono limit subskrypcji. Spróbuj ponownie za 1 hour 2 minutes.",
+    "locale": "pl",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Osiągnięto 5-godzinny limit użycia. Resetuje się za 1 hour 2 minutes. Aby nadal korzystać z tego modelu, włącz użycie z dostępnego salda: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "pl",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Osiągnięto tygodniowy limit użycia. Resetuje się za 1 hour 2 minutes. Aby nadal korzystać z tego modelu, włącz użycie z dostępnego salda: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "pl",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Osiągnięto miesięczny limit użycia. Resetuje się za 1 hour 2 minutes. Aby nadal korzystać z tego modelu, włącz użycie z dostępnego salda: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "pl",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Brak metody płatności. Dodaj metodę płatności tutaj: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "pl",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Niewystarczające saldo. Zarządzaj swoimi płatnościami tutaj: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "pl",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Twoja przestrzeń robocza osiągnęła miesięczny limit wydatków w wysokości $12.50. Zarządzaj swoimi limitami tutaj: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "pl",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Osiągnąłeś swój miesięczny limit wydatków w wysokości $12.50. Zarządzaj swoimi limitami tutaj: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "pl",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Model jest wyłączony",
+    "locale": "pl",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Najnowsza wersja tego modelu jest dostępna wyłącznie jako usługa hostowana w Chinach i wymaga jawnej zgody użytkownika: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "pl",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Ten model nie jest dostępny w Twoim kraju.",
+    "locale": "pl",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Ten model zbiera dane wykorzystywane do poprawy jego jakości i wymaga wyraźnej zgody użytkownika: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "pl",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "pl"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Bezpłatna promocja Claude $& Opus dobiegła końca. Możesz dalej korzystać z modelu, subskrybując OpenCode Go - https://opencode.ai/go",
+    "locale": "pl",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Превышен лимит запросов. Пожалуйста, попробуйте позже.",
+    "locale": "ru",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Модель Claude $& Opus не поддерживается",
+    "locale": "ru",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Модель Claude $& Opus не поддерживается для формата oa-compat",
+    "locale": "ru",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Нет доступных провайдеров",
+    "locale": "ru",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Провайдер test-provider не поддерживается",
+    "locale": "ru",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Отсутствует API ключ.",
+    "locale": "ru",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Неверный API ключ.",
+    "locale": "ru",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Запрос заблокирован вышестоящим провайдером.",
+    "locale": "ru",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Квота подписки превышена. Повторите попытку через 1 hour 2 minutes.",
+    "locale": "ru",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Достигнут лимит использования за 5 часов. Сбросится через 1 hour 2 minutes. Чтобы продолжить использовать эту модель сейчас, включите оплату с доступного баланса: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ru",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Достигнут недельный лимит использования. Сбросится через 1 hour 2 minutes. Чтобы продолжить использовать эту модель сейчас, включите оплату с доступного баланса: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ru",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Достигнут месячный лимит использования. Сбросится через 1 hour 2 minutes. Чтобы продолжить использовать эту модель сейчас, включите оплату с доступного баланса: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ru",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Нет способа оплаты. Добавьте способ оплаты здесь: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ru",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Недостаточно средств. Управляйте оплатой здесь: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ru",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Ваше рабочее пространство достигло ежемесячного лимита расходов в $12.50. Управляйте лимитами здесь: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ru",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Вы достигли ежемесячного лимита расходов в $12.50. Управляйте лимитами здесь: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "ru",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Модель отключена",
+    "locale": "ru",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Последняя версия этой модели размещена только в Китае. Чтобы использовать её, необходимо явно подтвердить согласие: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ru",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Эта модель недоступна в вашей стране.",
+    "locale": "ru",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Эта модель собирает данные, которые используются для улучшения её качества, и требует явного согласия: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ru",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ru"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Бесплатная акция для Claude $& Opus завершена. Вы можете продолжить использование модели, подписавшись на OpenCode Go - https://opencode.ai/go",
+    "locale": "ru",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Перевищено ліміт запитів. Спробуйте пізніше.",
+    "locale": "uk",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Модель Claude $& Opus не підтримується",
+    "locale": "uk",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Модель Claude $& Opus не підтримується для формату oa-compat",
+    "locale": "uk",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Немає доступного провайдера",
+    "locale": "uk",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Провайдер test-provider не підтримується",
+    "locale": "uk",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Відсутній ключ API.",
+    "locale": "uk",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Недійсний ключ API.",
+    "locale": "uk",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Запит заблоковано зовнішнім провайдером.",
+    "locale": "uk",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Перевищено квоту підписки. Повторіть через 1 hour 2 minutes.",
+    "locale": "uk",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Досягнуто 5-годинного ліміту використання. Скидається через 1 hour 2 minutes. Щоб продовжити, увімкніть використання з доступного балансу: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "uk",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Досягнуто тижневого ліміту використання. Скидається через 1 hour 2 minutes. Щоб продовжити, увімкніть використання з доступного балансу: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "uk",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Досягнуто місячного ліміту використання. Скидається через 1 hour 2 minutes. Щоб продовжити, увімкніть використання з доступного балансу: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "uk",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Немає способу оплати. Додайте метод оплати: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "uk",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Недостатньо коштів. Керуйте оплатою: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "uk",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Ваш робочий простір досяг місячного ліміту витрат $12.50. Керуйте лімітами: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "uk",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Ви досягли місячного ліміту витрат $12.50. Керуйте лімітами: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "uk",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Модель вимкнено",
+    "locale": "uk",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Остання версія цієї моделі доступна лише на серверах у Китаї, і для її використання потрібно надати явну згоду: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "uk",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Ця модель недоступна у вашій країні.",
+    "locale": "uk",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Ця модель збирає дані, які використовуються для покращення її якості; для її використання потрібна ваша явна згода: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "uk",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "uk"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Безкоштовна акція для Claude $& Opus закінчилася. Ви можете продовжити використання, підписавшись на OpenCode Go — https://opencode.ai/go",
+    "locale": "uk",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "تم تجاوز حد الطلبات. يرجى المحاولة مرة أخرى لاحقًا.",
+    "locale": "ar",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "النموذج Claude $& Opus غير مدعوم",
+    "locale": "ar",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "النموذج Claude $& Opus غير مدعوم للتنسيق oa-compat",
+    "locale": "ar",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "لا يوجد مزود متاح",
+    "locale": "ar",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "المزود test-provider غير مدعوم",
+    "locale": "ar",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "مفتاح API مفقود.",
+    "locale": "ar",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "مفتاح API غير صالح.",
+    "locale": "ar",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "حظر المزود الخارجي الطلب.",
+    "locale": "ar",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "تم تجاوز حصة الاشتراك. أعد المحاولة خلال 1 hour 2 minutes.",
+    "locale": "ar",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "تم الوصول إلى حد الاستخدام لمدة 5 ساعات. تتم إعادة التعيين خلال 1 hour 2 minutes. لمواصلة استخدام هذا النموذج الآن، فعّل الاستخدام من رصيدك المتاح: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ar",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "تم الوصول إلى حد الاستخدام الأسبوعي. تتم إعادة التعيين خلال 1 hour 2 minutes. لمواصلة استخدام هذا النموذج الآن، فعّل الاستخدام من رصيدك المتاح: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ar",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "تم الوصول إلى حد الاستخدام الشهري. تتم إعادة التعيين خلال 1 hour 2 minutes. لمواصلة استخدام هذا النموذج الآن، فعّل الاستخدام من رصيدك المتاح: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ar",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "لا توجد طريقة دفع. أضف طريقة دفع هنا: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ar",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "رصيد غير كاف. إدارة فواتيرك هنا: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ar",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "وصلت مساحة العمل الخاصة بك إلى حد الإنفاق الشهري البالغ $12.50. إدارة حدودك هنا: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "ar",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "لقد وصلت إلى حد الإنفاق الشهري البالغ $12.50. إدارة حدودك هنا: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "ar",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "النموذج معطل",
+    "locale": "ar",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "لا يتوفر أحدث إصدار من هذا النموذج إلا مستضافًا في الصين، ويتطلب تفعيلًا صريحًا: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ar",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "هذا النموذج غير متاح في بلدك.",
+    "locale": "ar",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "يجمع هذا النموذج بيانات تُستخدم لتحسين جودته، ويتطلب موافقتك الصريحة: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "ar",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "ar"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "انتهى العرض المجاني لـ Claude $& Opus. يمكنك مواصلة استخدام النموذج بالاشتراك في OpenCode Go - https://opencode.ai/go",
+    "locale": "ar",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Rate limit overskredet. Vennligst prøv igjen senere.",
+    "locale": "no",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Modell Claude $& Opus støttes ikke",
+    "locale": "no",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modell Claude $& Opus støttes ikke for format oa-compat",
+    "locale": "no",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Ingen leverandør tilgjengelig",
+    "locale": "no",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Leverandør test-provider støttes ikke",
+    "locale": "no",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Mangler API-nøkkel.",
+    "locale": "no",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Ugyldig API-nøkkel.",
+    "locale": "no",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Forespørselen ble blokkert av leverandøren.",
+    "locale": "no",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Abonnementskvote overskredet. Prøv igjen om 1 hour 2 minutes.",
+    "locale": "no",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "5-timers bruksgrense nådd. Tilbakestilles om 1 hour 2 minutes. For å fortsette å bruke denne modellen nå, aktiver bruk fra din tilgjengelige saldo: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "no",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Ukentlig bruksgrense nådd. Tilbakestilles om 1 hour 2 minutes. For å fortsette å bruke denne modellen nå, aktiver bruk fra din tilgjengelige saldo: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "no",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Månedlig bruksgrense nådd. Tilbakestilles om 1 hour 2 minutes. For å fortsette å bruke denne modellen nå, aktiver bruk fra din tilgjengelige saldo: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "no",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Ingen betalingsmetode. Legg til en betalingsmetode her: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "no",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Utilstrekkelig saldo. Administrer faktureringen din her: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "no",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Arbeidsområdet ditt har nådd sin månedlige utgiftsgrense på $12.50. Administrer grensene dine her: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "no",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Du har nådd din månedlige utgiftsgrense på $12.50. Administrer grensene dine her: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "no",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Modellen er deaktivert",
+    "locale": "no",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Den nyeste versjonen av denne modellen er bare tilgjengelig som en tjeneste driftet i Kina og krever at du uttrykkelig samtykker: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "no",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Denne modellen er ikke tilgjengelig i landet ditt.",
+    "locale": "no",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Denne modellen samler inn data som brukes til å forbedre modellens kvalitet, og krever at du uttrykkelig samtykker: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "no",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "no"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Den gratis kampanjen for Claude $& Opus er avsluttet. Du kan fortsette å bruke modellen ved å abonnere på OpenCode Go - https://opencode.ai/go",
+    "locale": "no",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "Limite de taxa excedido. Por favor, tente novamente mais tarde.",
+    "locale": "br",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Modelo Claude $& Opus não suportado",
+    "locale": "br",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modelo Claude $& Opus não suportado para o formato oa-compat",
+    "locale": "br",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Nenhum provedor disponível",
+    "locale": "br",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "Provedor test-provider não suportado",
+    "locale": "br",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "Chave de API ausente.",
+    "locale": "br",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Chave de API inválida.",
+    "locale": "br",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "Solicitação bloqueada pelo provedor upstream.",
+    "locale": "br",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Cota de assinatura excedida. Tente novamente em 1 hour 2 minutes.",
+    "locale": "br",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite de uso de 5 horas atingido. Será reiniciado em 1 hour 2 minutes. Para continuar usando este modelo agora, habilite o uso a partir do seu saldo disponível: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "br",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite de uso semanal atingido. Será reiniciado em 1 hour 2 minutes. Para continuar usando este modelo agora, habilite o uso a partir do seu saldo disponível: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "br",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Limite de uso mensal atingido. Será reiniciado em 1 hour 2 minutes. Para continuar usando este modelo agora, habilite o uso a partir do seu saldo disponível: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "br",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Nenhuma forma de pagamento. Adicione uma forma de pagamento aqui: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "br",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Saldo insuficiente. Gerencie seu faturamento aqui: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "br",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Seu workspace atingiu o limite de gastos mensais de $12.50. Gerencie seus limites aqui: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "br",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Você atingiu seu limite de gastos mensais de $12.50. Gerencie seus limites aqui: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "br",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "O modelo está desabilitado",
+    "locale": "br",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "A versão mais recente deste modelo está disponível apenas com hospedagem na China e requer adesão explícita: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "br",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Este modelo não está disponível no seu país.",
+    "locale": "br",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Este modelo coleta dados usados para melhorar sua qualidade e exige seu consentimento explícito: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "br",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "br"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "A promoção gratuita do Claude $& Opus terminou. Você pode continuar usando o modelo assinando o OpenCode Go - https://opencode.ai/go",
+    "locale": "br",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "เกินขีดจำกัดอัตราการใช้งาน กรุณาลองใหม่ในภายหลัง",
+    "locale": "th",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "ไม่รองรับโมเดล Claude $& Opus",
+    "locale": "th",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "ไม่รองรับโมเดล Claude $& Opus สำหรับรูปแบบ oa-compat",
+    "locale": "th",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "ไม่มีผู้ให้บริการที่พร้อมใช้งาน",
+    "locale": "th",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "ไม่รองรับผู้ให้บริการ test-provider",
+    "locale": "th",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "ไม่มี API key",
+    "locale": "th",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "API key ไม่ถูกต้อง",
+    "locale": "th",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "คำขอถูกบล็อกโดยผู้ให้บริการต้นทาง",
+    "locale": "th",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "โควต้าการสมัครสมาชิกเกินขีดจำกัด ลองใหม่ในอีก 1 hour 2 minutes",
+    "locale": "th",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "ถึงขีดจำกัดการใช้งานในรอบ 5 ชั่วโมงแล้ว จะรีเซ็ตในอีก 1 hour 2 minutes หากต้องการใช้โมเดลนี้ต่อทันที ให้เปิดใช้งานจากยอดเงินคงเหลือของคุณ: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "th",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "ถึงขีดจำกัดการใช้งานรายสัปดาห์แล้ว จะรีเซ็ตในอีก 1 hour 2 minutes หากต้องการใช้โมเดลนี้ต่อทันที ให้เปิดใช้งานจากยอดเงินคงเหลือของคุณ: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "th",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "ถึงขีดจำกัดการใช้งานรายเดือนแล้ว จะรีเซ็ตในอีก 1 hour 2 minutes หากต้องการใช้โมเดลนี้ต่อทันที ให้เปิดใช้งานจากยอดเงินคงเหลือของคุณ: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "th",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "ไม่มีวิธีการชำระเงิน เพิ่มวิธีการชำระเงินที่นี่: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "th",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "ยอดเงินคงเหลือไม่เพียงพอ จัดการการเรียกเก็บเงินของคุณที่นี่: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "th",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Workspace ของคุณถึงขีดจำกัดการใช้จ่ายรายเดือนที่ $12.50 แล้ว จัดการขีดจำกัดของคุณที่นี่: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "th",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "คุณถึงขีดจำกัดการใช้จ่ายรายเดือนที่ $12.50 แล้ว จัดการขีดจำกัดของคุณที่นี่: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "th",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "โมเดลถูกปิดใช้งาน",
+    "locale": "th",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "โมเดลเวอร์ชันล่าสุดนี้ให้บริการเฉพาะผ่านระบบที่โฮสต์ในประเทศจีน และต้องให้ความยินยอมอย่างชัดแจ้งก่อนใช้งาน: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "th",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "โมเดลนี้ไม่พร้อมให้บริการในประเทศของคุณ",
+    "locale": "th",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "โมเดลนี้เก็บรวบรวมข้อมูลที่ใช้เพื่อปรับปรุงคุณภาพของโมเดล และต้องได้รับความยินยอมอย่างชัดแจ้งก่อนใช้งาน: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "th",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "th"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "โปรโมชันฟรีสำหรับ Claude $& Opus สิ้นสุดแล้ว คุณสามารถใช้โมเดลต่อได้โดยสมัครสมาชิก OpenCode Go - https://opencode.ai/go",
+    "locale": "th",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Rate limit exceeded. Please try again later.",
+    "expected": "İstek limiti aşıldı. Lütfen daha sonra tekrar deneyin.",
+    "locale": "tr",
+    "key": "zen.api.error.rateLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported",
+    "expected": "Claude $& Opus modeli desteklenmiyor",
+    "locale": "tr",
+    "key": "zen.api.error.modelNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Claude $& Opus modeli oa-compat formatı için desteklenmiyor",
+    "locale": "tr",
+    "key": "zen.api.error.modelFormatNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No provider available",
+    "expected": "Kullanılabilir sağlayıcı yok",
+    "locale": "tr",
+    "key": "zen.api.error.noProviderAvailable"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Provider test-provider not supported",
+    "expected": "test-provider sağlayıcısı desteklenmiyor",
+    "locale": "tr",
+    "key": "zen.api.error.providerNotSupported"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Missing API key.",
+    "expected": "API anahtarı eksik.",
+    "locale": "tr",
+    "key": "zen.api.error.missingApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Invalid API key.",
+    "expected": "Geçersiz API anahtarı.",
+    "locale": "tr",
+    "key": "zen.api.error.invalidApiKey"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This account has found to be committing fraud or is in breach of terms of services and has been blocked. If you believe this is a mistake please send an email to help@anoma.ly.",
+    "expected": "İstek üst sağlayıcı tarafından engellendi.",
+    "locale": "tr",
+    "key": "zen.api.error.requestBlockedByUpstreamProvider"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Subscription quota exceeded. Retry in 1 hour 2 minutes.",
+    "expected": "Abonelik kotası aşıldı. 1 hour 2 minutes içinde tekrar deneyin.",
+    "locale": "tr",
+    "key": "zen.api.error.subscriptionQuotaExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "5-hour usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "5 saatlik kullanım limitine ulaşıldı. 1 hour 2 minutes içinde sıfırlanır. Bu modeli şimdi kullanmaya devam etmek için kullanılabilir bakiyenizden kullanımı etkinleştirin: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "tr",
+    "key": "zen.api.error.goSubscriptionRollingLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Weekly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Haftalık kullanım limitine ulaşıldı. 1 hour 2 minutes içinde sıfırlanır. Bu modeli şimdi kullanmaya devam etmek için kullanılabilir bakiyenizden kullanımı etkinleştirin: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "tr",
+    "key": "zen.api.error.goSubscriptionWeeklyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Monthly usage limit reached. Resets in 1 hour 2 minutes. To continue using this model now, enable usage from your available balance: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Aylık kullanım limitine ulaşıldı. 1 hour 2 minutes içinde sıfırlanır. Bu modeli şimdi kullanmaya devam etmek için kullanılabilir bakiyenizden kullanımı etkinleştirin: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "tr",
+    "key": "zen.api.error.goSubscriptionMonthlyLimitExceeded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "No payment method. Add a payment method here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Ödeme yöntemi bulunamadı. Buradan bir ödeme yöntemi ekleyin: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "tr",
+    "key": "zen.api.error.noPaymentMethod"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Insufficient balance. Manage your billing here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Yetersiz bakiye. Faturalandırmanızı buradan yönetin: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "tr",
+    "key": "zen.api.error.insufficientBalance"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Your workspace has reached its monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/billing",
+    "expected": "Çalışma alanınız aylık $12.50 harcama limitine ulaştı. Limitlerinizi buradan yönetin: https://opencode.ai/workspace/wrk_fixture/billing",
+    "locale": "tr",
+    "key": "zen.api.error.workspaceMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "You have reached your monthly spending limit of $12.50. Manage your limits here: https://opencode.ai/workspace/wrk_fixture/members",
+    "expected": "Aylık $12.50 harcama limitinize ulaştınız. Limitlerinizi buradan yönetin: https://opencode.ai/workspace/wrk_fixture/members",
+    "locale": "tr",
+    "key": "zen.api.error.userMonthlyLimitReached"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Model is disabled",
+    "expected": "Model devre dışı",
+    "locale": "tr",
+    "key": "zen.api.error.modelDisabled"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "The latest version of this model is only available hosted in China and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Bu modelin en son sürümü yalnızca Çin'de barındırılıyor ve kullanabilmek için açıkça onay vermeniz gerekiyor: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "tr",
+    "key": "zen.api.error.regionNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model is not available in your country.",
+    "expected": "Bu model ülkenizde kullanılamıyor.",
+    "locale": "tr",
+    "key": "zen.api.error.countryNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "This model collects data used to improve its quality and requires explicit opt in: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "expected": "Bu model, kalitesini artırmak için kullanılan verileri toplar. Modeli kullanabilmek için açıkça onay vermeniz gerekir: https://opencode.ai/workspace/wrk_fixture/go?x=1&y=2",
+    "locale": "tr",
+    "key": "zen.api.error.trainingNotAllowed"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "tr"
+    },
+    "path": "/zen/v1/messages",
+    "message": "Free promotion has ended for Claude $& Opus. You can continue using the model by subscribing to OpenCode Go - https://opencode.ai/go",
+    "expected": "Claude $& Opus için ücretsiz promosyon sona erdi. OpenCode Go'ya abone olarak modeli kullanmaya devam edebilirsiniz - https://opencode.ai/go",
+    "locale": "tr",
+    "key": "zen.api.error.trialEnded"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "fr",
+      "cookie": "oc_locale=ja",
+      "accept-language": "de"
+    },
+    "path": "/es/zen",
+    "locale": "fr",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modèle Claude $& Opus non pris en charge pour le format oa-compat"
+  },
+  {
+    "headers": {
+      "x-opencode-locale": "FR",
+      "cookie": "oc_locale=ja",
+      "accept-language": "de"
+    },
+    "path": "/es/zen",
+    "locale": "es",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modelo Claude $& Opus no soportado para el formato oa-compat"
+  },
+  {
+    "headers": {
+      "cookie": "oc_locale=ja",
+      "accept-language": "de"
+    },
+    "path": "/docs/zh-tw/go/",
+    "locale": "zht",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "模型 Claude $& Opus 不支援格式 oa-compat"
+  },
+  {
+    "headers": {
+      "cookie": "x=1; oc_locale=%66%72; oc_locale=de",
+      "accept-language": "ja"
+    },
+    "path": "/zen",
+    "locale": "fr",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modèle Claude $& Opus non pris en charge pour le format oa-compat"
+  },
+  {
+    "headers": {
+      "cookie": "oc_locale=FR",
+      "accept-language": "pt-PT"
+    },
+    "path": "/zen",
+    "locale": "br",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modelo Claude $& Opus não suportado para o formato oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "de;q=0.2, fr;q=0.9, ja;q=0.9"
+    },
+    "path": "/zen",
+    "locale": "fr",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modèle Claude $& Opus non pris en charge pour le format oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "xx;q=1, zh-HK;q=0.8, en;q=0.5"
+    },
+    "path": "/zen",
+    "locale": "zht",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "模型 Claude $& Opus 不支援格式 oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "*;q=1, nn-NO;q=0"
+    },
+    "path": "/zen",
+    "locale": "no",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modell Claude $& Opus støttes ikke for format oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "xx, zht, br"
+    },
+    "path": "/docs/EN/go",
+    "locale": "en",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Model Claude $& Opus is not supported for format oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "xx, zht, br"
+    },
+    "path": "/ZEN",
+    "locale": "zh",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "格式 oa-compat 不支持模型 Claude $& Opus"
+  },
+  {
+    "headers": {
+      "accept-language": "fr;q=invalid, de;q=0.9"
+    },
+    "path": "/zen",
+    "locale": "fr",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modèle Claude $& Opus non pris en charge pour le format oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "de;q=0.2junk, fr;q=.5"
+    },
+    "path": "/zen",
+    "locale": "fr",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modèle Claude $& Opus non pris en charge pour le format oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "ar"
+    },
+    "path": "zh/zen",
+    "locale": "zh",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "格式 oa-compat 不支持模型 Claude $& Opus"
+  },
+  {
+    "headers": {
+      "accept-language": "ar"
+    },
+    "path": "/docs/pt-BR/go",
+    "locale": "br",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modelo Claude $& Opus não suportado para o formato oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "ar"
+    },
+    "path": "/docs/bs/go",
+    "locale": "ar",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "النموذج Claude $& Opus غير مدعوم للتنسيق oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "zh-MO"
+    },
+    "path": "/zen",
+    "locale": "zht",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "模型 Claude $& Opus 不支援格式 oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "zh-Hans"
+    },
+    "path": "/zen",
+    "locale": "zh",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "格式 oa-compat 不支持模型 Claude $& Opus"
+  },
+  {
+    "headers": {
+      "accept-language": "nb"
+    },
+    "path": "/zen",
+    "locale": "no",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Modell Claude $& Opus støttes ikke for format oa-compat"
+  },
+  {
+    "headers": {
+      "accept-language": "koala"
+    },
+    "path": "/zen",
+    "locale": "ko",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Claude $& Opus 모델은 oa-compat 형식에 대해 지원되지 않습니다"
+  },
+  {
+    "headers": {},
+    "path": "/zen",
+    "locale": "en",
+    "key": "zen.api.error.modelFormatNotSupported",
+    "message": "Model Claude $& Opus is not supported for format oa-compat",
+    "expected": "Model Claude $& Opus is not supported for format oa-compat"
+  }
+]

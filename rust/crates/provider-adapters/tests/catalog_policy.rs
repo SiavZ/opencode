@@ -31,6 +31,37 @@ fn inventory(id: &str) -> serde_json::Value {
 }
 
 #[tokio::test]
+async fn future_mtime_is_fresh_and_source_slashes_are_not_normalized() {
+    let server = MockServer::start().await;
+    let root = tempfile::tempdir().unwrap();
+    let cache = root.path().join("models.json");
+    std::fs::write(&cache, serde_json::to_vec(&inventory("cached")).unwrap()).unwrap();
+    std::fs::File::options()
+        .write(true)
+        .open(&cache)
+        .unwrap()
+        .set_times(
+            std::fs::FileTimes::new()
+                .set_modified(std::time::SystemTime::now() + std::time::Duration::from_secs(60)),
+        )
+        .unwrap();
+    let service = ModelsService::new(
+        reqwest::Client::new(),
+        format!("{}/", server.uri()),
+        cache,
+        "test".into(),
+    );
+    assert!(!service.refresh(false).await.unwrap());
+    assert!(server.received_requests().await.unwrap().is_empty());
+    Mock::given(path("//api.json"))
+        .respond_with(ResponseTemplate::new(200).set_body_json(inventory("remote")))
+        .expect(1)
+        .mount(&server)
+        .await;
+    assert!(service.refresh(true).await.unwrap());
+}
+
+#[tokio::test]
 async fn disabled_population_and_override_are_not_remote_write_targets() {
     let server = MockServer::start().await;
     let root = tempfile::tempdir().unwrap();

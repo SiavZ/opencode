@@ -179,6 +179,7 @@ impl TenantStore {
                 (&workspace_id, &workspace_id, &inviter_user),
             )
             .await;
+        drop(conn);
         match info {
             Ok(Some((inviter, workspace_name))) => {
                 let mail = InviteMail {

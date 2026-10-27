@@ -124,6 +124,54 @@ async fn concurrent_get_for_same_ref_builds_once() {
 }
 
 #[tokio::test(start_paused = true)]
+async fn global_invalidation_preserves_active_generation_and_allows_rebuild() {
+    let (registry, log, builds) = registry(Duration::from_secs(3600), Duration::ZERO);
+    let active = location_ref("/active", None);
+    let idle = location_ref("/idle", None);
+    let held = registry.get(&active).await.unwrap();
+    drop(registry.get(&idle).await.unwrap());
+    registry.invalidate_all().await;
+    assert!(registry.is_empty());
+    assert!(
+        log.lock()
+            .unwrap()
+            .iter()
+            .any(|item| item == "teardown /idle")
+    );
+    assert!(
+        !log.lock()
+            .unwrap()
+            .iter()
+            .any(|item| item == "teardown /active")
+    );
+
+    let fresh = registry.get(&active).await.unwrap();
+    assert!(!Arc::ptr_eq(held.services(), fresh.services()));
+    assert_eq!(builds.load(Ordering::SeqCst), 3);
+    drop(held);
+    registry.wait_teardowns().await;
+    assert_eq!(
+        log.lock()
+            .unwrap()
+            .iter()
+            .filter(|item| item.as_str() == "teardown /active")
+            .count(),
+        1
+    );
+    assert!(registry.contains(&active));
+    drop(fresh);
+    registry.shutdown().await;
+    assert_eq!(
+        log.lock()
+            .unwrap()
+            .iter()
+            .filter(|item| item.as_str() == "teardown /active")
+            .count(),
+        2
+    );
+}
+
+#[tokio::test(start_paused = true)]
 async fn global_services_are_shared_not_rebuilt() {
     let (registry, _, builds) = registry(Duration::from_secs(3600), Duration::ZERO);
     let a = registry.get(&location_ref("/a", None)).await.unwrap();

@@ -151,8 +151,11 @@ impl ModelsService {
         std::fs::metadata(&self.cache)
             .and_then(|metadata| metadata.modified())
             .ok()
-            .and_then(|modified| SystemTime::now().duration_since(modified).ok())
-            .is_some_and(|age| age < Duration::from_secs(300))
+            .is_some_and(|modified| {
+                SystemTime::now()
+                    .duration_since(modified)
+                    .map_or(true, |age| age < Duration::from_secs(300))
+            })
     }
 
     async fn fetch(&self) -> Result<(), CatalogError> {
@@ -162,7 +165,7 @@ impl ModelsService {
     }
 
     async fn fetch_inner(&self) -> Result<(), CatalogError> {
-        let url = format!("{}/api.json", self.source.trim_end_matches('/'));
+        let url = format!("{}/api.json", self.source);
         let mut attempt = 0;
         let bytes = loop {
             let result = self

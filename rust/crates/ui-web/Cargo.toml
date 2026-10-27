@@ -13,6 +13,8 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 opencode-view-model.workspace = true
+opencode-client.workspace = true
+url.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 leptos = { workspace = true, features = ["csr"] }
@@ -36,6 +38,8 @@ features = [
   "ResizeObserver", "ResizeObserverEntry", "ResizeObserverSize", "Performance", "PerformanceObserver",
   "MediaQueryList", "CssStyleDeclaration", "ScrollToOptions", "ScrollBehavior", "Url",
   "EventSource", "MessageEvent", "Navigator", "Clipboard", "console",
+  "AbortController", "AbortSignal", "RequestInit", "DragEvent", "FileReader", "ProgressEvent",
+  "Blob", "HashChangeEvent", "PopStateEvent",
 ]
 
 [lints]

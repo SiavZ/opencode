@@ -16,8 +16,10 @@
 //! Invariants: credentials use canonical integration identity and never enter request bodies.
 //! Contract tests: runtime/tests/provider_services.rs
 
+mod attempts;
 mod current;
 mod legacy;
+mod registry;
 
 use indexmap::IndexMap;
 use opencode_provider_adapters::catalog::{CatalogStore, ModelsService};
@@ -30,6 +32,7 @@ use serde_json::{Map, Value, json};
 use std::sync::Arc;
 
 pub struct ProviderServices {
+    attempts: attempts::State,
     database: Arc<dyn Database>,
     models: Arc<ModelsService>,
     documents: Vec<Value>,
@@ -45,6 +48,7 @@ impl ProviderServices {
         environment: IndexMap<String, String>,
     ) -> Self {
         Self {
+            attempts: attempts::State::default(),
             database,
             models,
             documents: vec![config],
@@ -94,7 +98,15 @@ impl ProviderServices {
         provider: &str,
         payload: Value,
     ) -> Result<Value, LegacyError> {
-        let plugin = self.auth_plugin(provider).await?;
+        let plugin = self
+            .auth_plugin(provider)
+            .await
+            .map_err(|error| match error {
+                LegacyError::Response { .. } => {
+                    LegacyError::Internal(format!("OAuth provider hook not found: {provider}"))
+                }
+                error => error,
+            })?;
         plugin.host.request("auth.authorize", json!({"handle":plugin.handle,"method":payload["method"],"inputs":payload.get("inputs")})).await.map_err(plugin_error)
     }
 
@@ -308,6 +320,29 @@ impl LegacySessions for ProviderServices {
                 self.current(operation, params, payload).await
             }
             "provider.list" => self.provider_list().await.map_err(LegacyError::Internal),
+            "config.providers" => {
+                let list = self.provider_list().await.map_err(LegacyError::Internal)?;
+                let connected = list["connected"].as_array().cloned().unwrap_or_default();
+                let providers: Vec<_> = list["all"]
+                    .as_array()
+                    .into_iter()
+                    .flatten()
+                    .filter(|provider| connected.contains(&provider["id"]))
+                    .cloned()
+                    .collect();
+                let defaults: Map<_, _> = list["default"]
+                    .as_object()
+                    .into_iter()
+                    .flatten()
+                    .filter(|(id, _)| {
+                        connected
+                            .iter()
+                            .any(|provider| provider.as_str() == Some(id.as_str()))
+                    })
+                    .map(|(id, value)| (id.clone(), value.clone()))
+                    .collect();
+                Ok(json!({"providers":providers,"default":defaults}))
+            }
             "auth.set" => {
                 self.auth_set(
                     provider,

@@ -20,6 +20,7 @@
 mod agents;
 mod commands;
 mod config;
+mod current;
 mod events;
 mod files;
 mod move_session;
@@ -119,6 +120,17 @@ impl GlobalServices {
 
 #[async_trait::async_trait]
 impl LegacySessions for GlobalServices {
+    async fn handle_bytes(
+        &self,
+        operation: &str,
+        context: &RouteContext,
+        params: &Map<String, Value>,
+        _query: &Map<String, Value>,
+        _payload: Option<Value>,
+    ) -> Result<opencode_server::services::legacy::LegacyBytesResponse, LegacyError> {
+        self.current_bytes(operation, context, params).await
+    }
+
     async fn handle_response(
         &self,
         operation: &str,
@@ -150,6 +162,9 @@ impl LegacySessions for GlobalServices {
         payload: Option<Value>,
     ) -> Result<Value, LegacyError> {
         match operation {
+            "v2.agent.list" | "v2.command.list" | "v2.fs.list" | "v2.fs.find" => {
+                self.current(operation, context, query).await
+            }
             "global.config.get" => self.global_config().await,
             "global.config.update" => self.update_global(required_payload(payload)?).await,
             "config.get" => self.resolved_config(&context.directory).await,
@@ -161,7 +176,14 @@ impl LegacySessions for GlobalServices {
                     &self.options.environment,
                 )
                 .map_err(config::error)?;
-                self.locations.invalidate(&self.location(context)?).await;
+                // Legacy InstanceStore disposal is separate from the canonical Location map.
+                // The legacy configuration/provider inputs are loaded afresh on each request.
+                self.publish(
+                    "server.instance.disposed",
+                    &context.directory,
+                    json!({"directory":context.directory}),
+                )
+                .await?;
                 Ok(payload)
             }
             "instance.dispose" => {

@@ -35,6 +35,7 @@ pub mod panels;
 pub mod routes;
 pub mod session;
 pub mod settings;
+pub mod state;
 pub mod timeline;
 
 use leptos::prelude::*;

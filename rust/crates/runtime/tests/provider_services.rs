@@ -57,13 +57,15 @@ async fn code_oauth_validates_then_persists_canonical_identity_and_rotates() {
     let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
     let token_url = format!("http://{}/token", listener.local_addr().unwrap());
     let token_task = tokio::spawn(async move {
-        let (mut socket, _) = listener.accept().await.unwrap();
-        let mut request = vec![0; 8192];
-        let count = socket.read(&mut request).await.unwrap();
-        let request = String::from_utf8_lossy(&request[..count]);
-        assert!(request.starts_with("POST /token HTTP/1.1"));
-        let response = json!({"type":"success","refresh":"fixture-refresh","access":"fixture-access","expires":123456,"accountId":"fixture-account"}).to_string();
-        socket.write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}", response.len(), response).as_bytes()).await.unwrap();
+        for _ in 0..2 {
+            let (mut socket, _) = listener.accept().await.unwrap();
+            let mut request = vec![0; 8192];
+            let count = socket.read(&mut request).await.unwrap();
+            let request = String::from_utf8_lossy(&request[..count]);
+            assert!(request.starts_with("POST /token HTTP/1.1"));
+            let response = json!({"type":"success","refresh":"fixture-refresh","access":"fixture-access","expires":123456,"accountId":"fixture-account"}).to_string();
+            socket.write_all(format!("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}", response.len(), response).as_bytes()).await.unwrap();
+        }
     });
     let entry = root.path().join("auth.mjs");
     std::fs::write(&entry, r#"export default async (_input, options) => ({ auth: {
@@ -75,7 +77,8 @@ async fn code_oauth_validates_then_persists_canonical_identity_and_rotates() {
            if (code !== "fixture-code") return {type:"failed"};
            return await (await fetch(options.token,{method:"POST",body:code})).json();
          }})},
-        {type:"oauth",label:"Automatic",authorize:async()=>({url:options.token,method:"auto",instructions:"Controlled automatic",callback:async()=>({type:"success",key:"fixture-api",metadata:{tenant:"local"}})})}
+        {type:"oauth",label:"Automatic",authorize:async()=>({url:options.token,method:"auto",instructions:"Controlled automatic",callback:async()=>({type:"success",key:"fixture-api",metadata:{tenant:"local"}})})},
+        {type:"oauth",label:"Canonical automatic",authorize:async()=>({url:options.token,method:"auto",instructions:"Controlled canonical",callback:async()=>({type:"success",refresh:"auto-refresh",access:"auto-access",expires:123456})})}
       ]
     }})"#).unwrap();
     let host = Host::start(Options {
@@ -113,7 +116,7 @@ async fn code_oauth_validates_then_persists_canonical_identity_and_rotates() {
     );
     let service = ProviderServices::new(database,models,json!({"providers":{"alias":{"integrationID":"canonical","env":["FIXTURE_KEY"],"models":{"test":{}}}}}),[("FIXTURE_KEY".into(),"fixture-env".into())].into()).with_plugins(plugins);
     let methods = service.auth_methods().await.unwrap();
-    assert_eq!(methods["alias"].as_array().unwrap().len(), 3);
+    assert_eq!(methods["alias"].as_array().unwrap().len(), 4);
     assert!(methods.to_string().find("validate").is_none());
     assert_eq!(methods["alias"][1]["prompts"][0]["when"]["op"], "eq");
     assert!(
@@ -171,7 +174,6 @@ async fn code_oauth_validates_then_persists_canonical_identity_and_rotates() {
         .oauth_callback("alias", json!({"method":1,"code":"fixture-code"}))
         .await
         .unwrap();
-    token_task.await.unwrap();
     let credentials = service.auth_list().await.unwrap();
     assert!(credentials.get("alias").is_none());
     assert_eq!(credentials["canonical"]["refresh"], "fixture-refresh");
@@ -216,6 +218,159 @@ async fn code_oauth_validates_then_persists_canonical_identity_and_rotates() {
         .unwrap()
         .unwrap();
     assert_eq!(serde_json::to_value(current).unwrap()["key"], "fixture-env");
+    let context = RouteContext {
+        directory: root.path().display().to_string(),
+        workspace_id: None,
+    };
+    let empty = serde_json::Map::new();
+    let canonical = json!({"integrationID":"canonical"});
+    let canonical = canonical.as_object().unwrap();
+    let registry = service
+        .handle("v2.integration.list", &context, &empty, &empty, None)
+        .await
+        .unwrap();
+    assert_eq!(registry[0]["id"], "canonical");
+    assert_eq!(
+        registry[0]["connections"],
+        json!([{"type":"env","name":"FIXTURE_KEY"}])
+    );
+    assert!(!registry.to_string().contains("fixture-env"));
+    let first = service
+        .handle(
+            "v2.integration.connect.oauth",
+            &context,
+            canonical,
+            &empty,
+            Some(json!({"methodID":"1","inputs":{"tenant":"valid"}})),
+        )
+        .await
+        .unwrap();
+    let second = service
+        .handle(
+            "v2.integration.connect.oauth",
+            &context,
+            canonical,
+            &empty,
+            Some(
+                json!({"methodID":"1","inputs":{"tenant":"valid"},"label":"Controlled connection"}),
+            ),
+        )
+        .await
+        .unwrap();
+    assert_ne!(first["attemptID"], second["attemptID"]);
+    let first_id = json!({"attemptID":first["attemptID"]});
+    let second_id = json!({"attemptID":second["attemptID"]});
+    assert_eq!(
+        error_name(
+            service
+                .handle(
+                    "v2.integration.attempt.complete",
+                    &context,
+                    second_id.as_object().unwrap(),
+                    &empty,
+                    Some(json!({}))
+                )
+                .await
+                .unwrap_err()
+        )["kind"],
+        "integration_code_required"
+    );
+    service
+        .handle(
+            "v2.integration.attempt.cancel",
+            &context,
+            first_id.as_object().unwrap(),
+            &empty,
+            None,
+        )
+        .await
+        .unwrap();
+    assert!(matches!(
+        service
+            .handle(
+                "v2.integration.attempt.status",
+                &context,
+                first_id.as_object().unwrap(),
+                &empty,
+                None
+            )
+            .await,
+        Err(LegacyError::Internal(_))
+    ));
+    service
+        .handle(
+            "v2.integration.attempt.complete",
+            &context,
+            second_id.as_object().unwrap(),
+            &empty,
+            Some(json!({"code":"fixture-code"})),
+        )
+        .await
+        .unwrap();
+    token_task.await.unwrap();
+    assert_eq!(
+        service
+            .handle(
+                "v2.integration.attempt.status",
+                &context,
+                second_id.as_object().unwrap(),
+                &empty,
+                None
+            )
+            .await
+            .unwrap()["status"],
+        "complete"
+    );
+    let registry = service
+        .handle("v2.integration.list", &context, &empty, &empty, None)
+        .await
+        .unwrap();
+    assert_eq!(
+        registry[0]["connections"][0]["label"],
+        "Controlled connection"
+    );
+    assert!(!registry.to_string().contains("fixture-access"));
+    assert_eq!(
+        service.auth_list().await.unwrap()["canonical"]["methodID"],
+        "1"
+    );
+    let automatic = service
+        .handle(
+            "v2.integration.connect.oauth",
+            &context,
+            canonical,
+            &empty,
+            Some(json!({"methodID":"3","inputs":{}})),
+        )
+        .await
+        .unwrap();
+    let auto_id = json!({"attemptID":automatic["attemptID"]});
+    tokio::time::timeout(std::time::Duration::from_secs(5), async {
+        loop {
+            let status = service
+                .handle(
+                    "v2.integration.attempt.status",
+                    &context,
+                    auto_id.as_object().unwrap(),
+                    &empty,
+                    None,
+                )
+                .await
+                .unwrap();
+            if status["status"] != "pending" {
+                assert_eq!(status["status"], "complete");
+                break;
+            }
+            tokio::time::sleep(std::time::Duration::from_millis(10)).await;
+        }
+    })
+    .await
+    .unwrap();
+    assert_eq!(
+        service.auth_list().await.unwrap()["canonical"]["access"],
+        "auto-access"
+    );
+    service.shutdown().await;
     host.close().await;
 }
 
@@ -258,7 +413,16 @@ async fn current_catalog_and_credential_operations_use_actual_database() {
         )
         .await
         .unwrap_err();
-    assert!(matches!(unknown, LegacyError::Response { status: 404, .. }));
+    match unknown {
+        LegacyError::Response { status, body } => {
+            assert_eq!(status, 404);
+            assert_eq!(
+                body,
+                json!({"_tag":"ProviderNotFoundError","providerID":"absent","message":"Provider not found: absent"})
+            );
+        }
+        error => panic!("unexpected provider error: {error}"),
+    }
     service
         .auth_set("local", json!({"type":"api","key":"fixture-first"}))
         .await

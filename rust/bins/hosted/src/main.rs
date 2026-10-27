@@ -26,6 +26,7 @@ use anyhow::Context;
 
 mod console;
 mod sharing;
+mod transport;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -34,16 +35,34 @@ async fn main() -> anyhow::Result<()> {
     match std::env::var("OPENCODE_HOSTED_SERVICE").as_deref() {
         Ok("enterprise-share") => return sharing::serve_enterprise().await,
         Ok("public-share") => return sharing::serve_public().await,
+        Ok("console-log-processor" | "console-log") => return console::workers::serve_logs().await,
         _ => {}
     }
     let url = std::env::var("OPENCODE_CONSOLE_DATABASE_URL")
         .context("OPENCODE_CONSOLE_DATABASE_URL is required")?;
+    let db = opencode_hosted_adapters::console::db::ConsoleDb::connect(&url)?;
+    match std::env::var("OPENCODE_HOSTED_SERVICE").as_deref() {
+        Ok("console-stat") => return console::workers::serve_stat(db).await,
+        Ok("console-worker") => return console::workers::run_from_env(db).await,
+        _ => {}
+    }
+    let issuer = std::env::var("OPENCODE_HOSTED_SERVICE").as_deref() == Ok("console-issuer");
+    let config = if issuer {
+        console::state::ConsoleConfig::for_issuer_from_env()?
+    } else {
+        console::state::ConsoleConfig::from_env()?
+    };
     let state = console::ConsoleState {
-        config: Arc::new(console::state::ConsoleConfig::from_env()?),
-        db: opencode_hosted_adapters::console::db::ConsoleDb::connect(&url)?,
+        config: Arc::new(config),
+        db,
     };
     let addr = std::env::var("OPENCODE_HOSTED_ADDR").unwrap_or_else(|_| "127.0.0.1:8787".into());
     let listener = tokio::net::TcpListener::bind(&addr).await?;
-    axum::serve(listener, console::router(state)).await?;
+    let router = if std::env::var("OPENCODE_HOSTED_SERVICE").as_deref() == Ok("console-issuer") {
+        console::issuer::router(state)
+    } else {
+        console::router(state)
+    };
+    transport::serve(listener, router).await?;
     Ok(())
 }

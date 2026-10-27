@@ -37,11 +37,14 @@ jsonwebtoken.workspace = true
 html-escape.workspace = true
 async-trait.workspace = true
 tracing.workspace = true
+aws-credential-types.workspace = true
+aws-sigv4.workspace = true
 tokio = { workspace = true, features = ["rt", "macros", "sync", "time"] }
 tokio-util.workspace = true
-reqwest = { workspace = true, features = ["rustls", "json", "stream"] }
+reqwest = { workspace = true, features = ["rustls", "json", "stream", "form", "query"] }
 mysql_async = { workspace = true, features = ["minimal-rust", "time", "rust_decimal"] }
 redis = { workspace = true, features = ["tokio-comp", "aio"] }
+rusqlite.workspace = true
 # Phase 13 (sharing, analytics, sites).
 percent-encoding.workspace = true
 

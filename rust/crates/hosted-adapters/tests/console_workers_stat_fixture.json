@@ -1,0 +1,40 @@
+{
+  "source":"Actual packages/console/function/src/stat.ts fetch body evaluated locally with fixed Date.now and injected local database rows, 2026-10-27",
+  "now":1767225630000,
+  "rows":[
+    {"id":"provider/model/20","interval":202601010000,"qualify":7,"unqualify":3},
+    {"id":"provider/model/20","interval":202512312359,"qualify":4,"unqualify":5}
+  ],
+  "expected":[
+    {"interval":202601010000,"qualify":7,"unqualify":3},
+    {"interval":202512312359,"qualify":4,"unqualify":5},
+    {"interval":202512312358,"qualify":0,"unqualify":0},
+    {"interval":202512312357,"qualify":0,"unqualify":0},
+    {"interval":202512312356,"qualify":0,"unqualify":0},
+    {"interval":202512312355,"qualify":0,"unqualify":0},
+    {"interval":202512312354,"qualify":0,"unqualify":0},
+    {"interval":202512312353,"qualify":0,"unqualify":0},
+    {"interval":202512312352,"qualify":0,"unqualify":0},
+    {"interval":202512312351,"qualify":0,"unqualify":0},
+    {"interval":202512312350,"qualify":0,"unqualify":0},
+    {"interval":202512312349,"qualify":0,"unqualify":0},
+    {"interval":202512312348,"qualify":0,"unqualify":0},
+    {"interval":202512312347,"qualify":0,"unqualify":0},
+    {"interval":202512312346,"qualify":0,"unqualify":0},
+    {"interval":202512312345,"qualify":0,"unqualify":0},
+    {"interval":202512312344,"qualify":0,"unqualify":0},
+    {"interval":202512312343,"qualify":0,"unqualify":0},
+    {"interval":202512312342,"qualify":0,"unqualify":0},
+    {"interval":202512312341,"qualify":0,"unqualify":0},
+    {"interval":202512312340,"qualify":0,"unqualify":0},
+    {"interval":202512312339,"qualify":0,"unqualify":0},
+    {"interval":202512312338,"qualify":0,"unqualify":0},
+    {"interval":202512312337,"qualify":0,"unqualify":0},
+    {"interval":202512312336,"qualify":0,"unqualify":0},
+    {"interval":202512312335,"qualify":0,"unqualify":0},
+    {"interval":202512312334,"qualify":0,"unqualify":0},
+    {"interval":202512312333,"qualify":0,"unqualify":0},
+    {"interval":202512312332,"qualify":0,"unqualify":0},
+    {"interval":202512312331,"qualify":0,"unqualify":0}
+  ]
+}

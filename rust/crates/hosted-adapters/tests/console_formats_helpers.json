@@ -1,0 +1,442 @@
+[
+  {
+    "format": "openai",
+    "reqModel": "gpt",
+    "providerModel": "gpt",
+    "usage": {
+      "input_tokens": 100,
+      "output_tokens": 10,
+      "input_tokens_details": {
+        "cached_tokens": 20,
+        "cache_write_tokens": 30
+      },
+      "output_tokens_details": {
+        "reasoning_tokens": 5
+      }
+    },
+    "parts": [
+      "event: response.created\ndata: {\"response\":{\"usage\":{\"input_tokens\":999}}}",
+      "event: response.completed\ndata: {\"response\":{\"usage\":{\"input_tokens\":100,\"output_tokens\":10}}}"
+    ],
+    "expected": {
+      "url": "https://local.test/responses",
+      "streamUrl": "https://local.test/responses",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "authorization": "Bearer secret"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "old": true
+        },
+        "anthropic_beta": [
+          "old"
+        ],
+        "messages": []
+      },
+      "usage": {
+        "inputTokens": 50,
+        "outputTokens": 10,
+        "reasoningTokens": 5,
+        "cacheReadTokens": 20,
+        "cacheWrite5mTokens": 30
+      },
+      "parsed": {
+        "input_tokens": 100,
+        "output_tokens": 10
+      }
+    }
+  },
+  {
+    "format": "openai",
+    "reqModel": "gpt",
+    "providerModel": "gpt",
+    "usage": {
+      "input_tokens": 1,
+      "input_tokens_details": {
+        "cached_tokens": 5,
+        "cache_write_tokens": 10
+      }
+    },
+    "parts": [],
+    "expected": {
+      "url": "https://local.test/responses",
+      "streamUrl": "https://local.test/responses",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "authorization": "Bearer secret"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "old": true
+        },
+        "anthropic_beta": [
+          "old"
+        ],
+        "messages": []
+      },
+      "usage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 5,
+        "cacheWrite5mTokens": 10
+      }
+    }
+  },
+  {
+    "format": "oa-compat",
+    "reqModel": "chat",
+    "providerModel": "chat",
+    "adjustCacheUsage": false,
+    "usage": {
+      "prompt_tokens": 100,
+      "completion_tokens": 20,
+      "cached_tokens": 30,
+      "prompt_tokens_details": {
+        "cached_tokens": 40,
+        "cache_creation_input_tokens": 8
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 2
+      }
+    },
+    "parts": [
+      "data: {\"usage\":{\"prompt_tokens\":100}}",
+      "data: [DONE]"
+    ],
+    "expected": {
+      "url": "https://local.test/chat/completions",
+      "streamUrl": "https://local.test/chat/completions",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "authorization": "Bearer secret",
+        "x-session-affinity": "sticky"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "anthropic_beta": [
+          "old"
+        ],
+        "messages": []
+      },
+      "usage": {
+        "inputTokens": 70,
+        "outputTokens": 20,
+        "reasoningTokens": 2,
+        "cacheReadTokens": 30,
+        "cacheWrite5mTokens": 8
+      },
+      "parsed": {
+        "prompt_tokens": 100
+      }
+    }
+  },
+  {
+    "format": "oa-compat",
+    "reqModel": "chat",
+    "providerModel": "chat",
+    "adjustCacheUsage": true,
+    "usage": {
+      "prompt_tokens": 11,
+      "cached_tokens": 0
+    },
+    "parts": [],
+    "expected": {
+      "url": "https://local.test/chat/completions",
+      "streamUrl": "https://local.test/chat/completions",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "authorization": "Bearer secret",
+        "x-session-affinity": "sticky"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "anthropic_beta": [
+          "old"
+        ],
+        "messages": []
+      },
+      "usage": {
+        "inputTokens": 2,
+        "outputTokens": 0,
+        "cacheReadTokens": 9
+      }
+    }
+  },
+  {
+    "format": "anthropic",
+    "reqModel": "claude-sonnet",
+    "providerModel": "claude",
+    "usage": {
+      "input_tokens": 5,
+      "output_tokens": 8,
+      "cache_read_input_tokens": 9,
+      "cache_creation_input_tokens": 20,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 3
+      }
+    },
+    "parts": [
+      "event: message_start\ndata: {\"message\":{\"usage\":{\"input_tokens\":5,\"cache_creation\":{\"ephemeral_5m_input_tokens\":3},\"server_tool_use\":{\"web_search_requests\":2}}}}",
+      "event: message_delta\ndata:{\"usage\":{\"output_tokens\":8,\"cache_creation\":{\"ephemeral_1h_input_tokens\":4}}}"
+    ],
+    "expected": {
+      "url": "https://local.test/messages",
+      "streamUrl": "https://local.test/messages",
+      "headers": {
+        "anthropic-beta": "context-1m-2025-08-07",
+        "anthropic-version": "custom",
+        "x-api-key": "secret"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "old": true
+        },
+        "anthropic_beta": [
+          "old"
+        ],
+        "messages": []
+      },
+      "usage": {
+        "inputTokens": 5,
+        "outputTokens": 8,
+        "cacheReadTokens": 9,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 3
+      },
+      "parsed": {
+        "input_tokens": 5,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 3,
+          "ephemeral_1h_input_tokens": 4
+        },
+        "server_tool_use": {
+          "web_search_requests": 2
+        },
+        "output_tokens": 8
+      }
+    }
+  },
+  {
+    "format": "anthropic",
+    "reqModel": "opus-4-6",
+    "providerModel": "arn:aws:bedrock:region:account:model/a:b.c-1",
+    "usage": {
+      "cache_creation_input_tokens": 20
+    },
+    "parts": [],
+    "expected": {
+      "url": "https://local.test/model/arn%3Aaws%3Abedrock%3Aregion%3Aaccount%3Amodel%2Fa%3Ab.c-1/invoke",
+      "streamUrl": "https://local.test/model/arn%3Aaws%3Abedrock%3Aregion%3Aaccount%3Amodel%2Fa%3Ab.c-1/invoke-with-response-stream",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "authorization": "Bearer secret"
+      },
+      "body": {
+        "stream_options": {
+          "old": true
+        },
+        "anthropic_beta": [
+          "context-1m-2025-08-07"
+        ],
+        "messages": [],
+        "anthropic_version": "bedrock-2023-05-31"
+      },
+      "usage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheWrite5mTokens": 20
+      }
+    }
+  },
+  {
+    "format": "anthropic",
+    "reqModel": "haiku",
+    "providerModel": "global.anthropic.claude",
+    "usage": {},
+    "parts": [],
+    "expected": {
+      "url": "https://local.test/model/global.anthropic.claude/invoke",
+      "streamUrl": "https://local.test/model/global.anthropic.claude/invoke-with-response-stream",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "authorization": "Bearer secret"
+      },
+      "body": {
+        "stream_options": {
+          "old": true
+        },
+        "messages": [],
+        "anthropic_version": "bedrock-2023-05-31"
+      },
+      "usage": {
+        "inputTokens": 0,
+        "outputTokens": 0
+      }
+    }
+  },
+  {
+    "format": "anthropic",
+    "reqModel": "haiku",
+    "providerModel": "databricks-claude-haiku",
+    "usage": {},
+    "parts": [],
+    "expected": {
+      "url": "https://local.test/messages",
+      "streamUrl": "https://local.test/messages",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "authorization": "Bearer secret"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "old": true
+        },
+        "messages": [],
+        "anthropic_version": "bedrock-2023-05-31"
+      },
+      "usage": {
+        "inputTokens": 0,
+        "outputTokens": 0
+      }
+    }
+  },
+  {
+    "format": "google",
+    "reqModel": "gemini",
+    "providerModel": "gemini-3",
+    "usage": {
+      "promptTokenCount": 50,
+      "candidatesTokenCount": 8,
+      "cachedContentTokenCount": 20,
+      "thoughtsTokenCount": 5
+    },
+    "parts": [
+      "data: {\"usageMetadata\":{\"promptTokenCount\":50,\"thoughtsTokenCount\":5}}"
+    ],
+    "expected": {
+      "url": "https://local.test/models/gemini-3:generateContent",
+      "streamUrl": "https://local.test/models/gemini-3:streamGenerateContent?alt=sse",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "x-goog-api-key": "secret"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "old": true
+        },
+        "anthropic_beta": [
+          "old"
+        ],
+        "messages": []
+      },
+      "usage": {
+        "inputTokens": 30,
+        "outputTokens": 13,
+        "reasoningTokens": 5,
+        "cacheReadTokens": 20
+      },
+      "parsed": {
+        "promptTokenCount": 50,
+        "thoughtsTokenCount": 5
+      }
+    }
+  },
+  {
+    "format": "google",
+    "reqModel": "gemini",
+    "providerModel": "gemini-3",
+    "usage": {},
+    "parts": [],
+    "expected": {
+      "url": "https://local.test/models/gemini-3:generateContent",
+      "streamUrl": "https://local.test/models/gemini-3:streamGenerateContent?alt=sse",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "x-goog-api-key": "secret"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "old": true
+        },
+        "anthropic_beta": [
+          "old"
+        ],
+        "messages": []
+      },
+      "usage": {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "reasoningTokens": 0,
+        "cacheReadTokens": 0
+      }
+    }
+  },
+  {
+    "format": "systemone",
+    "reqModel": "s",
+    "providerModel": "s",
+    "usage": {
+      "input_tokens": 3,
+      "output_tokens": 8
+    },
+    "parts": [
+      "data: {\"usage\":{\"input_tokens\":99}}"
+    ],
+    "expected": {
+      "url": "https://local.test/systemone",
+      "streamUrl": "https://local.test/systemone",
+      "headers": {
+        "anthropic-beta": "custom",
+        "anthropic-version": "custom",
+        "authorization": "Bearer secret",
+        "x-session-affinity": "sticky"
+      },
+      "body": {
+        "model": "model",
+        "stream": true,
+        "stream_options": {
+          "old": true
+        },
+        "anthropic_beta": [
+          "old"
+        ],
+        "messages": []
+      },
+      "usage": {
+        "inputTokens": 3,
+        "outputTokens": 8
+      }
+    }
+  }
+]

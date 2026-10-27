@@ -114,6 +114,7 @@ impl Home {
             .current_dir(self.0.path().join("project"))
             .env_clear()
             .env("PATH", "/usr/bin:/bin")
+            .env("OPENCODE_DISABLE_MODELS_FETCH", "true")
             .envs(self.env())
             .stdin(Stdio::null());
         command

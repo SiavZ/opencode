@@ -12,7 +12,7 @@
 //! Invariants: interactive outcomes, not escape sequences alone, prove application behavior.
 //! Contract tests: this module
 
-mod provider;
+pub(crate) mod provider;
 mod questions;
 mod terminal;
 use super::support::{Home, Provider};
@@ -91,6 +91,7 @@ fn empty_picker_and_modal_escape_do_not_submit_provider_work() {
     terminal.send(b"missing-session");
     terminal.wait("No results found");
     terminal.send(b"\x1b");
+    terminal.wait_absent("No results found");
     terminal.wait("Start a conversation");
     terminal.send(b"\x10");
     terminal.wait("Commands");

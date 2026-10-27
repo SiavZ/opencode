@@ -14,6 +14,8 @@
 //! Contract tests: runtime/tests/global_services.rs
 #[path = "../src/global_services/catalog_acceptance.rs"]
 mod catalog_acceptance;
+#[path = "../src/global_services/current_acceptance.rs"]
+mod current_acceptance;
 #[path = "../src/global_services/move_acceptance.rs"]
 mod move_acceptance;
 #[path = "../src/global_services/tui_acceptance.rs"]

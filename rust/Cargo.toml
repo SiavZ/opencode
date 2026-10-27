@@ -117,7 +117,7 @@ hmac = "0.13.0"
 aes = "0.9.3"
 cbc = { version = "0.2.1", features = ["alloc"] }
 pbkdf2 = { version = "0.13.0", default-features = false, features = ["hmac"] }
-jsonwebtoken = "11.1.0"
+jsonwebtoken = { version = "11.1.0", features = ["rust_crypto"] }
 encoding_rs = "0.8.42"
 content_inspector = "0.2.4"
 unicode-width = "0.2.2"

@@ -1,8 +1,8 @@
-//! Purpose: port of infra/console.ts (PlanetScale branch/password, auth Worker + KV, Stripe webhook,
-//! products, prices and coupons, console SolidStart site, log tail Worker, Stat Worker).
-//! Scope: pure plan construction. Phase 12 owns the console runtime behavior behind these resources.
+//! Purpose: preserve console database/Stripe stage resources and describe native hosted deployment topology.
+//! Scope: pure plan construction; native processes are explicit non-provisioned descriptors.
 //! Uses:
 //! rust/xtask/
+//! |-- src/cloud/infra/console/native.rs
 //! |-- src/cloud/infra/stage.rs
 //! `-- src/cloud/model.rs
 //! External:
@@ -15,12 +15,15 @@
 //! named after the stage with parent `production` (infra/console.ts:14-26). Dev uses fixed Go
 //! product/price IDs (infra/console.ts:151-153). Preview stages have empty migration URLs
 //! (infra/console.ts:223-231). CLOUDFLARE_* secrets only exist under `sst dev`.
+//! Native AuthApi/Console/Stat/LogProcessor require a deployment backend; no TS worker fallback is emitted.
 //! Contract tests: xtask/tests/cloud_plan.rs
 
 use serde_json::json;
 
 use crate::cloud::infra::stage::secret;
 use crate::cloud::model::{Mode, Plan, Resource, reference};
+
+pub mod native;
 
 pub const STRIPE_EVENTS: [&str; 26] = [
     "checkout.session.async_payment_failed",
@@ -243,6 +246,7 @@ pub fn console(plan: &mut Plan) {
         .props(json!({ "handler": "packages/console/function/src/stat.ts", "url": true }))
         .links(["Database"]),
     );
+    native::convert(plan);
 }
 
 fn stripe_go(plan: &mut Plan, stage: &str) {

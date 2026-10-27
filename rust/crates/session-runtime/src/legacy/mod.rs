@@ -40,6 +40,7 @@
 
 pub mod command;
 pub mod compaction;
+mod llm_compaction;
 mod llm_history;
 pub mod llm_loop;
 mod llm_turn;

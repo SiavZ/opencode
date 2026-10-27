@@ -80,10 +80,18 @@ impl Terminal {
     }
 
     pub fn wait(&mut self, marker: &str) {
+        self.wait_screen(marker, true);
+    }
+
+    pub fn wait_absent(&mut self, marker: &str) {
+        self.wait_screen(marker, false);
+    }
+
+    fn wait_screen(&mut self, marker: &str, present: bool) {
         let deadline = Instant::now() + Duration::from_secs(15);
         loop {
             self.drain();
-            if self.screen().screen().contents().contains(marker) {
+            if self.screen().screen().contents().contains(marker) == present {
                 return;
             }
             assert!(

@@ -15,6 +15,7 @@ pub struct Form {
     page: usize,
     row: usize,
     answers: Vec<QuestionAnswer>,
+    custom_answers: Vec<String>,
     custom: Option<Editor>,
 }
 
@@ -28,6 +29,7 @@ impl Form {
     fn new(request: QuestionRequest) -> Self {
         Self {
             answers: vec![Vec::new(); request.questions.len()],
+            custom_answers: vec![String::new(); request.questions.len()],
             request,
             page: 0,
             row: 0,
@@ -84,7 +86,10 @@ impl Form {
                 } else {
                     " "
                 },
-                self.custom.as_ref().map(Editor::text).unwrap_or_default()
+                self.custom
+                    .as_ref()
+                    .map(Editor::text)
+                    .unwrap_or(&self.custom_answers[self.page])
             ));
         }
         lines.push(
@@ -109,7 +114,11 @@ impl Form {
             }
             if let EditorAction::Submit(answer) = editor.handle_at(event, width) {
                 self.custom = None;
-                if !answer.trim().is_empty() {
+                let answer = answer.trim().to_owned();
+                let previous =
+                    std::mem::replace(&mut self.custom_answers[self.page], answer.clone());
+                self.answers[self.page].retain(|value| value != &previous);
+                if !answer.is_empty() {
                     if self.request.questions[self.page].multiple != Some(true) {
                         self.answers[self.page].clear();
                     }
@@ -124,33 +133,48 @@ impl Form {
         let UiEvent::Key(key) = event else {
             return Outcome::Pending;
         };
+        if key.modifiers.control || key.modifiers.alt || key.modifiers.super_key {
+            return Outcome::Pending;
+        }
+        let tabs = self.request.questions.len()
+            + usize::from(
+                self.request.questions.len() != 1
+                    || self.request.questions[0].multiple == Some(true),
+            );
         match key.code {
             UiKeyCode::Esc => return Outcome::Reject,
-            UiKeyCode::Left | UiKeyCode::BackTab => {
-                self.page = self.page.saturating_sub(1);
+            UiKeyCode::Left | UiKeyCode::BackTab | UiKeyCode::Char('h') => {
+                self.page = (self.page + tabs - 1) % tabs;
                 self.row = 0;
             }
-            UiKeyCode::Right | UiKeyCode::Tab => {
-                self.page = (self.page + 1).min(self.request.questions.len());
+            UiKeyCode::Right | UiKeyCode::Tab | UiKeyCode::Char('l') => {
+                self.page = (self.page + 1) % tabs;
                 self.row = 0;
             }
             UiKeyCode::Enter if self.page == self.request.questions.len() => {
                 return Outcome::Reply(self.answers.clone());
             }
             _ if self.page == self.request.questions.len() => {}
-            UiKeyCode::Up | UiKeyCode::Down => {
+            UiKeyCode::Up | UiKeyCode::Down | UiKeyCode::Char('k' | 'j') => {
                 let question = &self.request.questions[self.page];
                 let rows = question.options.len() + usize::from(question.custom != Some(false));
                 if rows > 0 {
-                    self.row = if key.code == UiKeyCode::Up {
+                    self.row = if matches!(key.code, UiKeyCode::Up | UiKeyCode::Char('k')) {
                         (self.row + rows - 1) % rows
                     } else {
                         (self.row + 1) % rows
                     };
                 }
             }
-            UiKeyCode::Enter | UiKeyCode::Char(' ') => {
+            UiKeyCode::Enter | UiKeyCode::Char(' ' | '1'..='9') => {
                 let question = &self.request.questions[self.page];
+                if let UiKeyCode::Char(ch @ '1'..='9') = key.code {
+                    let row = ch as usize - '1' as usize;
+                    if row >= question.options.len() + usize::from(question.custom != Some(false)) {
+                        return Outcome::Pending;
+                    }
+                    self.row = row;
+                }
                 if let Some(option) = question.options.get(self.row) {
                     let label = option.label.clone();
                     if question.multiple == Some(true) {
@@ -162,11 +186,21 @@ impl Form {
                     } else {
                         self.answers[self.page] = vec![label];
                     }
-                    if key.code == UiKeyCode::Enter {
+                    if key.code != UiKeyCode::Char(' ') {
                         return self.advance();
                     }
                 } else if question.custom != Some(false) {
-                    self.custom = Some(Editor::new());
+                    let answer = &self.custom_answers[self.page];
+                    if question.multiple == Some(true)
+                        && !answer.is_empty()
+                        && self.answers[self.page].contains(answer)
+                    {
+                        self.answers[self.page].retain(|value| value != answer);
+                        return Outcome::Pending;
+                    }
+                    let mut editor = Editor::new();
+                    editor.set_text(answer);
+                    self.custom = Some(editor);
                 }
             }
             _ => {}
@@ -175,6 +209,9 @@ impl Form {
     }
 
     fn advance(&mut self) -> Outcome {
+        if self.request.questions[self.page].multiple == Some(true) {
+            return Outcome::Pending;
+        }
         if self.request.questions.len() == 1 && self.request.questions[0].multiple != Some(true) {
             return Outcome::Reply(self.answers.clone());
         }

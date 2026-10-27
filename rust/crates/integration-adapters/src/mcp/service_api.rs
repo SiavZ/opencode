@@ -52,6 +52,11 @@ fn typed<T: serde::de::DeserializeOwned>(m: BTreeMap<String, Value>) -> BTreeMap
 }
 
 impl McpServiceImpl {
+    pub async fn auth_inventory(&self) -> BTreeMap<String, Value> {
+        self.0.store.all().await.into_iter().map(|(name, entry)| {
+            (name, json!({"tokens":entry.tokens.is_some(),"clientInfo":entry.client_info.is_some()}))
+        }).collect()
+    }
     pub async fn resource_servers(&self) -> Vec<String> {
         self.ready().await;
         self.connected_clients(None)

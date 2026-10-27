@@ -31,6 +31,7 @@ pub struct LegacyRevert {
     pub store: LegacyStore,
     pub snapshots: Arc<dyn Snapshots>,
     pub run_state: RunState,
+    pub root: std::path::PathBuf,
 }
 
 impl LegacyRevert {
@@ -63,8 +64,25 @@ impl LegacyRevert {
                             .flatten()
                             .filter_map(Value::as_str)
                         {
+                            let path = std::path::Path::new(file);
+                            let path = if path.is_absolute() {
+                                path.strip_prefix(&self.root).map_err(|_| {
+                                    LegacyError::Unknown(format!(
+                                        "Patch path is outside the project: {file}"
+                                    ))
+                                })?
+                            } else {
+                                path
+                            };
+                            if path.components().any(|component| {
+                                matches!(component, std::path::Component::ParentDir)
+                            }) {
+                                return Err(LegacyError::Unknown(format!(
+                                    "Invalid patch path: {file}"
+                                )));
+                            }
                             files
-                                .entry(file.to_owned())
+                                .entry(path.to_string_lossy().into_owned())
                                 .or_insert_with(|| hash.to_owned());
                         }
                     }

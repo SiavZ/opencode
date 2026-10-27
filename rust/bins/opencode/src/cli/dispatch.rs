@@ -33,7 +33,25 @@ pub enum CommandError {
 pub fn run(parsed: &Parsed, version: &str) -> ExitCode {
     if !matches!(
         parsed.command,
-        CommandId::Run | CommandId::Tui | CommandId::Models
+        CommandId::Run
+            | CommandId::Tui
+            | CommandId::Models
+            | CommandId::DebugPaths
+            | CommandId::DebugWait
+            | CommandId::SessionList
+            | CommandId::SessionDelete
+            | CommandId::Import
+            | CommandId::Export
+            | CommandId::AgentList
+            | CommandId::DbQuery
+            | CommandId::DbPath
+            | CommandId::DebugConfig
+            | CommandId::McpList
+            | CommandId::McpAuthList
+            | CommandId::McpLogout
+            | CommandId::DebugSkill
+            | CommandId::ProvidersList
+            | CommandId::ProvidersLogout
     ) {
         eprintln!(
             "{}",

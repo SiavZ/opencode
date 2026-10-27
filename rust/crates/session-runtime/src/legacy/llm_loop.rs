@@ -30,7 +30,7 @@ use serde_json::{Value, json};
 use tokio_util::sync::CancellationToken;
 
 use super::llm_turn::Turn;
-use super::ports::{LegacyAgents, LegacyLoop, LegacyProvider};
+use super::ports::{LegacyAgents, LegacyLoop, LegacyProvider, PromptTools};
 use super::store::{LegacyStore, object};
 use super::types::{LegacyError, WithParts, message_id, now_millis, str_field};
 use crate::runner::model::SessionRunnerModel;
@@ -47,6 +47,8 @@ pub struct LlmLegacyLoop {
     pub agents: Arc<dyn LegacyAgents>,
     pub provider: Arc<dyn LegacyProvider>,
     pub system: Vec<SystemPart>,
+    pub hooks: Arc<dyn PromptTools>,
+    pub compaction: super::types::Object,
 }
 
 #[async_trait::async_trait]
@@ -62,19 +64,48 @@ impl LegacyLoop for LlmLegacyLoop {
                 .rev()
                 .find(|message| message.is_user())
                 .ok_or_else(|| LegacyError::Unknown("No user message".into()))?;
-            let selected = SessionStore::new(self.store.events().database())
+            let mut selected = SessionStore::new(self.store.events().database())
                 .get(&id)
                 .await?
                 .ok_or_else(|| LegacyError::NotFound(session.into()))?;
+            let compact = user
+                .parts
+                .iter()
+                .find(|part| part.get("type").and_then(Value::as_str) == Some("compaction"));
+            let agent_name = if compact.is_some() {
+                "compaction"
+            } else {
+                str_field(&user.info, "agent").unwrap_or("build")
+            };
+            let agent = self.agents.get(agent_name).await?.ok_or_else(|| {
+                LegacyError::Unknown(format!("Agent not found: \"{agent_name}\""))
+            })?;
+            let requested = if compact.is_some() {
+                agent
+                    .model
+                    .as_ref()
+                    .map(|model| json!(model))
+                    .unwrap_or_else(|| user.info["model"].clone())
+            } else {
+                user.info["model"].clone()
+            };
+            if let (Some(provider), Some(model)) = (
+                requested["providerID"].as_str(),
+                requested["modelID"].as_str(),
+            ) {
+                selected.model = Some(opencode_schema::provider::ModelRef {
+                    id: opencode_schema::ModelID::new(model),
+                    provider_id: opencode_schema::ProviderID::new(provider),
+                    variant: requested["variant"]
+                        .as_str()
+                        .map(opencode_schema::VariantID::new),
+                });
+            }
             let model = self
                 .models
                 .resolve(&selected)
                 .await
                 .map_err(|error| LegacyError::Unknown(error.to_string()))?;
-            let agent_name = str_field(&user.info, "agent").unwrap_or("build");
-            let agent = self.agents.get(agent_name).await?.ok_or_else(|| {
-                LegacyError::Unknown(format!("Agent not found: \"{agent_name}\""))
-            })?;
             let info = self.store.get(session).await?;
             let permissions = agent
                 .permission
@@ -102,8 +133,45 @@ impl LegacyLoop for LlmLegacyLoop {
             if let Some(system) = str_field(&user.info, "system") {
                 request.system.push(SystemPart::text(system));
             }
-            request.messages = super::llm_history::messages(&history)?;
+            let settings = self.agents.settings(agent_name).await?;
+            if let Some(prompt) = str_field(&settings, "prompt") {
+                request.system.push(SystemPart::text(prompt));
+            }
+            request.generation = Some(opencode_llm_api::GenerationOptions {
+                temperature: settings.get("temperature").and_then(Value::as_f64),
+                top_p: settings.get("top_p").and_then(Value::as_f64),
+                ..Default::default()
+            });
+            let transformed = if compact.is_none() {
+                let output = self
+                    .hooks
+                    .trigger(
+                        "experimental.chat.messages.transform",
+                        json!({}),
+                        json!({"messages":history}),
+                    )
+                    .await?;
+                serde_json::from_value::<Vec<WithParts>>(output["messages"].clone())
+                    .map_err(|error| LegacyError::Unknown(error.to_string()))?
+            } else {
+                history.clone()
+            };
+            request.messages = super::llm_history::messages(&transformed)?;
             request.tools = tools.definitions();
+            let pricing = self
+                .provider
+                .get_model(model.provider.as_str(), model.id.as_str())
+                .await?;
+            let prepared = if compact.is_some() {
+                Some(super::llm_compaction::prepare(self, session, &history, &pricing).await?)
+            } else {
+                None
+            };
+            if let Some(prepared) = &prepared {
+                request.messages = prepared.messages.clone();
+                request.tools.clear();
+                request.system.clear();
+            }
             if agent.steps.is_some_and(|limit| step as f64 >= limit) {
                 request.tools.clear();
                 request.system.push(SystemPart::text("You have reached the maximum number of steps. Summarize your work without calling tools."));
@@ -113,6 +181,9 @@ impl LegacyLoop for LlmLegacyLoop {
             let mut output = object(
                 json!({"id":assistant,"role":"assistant","parentID":user.id(),"sessionID":session,"mode":agent_name,"agent":agent_name,"path":{"cwd":info["directory"],"root":info["directory"]},"cost":0,"tokens":{"input":0,"output":0,"reasoning":0,"cache":{"read":0,"write":0}},"modelID":model.id,"providerID":model.provider,"time":{"created":now}}),
             );
+            if compact.is_some() {
+                output.insert("summary".into(), json!(true));
+            }
             if let Some(variant) = user
                 .info
                 .get("model")
@@ -122,10 +193,6 @@ impl LegacyLoop for LlmLegacyLoop {
             }
             self.store.update_message(&output).await?;
             let snapshot = self.snapshots.capture().await;
-            let pricing = self
-                .provider
-                .get_model(model.provider.as_str(), model.id.as_str())
-                .await?;
             let cancel = CancellationToken::new();
             let _cancel = cancel.clone().drop_guard();
             let mut turn = Turn::new(self.store.clone(), output, snapshot, pricing);
@@ -136,24 +203,61 @@ impl LegacyLoop for LlmLegacyLoop {
                         if let Err(error) = turn.accept(event, tools.as_ref(), cancel.clone()).await
                         {
                             turn.fail(&error.to_string()).await?;
-                            return Err(error);
+                            return self
+                                .store
+                                .find_message(session, |row| row.id() == assistant)
+                                .await?
+                                .ok_or(error);
                         }
                     }
                     Err(error) => {
-                        turn.fail(&error.to_string()).await?;
-                        return Err(LegacyError::Unknown(error.to_string()));
+                        turn.fail(&error.reason.message()).await?;
+                        return self
+                            .store
+                            .find_message(session, |row| row.id() == assistant)
+                            .await?
+                            .ok_or_else(|| LegacyError::Unknown(error.to_string()));
                     }
                 }
             }
             if !turn.terminal {
                 turn.fail("Provider stream ended without a terminal finish event")
                     .await?;
-                return Err(LegacyError::Unknown(
-                    "Provider stream ended without a terminal finish event".into(),
-                ));
+                return self
+                    .store
+                    .find_message(session, |row| row.id() == assistant)
+                    .await?
+                    .ok_or_else(|| LegacyError::Unknown("Assistant projection missing".into()));
             }
             let continue_tools = turn.continue_tools();
             turn.finish(self.snapshots.as_ref()).await?;
+            if let Some(compact) = compact {
+                if let Some(tail) = prepared.and_then(|prepared| prepared.tail) {
+                    let mut part = compact.clone();
+                    part.insert("tail_start_id".into(), json!(tail));
+                    self.store.update_part(&part).await?;
+                }
+                self.store
+                    .publish(
+                        &opencode_event_api::Definition::ephemeral("session.compacted"),
+                        json!({"sessionID":session}),
+                    )
+                    .await?;
+                if compact.get("auto").and_then(Value::as_bool) == Some(true) {
+                    super::compaction::LegacyCompaction { store: &self.store }
+                        .continue_after(
+                            session,
+                            &user.info,
+                            compact
+                                .get("overflow")
+                                .and_then(Value::as_bool)
+                                .unwrap_or(false),
+                        )
+                        .await?;
+                    step = 0;
+                    continue;
+                }
+            }
             Summary {
                 store: self.store.clone(),
                 snapshots: self.snapshots.clone(),

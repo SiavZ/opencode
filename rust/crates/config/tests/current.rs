@@ -75,6 +75,30 @@ fn detects_v1_from_any_v1_only_key() {
 }
 
 #[test]
+fn decodes_flat_legacy_mcp_without_changing_canonical_or_ts_discriminator() {
+    let legacy = json!({"mcp":{"disabled-local":{"type":"local","command":["never-run"],"enabled":false},"disabled-remote":{"type":"remote","url":"http://127.0.0.1:1/mcp","enabled":false}}});
+    assert!(!migrate::is_v1(&legacy));
+    let migrated = opencode_config::current::decode_info(&legacy).unwrap();
+    assert_eq!(
+        migrated["mcp"]["servers"]["disabled-local"]["disabled"],
+        true
+    );
+    assert_eq!(
+        migrated["mcp"]["servers"]["disabled-remote"]["disabled"],
+        true
+    );
+    let canonical = json!({"mcp":{"timeout":{"startup":1234,"request":5678},"servers":{"fixture":{"type":"local","command":["never-run"],"disabled":true}}}});
+    let decoded = opencode_config::current::decode_info(&canonical).unwrap();
+    assert_eq!(decoded["mcp"], canonical["mcp"]);
+    assert!(
+        opencode_config::current::decode_info(
+            &json!({"mcp":{"broken":{"type":"local","command":false}}})
+        )
+        .is_none()
+    );
+}
+
+#[test]
 fn migrates_v1_provider_setup_options_and_commands() {
     let migrated = migrate::migrate(&json!({ "provider": { "bedrock": {
         "npm": "@ai-sdk/amazon-bedrock",

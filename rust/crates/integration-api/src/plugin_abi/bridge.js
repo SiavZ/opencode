@@ -283,12 +283,16 @@ async function onAuthAuthorize(params) {
     if (message) throw new RpcError(ErrorCode.Validation, message, { name: "ProviderAuthValidationFailed", field: prompt.key, message })
   }
   const result = await method.authorize(params.inputs ?? undefined)
-  hit.pendingAuth = result
+  if (params.attemptID) {
+    hit.authAttempts ??= new Map()
+    hit.authAttempts.set(params.attemptID, result)
+  } else hit.pendingAuth = result
   return { url: result.url, method: result.method, instructions: result.instructions }
 }
 
 async function onAuthCallback(params) {
-  const match = plugin(params.handle).pendingAuth
+  const hit = plugin(params.handle)
+  const match = params.attemptID ? hit.authAttempts?.get(params.attemptID) : hit.pendingAuth
   if (!match) throw new RpcError(ErrorCode.NotFound, "OAuth authorization missing", { name: "ProviderAuthOauthMissing", providerID: plugin(params.handle).hooks.auth?.provider })
   if (match.method === "code" && !params.code)
     throw new RpcError(ErrorCode.InvalidParams, "OAuth code missing", { name: "ProviderAuthOauthCodeMissing", providerID: plugin(params.handle).hooks.auth?.provider })
@@ -296,6 +300,11 @@ async function onAuthCallback(params) {
   if (!result || result.type !== "success")
     throw new RpcError(ErrorCode.PluginThrew, "OAuth callback failed", { name: "ProviderAuthOauthCallbackFailed" })
   return clone(result)
+}
+
+async function onAuthCancel(params) {
+  plugin(params.handle).authAttempts?.delete(params.attemptID)
+  return null
 }
 
 async function onShutdown() {

@@ -355,6 +355,26 @@
       "sensitive": true,
       "description": "sst.Secret infra/console.ts:284"
     },
+    "OPENCODE_ISSUER_SIGNING_KEY_PEM": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret rust/native-console-topology"
+    },
+    "OPENCODE_ISSUER_RETIRED_JWKS": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret rust/native-console-topology"
+    },
+    "OPENCODE_ISSUER_KEY_ID": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret rust/native-console-topology"
+    },
+    "OPENCODE_CONSOLE_LOG_INGRESS_TOKEN": {
+      "type": "string",
+      "sensitive": true,
+      "description": "sst.Secret rust/native-console-topology"
+    },
     "aws_profile": {
       "type": "string",
       "nullable": true,
@@ -386,6 +406,67 @@
       "password": "${planetscale_password.DatabasePassword.plaintext}",
       "port": 3306
     },
+    "AuthStorage": {
+      "status": "deployment_backend_required",
+      "deployable": false,
+      "service": {
+        "type": "durable-volume",
+        "path": "/var/lib/opencode/issuer/oauth.sqlite",
+        "engine": "sqlite",
+        "access": "single-writer"
+      }
+    },
+    "AuthApi": {
+      "status": "deployment_backend_required",
+      "deployable": false,
+      "service": {
+        "type": "native-process",
+        "executable": "opencode-hosted",
+        "replicas": 1,
+        "ingress": {
+          "host": "auth.opencode.ai",
+          "upstream": "http://127.0.0.1:8788",
+          "tls_termination": "required trusted ingress",
+          "public": true
+        },
+        "environment": {
+          "OPENCODE_HOSTED_SERVICE": "console-issuer",
+          "OPENCODE_HOSTED_ADDR": "127.0.0.1:8788",
+          "OPENCODE_CONSOLE_DATABASE_URL": "mysql://${urlencode(planetscale_password.DatabasePassword.username)}:${urlencode(planetscale_password.DatabasePassword.plaintext)}@${planetscale_password.DatabasePassword.access_host_url}/opencode",
+          "OPENCODE_STAGE": "production",
+          "OPENCODE_ISSUER_URL": "https://auth.opencode.ai",
+          "OPENCODE_ISSUER_STORE_PATH": "/var/lib/opencode/issuer/oauth.sqlite",
+          "OPENCODE_ISSUER_SIGNING_KEY_FILE": "/run/secrets/issuer-signing.pem",
+          "OPENCODE_ISSUER_RETIRED_JWKS_FILE": "/run/secrets/issuer-retired-jwks.json",
+          "OPENCODE_ISSUER_KEY_ID": "${var.OPENCODE_ISSUER_KEY_ID}",
+          "OPENCODE_ISSUER_GITHUB_CLIENT_ID": "${var.GITHUB_CLIENT_ID_CONSOLE}",
+          "OPENCODE_ISSUER_GITHUB_CLIENT_SECRET": "${var.GITHUB_CLIENT_SECRET_CONSOLE}",
+          "OPENCODE_ISSUER_GOOGLE_CLIENT_ID": "${var.GOOGLE_CLIENT_ID}"
+        },
+        "volumes": [
+          {
+            "name": "issuer-state",
+            "mount": "/var/lib/opencode/issuer",
+            "durable": true,
+            "access": "single-writer",
+            "backup_required": true
+          }
+        ],
+        "secret_files": [
+          {
+            "source": "OPENCODE_ISSUER_SIGNING_KEY_PEM",
+            "path": "/run/secrets/issuer-signing.pem",
+            "read_only": true
+          },
+          {
+            "source": "OPENCODE_ISSUER_RETIRED_JWKS",
+            "path": "/run/secrets/issuer-retired-jwks.json",
+            "read_only": true
+          }
+        ]
+      },
+      "url": "https://auth.opencode.ai"
+    },
     "ZEN_LITE_PRICE": {
       "product": "${stripe_product.ZenLite.id}",
       "price": "${stripe_price.ZenLitePrice.id}",
@@ -403,7 +484,7 @@
       "plan20": "${stripe_price.ZenBlack20Price.id}"
     },
     "AUTH_API_URL": {
-      "value": "${module.AuthApi.url}"
+      "value": "${local.AuthApi.url}"
     },
     "ConsoleMigration": {
       "consoleUrl": "https://opencode.ai/console",
@@ -411,6 +492,217 @@
     },
     "STRIPE_WEBHOOK_SECRET": {
       "value": "${stripe_webhook_endpoint.StripeWebhookEndpoint.secret}"
+    },
+    "LogProcessor": {
+      "status": "deployment_backend_required",
+      "deployable": false,
+      "service": {
+        "type": "native-process",
+        "executable": "opencode-hosted",
+        "environment": {
+          "OPENCODE_HOSTED_SERVICE": "console-log-processor",
+          "OPENCODE_HOSTED_ADDR": "127.0.0.1:8790",
+          "OPENCODE_CONSOLE_LOG_INGRESS_TOKEN": "${var.OPENCODE_CONSOLE_LOG_INGRESS_TOKEN}",
+          "OPENCODE_CONSOLE_WORKER_CAPTURE_FILE": "/var/lib/opencode/logs/enriched.jsonl"
+        },
+        "shared_network_namespace": "console-pod",
+        "ingress": {
+          "method": "POST",
+          "path": "/tail",
+          "authentication": "Bearer OPENCODE_CONSOLE_LOG_INGRESS_TOKEN",
+          "body": "Cloudflare TraceItem[] compatible JSON",
+          "max_body_bytes": 8388608,
+          "public": false
+        },
+        "volumes": [
+          {
+            "name": "log-outbox",
+            "mount": "/var/lib/opencode/logs",
+            "durable": true
+          }
+        ],
+        "delivery": "durable-jsonl-outbox",
+        "cloudflare_tail_consumer": false
+      }
+    },
+    "Console": {
+      "status": "deployment_backend_required",
+      "deployable": false,
+      "service": {
+        "type": "colocated-process-group",
+        "network": "shared-loopback",
+        "processes": {
+          "axum": {
+            "executable": "opencode-hosted",
+            "environment": {
+              "OPENCODE_HOSTED_SERVICE": "console",
+              "OPENCODE_HOSTED_ADDR": "127.0.0.1:8787",
+              "OPENCODE_STAGE": "production",
+              "OPENCODE_CONSOLE_DATABASE_URL": "mysql://${urlencode(planetscale_password.DatabasePassword.username)}:${urlencode(planetscale_password.DatabasePassword.plaintext)}@${planetscale_password.DatabasePassword.access_host_url}/opencode",
+              "OPENCODE_CONSOLE_AUTH_URL": "https://auth.opencode.ai",
+              "OPENCODE_CONSOLE_PUBLIC_ORIGIN": "https://opencode.ai",
+              "OPENCODE_CONSOLE_AUTH_STATE_REDIS_URL": "redis://127.0.0.1:6379/0",
+              "OPENCODE_CONSOLE_SESSION_SECRET": "${var.ZEN_SESSION_SECRET}",
+              "OPENCODE_CONSOLE_MIGRATION_URL": "${local.ConsoleMigration.consoleUrl}",
+              "OPENCODE_CONSOLE_INFERENCE_URL": "${local.ConsoleMigration.inferenceUrl}",
+              "UPSTASH_REDIS_REST_URL": "${var.UpstashRedisRestUrl}",
+              "UPSTASH_REDIS_REST_TOKEN": "${var.UpstashRedisRestToken}",
+              "STRIPE_SECRET_KEY": "${var.STRIPE_SECRET_KEY}",
+              "STRIPE_WEBHOOK_SECRET": "${local.STRIPE_WEBHOOK_SECRET.value}",
+              "ZEN_LIMITS": "${var.ZEN_LIMITS}",
+              "OPENCODE_CONSOLE_TAIL_URL": "http://127.0.0.1:8790/tail",
+              "OPENCODE_CONSOLE_LOG_INGRESS_TOKEN": "${var.OPENCODE_CONSOLE_LOG_INGRESS_TOKEN}",
+              "SUPPORT_API_KEY": "${var.SUPPORT_API_KEY}",
+              "HoneycombWebhookSecret": "${random_password.HoneycombWebhookSecret.result}",
+              "DISCORD_INCIDENT_WEBHOOK_URL": "${var.DISCORD_INCIDENT_WEBHOOK_URL}",
+              "EMAILOCTOPUS_API_KEY": "${var.EMAILOCTOPUS_API_KEY}",
+              "AWS_SES_ACCESS_KEY_ID": "${var.AWS_SES_ACCESS_KEY_ID}",
+              "AWS_SES_SECRET_ACCESS_KEY": "${var.AWS_SES_SECRET_ACCESS_KEY}",
+              "ENTERPRISE_SALES_INBOX_EMAIL": "${var.ENTERPRISE_SALES_INBOX_EMAIL}",
+              "SALESFORCE_CLIENT_ID": "${var.SALESFORCE_CLIENT_ID}",
+              "SALESFORCE_CLIENT_SECRET": "${var.SALESFORCE_CLIENT_SECRET}",
+              "SALESFORCE_INSTANCE_URL": "${var.SALESFORCE_INSTANCE_URL}",
+              "CLOUDFLARE_ACCESS_CLIENT_ID": "${var.CLOUDFLARE_ACCESS_CLIENT_ID}",
+              "OPENCODE_ZEN_LITE_PRICE_PRODUCT": "${local.ZEN_LITE_PRICE.product}",
+              "OPENCODE_ZEN_LITE_PRICE_PRICE": "${local.ZEN_LITE_PRICE.price}",
+              "OPENCODE_ZEN_LITE_PRICE_FIRSTMONTH50COUPON": "${local.ZEN_LITE_PRICE.firstMonth50Coupon}",
+              "OPENCODE_ZEN_LITE_PRICE_FIRSTMONTH100COUPON": "${local.ZEN_LITE_PRICE.firstMonth100Coupon}",
+              "OPENCODE_ZEN_LITE_PRICE_THREEMONTHS100COUPON": "${local.ZEN_LITE_PRICE.threeMonths100Coupon}",
+              "OPENCODE_ZEN_LITE_PRICE_SIXMONTHS100COUPON": "${local.ZEN_LITE_PRICE.sixMonths100Coupon}",
+              "OPENCODE_ZEN_LITE_PRICE_TWELVEMONTHS100COUPON": "${local.ZEN_LITE_PRICE.twelveMonths100Coupon}",
+              "OPENCODE_ZEN_BLACK_PRICE_PRODUCT": "${local.ZEN_BLACK_PRICE.product}",
+              "OPENCODE_ZEN_BLACK_PRICE_PLAN20": "${local.ZEN_BLACK_PRICE.plan20}",
+              "OPENCODE_ZEN_BLACK_PRICE_PLAN100": "${local.ZEN_BLACK_PRICE.plan100}",
+              "OPENCODE_ZEN_BLACK_PRICE_PLAN200": "${local.ZEN_BLACK_PRICE.plan200}",
+              "ZEN_MODELS1": "${var.ZEN_MODELS1}",
+              "ZEN_MODELS2": "${var.ZEN_MODELS2}",
+              "ZEN_MODELS3": "${var.ZEN_MODELS3}",
+              "ZEN_MODELS4": "${var.ZEN_MODELS4}",
+              "ZEN_MODELS5": "${var.ZEN_MODELS5}",
+              "ZEN_MODELS6": "${var.ZEN_MODELS6}",
+              "ZEN_MODELS7": "${var.ZEN_MODELS7}",
+              "ZEN_MODELS8": "${var.ZEN_MODELS8}",
+              "ZEN_MODELS9": "${var.ZEN_MODELS9}",
+              "ZEN_MODELS10": "${var.ZEN_MODELS10}",
+              "ZEN_MODELS11": "${var.ZEN_MODELS11}",
+              "ZEN_MODELS12": "${var.ZEN_MODELS12}",
+              "ZEN_MODELS13": "${var.ZEN_MODELS13}",
+              "ZEN_MODELS14": "${var.ZEN_MODELS14}",
+              "ZEN_MODELS15": "${var.ZEN_MODELS15}",
+              "ZEN_MODELS16": "${var.ZEN_MODELS16}",
+              "ZEN_MODELS17": "${var.ZEN_MODELS17}",
+              "ZEN_MODELS18": "${var.ZEN_MODELS18}",
+              "ZEN_MODELS19": "${var.ZEN_MODELS19}",
+              "ZEN_MODELS20": "${var.ZEN_MODELS20}",
+              "ZEN_MODELS21": "${var.ZEN_MODELS21}",
+              "ZEN_MODELS22": "${var.ZEN_MODELS22}",
+              "ZEN_MODELS23": "${var.ZEN_MODELS23}",
+              "ZEN_MODELS24": "${var.ZEN_MODELS24}",
+              "ZEN_MODELS25": "${var.ZEN_MODELS25}",
+              "ZEN_MODELS26": "${var.ZEN_MODELS26}",
+              "ZEN_MODELS27": "${var.ZEN_MODELS27}",
+              "ZEN_MODELS28": "${var.ZEN_MODELS28}",
+              "ZEN_MODELS29": "${var.ZEN_MODELS29}",
+              "ZEN_MODELS30": "${var.ZEN_MODELS30}"
+            },
+            "shared_network_namespace": "console-pod"
+          },
+          "ssr": {
+            "type": "node-ssr",
+            "runtime": "node>=22.12",
+            "build_command": "bun rust/scripts/console-browser/build.ts",
+            "entry": "rust/target/console-browser-production/output/server/index.mjs",
+            "start_command": "node rust/scripts/console-browser/production-start.mjs",
+            "preset": "node-server",
+            "vite_plugin": "rust-console-server-actions",
+            "baseline_writes": false,
+            "build_environment": {
+              "VITE_AUTH_URL": "https://auth.opencode.ai",
+              "VITE_STRIPE_PUBLISHABLE_KEY": "${var.STRIPE_PUBLISHABLE_KEY}"
+            },
+            "environment": {
+              "OPENCODE_BROWSER_PORT": "3001",
+              "OPENCODE_SSR_PORT": "3002",
+              "OPENCODE_BROWSER_RUST_URL": "http://127.0.0.1:8787",
+              "OPENCODE_CONSOLE_PUBLIC_ORIGIN": "https://opencode.ai",
+              "VITE_AUTH_URL": "https://auth.opencode.ai",
+              "VITE_STRIPE_PUBLISHABLE_KEY": "${var.STRIPE_PUBLISHABLE_KEY}"
+            },
+            "shared_network_namespace": "console-pod"
+          },
+          "auth_state_redis": {
+            "image": "redis:7",
+            "shared_network_namespace": "console-pod",
+            "command": [
+              "redis-server",
+              "--bind",
+              "127.0.0.1",
+              "--appendonly",
+              "yes",
+              "--dir",
+              "/data"
+            ],
+            "volume": {
+              "name": "auth-state",
+              "mount": "/data",
+              "durable": true
+            },
+            "public": false
+          }
+        },
+        "routing": {
+          "public_origin": "https://opencode.ai",
+          "public_entry": "production-start.mjs",
+          "ssr_port": 3001,
+          "axum_port": 8787,
+          "tls_termination": "required trusted ingress forwarding exact public origin"
+        }
+      },
+      "url": "https://opencode.ai"
+    },
+    "Stat": {
+      "status": "deployment_backend_required",
+      "deployable": false,
+      "service": {
+        "type": "native-process",
+        "executable": "opencode-hosted",
+        "environment": {
+          "OPENCODE_HOSTED_SERVICE": "console-stat",
+          "OPENCODE_HOSTED_ADDR": "127.0.0.1:8789",
+          "OPENCODE_CONSOLE_DATABASE_URL": "mysql://${urlencode(planetscale_password.DatabasePassword.username)}:${urlencode(planetscale_password.DatabasePassword.plaintext)}@${planetscale_password.DatabasePassword.access_host_url}/opencode"
+        },
+        "ingress": {
+          "host": "stat.opencode.ai",
+          "method": "POST",
+          "port": 8789
+        }
+      },
+      "url": "https://stat.opencode.ai"
+    },
+    "NativeConsoleTopology": {
+      "version": 1,
+      "status": "deployment_backend_required",
+      "deployable": false,
+      "services": [
+        "Console",
+        "AuthApi",
+        "Stat",
+        "LogProcessor"
+      ],
+      "artifacts": {
+        "hosted": "cargo build --release -p opencode-hosted",
+        "browser": "bun rust/scripts/console-browser/build.ts"
+      },
+      "blockers": [
+        {
+          "id": "native-host-backend",
+          "detail": "No provider/container scheduler, durable-volume provisioning, TLS ingress or secret-file mount renderer exists in this Terraform planner. Linkable descriptors are not deployed infrastructure."
+        },
+        {
+          "id": "cloudflare-export-binding",
+          "detail": "Native gateway TraceItem producer targets authenticated loopback tail ingress and durable local capture. Existing Cloudflare workers need a separate authenticated export attachment; no native binary is usable as a Cloudflare tail_consumer. Honeycomb uploads remain disabled as in baseline."
+        }
+      ]
     }
   },
   "data": {
@@ -541,16 +833,6 @@
           "value": "${random_password.HoneycombWebhookSecret.result}"
         },
         "//": "source: infra/secret.ts:1-5,11",
-        "lifecycle": {
-          "prevent_destroy": true
-        }
-      }
-    },
-    "cloudflare_workers_kv_namespace": {
-      "AuthStorage": {
-        "account_id": "${var.cloudflare_account_id}",
-        "name": "opencode-production-authstorage",
-        "//": "source: infra/console.ts:60",
         "lifecycle": {
           "prevent_destroy": true
         }
@@ -1080,120 +1362,6 @@
       "source": "./modules/aws-ecs-service",
       "protect": true
     },
-    "AuthApi": {
-      "domain": "auth.opencode.ai",
-      "handler": "packages/console/function/src/auth.ts",
-      "url": true,
-      "links": {
-        "Database": "${local.Database}",
-        "AuthStorage": "${cloudflare_workers_kv_namespace.AuthStorage}",
-        "GITHUB_CLIENT_ID_CONSOLE": "${var.GITHUB_CLIENT_ID_CONSOLE}",
-        "GITHUB_CLIENT_SECRET_CONSOLE": "${var.GITHUB_CLIENT_SECRET_CONSOLE}",
-        "GOOGLE_CLIENT_ID": "${var.GOOGLE_CLIENT_ID}"
-      },
-      "//": "source: infra/console.ts:61-66",
-      "source": "./modules/cloudflare-worker",
-      "protect": true
-    },
-    "LogProcessor": {
-      "handler": "packages/console/function/src/log-processor.ts",
-      "links": {
-        "HONEYCOMB_API_KEY": "${var.HONEYCOMB_API_KEY}"
-      },
-      "//": "source: infra/console.ts:252-255",
-      "source": "./modules/cloudflare-worker",
-      "protect": true
-    },
-    "Console": {
-      "domain": "opencode.ai",
-      "path": "packages/console/app",
-      "environment": {
-        "VITE_AUTH_URL": "${module.AuthApi.url}",
-        "VITE_STRIPE_PUBLISHABLE_KEY": "${var.STRIPE_PUBLISHABLE_KEY}"
-      },
-      "server": {
-        "placement": {
-          "region": "aws:us-east-2"
-        },
-        "extra_compatibility_flags": [
-          "global_fetch_strictly_public"
-        ],
-        "tail_consumers": [
-          {
-            "service": "${module.LogProcessor.script_name}"
-          }
-        ]
-      },
-      "links": {
-        "ZenData": "${cloudflare_r2_bucket.ZenData}",
-        "ZenDataNew": "${cloudflare_r2_bucket.ZenDataNew}",
-        "Database": "${local.Database}",
-        "UpstashRedisRestUrl": "${var.UpstashRedisRestUrl}",
-        "UpstashRedisRestToken": "${var.UpstashRedisRestToken}",
-        "AUTH_API_URL": "${local.AUTH_API_URL}",
-        "ConsoleMigration": "${local.ConsoleMigration}",
-        "STRIPE_WEBHOOK_SECRET": "${local.STRIPE_WEBHOOK_SECRET}",
-        "SUPPORT_API_KEY": "${var.SUPPORT_API_KEY}",
-        "DISCORD_INCIDENT_WEBHOOK_URL": "${var.DISCORD_INCIDENT_WEBHOOK_URL}",
-        "HoneycombWebhookSecret": "${random_password.HoneycombWebhookSecret}",
-        "STRIPE_SECRET_KEY": "${var.STRIPE_SECRET_KEY}",
-        "EMAILOCTOPUS_API_KEY": "${var.EMAILOCTOPUS_API_KEY}",
-        "AWS_SES_ACCESS_KEY_ID": "${var.AWS_SES_ACCESS_KEY_ID}",
-        "AWS_SES_SECRET_ACCESS_KEY": "${var.AWS_SES_SECRET_ACCESS_KEY}",
-        "ENTERPRISE_SALES_INBOX_EMAIL": "${var.ENTERPRISE_SALES_INBOX_EMAIL}",
-        "SALESFORCE_CLIENT_ID": "${var.SALESFORCE_CLIENT_ID}",
-        "SALESFORCE_CLIENT_SECRET": "${var.SALESFORCE_CLIENT_SECRET}",
-        "SALESFORCE_INSTANCE_URL": "${var.SALESFORCE_INSTANCE_URL}",
-        "ZEN_BLACK_PRICE": "${local.ZEN_BLACK_PRICE}",
-        "ZEN_LITE_PRICE": "${local.ZEN_LITE_PRICE}",
-        "ZEN_LIMITS": "${var.ZEN_LIMITS}",
-        "ZEN_SESSION_SECRET": "${var.ZEN_SESSION_SECRET}",
-        "CLOUDFLARE_ACCESS_CLIENT_ID": "${var.CLOUDFLARE_ACCESS_CLIENT_ID}",
-        "ZEN_MODELS1": "${var.ZEN_MODELS1}",
-        "ZEN_MODELS2": "${var.ZEN_MODELS2}",
-        "ZEN_MODELS3": "${var.ZEN_MODELS3}",
-        "ZEN_MODELS4": "${var.ZEN_MODELS4}",
-        "ZEN_MODELS5": "${var.ZEN_MODELS5}",
-        "ZEN_MODELS6": "${var.ZEN_MODELS6}",
-        "ZEN_MODELS7": "${var.ZEN_MODELS7}",
-        "ZEN_MODELS8": "${var.ZEN_MODELS8}",
-        "ZEN_MODELS9": "${var.ZEN_MODELS9}",
-        "ZEN_MODELS10": "${var.ZEN_MODELS10}",
-        "ZEN_MODELS11": "${var.ZEN_MODELS11}",
-        "ZEN_MODELS12": "${var.ZEN_MODELS12}",
-        "ZEN_MODELS13": "${var.ZEN_MODELS13}",
-        "ZEN_MODELS14": "${var.ZEN_MODELS14}",
-        "ZEN_MODELS15": "${var.ZEN_MODELS15}",
-        "ZEN_MODELS16": "${var.ZEN_MODELS16}",
-        "ZEN_MODELS17": "${var.ZEN_MODELS17}",
-        "ZEN_MODELS18": "${var.ZEN_MODELS18}",
-        "ZEN_MODELS19": "${var.ZEN_MODELS19}",
-        "ZEN_MODELS20": "${var.ZEN_MODELS20}",
-        "ZEN_MODELS21": "${var.ZEN_MODELS21}",
-        "ZEN_MODELS22": "${var.ZEN_MODELS22}",
-        "ZEN_MODELS23": "${var.ZEN_MODELS23}",
-        "ZEN_MODELS24": "${var.ZEN_MODELS24}",
-        "ZEN_MODELS25": "${var.ZEN_MODELS25}",
-        "ZEN_MODELS26": "${var.ZEN_MODELS26}",
-        "ZEN_MODELS27": "${var.ZEN_MODELS27}",
-        "ZEN_MODELS28": "${var.ZEN_MODELS28}",
-        "ZEN_MODELS29": "${var.ZEN_MODELS29}",
-        "ZEN_MODELS30": "${var.ZEN_MODELS30}"
-      },
-      "//": "source: infra/console.ts:257-313",
-      "source": "./modules/cloudflare-solidstart",
-      "protect": true
-    },
-    "Stat": {
-      "handler": "packages/console/function/src/stat.ts",
-      "url": true,
-      "links": {
-        "Database": "${local.Database}"
-      },
-      "//": "source: infra/console.ts:319-323",
-      "source": "./modules/cloudflare-worker",
-      "protect": true
-    },
     "Teams": {
       "domain": "opncd.ai",
       "path": "packages/enterprise",
@@ -1215,7 +1383,7 @@
   },
   "output": {
     "StatWorkerUrl": {
-      "value": "${module.Stat.url}"
+      "value": "${local.Stat.url}"
     },
     "StatsUrl": {
       "value": "${module.Stats.url}"
